@@ -63,10 +63,197 @@ Libros de referencia:
 
 La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te parece bien?
 
+# ¿Por qué estadística espacial?
+
+
+
 
 # Datos espaciales
 
 Los **datos espaciales**, también conocidos como datos **geoespaciales**, describen cualquier dato relacionado o que contenga información sobre una ubicación específica en la superficie de la Tierra. Son datos anclados al espacio que proporcionan información sobre él.
+
+
+<!-- GEMA; ESTO MEJOR EN SU CAPITULO CORRESPONDIENTE -->
+
+<!-- ### Tipos de datos espaciales -->
+
+<!-- De una manera resumida, los datos espaciales son aquellos datos relacionados o -->
+
+<!-- que contienen información de una localización o área geográfica de la superficie -->
+
+<!-- de la Tierra. -->
+
+<!-- Existen varias maneras de clasificar los datos espaciales. @cressie1993 propone -->
+
+<!-- la siguiente clasificación: -->
+
+<!-- 1.  **Datos geoestadísticos:** GEMA! -->
+
+<!-- 2.  **Datos *lattice*:** GEMA! -->
+
+<!-- 3.  **Point pattern:** GEMA! -->
+
+En el ámbito del análisis espacial en **R**, se pueden clasificar los datos
+espaciales en función del modelo de datos [@geodata]. Se pueden distinguir dos
+tipos de modelos de datos:
+
+## Datos vector
+
+Este modelo está basado en puntos georeferenciados. Los puntos pueden
+representar localizaciones específicas, como la localización de edificios:
+
+```{r puntos}
+library(ggplot2)
+library(sf)
+# Hospitales en Toledo segun Eurostat
+hosp_toledo <- st_read("data/hosp_toledo.geojson", quiet = TRUE)
+ggplot() +
+  geom_sf(
+    data = hosp_toledo, aes(fill = "Centros Sanitarios"),
+    color = "blue"
+  ) +
+  labs(
+    caption = "Datos: Eurostat",
+    title = "Hospitales y Centros de Salud en Toledo",
+    fill = ""
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Estos puntos también pueden estar conectados entre sí, de manera que formen
+geometrías más complejas, como líneas y polígonos:
+
+```{r lineas_pol}
+tajo <- st_read("data/tajo_toledo.shp", quiet = TRUE)
+toledo <- st_read("data/toledo_ciudad.gpkg", quiet = TRUE)
+ggplot(toledo) +
+  geom_sf(fill = "cornsilk2") +
+  geom_sf(data = tajo, col = "lightblue2", lwd = 2, alpha = 0.7) +
+  geom_sf(data = hosp_toledo, col = "blue") +
+  coord_sf(
+    xlim = c(-4.2, -3.8),
+    ylim = c(39.8, 39.95)
+  ) +
+  theme_minimal() +
+  labs(title = "Ciudad de Toledo")
+```
+
+En el ejemplo anterior, el río Tajo está representado como una línea (sucesión
+de puntos unidos entre sí) y la ciudad de Toledo como un polígono (línea de
+puntos cerrada formando un continuo). A modo ilustrativo, podemos observar la
+descomposición en puntos de todos los datos espaciales representados en el
+gráfico anterior.
+
+```{r lineas_pol_desc, echo=FALSE}
+ggplot(st_cast(toledo, "POINT")) +
+  geom_sf(col = "cornsilk3") +
+  geom_sf(
+    data = st_cast(tajo, "POINT"),
+    col = "lightblue2"
+  ) +
+  geom_sf(data = hosp_toledo, col = "blue") +
+  coord_sf(
+    xlim = c(-4.2, -3.8),
+    ylim = c(39.8, 39.95)
+  ) +
+  theme_minimal() +
+  labs(title = "Ciudad de Toledo: Descomposición")
+```
+
+## Datos raster
+
+Los datos ráster son datos representandos en una rejilla rectangular de píxeles
+(denomindada **matriz**) que se puede visualizar en diversos dispositivo de
+representación. El caso más cotidiano de un ráster es una fotografía, donde la
+imagen se representa como una serie de celdas, determinadas por la resolución de
+la imagen (número total de píxeles, determinados como nº de píxeles en cada fila
+por nº de píxeles en cada columna) y el color que presenta cada uno de estos
+píxeles.
+
+En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
+ráster está formado por una malla regular de píxeles georreferenciada:
+
+```{r raster}
+library(terra)
+elev <- rast("data/Toledo_DEM.tiff")
+plot(elev, main = "Elevación de la provincia de Toledo")
+# Mostramos el grid
+pols <- as.polygons(elev)
+plot(pols, add = TRUE, border = "grey90")
+# Añadimos la provincia
+Tol_prov <- st_read("data/Toledo_prov.gpkg", quiet = TRUE)
+plot(st_geometry(Tol_prov), add = TRUE)
+```
+
+En el ejemplo anterior, el archivo ráster tiene únicamente una capa (ESP_alt).
+Eso implica que cada píxel tiene asociado un único valor, en este caso, la
+altitud media del terreno observada en cada píxel o celda.
+
+```{r detalle_pixel, echo=FALSE}
+library(dplyr)
+as.data.frame(elev, xy = TRUE) %>%
+  as_tibble() %>%
+  head(15) %>%
+  knitr::kable(caption = "Datos de un ráster (detalle)")
+# Subset de las primeras 15 celdas
+top15 <- elev[1, 1:15, drop = FALSE]
+plot(top15, main = "Detalle de los primeros 15 pixels")
+```
+
+Los rásters pueden contener varias capas (o layers), de manera que cada píxel
+puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
+un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
+azul), de manera que al combinar las tres capas se puede definir un color
+distinto en cada píxel.
+
+En el siguiente ejemplo vamos a usar una imagen de mapa georreferenciada, como
+las proporcionadas por servicios de mapas online, para analizar su composición.
+
+```{r raster_multilayer}
+tile <- rast("data/Toledo_multi_tile.tiff")
+plotRGB(tile, mar = c(0, 0, 2, 0), main = "Provincia de Toledo")
+plot(st_geometry(Tol_prov), add = TRUE)
+```
+
+El ráster se puede descomponer en las tres capas RGB mencionadas anteriormente:
+
+```{r detalle_pixel_multicapa, echo=FALSE}
+as.data.frame(tile, xy = TRUE) %>%
+  as_tibble() %>%
+  head(15) %>%
+  knitr::kable(caption = "Datos de un ráster multicapa (detalle)")
+# Subset de las primeras 15 celdas
+top15_2 <- tile[1:100, 1:100, drop = FALSE]
+plotRGB(top15_2, mar = c(0, 0, 2, 0), main = "Imagen: Detalle")
+plot(top15_2,
+  mar = c(0, 0, 2, 4), main = "Imagen: Detalle capas",
+  axes = FALSE,
+  range = c(0, 255)
+)
+```
+
+Y cada capa se puede graficar de manera independiente
+
+```{r raster_multilayer_desc, fig.show='hold'}
+plot(tile$lyr.1,
+  main = "Raster tile: Layer 1",
+  col = hcl.colors(255, "Reds", rev = TRUE),
+  range = c(0, 255)
+)
+plot(tile$lyr.2,
+  main = "Raster tile: Layer 2",
+  col = hcl.colors(255, "Greens", rev = TRUE),
+  range = c(0, 255)
+)
+plot(tile$lyr.3,
+  main = "Raster tile: Layer 3",
+  col = hcl.colors(255, "Blues", rev = TRUE),
+  range = c(0, 255)
+)
+```
+
+
 
 La forma más intuitiva de representar los datos espaciales es a través de un mapa.
 
