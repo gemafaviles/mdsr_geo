@@ -1,7 +1,7 @@
 ---
 title: "La revolución de los geodatos"
 author:
-- Diego Hernangómez
+- Gema
 bibliography: refbib.bib
 editor_options:
   markdown:
@@ -24,9 +24,9 @@ knitr::opts_chunk$set(
 
 Que estamos en la la *era del dato*, que los *datos son el petroleo del siglo XXI* y que estamos rodeados de datos es una cuestión que ya hemos hecho inherente a nosotros. Estamos en el momento del dato, donde la profesión de Data Scientist se ha convertido en la *profesión más sexy del siglo XXI* según vaticinó en 2012 *Harvard Business Review*. Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se duplica se duplica. 
 
-Este incremento exponencial de los datos ha sido posible, sin duda, gracias al desarrollo de la tecnología, los ordenadores, los teléfonos móviles móviles, los satélites, internet, etc... y asociado a estas nuevas herramientas, se ha producido una lluvia sin precedentes hasta el momento de datos espaciales o datos georreferenciados. Cada teléfono inteligente tiene un receptor de posicionamiento global (GPS) y una multitud de sensores en dispositivos que van desde satélites y vehículos semiautónomos hasta científicos ciudadanos que miden incesantemente cada parte del mundo. La tasa de datos producidos es abrumadora. Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos por día (The Economist 2016). Los datos de teledetección de satélites se han vuelto demasiado grandes para analizar los datos correspondientes con una sola computadora.
+Este incremento exponencial de los datos ha sido posible, sin duda, gracias al desarrollo de la tecnología, los ordenadores, los teléfonos móviles móviles, los satélites, internet, etc... y asociado a estas nuevas herramientas, se ha producido una lluvia sin precedentes hasta el momento de datos espaciales o datos georreferenciados. Cada teléfono inteligente tiene un receptor de posicionamiento global (GPS) y una multitud de sensores en dispositivos que van desde satélites y vehículos semiautónomos hasta científicos ciudadanos que miden incesantemente cada parte del mundo. La tasa de datos producidos es abrumadora. Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos por día (The Economist, 2016). Los datos de teledetección de satélites se han vuelto demasiado grandes para analizar los datos correspondientes con una sola computadora.
 
-Esta **revolución de los geodatos** y el **análisis de los datos espaciales** no sólo impulsa la demanda de hardware informático de alto rendimiento y software escalable y eficiente para manejar y extraer la señal del ruido, lo que se conoce como **Geocomputación** sino que ha dado lugar una nueva rama de conocimiento, *Spatial Data Scicene* (SDS) o Ciencia de Datos Espaciales.
+Esta **revolución de los geodatos** y el **análisis de los datos espaciales** no sólo impulsa la demanda de hardware informático de alto rendimiento y software escalable y eficiente para manejar y extraer la señal del ruido, lo que se conoce como **Geocomputación**, sino que ha dado lugar una nueva rama de conocimiento, *Spatial Data Scicene* (SDS) o **Ciencia de Datos Espaciales**.
 
 
 
