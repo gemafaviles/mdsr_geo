@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 **Objetivos de aprendizaje**
 
 
-# ¿Por dóne empezamos? Recursos interesantes
+** ¿Por dóne empezamos? Recursos interesantes
 
 Web: 
 
@@ -70,44 +70,8 @@ La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te
 
 
 
-# Datos espaciales GEMA
 
 
-Los **datos espaciales**, también conocidos como datos **geoespaciales**, son aquellos datos relacionados o
-que contienen información de una localización o área geográfica de la superficie de la Tierra.
-
-
-La forma más intuitiva de representar los datos espaciales es a través de un mapa.
-
-```{r}
-# um mapa temático cualquiera con poco código ***
-```
-
-
-
-
-# Estadística espacial
-
-Aquí lo primero es ver la dependencia, si no la estadística espacial se trata como estadística clásica.
-
-
-
-Existen varias maneras de clasificar los datos espaciales. @cressie1993 propone la siguiente clasificación:
-
-1.  **Datos geoestadísticos:** GEMA!
-
-2.  **Datos *lattice*:** GEMA!
-
-3.  **Point pattern:** GEMA!
-
-
-[**Los formatos**]{style="color:red"} más comunes de datos espaciales son vectores y ráster.
-
-* El modelo de **datos vectoriales** representa el mundo mediante puntos, líneas y polígonos. Estos tienen bordes discretos y bien definidos, lo que significa que los conjuntos de datos vectoriales suelen tener un alto nivel de precisión.
-
-* El modelo de **datos ráster** divide la superficie en celdas de tamaño constante. Los conjuntos de datos ráster son la base de las imágenes de fondo que se utilizan en la cartografía web y han sido una fuente vital de datos geográficos desde los orígenes de la fotografía aérea y los dispositivos de teledetección basados en satélites.
-
-* [**Diego**]{style="color:red"}
 
 
 
