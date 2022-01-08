@@ -30,4 +30,4 @@ Esta **revolución de los geodatos** y el **análisis de los datos espaciales** 
 
 
 
-Aquí se podrían representar los datos de movilidad de Murcia.
+Aquí se podrían representar los datos de movilidad
