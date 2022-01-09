@@ -12,9 +12,10 @@ shape <- st_read("img/covid/distritos_mitma.shp")
 
 
 # Localiza zonas donde están los aeropuertos españoles
-airp <- gisco_get_airports(country = "Spain")
+airp <- gisco_get_airports(country = "Spain") %>% filter(!is.na(IATA_CODE))
 
 airp_ids <- airp %>%
+  filter(AIRP_ICRG_ != "GC") %>%
   st_transform(st_crs(shape)) %>%
   st_intersection(shape, .)
 
@@ -107,26 +108,34 @@ esp_ccaa <- esp_get_ccaa(moveCAN = FALSE) %>% st_transform(st_crs(lines))
 
 # Plot
 ggplot(esp_ccaa) +
-  geom_sf(data = lines, aes(size = viajes), color = "blue", alpha = 0.2, show.legend = FALSE) +
-  geom_sf(fill = NA, size=0.1) +
-  scale_size_continuous(range = c(0.05, 6),
-                        labels = scales::number_format(big.mark = ".",
-                                                       decimal.mark = ",")) +
+  geom_sf(data = lines, aes(size = viajes), color = "blue", alpha = 0.2, show.legend = TRUE) +
+  geom_sf(fill = NA, size = 0.1) +
+  scale_size_continuous(
+    range = c(0.05, 6),
+    labels = scales::number_format(
+      big.mark = ".",
+      decimal.mark = ","
+    )
+  ) +
   facet_wrap(vars(date), ncol = 2) +
   coord_sf(
     xlim = c(-436720.6, 1126308.7),
     ylim = c(3876597.0, 4859001.7)
   ) +
-  labs(size = "Viajeros",
-       title="Flujo de viajeros entre aeropuertos nacionales",
-       subtitle = "Nº viajeros, últimos domingos de mes",
-       caption = "Datos: Análisis de la movilidad en España, MITMA") +
+  labs(
+    size = "Nº viajeros",
+    title = "Flujo de viajeros entre aeropuertos nacionales",
+    subtitle = "Últimos domingos de mes",
+    caption = "Datos: Análisis de la movilidad en España, MITMA"
+  ) +
   theme_void() +
-  theme(plot.title =  element_text(hjust = .5, face = "bold"),
-        plot.subtitle = element_text(hjust = .5, margin = margin(b=20)),
-        plot.background = element_rect(fill="white", color=NA),
-        legend.box.margin = margin(10, 10, 10, 10))
+  theme(
+    plot.title = element_text(hjust = .5, face = "bold"),
+    plot.subtitle = element_text(hjust = .5, margin = margin(b = 20)),
+    plot.background = element_rect(fill = "white", color = NA),
+    legend.box.margin = margin(10, 10, 10, 10)
+  )
 
 ggsave("img/movilidad_covid.png",
-       dpi = 300)
-        
+  dpi = 300
+)
