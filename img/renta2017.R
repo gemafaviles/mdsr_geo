@@ -45,9 +45,12 @@ munis_renta <- munis_renta %>% left_join(df)
 library(ggplot2)
 ccaa <- esp_get_ccaa_siane(year = 2017)
 
+canbox <- esp_get_can_box()
+
 ggplot(munis_renta) +
   geom_sf(aes(fill = labs), color = NA) +
   geom_sf(data = ccaa, fill = NA, color = "grey10", size = 0.2) +
+  geom_sf(data=canbox, color ="grey10", size = 0.2)+
   scale_fill_manual(values = c(hcl.colors(10, "Blue-Red"), "grey10")) +
   theme_void() +
   labs(

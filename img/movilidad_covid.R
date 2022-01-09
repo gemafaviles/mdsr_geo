@@ -5,18 +5,20 @@ library(ggplot2)
 library(nominatimlite)
 library(tidyr)
 library(mapSpain)
-
+library(giscoR)
 
 # Importa zonas
 shape <- st_read("img/covid/distritos_mitma.shp")
 
 
-# Localiza zona donde está Barajas
-barajas <- geo_lite_sf("Aeropuerto de Barajas") %>%
+# Localiza zonas donde están los aeropuertos españoles
+airp <- gisco_get_airports(country = "Spain")
+
+airp_ids <- airp %>%
   st_transform(st_crs(shape)) %>%
   st_intersection(shape, .)
 
-id_bar <- barajas$ID
+id_bar <- airp_ids$ID
 
 
 # Usa centroides
@@ -50,7 +52,7 @@ mov_feb21 <- read_delim("img/covid/20210228_maestra_1_mitma_distrito.txt",
 ) %>%
   mutate(date = as.Date("2021-02-28"))
 
-mov_mar21 <- read_delim("img/covid/20210228_maestra_1_mitma_distrito.txt",
+mov_mar21 <- read_delim("img/covid/20210328_maestra_1_mitma_distrito.txt",
   delim = "|", escape_double = FALSE, trim_ws = TRUE
 ) %>%
   mutate(date = as.Date("2021-03-28"))
@@ -65,7 +67,8 @@ mov_tot <- bind_rows(
   mov_mar21
 ) %>%
   filter(origen != destino) %>%
-  filter(origen == id_bar) %>%
+  filter(origen %in% id_bar) %>%
+  filter(destino %in% id_bar) %>%
   group_by(date, origen, destino) %>%
   summarise(viajes = sum(viajes))
 
@@ -104,7 +107,7 @@ esp_ccaa <- esp_get_ccaa(moveCAN = FALSE) %>% st_transform(st_crs(lines))
 
 # Plot
 ggplot(esp_ccaa) +
-  geom_sf(data = lines, aes(size = viajes), color = "blue", alpha = 0.2) +
+  geom_sf(data = lines, aes(size = viajes), color = "blue", alpha = 0.2, show.legend = FALSE) +
   geom_sf(fill = NA, size=0.1) +
   scale_size_continuous(range = c(0.05, 6),
                         labels = scales::number_format(big.mark = ".",
@@ -115,8 +118,8 @@ ggplot(esp_ccaa) +
     ylim = c(3876597.0, 4859001.7)
   ) +
   labs(size = "Viajeros",
-       title="Salida del Aeropuerto de Barajas a destinos nacionales",
-       subtitle = "Últimos domingos de febrero y marzo, años 2020 y 2021",
+       title="Flujo de viajeros entre aeropuertos nacionales",
+       subtitle = "Nº viajeros, últimos domingos de mes",
        caption = "Datos: Análisis de la movilidad en España, MITMA") +
   theme_void() +
   theme(plot.title =  element_text(hjust = .5, face = "bold"),
