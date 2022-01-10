@@ -24,6 +24,27 @@ munis_renta <- munis %>%
   mutate(Renta_hogar = as.numeric(RNMH_2017))
 
 
+## ¿Son longitud y latitud significativas para explicar la renta?
+# ------------------------------------------------------------------------------
+renta_hogar_y <- munis_renta$Renta_hogar
+long= st_coordinates(munis_renta$geometry)[, 1]
+lat = st_coordinates(munis_renta$geometry)[, 2]
+
+df_renta_coord= as.data.frame(cbind(renta_hogar_y, long, lat))
+summary(is.na(df_renta_coord))
+df_renta_coord <- na.omit(df_renta_coord) 
+
+## lm --- no salen significativas. Sorpresa!
+fit_lm <- lm(log(renta_hogar_y) ~ long + lat, df_renta_coord )
+summary(fit_lm)
+
+## GAM --- sí salen significativas. Lo esperado!
+library(mgcv)
+fit_gam <- gam(log(renta_hogar_y) ~ s(long, bs="ps") + s(lat,bs="ps"), data=df_renta_coord)
+summary(fit_gam)
+
+# ------------------------------------------------------------------------------
+
 # Create bins
 library(classInt)
 
@@ -65,3 +86,8 @@ ggplot(munis_renta) +
   )
 
 ggsave("img/renta2017.png", dpi = 300, bg = "white")
+
+
+
+
+

@@ -108,9 +108,9 @@ pensar en la presencia de una dependencia espacial o espacio-temporal. Esto da
 lugar al concepto de proceso espacial o espacio-temporal.
 
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las herramientas
-de estadística espacial. Veamos un ejemplo simulado de unos datos que muestras dependencia espacial y otros puramente aleatrorios.
+de estadística espacial. Veamos un ejemplo simulado de unos datos que muestras dependencia espacial y otros puramente aleatorios.
 
-```{r points_dep_iid}
+```{r points_dep_iid, echo=FALSE}
 library(geoR)
 library(fields)
 
@@ -118,7 +118,7 @@ par(mfrow=c(1,2))
 
 set.seed(2022)
 sim1 <- grf(441, cov.pars = c(1, 0.6))
-points.geodata(sim1, main = "Dependencia espacial (positiva) (i)", col = tim.colors(),  cex.max = 3)
+points.geodata(sim1, main = "Dependencia espacial (positiva)", col = tim.colors(),  cex.max = 3)
 
 # Independencia
 set.seed(2022)
@@ -130,11 +130,11 @@ points.geodata(sim3, main = "Independencia", col = tim.colors(),  cex.max = 3)
 Comentar
 
 
-```{r lattice_dep_iid}
+```{r lattice_dep_iid, echo=FALSE}
 par(mfrow=c(1,2))
 set.seed(2022)
 sim2 <- grf(441, grid = "reg", cov.pars = c(1, 0.25))
-image(sim2, main = "Dependencia espacial (positiva) (ii)", col = tim.colors())
+image(sim2, main = "Dependencia espacial (positiva)", col = tim.colors())
 
 
 # Independencia
@@ -148,7 +148,7 @@ image(sim4, main = "Independencia", col = tim.colors())
 
 
 
-## Datos espaciales GEMA
+## Datos espaciales 
 
 
 Los **datos espaciales**, también conocidos como datos **geoespaciales**, son aquellos datos relacionados o

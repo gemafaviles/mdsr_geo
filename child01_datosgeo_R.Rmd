@@ -22,27 +22,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-<!-- GEMA; ESTO MEJOR EN SU CAPITULO CORRESPONDIENTE -->
 
-<!-- ### Tipos de datos espaciales -->
 
-<!-- De una manera resumida, los datos espaciales son aquellos datos relacionados o -->
-
-<!-- que contienen información de una localización o área geográfica de la superficie -->
-
-<!-- de la Tierra. -->
-
-<!-- Existen varias maneras de clasificar los datos espaciales. @cressie1993 propone -->
-
-<!-- la siguiente clasificación: -->
-
-<!-- 1.  **Datos geoestadísticos:** GEMA! -->
-
-<!-- 2.  **Datos *lattice*:** GEMA! -->
-
-<!-- 3.  **Point pattern:** GEMA! -->
-
-En el ámbito del análisis espacial en **R**, se pueden clasificar los datos
+En el ámbito del análisis espacial en **R**, se pueden clasificar los **datos** o **el formato?, pregunto sólo**
 espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se pueden 
 distinguir dos tipos de modelos de datos:
 
