@@ -1,0 +1,82 @@
+---
+title: "Visualización y geolocalización de datos"
+subtitle: "Máster en Data Science & Business Analytics (con R Software)"
+author:
+- Gema Fernández-Avilés
+- Diego Hernangómez
+date: "`r Sys.Date()`"
+bibliography: [refbib.bib, additional.bib]
+csl: apa-6th-edition.csl
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  html_document: 
+    toc: yes
+    number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  out.width = "70%"
+)
+
+
+```
+
+
+
+<center>
+<img src="logo_mdsr_uclm.png" height="100px"/>
+</center>
+
+
+
+**Objetivos de aprendizaje**
+
+
+# ¿Por dóne empezamos? Recursos interesantes
+
+
+
+Web: [R-spatial](https://r-spatial.org/projects/)
+
+BooK: [Spatial Data Science with applications in R](https://keen-swartz-3146c4.netlify.app/)
+
+
+
+# Introducción
+
+## Geocomputación. ¿Qué es?  
+Resumir del libro @Lovelance_et_al_2019
+
+```{r, child=c('child01_geocomp.Rmd')}
+```
+
+
+## El ecosistema Rspatial 
+Resumir del libro @Lovelance_et_al_2019
+
+
+# Tipos de datos espaciales
+
+# Datos geográficos en R  
+```{r, child=c('child01_datosgeo_R.Rmd')}
+```
+
+## Marcos de Referencia para Sistemas de Coordenadas (CRS)  
+## Formatos de ficheros de datos espaciales  
+
+# Construyendo mapas en R 
+## Mapas temáticos 
+## Aplicaciones en R 
+## Mapas interactivos en R con Leaflet 
+
+
+
+# References

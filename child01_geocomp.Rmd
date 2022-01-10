@@ -1,0 +1,26 @@
+---
+title: "Geocomputación. ¿Qué es?"
+author:
+- Diego Hernangómez
+bibliography: additional.bib
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: html_document
+---
+
+La geocomputación puede definirse de manera sencilla como *"el proceso de
+aplicar tecnologías de computación a problemas geográficos"* [@rees1998].
+@geocompu2000 aporta más elementios formales a esta definición destacando que
+*"la geocomputación trata sobre los diferentes tipos de geodatos, y sobre el
+desarrollo de geo-herramientas relevantes en un contexto científico"*.
+
+La geocomputación, por tanto, trata de aplicar técnicas de análisis y estudio de
+datos a un tipo de datos específicos: los datos espaciales.
+
+La geocomputación está muy relacionado con otros términos como los Sistema de
+información geográfica (GIS), y con diversos tipos de campos científcos, como
+las geociencias, las ciencias atmosféricas y climáticas, la topología o la
+ecología. Así mismo, es ampliamente utilizada en otros ámbitos, como la
+sociología, análisis político o el desarrollo de aplicaciones para móviles.
