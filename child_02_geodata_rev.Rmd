@@ -10,7 +10,7 @@ editor_options:
 output: html_document
 ---
 
-```{r knitr_config, message=FALSE, warning=FALSE, include=FALSE}
+```{r knitr_config_geodata_rev, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(
   tidy = "styler",
   dev = "ragg_png",

@@ -17,7 +17,7 @@ output:
     number_sections: yes
 ---
 
-```{r setup, include=FALSE}
+```{r setup_0, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -40,13 +40,7 @@ knitr::opts_chunk$set(
 **Objetivos de aprendizaje**
 
 
-** ¿Por dóne empezamos? Recursos interesantes
-
-Web: 
-
-* [rspatial](https://rspatial.org/)
-* [R-spatial](https://r-spatial.org/projects/)
-
+**¿Por dónde empezamos? Recursos interesantes**
 
 
 Libros de referencia: 
@@ -58,104 +52,69 @@ Libros de referencia:
 * [Displaying time series, spatial and space-time data with R](https://oscarperpinan.github.io/bookvis/)
 
 
+Recursos de estadísitca espacial en R: 
+
+* [rspatial](https://rspatial.org/)
+* [R-spatial](https://r-spatial.org/projects/)
+
+Otros recursos web interesantes:
+
+* Libro de Ruben
+* Rositter 
+* Libro Hengl
+* Libro de Páez
+
+
+
+
+
 
 La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te parece bien?
 
 
 # La revolución de los geodatos
-```{r, child=c('child_01_geodata.Rmd')}
+```{r, child=c('child_02_geodata_rev.Rmd')}
+```
+	Propuesta: Ejemplo de movilidad covid. HECHO
+
+
+# Geocomputación y R-spatial
+```{r, child=c('child_02_geocomp_Rsp.Rmd')}
+```
+
+
+# Estadística espacial
+```{r, child=c('child_02_est_esp.Rmd')}
 ```
 
 
 
+# Formatos de datos espaciales  IGUAL SE PUEDE PONER UN NOMBRE MÁS GENÉRICO Y QUE VAYA TODOD
+## Vectores 
+## Ráster.
+		Hecho: Toledo
+## CRS 
+## Tipos de ficheros (ver contigo). 
+
+# APLICACIÓNES: 
+para explicar cómo se hace un merge y luego se representa en un mapa o en unos puntos
+
+# EXTENSIONES: 
+
+ESPACIO-TEMPORAL SÍ. Pensar qué. Temperatura mínima? 
+Mapas de contorno y en 3D, se usan mucho.
+
+Leaflet: el de contaminación con las capas quedó muy bien, se puede poner.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Geocomputación. ¿Qué es?  PUEDO EMPEZAR YO Y LUEGO DIEGO LE DAS UNA VUELTA
-
-La geocomputación es un término relativamente nuevo pero influenciado por otros términos clasiscos. Es decir, puede ser visto como una parte de la Geografía, la cual tiene más de 2000 años de historia (Talbert_2014) o como una extensión de los Sistemas de Información Geográfica comunmente conocidos por GIS (del inglés, Geographic Information Systems) (Neteler and Mitasova 2008), los cuales emergieron en la década de los 60 (Coppock and Rhind 1991).
-
-Según @Lovelance_et_al_2019, el término Geocomputación se utilizó por primera vez en 1996 en la primera conferencia que trataba de Geocomputación. @Openshaw_Abrahart_2000 definenen la geocomputación como una herramienta que trata de utilizar los diferentes tipos de datos geográficos y de desarrollar herramientas geográficas relevantes dentro del contexto general de un enfoque 'científico'.
-
-La geocomputación está estrechamente relacionada con otros términos que incluyen: 
-
-* la ciencia de la información geográfica (GIScience),
-
-* la geomática,
-
-* la Geoinformática,
-
-* la ciencia de la información espacial
-
-* la ingeniería de Geoinformación (P. Longley 2015)
-
-* y ciencia de datos geográficos (GDS, Geographic Data Science). 
-
-Cada término comparte un énfasis en un enfoque **científico** (que implica reproducible y falsable) influenciado por los SIG, aunque sus orígenes y principales campos de aplicación difieren. 
-
-GDS, por ejemplo, enfatiza las habilidades de "ciencia de datos" y grandes conjuntos de datos, mientras que la geoinformática tiende a enfocarse en estructuras de datos. Pero las superposiciones entre los términos son más grandes que las diferencias entre ellos y usamos geocomputación como un sinónimo aproximado que los encapsula a todos: todos buscan usar datos geográficos para trabajos científicos aplicados.
-
-
-
-
-Resumir del libro @Lovelance_et_al_2019
-Empezar ilustrando con un ejemplo
-
-Tenemos los datos de movilidad, los de Murcia depurados, son de data gob, pueden estar bien para empezar o para coger los de Madrid.
-
-
-## El ecosistema Rspatial  PUEDO EMPEZAR YO Y LUEGO DIEGO LE DAS UNA VUELTA
-Resumir del libro @Lovelance_et_al_2019
-Para dar una pincelada
-
-
-
-
-# Datos geográficos en R 
-
-
-
-## Marcos de Referencia para Sistemas de Coordenadas (CRS)  **DIEGO **
-Resumir del libro @Lovelance_et_al_2019 o lo que considere DIEGO
-
-## Formatos de ficheros de datos espaciales  **DIEGO **
-Aquí había pensado habar de los SHP o los formatos que se lleven ahora, sf, tmap, mapSpain, terra,  DIEGO
+bbox, elecciones (discreta), google satélite ?
+SE podía poner algo de COVID...
 
 Todo muy sencillo y con un ejemplito
 
 
-## Tipos de datos espaciales  (GEMA) o estadística espacial
 
-- Procesos de puntos: Datos 112-Valencia, me los pasa Jorge.
-
-- Geoestadística: Temperatua mínima? 
-
-- Econometría espacial: Diego: económico a nivel municipal para España (PIB, PARO, gini, algo que puedas unir directamente de tidyBdE y mapSpain..)
-
-Todo muy sencillo y con un ejemplo
-
-
-.
-
-
-# Construyendo mapas en R  **Este punto y el anterior los podemos hablar para centrar los ejemplos y luego vemos como lo hacemos**
-
-## Mapas temáticos 
+## Mapas temáticos (esto podría ir dentro de los ejemplos..., ver con DIEGO)
 
 mapSpain, tmap
 Datos que ya tenemos:
@@ -164,13 +123,6 @@ Datos que ya tenemos:
 - Alguno económico a nivel municipal para españa (PIB, PARO,..)
 - Alguno de La Palma.
 
-
-## Aplicaciones en R 
-- Aplicaciones a la economía, salud, marketing, etc
-
-** VER COMO LO HACEMOS PARA QUE NO QUEDE REDUNDANTE.
-
-## Mapas interactivos en R con Leaflet (sobra?) mejor algo de espacio-temporal
 
 
 

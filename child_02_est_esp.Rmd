@@ -10,7 +10,7 @@ editor_options:
 output: html_document
 ---
 
-```{r knitr_config, message=FALSE, warning=FALSE, include=FALSE}
+```{r knitr_config_est_esp, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(
   tidy = "styler",
   dev = "ragg_png",
@@ -21,7 +21,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Estadística espacial (lo tengo literal del artículo mio de AHEPE, resumir)
+
+
+(lo tengo literal del artículo mio de AHEPE, resumir)
 
 La estadística espacial reconoce y aprovecha la ubicación espacial de los datos
 a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
@@ -90,7 +92,7 @@ espacio-temporales.
 
 
 
-# Antes de continuar... dependencia espacial.
+## Antes de continuar... dependencia espacial.
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
 ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
@@ -146,7 +148,7 @@ image(sim4, main = "Independencia", col = tim.colors())
 
 
 
-# Datos espaciales GEMA
+## Datos espaciales GEMA
 
 
 Los **datos espaciales**, también conocidos como datos **geoespaciales**, son aquellos datos relacionados o
@@ -155,15 +157,17 @@ que contienen información de una localización o área geográfica de la superf
 
 La forma más intuitiva de representar los datos espaciales es a través de un mapa.
 
+	Propuesta: mapa temático cualquiera con poco código para empezar como el libro de SDS  https://keen-swartz-3146c4.netlify.app/intro.html#a-first-map 
+		Y comentar algunas características de los datos espaciales que luego se explican.
 
 ```{r}
-# um mapa temático cualquiera con poco código ***
+# um mapa temático cualquiera con muy poco código, el de renta pero simplificado??***
 ```
 
 
 
 
-# Clasificación de datos espaciales
+## Clasificación de datos espaciales
 
 Tal y como acabamos de señalar y de acuerdo con Schabenberger y Gotway (2005, p.
 6), debido a que los datos espaciales surgen en una gran variedad de campos y
