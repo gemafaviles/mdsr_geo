@@ -2,7 +2,7 @@
 title: "Datos geográficos en R"
 author:
 - Diego Hernangómez
-bibliography: additional.bib
+bibliography: refbib.bib
 editor_options:
   markdown:
     wrap: 80
@@ -43,8 +43,8 @@ knitr::opts_chunk$set(
 <!-- 3.  **Point pattern:** GEMA! -->
 
 En el ámbito del análisis espacial en **R**, se pueden clasificar los datos
-espaciales en función del modelo de datos [@geodata]. Se pueden distinguir dos
-tipos de modelos de datos:
+espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se pueden 
+distinguir dos tipos de modelos de datos:
 
 ## Datos vector
 
