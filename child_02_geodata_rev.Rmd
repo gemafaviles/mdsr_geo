@@ -30,4 +30,17 @@ Esta **revolución de los geodatos** y el **análisis de los datos espaciales** 
 
 
 
-Aquí se podrían representar los datos de movilidad
+<!-- Aquí se podrían representar los datos de movilidad -->
+
+Como ejemplo, el Ministerio de Transportes, Movilidad y Agenda Urbana llevó a
+cabo durante los años 2020 y 2021 el denominado [Estudio de movilidad con Big
+Data](https://www.mitma.gob.es/ministerio/covid-19/evolucion-movilidad-big-data),
+cuya fuente principal de datos fue el posicionamiento de los teléfonos móviles
+anonimizado. Estos datos permiten por ejemplo analizar la movilidad entr
+diversas zonas del territorio español de manera diaria:
+
+```{r mov, echo=FALSE}
+
+knitr::include_graphics("img/movilidad_covid.png")
+
+```
