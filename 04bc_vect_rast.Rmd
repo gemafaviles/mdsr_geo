@@ -34,7 +34,7 @@ o **el formato?, pregunto sólo** espaciales en función del modelo de datos
 Este modelo está basado en puntos georeferenciados. Los puntos pueden
 representar localizaciones específicas, como la localización de edificios:
 
-```{r puntos, echo=FALSE}
+```{r puntos}
 
 library(ggplot2)
 library(sf)
@@ -43,6 +43,7 @@ library(sf)
 # Hospitales en Toledo segun Eurostat
 hosp_toledo <- st_read("data/hosp_toledo.geojson", quiet = TRUE)
 
+# Plot
 ggplot() +
   geom_sf(
     data = hosp_toledo, aes(fill = "Centros Sanitarios"),
@@ -60,7 +61,7 @@ ggplot() +
 Estos puntos también pueden estar conectados entre sí, de manera que formen
 geometrías más complejas, como líneas y polígonos:
 
-```{r lineas_pol, echo=FALSE}
+```{r lineas_pol}
 
 tajo <- st_read("data/tajo_toledo.shp", quiet = TRUE)
 toledo <- st_read("data/toledo_ciudad.gpkg", quiet = TRUE)
@@ -114,19 +115,21 @@ píxeles.
 En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
 ráster está formado por una malla regular de píxeles georreferenciada:
 
-```{r raster, echo=FALSE}
+```{r raster}
 
-library(terra)
+library(raster)
 
-elev <- rast("data/Toledo_DEM.tiff")
+elev <- raster("data/Toledo_DEM.tiff")
 plot(elev, main = "Elevación de la provincia de Toledo")
 
 # Mostramos el grid
-pols <- as.polygons(elev)
+pols <- rasterToPolygons(elev)
 plot(pols, add = TRUE, border = "grey90")
 
 # Añadimos la provincia
 Tol_prov <- st_read("data/Toledo_prov.gpkg", quiet = TRUE)
+
+# Si queremos solamente la forma en sf, usamos st_geometry
 plot(st_geometry(Tol_prov), add = TRUE)
 ```
 
@@ -162,7 +165,8 @@ las proporcionadas por servicios de mapas online, para analizar su composición.
 
 ```{r raster_multilayer, echo=FALSE}
 
-tile <- rast("data/Toledo_multi_tile.tiff")
+# Para leer archivos con varios layers usaremos brick
+tile <- brick("data/Toledo_multi_tile.tiff")
 
 plotRGB(tile, mar = c(0, 0, 2, 0), main = "Provincia de Toledo")
 plot(st_geometry(Tol_prov), add = TRUE)
