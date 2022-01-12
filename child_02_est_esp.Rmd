@@ -157,11 +157,39 @@ que contienen información de una localización o área geográfica de la superf
 
 La forma más intuitiva de representar los datos espaciales es a través de un mapa.
 
-	Propuesta: mapa temático cualquiera con poco código para empezar como el libro de SDS  https://keen-swartz-3146c4.netlify.app/intro.html#a-first-map 
-		Y comentar algunas características de los datos espaciales que luego se explican.
+	<!-- Propuesta: mapa temático cualquiera con poco código para empezar como el libro de SDS  https://keen-swartz-3146c4.netlify.app/intro.html#a-first-map  -->
+	<!-- 	Y comentar algunas características de los datos espaciales que luego se explican. -->
 
 ```{r}
-# um mapa temático cualquiera con muy poco código, el de renta pero simplificado??***
+# Mapa de porcentaje de mujeres en Castilla-La Mancha
+
+library(mapSpain)
+
+# Datos de población
+pob <- mapSpain::pobmun19
+
+# Porcentaje
+pob$porc_mujeres <- pob$women / pob$pob19
+
+# Datos geoespaciales
+geo <- esp_get_munic(region = "Castilla-La Mancha")
+
+# Une ambos datos
+geo_pob <- merge(geo,
+  pob,
+  by = c("cpro", "cmun"),
+  all.x = TRUE
+)
+
+# Mapa básico
+plot(geo_pob["porc_mujeres"],
+  # Cambiamos titulo
+  main = "Castilla-La Mancha: % mujeres (2019)",
+
+  # Cambiamos la paleta de colores para hacerlo mas atractivo
+  border = NA,
+  pal = hcl.colors(12, "RdYlBu")
+)
 ```
 
 
