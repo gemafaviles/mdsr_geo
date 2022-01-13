@@ -101,6 +101,10 @@ Otros recursos web interesantes:
 
 # Aplicaciones
 
+
+<!-- Renta -->
+```{r, child=c('05b_Renta.Rmd')}
+```
 # Extensiones
 
 # Referencias
