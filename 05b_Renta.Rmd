@@ -109,8 +109,6 @@ extrae_codigo <- function(x) {
   unlist(strsplit(x, " "))[1]
 }
 
-
-
 renta$codigo_ine <- sapply(as.character(renta$Unidad), extrae_codigo)
 
 head(renta[c("Unidad", "codigo_ine")])
@@ -178,7 +176,7 @@ munis_renta %>%
 ```
 
 Podemos observar que la renta presenta una distribución Gamma con un gran de
-municipios concentrados en zonas medias de Renta y pocos municipios en tramos de
+municipios concentrados en zonas medias de renta y pocos municipios en tramos de
 rentas altas. Como veremos más adelante, esta distribución va a afectar a la
 información que transmite el mapa.
 
@@ -193,9 +191,13 @@ ggplot(munis_renta) +
   # color = NA
   geom_sf(aes(fill = `2019`), color = NA) +
   theme_minimal() +
+  scale_fill_continuous(labels = scales::label_number(
+    big.mark = ".",
+    decimal.mark = ",",
+    suffix = " €"
+  )) +
   labs(
     title = "Renta neta media por persona",
-    subtitle = "€",
     caption = "Datos: INE"
   )
 ```
@@ -205,6 +207,9 @@ Este primer mapa no es demasiado informativo, por los siguientes motivos:
 -   Existe una serie de municipios para los que no tenemos datos.
 
 -   La escala de color no es la más adecuada.
+
+-   Dada la distribución de los datos, puede ser adecuado crear grupos de renta
+    para que el mapa sea más interpretable.
 
 Vamos a probar a eliminar los municipios sin datos y a cambiar la escala de
 color:
@@ -219,11 +224,17 @@ ggplot(munis_renta_clean) +
   # ya incluida en base R con hcl.colors
 
   # Como son datos continuos, puedo usar Inferno
-  scale_fill_gradientn(colours = hcl.colors(20, "Inferno", rev = TRUE)) +
+  scale_fill_gradientn(
+    colours = hcl.colors(20, "Inferno", rev = TRUE),
+    labels = scales::label_number(
+      big.mark = ".",
+      decimal.mark = ",",
+      suffix = " €"
+    )
+  ) +
   theme_minimal() +
   labs(
     title = "Renta neta media por persona",
-    subtitle = "€",
     caption = "Datos: INE"
   )
 ```
@@ -236,54 +247,96 @@ visualización.
 Para intentar atajar este problema, podemos dividir nuestros datos en clases,
 por ejemplo cuartiles o deciles. Existen varios métodos de clasificación de
 datos, que en R se encuentran implementados en el paquete `classInt`. A
-continuacíón vamos a plantear diversos métodos de clasificación y observar cómo
-la "historia" que cuenta el mapa varía en función de dichas clases:
+continuación vamos a plantear diversos métodos de clasificación y observar cómo
+la "historia" que cuenta el mapa varía en función de dichas clases. En este
+ejemplo planteamos los siguientes métodos de clasificación:
+
+-   El método de deciles: Consiste en crear 10 categorías incluyendo el mismo
+    número de registros en cada una de ellas.
+
+-   El método de intervalos equivalentes: Este método divide el rango de valores
+    en un número de grupos definido. La distancia de todos los intervalos es
+    idéntica, por lo que este método no tiene en cuenta la distribución de los
+    registros.
+
+-   El método de Fisher-Jenks: Este método se desarrolló específicamente para la
+    clasificación de datos espaciales y su visualización en mapas. Produce
+    agrupaciones de tal manera que los datos de cada grupo son "cercanas" entre
+    sí y sustancialmente distintas de los valores de otros grupos.
 
 ```{r classint, message=FALSE}
 
 library(classInt)
+# Vamos a probar 3 métodos de clasificación: Deciles, tramos de Renta
+# equidistantes y Fisher and Jenks
 
-
-# Vamos a probar 3 métodos de clasificación: Deciles, Fisher and Jenks y Head/Tails
 deciles <- classIntervals(munis_renta_clean$`2019`,
   style = "quantile", n = 10
 )
+deciles
 plot(deciles, pal = hcl.colors(20, "Inferno"), main = "Deciles")
 
-fisher <- classIntervals(munis_renta_clean$`2019`,
-  style = "fisher"
+
+# Tramos equidistantes en términos de renta
+equal <- classIntervals(munis_renta_clean$`2019`,
+  style = "equal", n = 10
 )
-plot(fisher, pal = hcl.colors(20, "Inferno"), main = "Fisher-Jenks")
+equal
+plot(equal, pal = hcl.colors(20, "Inferno"), main = "Equidistantes")
 
-headtails <- classIntervals(munis_renta_clean$`2019`, style = "headtails", thr = 0.5)
+fisher <- classIntervals(munis_renta_clean$`2019`,
+  style = "fisher",
+  # Fuerzo para mejorar la comparación entre métodos
+  n=10
+)
+fisher
+plot(fisher, 
+     pal = hcl.colors(20, "Inferno"), 
+     main = "Fisher-Jenks"
+     )
 
-plot(headtails, pal = hcl.colors(20, "Inferno"), main = "Head/Tails")
 ```
 
 Podemos observar lo siguiente:
 
 -   El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
     €.
+
 -   El método por deciles proporciona unos grupos con valores de renta muy
-    parecidos entre sí en los valores medios.
+    parecidos entre sí en los valores medios. Esto es debido a la propia
+    distribución de la variable.
+
+-   El método de rangos equidistantes proporciona algunos grupos con un número
+    muy reducido de municipios.
+
 -   El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
     apropiados para los tramos altos de renta.
--   El método Head/Tails es el que propone rangos de renta más regulares en
-    términos de distancia entre tramos.
 
 Vamos ahora a realizar 3 mapas distintos, creando clases de renta según cada uno
-de los métodos anteriormente mostrados:
+de los métodos anteriormente mostrados.
+
+**Deciles**
 
 ```{r mapa_deciles, message=FALSE}
 # Extraigo los valores de corte
 breaks_d <- deciles$brks
 
 # Y creo unas etiquetas básicas para cada clase
-labels_d <- names(print(deciles,
-  under = "<",
-  over = ">",
-  cutlabels = FALSE
-))
+# Creo una función específica para crear etiquetas formateadas
+label_fun <- function(x){
+  l <- length(x)
+  eur <- paste0(prettyNum(round(x,0), 
+                          decimal.mark = ",",
+                          big.mark = "."), " €")
+  
+  labels <- paste(eur[-l],"-", eur[-1])
+  labels[1] <- paste("<", eur[1])
+  labels[l-1] <- paste(">", eur[l-1])
+  return(labels)
+  
+}
+
+labels_d <- label_fun(breaks_d)
 
 munis_renta_clean$Deciles <- cut(munis_renta_clean$`2019`,
   breaks = breaks_d,
@@ -302,7 +355,6 @@ ggplot(munis_renta_clean) +
   theme_minimal() +
   labs(
     title = "Renta neta media por persona",
-    subtitle = "€",
     caption = "Datos: INE"
   )
 ```
@@ -311,14 +363,41 @@ Este mapa ya nos permite observar patrones geográficos, donde se ve una clara
 diferencia entre la Comunidades Autónomas del Norte y las del Sur. Veamos una
 representación distina usando otras clases diferentes:
 
+```{r mapa_equal, message=FALSE}
+
+breaks_e <- equal$brks
+labels_e <-label_fun(breaks_e)
+
+munis_renta_clean$Equal <- cut(munis_renta_clean$`2019`,
+  breaks = breaks_e,
+  labels = labels_e,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = Equal), color = NA) +
+  scale_fill_manual(values = hcl.colors(length(labels_e),
+    "Inferno",
+    rev = TRUE
+  )) +
+  theme_minimal() +
+  labs(
+    title = "Renta neta media por persona",
+    caption = "Datos: INE"
+  )
+```
+
+Este otro mapa, sin embargo, se parece más al mapa que hicimos con los datos sin
+clasificar, donde el peso visual se concentra más bien en los municipios con
+rentas mucho más altas que el resto (por encimoa de 18.000 €).
+
+Veamos el mismo mapa usando Fisher-Jenks:
+
 ```{r mapa_fisher, message=FALSE}
 
 breaks_f <- fisher$brks
-labels_f <- names(print(fisher,
-  under = "<",
-  over = ">",
-  cutlabels = FALSE
-))
+labels_f <-label_fun(breaks_f)
 
 munis_renta_clean$`Fisher-Jenks` <- cut(munis_renta_clean$`2019`,
   breaks = breaks_f,
@@ -336,41 +415,66 @@ ggplot(munis_renta_clean) +
   theme_minimal() +
   labs(
     title = "Renta neta media por persona",
-    subtitle = "€",
     caption = "Datos: INE"
   )
 ```
 
-Este segundo mapa (DHH CONCLUSIONES)
+En este mapa se puede observar de una manera más clara un cluster adicional de
+renta en la zona de Asturias y el norte de León. Además, gracias a la escala de
+colores puede intuirse que este clúster de renta no presenta valores tan altos
+como los observados en País Vasco o Madrid.
 
-```{r mapa_headtails, message=FALSE}
+En conclusión, en el momento de realizar una visualización de datos es
+importante conocer el dato a representar, así como entender algunas propiedades
+básicas de la distribución subyacente. También hemos podido observar que hay
+ciertas decisiones estéticas (datos continuos vs. agrupados, escala de colores)
+que tienen una influencia significativa en cómo se percibe la información
+representada. Es responsabilidad del creador de la visualización el conocer
+todos estos factores y aplicarlos de manera conveniente.
 
-breaks_h <- headtails$brks
-labels_h <- names(print(headtails,
-  under = "<",
-  over = ">",
-  cutlabels = FALSE
-))
+Como ejemplo, aquí tenemos un mapa de los mismos datos pero la información se
+presenta de manera sesgada, ¿puedes identificar los motivos?
 
-munis_renta_clean$`Head-Tails` <- cut(munis_renta_clean$`2019`,
-  breaks = breaks_h,
-  labels = labels_h,
-  include.lowest = TRUE
+```{r trucado, echo=FALSE, fig.cap="Ejemplo de visualización sesgada"}
+
+breaks_s <- c(seq(5500, 12000, 500), 90000)
+labels_s <-label_fun(breaks_s)
+
+munis_renta_clean$Sesgada <- cut(munis_renta_clean$`2019`,
+                                        breaks = breaks_s,
+                                        labels = labels_s,
+                                        include.lowest = TRUE
 )
 
 ggplot(munis_renta_clean) +
-  # Cambiamos la variable que usamos para crear el mapa
-  geom_sf(aes(fill = `Head-Tails`), color = NA) +
-  scale_fill_manual(values = hcl.colors(length(labels_h),
-    "Inferno",
-    rev = TRUE
-  )) +
+  geom_sf(aes(fill = Sesgada), color = NA) +
+  scale_fill_manual(values = c(hcl.colors(20,
+                                        "Blue-Red2",
+                                        rev = FALSE
+  )[1:12], hcl.colors(10, "Reds2", rev=TRUE)[8:10])) +
   theme_minimal() +
   labs(
     title = "Renta neta media por persona",
-    subtitle = "€",
     caption = "Datos: INE"
   )
+
+
 ```
 
-(DHH CONCLUSIONES FINALES)
+En este mapa parece que la renta per cápita de las comunidades del norte es
+desproporcionadamente superior a las del sur. Resumimos aquí los sesgos
+introducidos en el mapa:
+
+-   En primer lugar, se han creado un elevado número de grupos en las zonas de
+    rentas bajas. De esta manera, la escala del mapa parece estar muy
+    fragmentada, sin embargo muchos de esos grupos apenas contienen municipios.
+    A modo de ejemplo, los primeros cuatro grupos únicamente contienen 32
+    municipios.
+
+-   Los grupos no se adaptan a la distribución subyacente de los datos. La
+    mediana de los datos (11.462 €) estaría situada en la antepenúltima clase,
+    de manera que los dos grupos de mayor renta contienen el 50% de los
+    municipios.
+
+-   Además, la escala de color se ha manipulado, de manera que los grupos de
+    mayores renta destaquen más que el resto de manera notoria.
