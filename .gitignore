@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+# Ignora archivos pesados, no los queremos en Git
+Archive-eaf7.zip
+ine_movilidad
+trafico
+*.log

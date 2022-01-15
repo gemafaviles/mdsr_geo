@@ -1,0 +1,106 @@
+---
+title: "Visualización y geolocalización de datos"
+subtitle: "Máster en Data Science & Business Analytics (con R Software)"
+author:
+- Gema Fernández-Avilés
+- Diego Hernangómez
+date: "`r Sys.Date()`"
+bibliography: refbib.bib
+csl: apa-6th-edition.csl
+lang: es
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 2
+    number_sections: yes
+---
+
+```{r setup_0, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  out.width = "60%",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+
+
+```
+
+<center>
+
+<img src="logo_mdsr_uclm.png" height="100px"/>
+
+</center>
+
+**Objetivos de aprendizaje**
+
+**¿Por dónde empezamos? Recursos interesantes**
+
+Libros de referencia:
+
+-   [Spatial Data Science with applications in
+    R](https://keen-swartz-3146c4.netlify.app/)
+
+-   [Geocomputation with R](https://geocompr.robinlovelace.net/)
+
+-   [Displaying time series, spatial and space-time data with
+    R](https://oscarperpinan.github.io/bookvis/)
+
+Recursos de estadísitca espacial en R:
+
+-   [rspatial](https://rspatial.org/)
+-   [R-spatial](https://r-spatial.org/projects/)
+
+Otros recursos web interesantes:
+
+-   Libro de Ruben
+-   Rositter
+-   Libro Hengl
+-   Libro de Páez
+
+<!-- La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te parece bien? -->
+
+# La revolución de los geodatos
+
+```{r, child=c('01_rev_geodatos.Rmd')}
+
+```
+
+# Geocomputación y R-spatial
+
+```{r, child=c('02_geocomp.Rmd')}
+```
+
+# Estadística espacial
+
+```{r, child=c('03_est_esp.Rmd')}
+```
+
+# Formatos de datos espaciales
+
+## Tipos de ficheros
+
+<!-- Vectores y Rasters, el titulo está ya incluido en el child -->
+
+```{r, child=c('04bc_vect_rast.Rmd')}
+```
+
+##  Sistema de Referencia de Coordenadas (CRS)
+
+```{r, child=c('04d_CRS.Rmd')}
+```
+
+# Aplicaciones
+
+# Extensiones
+
+# Referencias
