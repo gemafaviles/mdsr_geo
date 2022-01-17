@@ -9,7 +9,7 @@ editor_options:
     wrap: 80
   chunk_output_type: console
 output: 
-  html_document: 
+  bookdown::html_document2: 
     toc: yes
     toc_depth: 2
     number_sections: yes
@@ -40,7 +40,7 @@ Así mismo, cuando se trabaja con datos espaciales provenientes de distintas
 fuentes de información, es necesario comprobar que dichos datos se encuentran
 definidos en el mismo CRS:
 
-```{r datos_desalineados, echo=FALSE}
+```{r datosdesalineados, echo=FALSE, fig.cap="Representación de mismos valores de coordenadas en distintos CRS"}
 
 library(giscoR)
 library(nominatimlite)
@@ -106,7 +106,7 @@ localizar una posición espacial son la latitud y la longitud:
     puntos con la misma latitud a lo largo del eje Este-Oeste se denominan
     **paralelos**:
 
-```{r paralelos, echo=FALSE}
+```{r paralelos, echo=FALSE, fig.cap="Paralelos terrestres"}
 
 library(sf)
 library(s2)
@@ -188,7 +188,7 @@ paralelos <- ggplot(mundo_ort) +
     puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
     **meridianos**:
 
-```{r meridianos, echo=FALSE, fig.show="hold", out.width="50%"}
+```{r meridianos, echo=FALSE, fig.show="hold", out.width="50%", fig.cap="Paralelos y Meridianos terrestres"}
 lon <- all %>% filter(type == "E")
 greenwich <- lon %>% filter(degree == 0)
 
@@ -241,7 +241,7 @@ meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
 es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
 metros entre ambos meridianos no es constante:
 
-```{r dist_ang, echo=FALSE}
+```{r distang, echo=FALSE, fig.cap="Distancia entre meridianos en distintas latitudes" }
 
 # Selecciona lineas
 l0 <- st_linestring(matrix(c(0, 20, 0, 0), nrow = 2)) %>%
@@ -264,7 +264,7 @@ df_ortho$dist <- paste(prettyNum(round(df_ortho$dist, 0),
 ), "km")
 
 
-merid +
+p <- merid +
   geom_sf(data = df_ortho, color = "red", size = 2) +
   geom_sf_label(
     data = df_ortho, aes(label = dist), size = 4.5,
@@ -279,6 +279,8 @@ merid +
     title = "Distancia entre meridianos",
     subtitle = "En latitud 0º y 20ºN"
   )
+
+p
 ```
 
 #### CRS proyectados
@@ -309,7 +311,7 @@ manera práctica como el ejercicio de envolver una esfera con una superificie
 plana (como una hoja de papel) y trasladar los puntos de la esfera de manera
 lineal al punto de la superficie plana más cercano a ella.
 
-```{r fi_proys, echo=FALSE}
+```{r fi-proys, echo=FALSE, fig.cap="Tipos de proyección por superficie de proyección"}
 
 knitr::include_graphics("img/tipos_proy.png")
 ```
@@ -321,7 +323,7 @@ del tipo de superficie que se use para proyectar:
     de proyección conforma un cilindro alrededor de la Tierra. Una de las
     proyecciones cilíndricas más conocidas es la **proyección de Mercator**.
 
-```{r mercator, echo=FALSE, out.width="40%"}
+```{r mercator, echo=FALSE, out.width="40%", fig.cap="Proyección Mercator"}
 
 knitr::include_graphics("img/mercator.png")
 ```
@@ -331,20 +333,20 @@ knitr::include_graphics("img/mercator.png")
     **proyección cónica equiáreas de Albers** es una de las proyecciones que más
     suele usarse en la representación de mapas de América del Norte:
 
-    ```{r albers, echo=FALSE, out.width="40%"}
+```{r albers, echo=FALSE, out.width="40%", fig.cap="Proyección cónica equiáreas de Albers"}
 
 knitr::include_graphics("img/albers_conic.png")
-    ```
+```
 
 -   **Proyecciones acimutales o planares:** En este tipo de proyección se
     proyecta una porción de la Tierra sobre un plano que es tangente a la misma
     en el punto de referencia. Como ejemplos de proyecciones acimutales podemos
     destacar la **proyección ortográfica**:
 
-    ```{r orto, echo=FALSE, out.width="40%"}
+```{r orto, echo=FALSE, out.width="40%", fig.cap="Proyección ortogonal"}
 
 knitr::include_graphics("img/orto.png")
-    ```
+```
 
 **Por métrica a preservar**
 
@@ -369,27 +371,27 @@ Según la metrica a presevar, las proyecciones se pueden clasificar en:
     de Mercator representa ángulos rectos en las intersecciones de los paralelos
     y los meridianos.
 
-    ```{r conform, echo=FALSE, out.width="30%"}
+```{r conform, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección conformal: Mercator"}
 
 knitr::include_graphics("img/conform.png")
-    ```
+```
 
 -   **Proyecciones equivalentes**: Estas proyecciones preservan las proporciones
     de las áreas, provocando a su vez deformaciones en el resto de
     características, como la forma o los ángulos. La proyección acimutal
     equivalente de Lambers es un tipo de proyección equivalente.
 
-    ```{r equiv, echo=FALSE, out.width="30%"}
+```{r equiv, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección equivalente: Proyección acimutal equivalente de Lambers"}
 
 knitr::include_graphics("img/equiv.png")
-    ```
+```
 
 -   **Proyecciones equidistantes:** Este tipo de proyección preserva la
     distancia entre dos puntos geográficos específicos. Por ejemplo, la
     proyección Plate carré preserva la distancia entre el Polo Norte y el Polo
     Sur.
 
-```{r equidist, echo=FALSE, out.width="30%"}
+```{r equidist, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección equidistante: Platé carre"}
 
 knitr::include_graphics("img/equidist.png")
 ```
@@ -401,7 +403,7 @@ knitr::include_graphics("img/equidist.png")
     proyección de Winkel Tripel, usada en los mapas de National Geographic, es
     un ejemplo de proyección de compromiso.
 
-```{r comp, echo=FALSE, out.width="30%"}
+```{r comp, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección de compromiso: Winkel Tripel"}
 
 knitr::include_graphics("img/comp.png")
 ```
@@ -426,6 +428,18 @@ correspondientes:
 -   <https://spatialreference.org/>
 
 -   <https://proj.org/operations/projections/index.html>
+
+Algunos de los códigos de proyecciones que es fundamental conocer son:
+
+-   **EPSG: 4326**: Proyección correspondiente a WGS 84, que es el sistema usado
+    por los sistemas GPS. Cuando trabajemos con coordenadas geográficas
+    longitud/latitud, este es habitualmente el CRS de referencia.
+
+-   **EPSG: 3857**: Código correspondiente a la proyección de Mercator, usada
+    habitualmente por servicios como Google Maps, etc.
+
+En la sección **¿Qué proyección uso?** veremos cómo encontrar un CRS usando el
+paquete `crsuggest`.
 
 El paquete `sf` permite obtener los parámetros de estas proyecciones mediante la
 función `st_crs()`:

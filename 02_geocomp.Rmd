@@ -8,7 +8,7 @@ editor_options:
   markdown:
     wrap: 80
   chunk_output_type: console
-output: html_document
+output: bookdown::html_document2
 ---
 
 ## Contexto general
@@ -33,26 +33,21 @@ ciencia y en casi todas las industrias. GIS ayuda a los usuarios a comprender
 patrones, relaciones y contexto geográfico. Los beneficios incluyen una mejor
 comunicación y eficiencia, así como una mejor gestión y toma de decisiones.
 
-La siguiente figura muestra el flujo de trabajo de los Sistemas de Información
-Geográfica, que va desde (i) la elaboración de mapas, (ii) la obtención de geodatos o datos espaciales,
-(iii) el análisis de los datos geográficamente referenciados y (iv) la edición,
-mapeo y presentación de los resultados.
+La figura \@ref(fig:gisflujo) muestra el flujo de trabajo de los Sistemas de
+Información Geográfica, que va desde (i) la elaboración de mapas, (ii) la
+obtención de geodatos o datos espaciales, (iii) el análisis de los datos
+geográficamente referenciados y (iv) la edición, mapeo y presentación de los
+resultados.
 
-<!-- [![Flujo de trabajo de los GIS. Fuente de la imagen: -->
-<!-- <https://www.esri.com/en-us/what-is-gis/overview>\label{gis}](img/GIS.png "Flujo de trabajo de los GIS")](https://www.esri.com/en-us/what-is-gis/overview) -->
-
-```{r gis_flujo, echo=FALSE, fig.align='center', fig.cap='Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview'}
+```{r gisflujo, echo=FALSE, fig.align='center', fig.cap='Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview'}
 knitr::include_graphics("img/GIS.png")
 ```
 
-
-Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia 
-computacional**, han hecho que éstas se conviertan en herramientas creativas 
-y complemenarías a los convencionales GIS, dando origen a la *Geocomputación*,
-que trata de utilizar el poder de los ordenadores para *hacer cosas* 
-con los datos geográficos.
-
-
+Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia
+computacional**, han hecho que éstas se conviertan en herramientas creativas y
+complemenarías a los convencionales GIS, dando origen a la *Geocomputación*, que
+trata de utilizar el poder de los ordenadores para *hacer cosas* con los datos
+geográficos.
 
 **¿Y que es la Geocomputación?**
 
@@ -88,14 +83,12 @@ R es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (IDE),
 como RStudio, han hecho que R sea más fácil de usar para muchos, facilitando la
 creación de mapas con un panel dedicado a la visualización interactiva
-[@Lovelance_et_al_2019]. Además, el uso del código R, permite la enseñanza de
-la geocomputación con referencia a ejemplos reproducibles en lugar de conceptos
+[@Lovelance_et_al_2019]. Además, el uso del código R, permite la enseñanza de la
+geocomputación con referencia a ejemplos reproducibles en lugar de conceptos
 abstractos. Por ejemplo, de una forma relativamente sencialla, se puede
 geoposicionar de manera interactiva la localización de la Puerta del Sol en
-Madrid y, además, dejar la el código R para hacerlo reproducible, 
-ver Figura \@ref(fig:leaflet).
-
-Figura \@ref(fig:interactive)
+Madrid y, además, dejar la el código R para hacerlo reproducible, ver Figura
+\@ref(fig:leaflet).
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
 library(leaflet)
@@ -103,7 +96,6 @@ leaflet() %>%
   addTiles() %>%
   setView(-3.703548, 40.417147, zoom = 60)
 ```
-
 
 Por otra parte R dispone de cientos de librerías especializadas para datos
 espaciales. Una descripción detallada puede ver se en [CRAN Task View: Analysis
@@ -115,9 +107,9 @@ emplearán a lo largo de la asignatura Estadística Espacial y Espacio-Temporal,
 no sólo en el tema que nos ocupa:
 
 -   `sp` y `sf`: para el tratamiento de clases y métodos de los datos
-    espaciales.
+    vectoriales.
 
--   `raster` y `terra` para datos raster.
+-   `raster`,`terra` y `stars` para datos raster.
 
 -   `gstat` y `geoR`: para el análisis de datos geoestadísticos, ajuste y
     estimación de semivariogramas, interpretación, etc.
@@ -128,42 +120,43 @@ no sólo en el tema que nos ocupa:
 
 -   `spatstat` para el análisis de procesos de puntos espaciales.
 
-
-
 ## Conceptos clave
 
-Una vez visto el contexto actual de los datos georreferenciados y antes de entrar
-en detalle en su análisis, debemos tener en cuenta una serie de conceptos clave
-que se irán desarrollando a lo largo del tema.
+Una vez visto el contexto actual de los datos georreferenciados y antes de
+entrar en detalle en su análisis, debemos tener en cuenta una serie de conceptos
+clave que se irán desarrollando a lo largo del tema.
 
 Hemos dicho que Geográfico = Geo (tierra) + gráfico (mapa). Por tanto, si
 tenemos varios datos geográficos, localizados en distintos puntos de la tierra,
-es porque tenemos las **coordenadas** que los posicionan en esos puntos concretos.
-Asociado a estas coordenadas debemos conocer el **Sistema de referencia de espacial**
-o Coordinate reference system (CRS) en el que están proyectadas dichas coordenadas.
+es porque tenemos las **coordenadas** que los posicionan en esos puntos
+concretos. Asociado a estas coordenadas debemos conocer el **Sistema de
+referencia de espacial** o Coordinate reference system (CRS) en el que están
+proyectadas dichas coordenadas.
 
-Por otra parte, los formatos de estos datos pueden ser **vectores** o **raster** como se explicará en la siguiente sección.
+Por otra parte, los formatos de estos datos pueden ser **vectores** o **raster**
+como se explicará en la siguiente sección.
 
-Si damos un paso más e incorporamos el concepto de **distancia**, pues es lógico 
-pensar que en un fenómeno de interés, por ejemplo, en la modelización de la cantidad
-y dirección de lava en La Palma tras la erupción del volcán "Cumbre Vieja" 
-la distancia es un factor clave, pues aquellas zonas más cercanas al volcán 
-tendrán niveles más parecidos entre sí y con valores más altos.
+Si damos un paso más e incorporamos el concepto de **distancia**, pues es lógico
+pensar que en un fenómeno de interés, por ejemplo, en la modelización de la
+cantidad y dirección de lava en La Palma tras la erupción del volcán "Cumbre
+Vieja" la distancia es un factor clave, pues aquellas zonas más cercanas al
+volcán tendrán niveles más parecidos entre sí y con valores más altos.
 
-En este caso el nivel de contaminación en el aire en La Palma no puede ser 
+En este caso el nivel de contaminación en el aire en La Palma no puede ser
 modelado como si las observaciones fuesen independientes pues las más cercanas
 entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
-**dependencia espacial**. Y depende del tipo de datos espaciales tendremos
-tres grandes formas de abordar el tratamiento de los datos espaciales:
-**geoestadística**, **procesos de punto** y **econometría espacial** (véase sección xx).
+**dependencia espacial**. Y depende del tipo de datos espaciales tendremos tres
+grandes formas de abordar el tratamiento de los datos espaciales:
+**geoestadística**, **procesos de punto** y **econometría espacial** (véase
+sección **Sistema de Referencia de Coordenadas (CRS)**).
 
 [**si nos gusta poner la imagen más pequeña**]{style="color:red"}
+
+[nos gusta]{style="color:blue"}
 
 ```{r gis, echo=FALSE, fig.align='center', fig.cap='Información espacial de la concentración de lava en Cumbre Vieja'}
 knitr::include_graphics("img/Cumbrevieja.png")
 ```
-
-
 
 ```{r cumbrevieja, echo=FALSE, eval=FALSE}
 library(sf)
@@ -192,6 +185,3 @@ plot(st_geometry(lava),
   ), lwd = .5
 )
 ```
-
-
-
