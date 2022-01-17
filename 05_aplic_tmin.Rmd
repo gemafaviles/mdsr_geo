@@ -1,0 +1,419 @@
+---
+title: "Nombre del tema"
+subtitle: "Subtítulo"
+author:
+- Autor Tema
+date: "`r Sys.Date()`"
+bibliography: refbib.bib
+csl: apa-6th-edition.csl
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 2
+    number_sections: yes
+---
+
+```{r knitr_config2, include=FALSE}
+
+# Configuración por defecto al compilar este archivo
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  out.width = "60%",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+```
+
+
+
+```{r include=FALSE, eval=FALSE, echo=FALSE}
+# saveRDS(clim_data_clean, file = "my_data_tmin.rds")
+# mydata2 <- readRDS("my_data_tmin.rds")  ## perfecto con este
+
+# pero...destruyo el objeto espacial, con mucha pena, para partir de cero
+# mydata <- mydata %>%
+#   st_coordinates() %>%
+#   as.data.frame() %>%
+#   bind_cols(tmin = mydata$tmin, date=mydata$fecha)
+# write.csv(mydata, "my_data_tmin_df.csv")
+```
+
+
+**objetivo de aprendizaje"
+Este caso práctico muestra como leer y graficar datos espaciales en R. BLA BLA
+
+
+Tarea 1: Abrimos Rstudio
+
+Tarea 2: Leemos (instalamos si no los tenemos) los paquetes requeridos
+```{r}
+# rm(list = ls()) #limpiamos la memoría
+
+# library(climaemet) # meteorological data
+library(mapSpain) # base maps of Spain
+library(classInt) # classification
+library(raster) # raster handling
+library(sf) # spatial shape handling
+library(sp) # spatial shape handling
+library(gstat) # for spatial interpolation
+library(geoR) # for spatial analysis
+library(dplyr) # data handling
+library(ggplot2) # for plots
+# library(tidyverse) # collection of R packages designed for data science
+```
+
+
+Tarea 3: Describimos los datos objeto de estudio
+
+El conjunto de datos contiene el nivel de temperatura del aire en España el 8 al 13 de enero de 2021.
+
+Los datos han sido descargados del paquete `climaemet` en R. `climaemet` permite descargar los datos climáticos de la Agencia Española de Meteorología (AEMET) directamente utilizando su API (para más detalle ver citar articulo).
+
+falta**********
+
+-   `tmin`: matrix of....
+
+-   `stations`: coOrdinates of the stations; 
+
+-   `dates`: the dates of observations
+
+
+Tarea 4: Lectura de los datos
+```{r read_my_data_tmin}
+mydata <- read.csv("data/my_data_tmin_df.csv")
+mydata <- mydata %>% dplyr::select(X:date) # quitamos la primera columna que tiene id
+```
+
+
+Q1: ¿Qué información tiene "mydata"?
+```{r head_mydata}
+head(mydata)[1:3, ] # muestra las tres primeras filas
+tail(mydata) # muestra las seis últimas filas. Ver fecha de los días.
+```
+
+* bla, bla
+
+
+
+Tarea X. Pasar mydata a un objeto de la clase espacial geoR
+```{r}
+mydata.geoR <- mydata %>%
+  filter(date == "2021-01-08") %>%
+  as.geodata(
+    coords.col = 1:2,
+    data.col = 3
+  )
+summary(mydata.geoR)
+plot(mydata.geoR)
+```
+
+
+
+[**DIEGO, y yo por qué se que España es esto 4326...**]{style="color:red"}
+
+
+Tarea X. Pasar mydata a un objeto de la clase espacial sf
+```{r}
+mydata.gstat <- st_as_sf(mydata, coords = c("X", "Y"), crs = 4326)
+summary(mydata.gstat)
+```
+
+
+Tarea X. Decido un formato para el análisis. gstat
+```{r}
+mydata <- mydata.gstat
+```
+
+
+Q2: ¿Dónde tengo medidos los niveles de la temperatura mínima?
+
+```{r plot_ms}
+plot(mydata$geometry, pch = "+")
+```
+
+Tarea 5: Dibujemos las estaciones de monitoreo de la temperarua mínima en
+un mapa de España. Ámbito espacial.
+
+Obtenemos el contorno de España (quitamos las Islas Canarias por simplicidad) blaalblblbl
+```{r}
+library(mapSpain)
+# sf object
+ESP <- esp_get_ccaa(epsg = 4326) %>%
+  filter(ine.ccaa.name != "Canarias") %>%
+  st_union()
+plot(ESP) # Dibujamo el mapa de España menos las Islas Canarias
+```
+
+
+
+Q3: ¿Tengo el Sistema de referencia de coordenadas (CRS) de las 
+estaciones de monitoreo en la misma proyección que el contorno de España?
+
+
+```{r chek_crs}
+st_crs(mydata) == st_crs(ESP)
+```
+
+Dibujamos las estaciones de monitoreo con el contorno de España
+```{r}
+ggplot(ESP) +
+  geom_sf() +
+  geom_sf(data = mydata) +
+  theme_light() +
+  labs(
+    title = "Estaciones de monitorieso AEMET en  España",
+    subtitle = "excluyendo las Islas Canarias"
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 12,
+      face = "bold"
+    ),
+    plot.subtitle = element_text(
+      size = 8,
+      face = "italic"
+    )
+  )
+```
+
+
+Q4. Mis datos y el contorno de España están en el mismo CRS, pero 
+¿es el adecuado?
+
+[**DIEGO, POR QUÉ TRANFSORMAMOS, PARA PASAR A UTM E INTERPRETAR EN METROS?**]{style="color:red"}
+
+```{r transform}
+mydata <- st_transform(mydata, 25830)
+ESP_utm <- st_transform(ESP, 25830)
+```
+
+
+Tarea 6: Representamos la variable temperatura mínima `tmin` para el día 8 de
+enero de 2021.
+
+```{r plot_base_tmin}
+mydata_8enero <- mydata %>%
+  filter(date == "2021-01-08") # seleccionamos el día y la variable
+dim(mydata)
+
+# plot(mydata_8enero) #opcional
+plot(mydata_8enero["tmin"], main = "Temperatura mínima (8-enero-2021)", pch = 8)
+```
+
+
+
+
+Podemos utilizar el ámbito espacial, el contorno de España para graficar
+y contar la historia de la Filomena un poco mejor.
+
+```{r spatial_plots, echo=FALSE}
+
+# Especificamos la paleta de color a utilizar
+br_paper <- c(-Inf, seq(-20, 20, 2.5), Inf)
+pal_paper <- hcl.colors(15, "PuOr", rev = TRUE)
+
+
+ggplot() +
+  geom_sf(
+    data = ESP,
+    fill = "grey95"
+  ) +
+  geom_sf(
+    data = mydata_8enero,
+    aes(color = tmin),
+    size = 4,
+    alpha = .7
+  ) +
+  # facet_wrap(vars(fecha),
+  #    ncol = 3
+  #  ) +
+  labs(color = "Temp. mín") +
+  scale_color_gradientn(
+    colours = pal_paper,
+    breaks = br_paper,
+    labels = function(x) {
+      paste0(x, "º")
+    },
+    guide = "legend"
+  ) +
+  theme_light() +
+  labs(
+    title = "Temperatura mínima (8-enero-2021)"
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 12,
+      face = "bold"
+    ),
+    plot.subtitle = element_text(
+      size = 8,
+      face = "italic"
+    )
+  )
+```
+
+
+
+Q5. El mapa ha quedado muy claro. Vemos como los datos nos cuentan la historia
+de Filomena en aquellos sitios donde se tomaron mediciones, pero **¿podríamos
+tener un mapa de interpolación para tener una estimación de la temperatura 
+mínima en las partes donde la AEMET no tiene estación de monitoreo?**
+
+Tal y como se avanzó en teoría, parece lógico pensar que aquellos puntos que 
+estén cerca tendrán valores similares así que tomemos ventaja de la dependencia
+espacial y utilicemos un método determinista, como la Distancia Inversa Ponderada,
+comúnmente conocido por su acrónimo inglés IDW (Inverse distance weighted),
+el cual es uno de los métodos más simples para llevar para llevar a cabo
+una interpolación espacial. 
+
+
+En primer lugar necesitamos definir la superficie (en forma de malla)
+donde queremos interpolar
+
+```{r create_grid2}
+# Creamos una malla de 5*5 km (25 km2)
+grd_sf <- st_bbox(ESP_utm) %>%
+  st_as_sfc() %>%
+  st_make_grid(
+    cellsize = 5000,
+    what = "centers"
+  )
+
+# Convertimos a un objeto sp object
+grd <- as(grd_sf, "Spatial") %>%
+  as("SpatialPixels")
+
+```
+
+
+Graficamos la superficie para ver exactamente qué hemos construido
+```{r}
+ggplot(ESP_utm) +
+  geom_sf() +
+  geom_sf(data = grd_sf, size = 0.01, col = "red", alpha = 0.5) +
+  geom_sf(
+    data = mydata_8enero, # select(indicativo) %>% unique(),
+    aes(fill = "AEMET Stations"), size = 5, shape = 21,
+    color = "blue"
+  ) +
+  scale_fill_manual(values = adjustcolor("blue", alpha.f = 0.2)) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(
+    title = "Cuadrícula espacial para interpolar",
+    fill = ""
+  )
+```
+
+
+
+Cambiamos el conjunto de datos a la clase `sp` para el análisis espacial
+```{r}
+mydata_8enero_sp <- as(mydata_8enero, "Spatial")
+class(mydata_8enero_sp)
+```
+
+
+LLevamos a cabo la interpolación
+```{r}
+tmin_idw <- gstat::idw(tmin ~ 1, # Indicamos la variable que queremos interpolar
+  mydata_8enero_sp, # Indicamos el conjunto de datos donde está la variable
+  newdata = grd, # Indicamos los puntos a interpolar
+  idp = 2.0 # Especifica la potencia de la IDW
+)
+```
+
+
+
+[**DIEGO, mirame MASK, no entiendo el objeto que hay que poner**]{style="color:red"}
+
+
+Representamos la interpolación con un mapa y mapa de contorno muy utliazado 
+para representar datos espaciales
+```{r}
+# To raster and mask the grid to the shape of Spain
+tmin_idw_raster <- raster(tmin_idw) # %>% mask( ) ##ERROR
+plot(tmin_idw_raster)
+contour(tmin_idw_raster, add = TRUE)
+```
+
+
+
+Representamos en 3D el mapa anterior, muy utilizado también en datos espaciales
+
+[**DIEGO, se útiliza mucho en espacial pero no se si este caso es muy ilustrativo....r**]{style="color:red"}
+```{r}
+persp(tmin_idw_raster)
+```
+
+
+
+
+
+## Para las extensiones
+
+Este vale para st
+
+```{r sp_plots, echo=FALSE}
+
+br_paper <- c(-Inf, seq(-20, 20, 2.5), Inf)
+pal_paper <- hcl.colors(15, "PuOr", rev = TRUE)
+
+
+mydata_st <- mydata %>%
+  arrange(date, desc(tmin))
+
+ggplot() +
+  geom_sf(
+    data = ESP,
+    fill = "grey95"
+  ) +
+  geom_sf(
+    data = mydata_st,
+    aes(color = tmin),
+    size = 3,
+    alpha = .7
+  ) +
+  facet_wrap(vars(date),
+    ncol = 3
+  ) +
+  labs(color = "Temp. mín.") +
+  scale_color_gradientn(
+    colours = pal_paper,
+    breaks = br_paper,
+    labels = function(x) {
+      paste0(x, "º")
+    },
+    guide = "legend"
+  ) +
+  theme_light() +
+  labs(
+    title = "Temperatura mínima"
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 12,
+      face = "bold"
+    ),
+    plot.subtitle = element_text(
+      size = 8,
+      face = "italic"
+    )
+  )
+
+```
+
+
+
+
+
