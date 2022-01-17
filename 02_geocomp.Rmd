@@ -99,7 +99,9 @@ Figura \@ref(fig:interactive)
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
 library(leaflet)
-leaflet() %>% addTiles() %>% setView( -3.703548 , 40.417147, zoom = 60)
+leaflet() %>%
+  addTiles() %>%
+  setView(-3.703548, 40.417147, zoom = 60)
 ```
 
 

@@ -66,7 +66,7 @@ plot(st_geometry(world),
 plot(toledo_ok, add = TRUE, bg = "green", color = "black", pch = 21, cex = 2)
 
 # Aún necesito transformarlo para crear el plot
-plot(st_transform(toledo_err, st_crs(4326)),
+plot(st_geometry(st_transform(toledo_err, st_crs(4326))),
   add = TRUE, bg = "red", color = "black", pch = 21, cex = 2
 )
 title("Ejemplo: Mismas coordenadas en distintos CRS")
@@ -573,7 +573,7 @@ library(crsuggest)
 sugerencias <- suggest_crs(elev)
 ```
 
-```{r muestra_tabla}
+```{r muestra_tabla, echo=FALSE}
 
 knitr::kable(sugerencias, caption = "Tabla sugerencias, detalle")
 

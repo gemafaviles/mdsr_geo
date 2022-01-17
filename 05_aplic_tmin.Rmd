@@ -37,15 +37,15 @@ knitr::opts_chunk$set(
 
 
 ```{r include=FALSE, eval=FALSE, echo=FALSE}
-#saveRDS(clim_data_clean, file = "my_data_tmin.rds")
-#mydata2 <- readRDS("my_data_tmin.rds")  ## perfecto con este 
+# saveRDS(clim_data_clean, file = "my_data_tmin.rds")
+# mydata2 <- readRDS("my_data_tmin.rds")  ## perfecto con este
 
 # pero...destruyo el objeto espacial, con mucha pena, para partir de cero
-#mydata <- mydata %>%
+# mydata <- mydata %>%
 #   st_coordinates() %>%
 #   as.data.frame() %>%
 #   bind_cols(tmin = mydata$tmin, date=mydata$fecha)
-#write.csv(mydata, "my_data_tmin_df.csv")
+# write.csv(mydata, "my_data_tmin_df.csv")
 ```
 
 
@@ -59,7 +59,7 @@ Tarea 2: Leemos (instalamos si no los tenemos) los paquetes requeridos
 ```{r}
 # rm(list = ls()) #limpiamos la memoría
 
-#library(climaemet) # meteorological data
+# library(climaemet) # meteorological data
 library(mapSpain) # base maps of Spain
 library(classInt) # classification
 library(raster) # raster handling
@@ -69,7 +69,7 @@ library(gstat) # for spatial interpolation
 library(geoR) # for spatial analysis
 library(dplyr) # data handling
 library(ggplot2) # for plots
-#library(tidyverse) # collection of R packages designed for data science
+# library(tidyverse) # collection of R packages designed for data science
 ```
 
 
@@ -91,14 +91,14 @@ falta**********
 Tarea 4: Lectura de los datos
 ```{r read_my_data_tmin}
 mydata <- read.csv("data/my_data_tmin_df.csv")
-mydata <- mydata %>% select(X:date) #quitamos la primera columna que tiene id
+mydata <- mydata %>% dplyr::select(X:date) # quitamos la primera columna que tiene id
 ```
 
 
 Q1: ¿Qué información tiene "mydata"?
 ```{r head_mydata}
-head(mydata)[1:3,] #muestra las tres primeras filas
-tail(mydata) #muestra las seis últimas filas. Ver fecha de los días.
+head(mydata)[1:3, ] # muestra las tres primeras filas
+tail(mydata) # muestra las seis últimas filas. Ver fecha de los días.
 ```
 
 * bla, bla
@@ -107,12 +107,12 @@ tail(mydata) #muestra las seis últimas filas. Ver fecha de los días.
 
 Tarea X. Pasar mydata a un objeto de la clase espacial geoR
 ```{r}
-mydata.geoR <- mydata %>% 
-  filter(date=="2021-01-08") %>%
+mydata.geoR <- mydata %>%
+  filter(date == "2021-01-08") %>%
   as.geodata(
     coords.col = 1:2,
     data.col = 3
-)
+  )
 summary(mydata.geoR)
 plot(mydata.geoR)
 ```
@@ -124,7 +124,7 @@ plot(mydata.geoR)
 
 Tarea X. Pasar mydata a un objeto de la clase espacial sf
 ```{r}
-mydata.gstat = st_as_sf(mydata, coords = c("X", "Y"), crs = 4326)
+mydata.gstat <- st_as_sf(mydata, coords = c("X", "Y"), crs = 4326)
 summary(mydata.gstat)
 ```
 
@@ -138,7 +138,7 @@ mydata <- mydata.gstat
 Q2: ¿Dónde tengo medidos los niveles de la temperatura mínima?
 
 ```{r plot_ms}
-plot(mydata$geometry, pch="+")
+plot(mydata$geometry, pch = "+")
 ```
 
 Tarea 5: Dibujemos las estaciones de monitoreo de la temperarua mínima en
@@ -151,7 +151,7 @@ library(mapSpain)
 ESP <- esp_get_ccaa(epsg = 4326) %>%
   filter(ine.ccaa.name != "Canarias") %>%
   st_union()
-plot(ESP) #Dibujamo el mapa de España menos las Islas Canarias
+plot(ESP) # Dibujamo el mapa de España menos las Islas Canarias
 ```
 
 
@@ -168,7 +168,7 @@ Dibujamos las estaciones de monitoreo con el contorno de España
 ```{r}
 ggplot(ESP) +
   geom_sf() +
-  geom_sf(data = mydata ) +
+  geom_sf(data = mydata) +
   theme_light() +
   labs(
     title = "Estaciones de monitorieso AEMET en  España",
@@ -202,12 +202,12 @@ Tarea 6: Representamos la variable temperatura mínima `tmin` para el día 8 de
 enero de 2021.
 
 ```{r plot_base_tmin}
-mydata_8enero<- mydata %>%
-  filter(date=="2021-01-08")  #seleccionamos el día y la variable
+mydata_8enero <- mydata %>%
+  filter(date == "2021-01-08") # seleccionamos el día y la variable
 dim(mydata)
 
 # plot(mydata_8enero) #opcional
-plot(mydata_8enero["tmin"], main="Temperatura mínima (8-enero-2021)", pch=8)
+plot(mydata_8enero["tmin"], main = "Temperatura mínima (8-enero-2021)", pch = 8)
 ```
 
 
@@ -234,9 +234,9 @@ ggplot() +
     size = 4,
     alpha = .7
   ) +
- # facet_wrap(vars(fecha),
- #    ncol = 3
- #  ) +
+  # facet_wrap(vars(fecha),
+  #    ncol = 3
+  #  ) +
   labs(color = "Temp. mín") +
   scale_color_gradientn(
     colours = pal_paper,
@@ -260,7 +260,6 @@ ggplot() +
       face = "italic"
     )
   )
-
 ```
 
 
@@ -290,7 +289,7 @@ grd_sf <- st_bbox(ESP_utm) %>%
     what = "centers"
   )
 
-# Convertimos a un objeto sp object 
+# Convertimos a un objeto sp object
 grd <- as(grd_sf, "Spatial") %>%
   as("SpatialPixels")
 
@@ -303,7 +302,7 @@ ggplot(ESP_utm) +
   geom_sf() +
   geom_sf(data = grd_sf, size = 0.01, col = "red", alpha = 0.5) +
   geom_sf(
-    data = mydata_8enero , #select(indicativo) %>% unique(),
+    data = mydata_8enero, # select(indicativo) %>% unique(),
     aes(fill = "AEMET Stations"), size = 5, shape = 21,
     color = "blue"
   ) +
@@ -328,9 +327,9 @@ class(mydata_8enero_sp)
 LLevamos a cabo la interpolación
 ```{r}
 tmin_idw <- gstat::idw(tmin ~ 1, # Indicamos la variable que queremos interpolar
-  mydata_8enero_sp,  # Indicamos el conjunto de datos donde está la variable
-  newdata = grd,     # Indicamos los puntos a interpolar
-  idp = 2.0          # Especifica la potencia de la IDW 
+  mydata_8enero_sp, # Indicamos el conjunto de datos donde está la variable
+  newdata = grd, # Indicamos los puntos a interpolar
+  idp = 2.0 # Especifica la potencia de la IDW
 )
 ```
 
@@ -343,9 +342,9 @@ Representamos la interpolación con un mapa y mapa de contorno muy utliazado
 para representar datos espaciales
 ```{r}
 # To raster and mask the grid to the shape of Spain
-tmin_idw_raster <- raster(tmin_idw)  #%>% mask( ) ##ERROR
+tmin_idw_raster <- raster(tmin_idw) # %>% mask( ) ##ERROR
 plot(tmin_idw_raster)
-contour(tmin_idw_raster, add=TRUE)
+contour(tmin_idw_raster, add = TRUE)
 ```
 
 
