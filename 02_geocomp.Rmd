@@ -33,8 +33,8 @@ ciencia y en casi todas las industrias. GIS ayuda a los usuarios a comprender
 patrones, relaciones y contexto geográfico. Los beneficios incluyen una mejor
 comunicación y eficiencia, así como una mejor gestión y toma de decisiones.
 
-La Figura \fig{gis} muestra el flujo de trabajo de los Sistemas de Información
-Geográfica, que va desde (i) la elaboración de mapas, (ii) la obtenciónde geodatos o datos espaciales,
+La siguiente figura muestra el flujo de trabajo de los Sistemas de Información
+Geográfica, que va desde (i) la elaboración de mapas, (ii) la obtención de geodatos o datos espaciales,
 (iii) el análisis de los datos geográficamente referenciados y (iv) la edición,
 mapeo y presentación de los resultados.
 
