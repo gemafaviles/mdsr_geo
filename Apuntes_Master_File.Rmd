@@ -60,7 +60,7 @@ Recursos de estadísitca espacial en R:
 -   [rspatial](https://rspatial.org/)
 -   [R-spatial](https://r-spatial.org/projects/)
 
-Otros recursos web interesantes:
+Otros recursos web interesantes, esto es para nosotros:
 
 -   Libro de Ruben
 -   Rositter
@@ -75,15 +75,11 @@ Otros recursos web interesantes:
 
 ```
 
-# Geocomputación y R-spatial
+# Datos geográficos
 
 ```{r, child=c('02_geocomp.Rmd')}
 ```
 
-# Estadística espacial
-
-```{r, child=c('03_est_esp.Rmd')}
-```
 
 # Formatos de datos espaciales
 
@@ -99,7 +95,17 @@ Otros recursos web interesantes:
 ```{r, child=c('04d_CRS.Rmd')}
 ```
 
+# Estadística espacial
+
+```{r, child=c('03_est_esp.Rmd')}
+```
+
 # Aplicaciones
+```{r, child=c('05_aplic_tmin.Rmd')}
+```
+
+
+
 
 # Extensiones
 
