@@ -27,6 +27,7 @@ end <- clim_data %>% filter(
 ) %>% inner_join(stations, by = "indicativo") %>%
   select(fecha, indicativo, nombre, provincia, tmin, longitud, latitud, altitud)
 
+end <- drop_na(end)
 
 write_csv(end, "data/tempmin.csv", na="")
 
