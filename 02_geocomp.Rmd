@@ -39,7 +39,7 @@ obtención de geodatos o datos espaciales, (iii) el análisis de los datos
 geográficamente referenciados y (iv) la edición, mapeo y presentación de los
 resultados.
 
-```{r gisflujo, echo=FALSE, fig.align='center', fig.cap='Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview'}
+```{r gisflujo, echo=FALSE, fig.align='center', fig.cap='Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview', out.width="70%"}
 knitr::include_graphics("img/GIS.png")
 ```
 
@@ -92,7 +92,7 @@ Madrid y, además, dejar la el código R para hacerlo reproducible, ver Figura
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
 library(leaflet)
-leaflet() %>%
+leaflet(width = "100%", height = "500px") %>%
   addTiles() %>%
   setView(-3.703548, 40.417147, zoom = 60)
 ```
@@ -148,7 +148,7 @@ entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
 **dependencia espacial**. Y depende del tipo de datos espaciales tendremos tres
 grandes formas de abordar el tratamiento de los datos espaciales:
 **geoestadística**, **procesos de punto** y **econometría espacial** (véase
-sección **Sistema de Referencia de Coordenadas (CRS)**).
+sección \[Sistema de Referencia de Coordenadas (CRS)\]).
 
 [**si nos gusta poner la imagen más pequeña**]{style="color:red"}
 

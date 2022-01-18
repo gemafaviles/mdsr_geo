@@ -34,7 +34,7 @@ o **el formato?, pregunto sólo** espaciales en función del modelo de datos
 Este modelo está basado en puntos georeferenciados. Los puntos pueden
 representar localizaciones específicas, como la localización de edificios:
 
-```{r puntos}
+```{r puntos, fig.cap="Datos vector: Puntos"}
 
 library(ggplot2)
 library(sf)
@@ -61,7 +61,7 @@ ggplot() +
 Estos puntos también pueden estar conectados entre sí, de manera que formen
 geometrías más complejas, como líneas y polígonos:
 
-```{r lineas_pol}
+```{r lineas-pol, fig.cap="Datos vector: Puntos, líneas y polígonos"}
 
 tajo <- st_read("data/tajo_toledo.shp", quiet = TRUE)
 toledo <- st_read("data/toledo_ciudad.gpkg", quiet = TRUE)
@@ -85,12 +85,12 @@ puntos cerrada formando un continuo). A modo ilustrativo, podemos observar la
 descomposición en puntos de todos los datos espaciales representados en el
 gráfico anterior.
 
-```{r lineas_pol_desc, echo=FALSE}
+```{r lineas-pol-desc, echo=FALSE, fig.cap="Datos vector: Descomposición en puntos"}
 
-ggplot(st_cast(toledo, "POINT")) +
+ggplot(st_cast(st_geometry(toledo), "POINT")) +
   geom_sf(col = "cornsilk3") +
   geom_sf(
-    data = st_cast(tajo, "POINT"),
+    data = st_cast(st_geometry(tajo), "POINT"),
     col = "lightblue2"
   ) +
   geom_sf(data = hosp_toledo, col = "blue") +
@@ -99,7 +99,7 @@ ggplot(st_cast(toledo, "POINT")) +
     ylim = c(39.8, 39.95)
   ) +
   theme_minimal() +
-  labs(title = "Ciudad de Toledo: Descomposición")
+  labs(title = "Descomposición de vectores")
 ```
 
 ## Datos raster
@@ -115,7 +115,7 @@ píxeles.
 En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
 ráster está formado por una malla regular de píxeles georreferenciada:
 
-```{r raster}
+```{r raster, fig.cap="Datos ráster"}
 
 library(raster)
 
@@ -137,7 +137,7 @@ En el ejemplo anterior, el archivo ráster tiene únicamente una capa (ESP_alt).
 Eso implica que cada píxel tiene asociado un único valor, en este caso, la
 altitud media del terreno observada en cada píxel o celda.
 
-```{r detalle_pixel, echo=FALSE}
+```{r detalle-pixel, echo=FALSE, fig.cap="Datos ráster: Detalle"}
 
 library(dplyr)
 
@@ -163,7 +163,7 @@ distinto en cada píxel.
 En el siguiente ejemplo vamos a usar una imagen de mapa georreferenciada, como
 las proporcionadas por servicios de mapas online, para analizar su composición.
 
-```{r raster_multilayer, echo=FALSE}
+```{r raster-multilayer, echo=FALSE, fig.cap="Datos ráster con varias bandas"}
 
 # Para leer archivos con varios layers usaremos brick
 tile <- brick("data/Toledo_multi_tile.tiff")
@@ -174,7 +174,7 @@ plot(st_geometry(Tol_prov), add = TRUE)
 
 El ráster se puede descomponer en las tres capas RGB mencionadas anteriormente:
 
-```{r detalle_pixel_multicapa, echo=FALSE}
+```{r detalle-pixel-multicapa, echo=FALSE, fig.cap="Datos ráster multicapa: Descomposición"}
 as.data.frame(tile, xy = TRUE) %>%
   as_tibble() %>%
   head(15) %>%

@@ -63,7 +63,9 @@ plot(st_geometry(world),
   ylim = c(-10, 80),
   xlim = c(-20, 20), axes = TRUE
 )
-plot(toledo_ok, add = TRUE, bg = "green", color = "black", pch = 21, cex = 2)
+plot(st_geometry(toledo_ok),
+  add = TRUE, bg = "green", color = "black", pch = 21, cex = 2
+)
 
 # Aún necesito transformarlo para crear el plot
 plot(st_geometry(st_transform(toledo_err, st_crs(4326))),
@@ -438,7 +440,7 @@ Algunos de los códigos de proyecciones que es fundamental conocer son:
 -   **EPSG: 3857**: Código correspondiente a la proyección de Mercator, usada
     habitualmente por servicios como Google Maps, etc.
 
-En la sección **¿Qué proyección uso?** veremos cómo encontrar un CRS usando el
+En la sección [¿Qué proyección uso?] veremos cómo encontrar un CRS usando el
 paquete `crsuggest`.
 
 El paquete `sf` permite obtener los parámetros de estas proyecciones mediante la
@@ -464,7 +466,7 @@ st_crs("+proj=robin")
 De esta manera, es posible proyectar un objeto `sf` mediante la función
 `st_transform()`:
 
-```{r project}
+```{r project, fig.cap=c("Proyección del mundo en coordenadas geográficas (EPSG 4326)", "Proyección del mundo en Mercator (EPSG 3857)", "Proyección del mundo en Robinson (+proj=robin)")}
 
 # Usa datos del paquete mapSpain
 
@@ -493,7 +495,7 @@ Como se comentó anteriormente, cuando se usan geodatos de diversas fuentes, es
 necesario que todos presenten el mismo CRS. En este ejemplo se muestra lo que
 ocurre si esto no se cumple:
 
-```{r puertos}
+```{r puertos, fig.cap=c("Ejemplo: Puertos del mundo, CRS no alineados", "Ejemplo: Puertos del mundo, CRS alineados")}
 # Añadimos a este mapa puertos mundiales de giscoR
 
 puertos <- gisco_get_ports()
@@ -518,7 +520,7 @@ representa adecuadamente.
 En otros paquetes, como `sp` o `raster`, existen funciones parecidas. Cuando
 empleemos el paquete `sp` podemos usar las funciones `CRS()` y `spTransform()`:
 
-```{r sp}
+```{r sp, fig.cap="Transformaciones en sp"}
 
 library(sp)
 
@@ -538,14 +540,12 @@ plot(paises_sp_robin)
 
 En el caso de un objeto `raster`, podemos usar `crs()` y `projectRaster()`:
 
-```{r raster_crs}
+```{r raster-crs, fig.cap="Transformaciones en raster"}
 library(raster)
 
 
 # Extrae información de altitud para Paises Bajos
 elev <- getData("alt", country = "NLD", path = tempdir())
-
-plot(elev)
 
 
 # Transforma
@@ -556,13 +556,12 @@ plot(elev_robinson)
 Por último, en el paquete `terra` las funciones correspondientes son `crs()` y
 `project()`:
 
-```{r terra}
+```{r terra, fig.cap="Transformaciones en terra"}
 library(terra)
 
 # Convierte de raster a terra
 elev_terra <- rast(elev)
 
-plot(elev_terra)
 
 # Transforma
 elev_terra_robinson <- terra::project(elev_terra, terra::crs(elev_terra))
@@ -587,13 +586,13 @@ library(crsuggest)
 sugerencias <- suggest_crs(elev)
 ```
 
-```{r muestra_tabla, echo=FALSE}
+```{r muestra-tabla, echo=FALSE}
 
 knitr::kable(sugerencias, caption = "Tabla sugerencias, detalle")
 
 ```
 
-```{r sugerencia}
+```{r sugerencia, fig.cap=c("raster: Ejemplo de transformación usando crsuggest","sf: Ejemplo de transformación usando crsuggest")}
 # Probamos sugerencia
 crs_suggest <- suggest_crs(elev, limit = 1)
 
@@ -604,8 +603,6 @@ plot(elev_suggest)
 # Ejemplo con sf: China
 
 china <- gisco_get_countries(country = "China")
-plot(st_geometry(china), axes = TRUE)
-
 china_crs <- suggest_crs(china, limit = 1)
 
 
@@ -616,4 +613,5 @@ china_suggest <- st_transform(
 
 
 plot(st_geometry(china_suggest), axes = TRUE)
+
 ```
