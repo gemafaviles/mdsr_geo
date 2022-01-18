@@ -589,7 +589,6 @@ sugerencias <- suggest_crs(elev)
 ```{r muestra-tabla, echo=FALSE}
 
 knitr::kable(sugerencias, caption = "Tabla sugerencias, detalle")
-
 ```
 
 ```{r sugerencia, fig.cap=c("raster: Ejemplo de transformación usando crsuggest","sf: Ejemplo de transformación usando crsuggest")}

@@ -107,6 +107,7 @@ Otros recursos web interesantes, esto es para nosotros:
 ```
 
 # Aplicaciones
+
 ```{r, child=c('05_aplic_tmin.Rmd')}
 ```
 
@@ -114,6 +115,7 @@ Otros recursos web interesantes, esto es para nosotros:
 <!-- Renta -->
 ```{r, child=c('05b_Renta.Rmd')}
 ```
+
 # Extensiones
 
 # Referencias
