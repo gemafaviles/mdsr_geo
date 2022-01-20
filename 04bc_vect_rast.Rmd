@@ -31,7 +31,7 @@ o **el formato?, pregunto sólo** espaciales en función del modelo de datos
 
 ## Datos de vectores
 
-Este modelo está basado en puntos georeferenciados. Los puntos pueden
+Este modelo está basado en puntos georeferenciados. Los **puntos** pueden
 representar localizaciones específicas, como la localización de edificios:
 
 ```{r puntos, fig.cap="Datos vector: Puntos"}
@@ -59,7 +59,7 @@ ggplot() +
 ```
 
 Estos puntos también pueden estar conectados entre sí, de manera que formen
-geometrías más complejas, como líneas y polígonos:
+geometrías más complejas, como **líneas** y **polígonos**:
 
 ```{r lineas-pol, fig.cap="Datos vector: Puntos, líneas y polígonos"}
 
@@ -75,15 +75,14 @@ ggplot(toledo) +
     xlim = c(-4.2, -3.8),
     ylim = c(39.8, 39.95)
   ) +
-  theme_minimal() +
-  labs(title = "Ciudad de Toledo")
+  theme_minimal()
 ```
 
-En el ejemplo anterior, el río Tajo está representado como una línea (sucesión
-de puntos unidos entre sí) y la ciudad de Toledo como un polígono (línea de
-puntos cerrada formando un continuo). A modo ilustrativo, podemos observar la
-descomposición en puntos de todos los datos espaciales representados en el
-gráfico anterior.
+En la Fig. \@ref(fig:lineas-pol) , el río Tajo está representado como una línea
+(sucesión de puntos unidos entre sí) y la ciudad de Toledo como un polígono
+(línea de puntos cerrada formando un continuo). A modo ilustrativo, la Fig.
+\@ref(fig:lineas-pol-desc) representa la descomposición en puntos de todos los
+datos espaciales representados en la Fig. \@ref(fig:lineas-pol).
 
 ```{r lineas-pol-desc, echo=FALSE, fig.cap="Datos vector: Descomposición en puntos"}
 
@@ -108,12 +107,13 @@ Los datos ráster son datos representandos en una rejilla rectangular de píxele
 (denomindada **matriz**) que se puede visualizar en diversos dispositivo de
 representación. El caso más cotidiano de un ráster es una fotografía, donde la
 imagen se representa como una serie de celdas, determinadas por la resolución de
-la imagen (número total de píxeles, determinados como nº de píxeles en cada fila
-por nº de píxeles en cada columna) y el color que presenta cada uno de estos
-píxeles.
+la imagen (número total de píxeles, determinados como número de píxeles en cada
+fila por número de píxeles en cada columna) y el color que presenta cada uno de
+estos píxeles.
 
 En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
-ráster está formado por una malla regular de píxeles georreferenciada:
+ráster está formado por una malla regular de píxeles georreferenciada, tal y
+como muestra la Fig. \@ref(fig:raster):
 
 ```{r raster, fig.cap="Datos ráster"}
 
@@ -133,9 +133,9 @@ Tol_prov <- st_read("data/Toledo_prov.gpkg", quiet = TRUE)
 plot(st_geometry(Tol_prov), add = TRUE)
 ```
 
-En el ejemplo anterior, el archivo ráster tiene únicamente una capa (ESP_alt).
-Eso implica que cada píxel tiene asociado un único valor, en este caso, la
-altitud media del terreno observada en cada píxel o celda.
+En la Fig. \@ref(fig:raster), el objeto ráster `elev` tiene únicamente una capa
+(denominada `ESP_alt`). Eso implica que cada píxel tiene asociado un único
+valor, en este caso, en este caso la altitud media del terreno observada:
 
 ```{r detalle-pixel, echo=FALSE, fig.cap="Datos ráster: Detalle"}
 
@@ -160,8 +160,9 @@ un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde 
 azul), de manera que al combinar las tres capas se puede definir un color
 distinto en cada píxel.
 
-En el siguiente ejemplo vamos a usar una imagen de mapa georreferenciada, como
-las proporcionadas por servicios de mapas online, para analizar su composición.
+En la Fig. \@ref(fig:raster-multilayer) vamos a usar una imagen de mapa
+georreferenciada, como las proporcionadas por servicios de mapas online, para
+analizar su composición.
 
 ```{r raster-multilayer, echo=FALSE, fig.cap="Datos ráster con varias bandas"}
 
