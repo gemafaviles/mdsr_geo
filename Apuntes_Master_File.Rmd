@@ -116,6 +116,11 @@ Otros recursos web interesantes, esto es para nosotros:
 ```{r, child=c('05b_Renta.Rmd')}
 ```
 
+<!-- Puntos -->
+```{r, child=c('05c_ppp.Rmd')}
+```
+
+
 # Extensiones
 
 # Referencias

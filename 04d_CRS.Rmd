@@ -74,9 +74,9 @@ plot(st_geometry(st_transform(toledo_err, st_crs(4326))),
 title("Ejemplo: Mismas coordenadas en distintos CRS")
 ```
 
-En el ejemplo anterior, ambos puntos (verde y rojo) presentan los mismos valores
-de coordenadas en los ejes X e Y, en este caso las correspondientes a la ciudad
-de Toledo.
+En la Fig. \@ref(fig:datosdesalineados), ambos puntos (verde y rojo) tienen los
+mismos valores de coordenadas en los ejes X e Y, en este caso las
+correspondientes a la ciudad de Toledo.
 
 Sin embargo, presentan distintos CRS. Por este motivo, al representar ambos
 puntos en un mapa, se observa que no se están refiriendo a la misma localización
@@ -106,7 +106,7 @@ localizar una posición espacial son la latitud y la longitud:
     localización en el eje Norte-Sur de la Tierra y toma valores en el rango
     $[-90º,90º]$ . Las líneas imaginarias determinadas por una sucesión de
     puntos con la misma latitud a lo largo del eje Este-Oeste se denominan
-    **paralelos**:
+    **paralelos**. (Ver Fig. \@ref(fig:meridianos))
 
 ```{r paralelos, echo=FALSE, fig.cap="Paralelos terrestres"}
 
@@ -188,7 +188,7 @@ paralelos <- ggplot(mundo_ort) +
     localización en el eje Este-Oeste de la Tierra y toma valores en el rango
     $[-180º,180º]$ . Las líneas imaginarias determinadas por una sucesión de
     puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
-    **meridianos**:
+    **meridianos** (Ver Fig. \@ref(fig:meridianos))
 
 ```{r meridianos, echo=FALSE, fig.show="hold", out.width="50%", fig.cap="Paralelos y Meridianos terrestres"}
 lon <- all %>% filter(type == "E")
@@ -291,9 +291,10 @@ La representación de formas tridimensionales en un soporte plano (dos
 dimensiones) presenta algunos retos. Por ello, es habitual trabajar con
 proyecciones de mapas.
 
-Una proyección geográfica es un método para reducir la superficie de la esfera
-terrestre a un sistema cartesiano de dos dimensiones. Para ello, es necesario
-transformar las coordenadas longitud y latitud en coordenadas cartesianas x e y.
+Una **proyección geográfica** es un método para reducir la superficie de la
+esfera terrestre a un sistema cartesiano de dos dimensiones. Para ello, es
+necesario transformar las coordenadas longitud y latitud en coordenadas
+cartesianas x e y.
 
 Es importante destacar que las proyecciones pueden incluir un punto de origen
 (X=0, Y=0) y unas unidades de distancia (habitualmente metros) específicas. Por
@@ -304,14 +305,15 @@ conocer el CRS de los datos geográficos, como se expuso al principio de este
 tema.
 
 Existen varias familias de proyecciones, que se pueden clasificar de diversas
-maneras:
+maneras: por tipo de superficie de proyección y por métrica a preservar.
 
-**Por tipo de superficie de proyección**
+**a) Por tipo de superficie de proyección**
 
 El proceso de trasladar puntos de una esfera a un plano puede plantearse de
 manera práctica como el ejercicio de envolver una esfera con una superificie
 plana (como una hoja de papel) y trasladar los puntos de la esfera de manera
-lineal al punto de la superficie plana más cercano a ella.
+lineal al punto de la superficie plana más cercano a ella. La Fig.
+\@ref(fig:fi-proys) muestra estos tres tipos de proyección.
 
 ```{r fi-proys, echo=FALSE, fig.cap="Tipos de proyección por superficie de proyección"}
 
@@ -319,11 +321,12 @@ knitr::include_graphics("img/tipos_proy.png")
 ```
 
 A partir de este ejercicio, se plantean tres posibles soluciones, dependiendo
-del tipo de superficie que se use para proyectar:
+del tipo de superficie que se use para proyectar.
 
 -   **Proyecciones cilíndricas**: Son aquellas proyecciones donde la superficie
     de proyección conforma un cilindro alrededor de la Tierra. Una de las
-    proyecciones cilíndricas más conocidas es la **proyección de Mercator**.
+    proyecciones cilíndricas más conocidas es la **proyección de Mercator** (Ver
+    Fig. \@ref(fig:mercator)).
 
 ```{r mercator, echo=FALSE, out.width="40%", fig.cap="Proyección Mercator"}
 
@@ -333,7 +336,8 @@ knitr::include_graphics("img/mercator.png")
 -   **Proyecciones cónicas**: En este tipo de proyecciones, se plantea la
     superficie de proyección como una forma cónica. Como ejemplo, la
     **proyección cónica equiáreas de Albers** es una de las proyecciones que más
-    suele usarse en la representación de mapas de América del Norte:
+    suele usarse en la representación de mapas de América del Norte (Ver Fig.
+    \@ref(fig:albers)).
 
 ```{r albers, echo=FALSE, out.width="40%", fig.cap="Proyección cónica equiáreas de Albers"}
 
@@ -343,21 +347,21 @@ knitr::include_graphics("img/albers_conic.png")
 -   **Proyecciones acimutales o planares:** En este tipo de proyección se
     proyecta una porción de la Tierra sobre un plano que es tangente a la misma
     en el punto de referencia. Como ejemplos de proyecciones acimutales podemos
-    destacar la **proyección ortográfica**:
+    destacar la **proyección ortográfica** (Ver Fig. \@ref(fig:orto)).
 
 ```{r orto, echo=FALSE, out.width="40%", fig.cap="Proyección ortogonal"}
 
 knitr::include_graphics("img/orto.png")
 ```
 
-**Por métrica a preservar**
+**b) Por métrica a preservar**
 
 Es importante tener en cuenta que cualquier proyección de la superficie de la
 Tierra produce distorsiones en una o varias características geográficas. Como
-ejemplos clásicos, la proyección de Mercator produce distorsiones del área
+ejemplos clásicos, la proyección de Mercator produce distorsiones del **tamaño**
 especialmente en aquellas regiones más cercanas a los polos (Groenlandia, que la
-proyección de Mercator presenta una área similar a la de África, presenta menor
-superificie real que Argelia). Otras de las métricas que suele verse
+proyección de Mercator presenta una área similar a la de África, tiene menor
+superficie real que Argelia). Otras de las métricas que suele verse
 distorsionada son la **distancia** entre dos puntos geográficos, la
 **dirección** o la **forma** de regiones de la Tierra.
 
@@ -368,42 +372,41 @@ que sea capaz de preservar todas las métricas a la vez**.
 
 Según la metrica a presevar, las proyecciones se pueden clasificar en:
 
--   **Proyecciones conformales:** Estas proyecciones intentan preservar los
-    ángulos que se forman en la superficie terrestre. Por ejemplo, la proyección
-    de Mercator representa ángulos rectos en las intersecciones de los paralelos
-    y los meridianos.
+-   **Proyecciones conformales:** Intentan preservar los **ángulos** que se
+    forman en la superficie terrestre. Por ejemplo, la proyección de Mercator
+    representa ángulos rectos en las intersecciones de los paralelos y los
+    meridianos (Ver Fig. \@ref(fig:conform)).
 
 ```{r conform, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección conformal: Mercator"}
 
 knitr::include_graphics("img/conform.png")
 ```
 
--   **Proyecciones equivalentes**: Estas proyecciones preservan las proporciones
-    de las áreas, provocando a su vez deformaciones en el resto de
-    características, como la forma o los ángulos. La proyección acimutal
-    equivalente de Lambers es un tipo de proyección equivalente.
+-   **Proyecciones equivalentes**: Preservan las proporciones de las **áreas**,
+    provocando a su vez deformaciones en el resto de características, como la
+    forma o los ángulos. La proyección acimutal equivalente de Lambers es un
+    tipo de proyección equivalente (Ver Fig. \@ref(fig:equiv)).
 
 ```{r equiv, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección equivalente: Proyección acimutal equivalente de Lambers"}
 
 knitr::include_graphics("img/equiv.png")
 ```
 
--   **Proyecciones equidistantes:** Este tipo de proyección preserva la
-    distancia entre dos puntos geográficos específicos. Por ejemplo, la
-    proyección Plate carré preserva la distancia entre el Polo Norte y el Polo
-    Sur.
+-   **Proyecciones equidistantes:** Preservan la **distancia** entre dos puntos
+    geográficos específicos. Por ejemplo, la proyección Plate carré preserva la
+    distancia entre el Polo Norte y el Polo Sur (Ver Fig. \@ref(fig:equidist)).
 
 ```{r equidist, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección equidistante: Platé carre"}
 
 knitr::include_graphics("img/equidist.png")
 ```
 
--   **Proyecciones de compromiso**: Este tipo de proyección no intenta preservar
-    ninguna métrica en concreto. En su lugar, se centran en intentar encontrar
-    un equilibrio entre las diversas distorsiones que provocan para intentar dar
-    una representación más o menos representativa de la superficie terrestre. La
+-   **Proyecciones de compromiso**: No intentan preservar ninguna métrica en
+    concreto. En su lugar, se centran en intentar encontrar un **equilibrio**
+    entre las diversas distorsiones que provocan para intentar dar una
+    representación más o menos representativa de la superficie terrestre. La
     proyección de Winkel Tripel, usada en los mapas de National Geographic, es
-    un ejemplo de proyección de compromiso.
+    un ejemplo de proyección de compromiso (Ver Fig. \@ref(fig:comp)).
 
 ```{r comp, echo=FALSE, out.width="30%", fig.cap="Ejemplo de proyección de compromiso: Winkel Tripel"}
 
@@ -411,7 +414,7 @@ knitr::include_graphics("img/comp.png")
 ```
 
 En los anteriores ejemplos se ha añadido a cada proyección la **indicatriz de
-Tissot**. Consiste en una serie de círculos imaginarios de igual área
+Tissot**. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
 De este manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
@@ -440,11 +443,11 @@ Algunos de los códigos de proyecciones que es fundamental conocer son:
 -   **EPSG: 3857**: Código correspondiente a la proyección de Mercator, usada
     habitualmente por servicios como Google Maps, etc.
 
-En la sección [¿Qué proyección uso?] veremos cómo encontrar un CRS usando el
-paquete `crsuggest`.
+En la sección \@ref(quecrsuso) veremos cómo encontrar un CRS usando el paquete
+`crsuggest`.
 
-El paquete `sf` permite obtener los parámetros de estas proyecciones mediante la
-función `st_crs()`:
+El paquete `sf` permite obtener los parámetros de cualquier proyección mediante
+la función `st_crs()`:
 
 ```{r crs}
 
@@ -463,10 +466,14 @@ st_crs("ESRI:102008")
 st_crs("+proj=robin")
 ```
 
-De esta manera, es posible proyectar un objeto `sf` mediante la función
-`st_transform()`:
+La mayoría de los objetos espaciales serán de la clase `sf`, por tanto, resulta
+interesante conocer cómo se proyectan estos objetos.
 
-```{r project, fig.cap=c("Proyección del mundo en coordenadas geográficas (EPSG 4326)", "Proyección del mundo en Mercator (EPSG 3857)", "Proyección del mundo en Robinson (+proj=robin)")}
+Es posible proyectar un objeto `sf` mediante la función `st_transform()`. En el
+siguiente ejemplo vemos cómo partimos de un objeto con **EPSG:4326** y cambiamos
+su proyección a otras proyecciones, como **Mercator** o **Robinson**:
+
+```{r project-map, fig.cap=c("Proyección del mundo en coordenadas geográficas (EPSG 4326)", "Proyección del mundo en Mercator (EPSG 3857)", "Proyección del mundo en Robinson (+proj=robin)")}
 
 # Usa datos del paquete mapSpain
 
@@ -476,6 +483,7 @@ paises <- gisco_get_countries()
 
 # Comprobamos el CRS de estos datos
 # Se puede almacenar en un objeto y usar posteriormente
+# Vemos que es EPSG:4326, por tanto son coordenadas geográficas longitud/latitud
 st_crs(paises)
 
 # Plot
@@ -485,25 +493,27 @@ plot(st_geometry(paises), axes = TRUE)
 # El eje cambia porque Mercator usa metros
 paises_merc <- st_transform(paises, st_crs(3857))
 plot(st_geometry(paises_merc), axes = TRUE)
-
 # Proyectamos a Robinson
 paises_robin <- st_transform(paises, st_crs("+proj=robin"))
 plot(st_geometry(paises_robin), axes = TRUE)
 ```
 
 Como se comentó anteriormente, cuando se usan geodatos de diversas fuentes, es
-necesario que todos presenten el mismo CRS. En este ejemplo se muestra lo que
-ocurre si esto no se cumple:
+necesario que todos presenten el mismo CRS. En la Fig \@ref(fig:puertos-err) se
+muestra lo que ocurre si esto no se cumple:
 
-```{r puertos, fig.cap=c("Ejemplo: Puertos del mundo, CRS no alineados", "Ejemplo: Puertos del mundo, CRS alineados")}
+```{r puertos-error, fig.cap="Ejemplo: Puertos del mundo"}
 # Añadimos a este mapa puertos mundiales de giscoR
 
 puertos <- gisco_get_ports()
 plot(st_geometry(paises_robin), main = "Puertos en el mundo")
 plot(st_geometry(puertos), add = TRUE, col = "red", pch = 20)
+```
 
+Vemos que ha habido algún tipo de error, ¿a que puede deberse?
 
-# Ha habido algun error... Comprueba CRS
+```{r puertos-ok, fig.cap="Ejemplo: Puertos del mundo, CRS alineados"}
+# Comprueba CRS
 
 st_crs(puertos) == st_crs(paises_robin)
 
@@ -513,12 +523,15 @@ plot(st_geometry(paises_robin), main = "Puertos en el mundo")
 plot(st_geometry(puertos_robin), add = TRUE, col = "blue", pch = 20)
 ```
 
-Como vemos, en el primer mapa los puertos se concentran en un único punto, dado
-que no están referenciados en el mismo CRS. Tras proyectarlos, el mapa se
-representa adecuadamente.
+Como vemos, en el primer mapa (Fig. \@ref(fig:puertos-error)) los puertos se
+concentran en un único punto, dado que no están referenciados en el mismo CRS.
+Tras proyectarlos al mismo CRS, el mapa se representa adecuadamente (Fig.
+\@ref(fig:puertos-ok)).
 
-En otros paquetes, como `sp` o `raster`, existen funciones parecidas. Cuando
-empleemos el paquete `sp` podemos usar las funciones `CRS()` y `spTransform()`:
+En otros paquetes, como `sp` o `raster`, existen funciones parecidas que nos van
+a permitir obtener los parámetros de un CRS y proyectar los objetos al CRS
+deseado. Cuando empleemos el paquete `sp` podemos usar las funciones `CRS()` y
+`spTransform()`:
 
 ```{r sp, fig.cap="Transformaciones en sp"}
 
@@ -544,8 +557,8 @@ En el caso de un objeto `raster`, podemos usar `crs()` y `projectRaster()`:
 library(raster)
 
 
-# Extrae información de altitud para Paises Bajos
-elev <- getData("alt", country = "NLD", path = tempdir())
+# Extrae información de altitud para España
+elev <- raster("data/ESP_msk_alt.grd")
 
 
 # Transforma
@@ -568,7 +581,7 @@ elev_terra_robinson <- terra::project(elev_terra, terra::crs(elev_terra))
 plot(elev_terra_robinson)
 ```
 
-### ¿Qué proyección uso?
+### ¿Qué proyección uso? {#quecrsuso}
 
 El CRS adecuado para cada análisis depende de la localización y el rango
 espacial de los datos. Un CRS adecuado para representar un mapa del mundo puede
@@ -579,8 +592,6 @@ facilita la labor, sugiriendo el CRS más adecuado para cada zona:
 
 ```{r crsuggest}
 library(crsuggest)
-
-# CRS para Paises Bajos
 
 # Usando raster
 sugerencias <- suggest_crs(elev)
@@ -604,6 +615,8 @@ plot(elev_suggest)
 china <- gisco_get_countries(country = "China")
 china_crs <- suggest_crs(china, limit = 1)
 
+china_crs
+
 
 china_suggest <- st_transform(
   china,
@@ -612,5 +625,4 @@ china_suggest <- st_transform(
 
 
 plot(st_geometry(china_suggest), axes = TRUE)
-
 ```
