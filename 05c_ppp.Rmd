@@ -35,9 +35,6 @@ knitr::opts_chunk$set(
 
 ## Análisis de patrones de puntos
 
-[**GEMA: CAMBIA LO QUE CONSIDERES, QUE DE TODO ESTO NO TENGO NI
-IDEA**]{style="color:blue"}
-
 Las técnicas de análisis de patrones de puntos analizan la distribución de
 eventos geolocalizados que surgen al azar. La diferencia fundamental con otros análisis que
 comprenden también el uso de localizaciones (como las temperaturas mínimas
@@ -204,7 +201,7 @@ ggplot() +
   )
 ```
 
-**Tarea 3: Análisis de patrones con  `spatstat`**
+*Tarea 3: Análisis de patrones con  `spatstat`*
 
 El paquete `spatstat` (@spatstat_2005) es el paquete de referencia cuando se 
 trabaja con patrones de puntos
@@ -281,7 +278,7 @@ que resgistran cero accidentes y otros qeu registran hasta 1488 accidentes.
 En la Fig. \@ref(fig:intensidad_ripley)) se muestra la gráfica de la estimación 
 usando la K de Ripley. Los conocimientos teóricos necesarios para llevar a cabo 
 este tipo de estimación se verán en el tema **Patrones de Puntos**. El objetivo
-de este ejemplo es meramente ilustrativos.
+de este ejemplo es meramente ilustrativo.
 
 
 ```{r intensidad_ripley, fig.cap="Intensidad de accidentes de tráfico estimada con la K-Ripley" }

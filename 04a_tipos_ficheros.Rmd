@@ -40,4 +40,4 @@ https://en.wikipedia.org/wiki/Shapefile
 
 Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.
 
-Y pensar si tiene que venir aquí o dónode... quizá al final de la sección FORMATOS DE DATOS ESPACIALES
+Y pensar si tiene que venir aquí o dónde... quizá al final de la sección FORMATOS DE DATOS ESPACIALES
