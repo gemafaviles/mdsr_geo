@@ -25,9 +25,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-En el ámbito del análisis espacial en **R**, se pueden clasificar los **datos**
-o **el formato?, pregunto sólo** espaciales en función del modelo de datos
-[@Lovelance_et_al_2019]. Se pueden distinguir dos tipos de modelos de datos:
+En el ámbito del análisis espacial en **R**, se pueden clasificar 
+ **el formato** de datos espaciales en función del modelo de datos
+[@Lovelance_et_al_2019]. Se pueden distinguir dos tipos de modelos de datos: 
+vectores y raster.
 
 ## Datos de vectores
 
@@ -78,7 +79,7 @@ ggplot(toledo) +
   theme_minimal()
 ```
 
-En la Fig. \@ref(fig:lineas-pol) , el río Tajo está representado como una línea
+En la Fig. \@ref(fig:lineas-pol), el río Tajo está representado como una línea
 (sucesión de puntos unidos entre sí) y la ciudad de Toledo como un polígono
 (línea de puntos cerrada formando un continuo). A modo ilustrativo, la Fig.
 \@ref(fig:lineas-pol-desc) representa la descomposición en puntos de todos los

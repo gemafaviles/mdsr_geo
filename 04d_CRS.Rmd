@@ -29,6 +29,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
 **Coordinate Reference System**) permite relacionar datos espaciales con su
 localización en la superficie terrestre. Los CRS constituyen por tanto un
@@ -76,10 +78,9 @@ title("Ejemplo: Mismas coordenadas en distintos CRS")
 
 En la Fig. \@ref(fig:datosdesalineados), ambos puntos (verde y rojo) tienen los
 mismos valores de coordenadas en los ejes X e Y, en este caso las
-correspondientes a la ciudad de Toledo.
-
-Sin embargo, presentan distintos CRS. Por este motivo, al representar ambos
-puntos en un mapa, se observa que no se están refiriendo a la misma localización
+correspondientes a la ciudad de Toledo. Sin embargo, presentan distintos CRS. 
+Por este motivo, al representar ambos puntos en un mapa,
+se observa que no se están refiriendo a la misma localización
 geográfica. Esto es así porque el CRS define la referencia (punto x=0 e y =0) y
 las unidades de los ejes (grados, metros, millas).
 
@@ -90,6 +91,9 @@ de manera exacta su localización geográfica.** Además, nótese que para cualq
 encuentren referenciados en el mismo CRS**. Esto se consigue transformando (o
 proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
 mismos.
+
+
+
 
 ### Tipos de CRS
 
@@ -106,7 +110,7 @@ localizar una posición espacial son la latitud y la longitud:
     localización en el eje Norte-Sur de la Tierra y toma valores en el rango
     $[-90º,90º]$ . Las líneas imaginarias determinadas por una sucesión de
     puntos con la misma latitud a lo largo del eje Este-Oeste se denominan
-    **paralelos**. (Ver Fig. \@ref(fig:meridianos))
+    **paralelos** (Ver Fig. \@ref(fig:meridianos)).
 
 ```{r paralelos, echo=FALSE, fig.cap="Paralelos terrestres"}
 
@@ -188,7 +192,7 @@ paralelos <- ggplot(mundo_ort) +
     localización en el eje Este-Oeste de la Tierra y toma valores en el rango
     $[-180º,180º]$ . Las líneas imaginarias determinadas por una sucesión de
     puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
-    **meridianos** (Ver Fig. \@ref(fig:meridianos))
+    **meridianos** (Ver Fig. \@ref(fig:meridianos)).
 
 ```{r meridianos, echo=FALSE, fig.show="hold", out.width="50%", fig.cap="Paralelos y Meridianos terrestres"}
 lon <- all %>% filter(type == "E")
@@ -241,7 +245,7 @@ decir, basado en latitudes y longitudes, las **distancias** entre dos puntos
 representan **distancias angulares**. Por ejemplo, la distancia entre el
 meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
 es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
-metros entre ambos meridianos no es constante:
+metros entre ambos meridianos no es constante.
 
 ```{r distang, echo=FALSE, fig.cap="Distancia entre meridianos en distintas latitudes" }
 
@@ -285,6 +289,8 @@ p <- merid +
 p
 ```
 
+
+
 #### CRS proyectados
 
 La representación de formas tridimensionales en un soporte plano (dos
@@ -320,8 +326,9 @@ lineal al punto de la superficie plana más cercano a ella. La Fig.
 knitr::include_graphics("img/tipos_proy.png")
 ```
 
-A partir de este ejercicio, se plantean tres posibles soluciones, dependiendo
-del tipo de superficie que se use para proyectar.
+A partir de este ejercicio, se plantean tres posibles soluciones (cilíndrica,
+cónica y acimutal o planar), dependiendo del tipo de superficie que se use para proyectar.
+
 
 -   **Proyecciones cilíndricas**: Son aquellas proyecciones donde la superficie
     de proyección conforma un cilindro alrededor de la Tierra. Una de las
@@ -354,11 +361,13 @@ knitr::include_graphics("img/albers_conic.png")
 knitr::include_graphics("img/orto.png")
 ```
 
+
+
 **b) Por métrica a preservar**
 
 Es importante tener en cuenta que cualquier proyección de la superficie de la
 Tierra produce distorsiones en una o varias características geográficas. Como
-ejemplos clásicos, la proyección de Mercator produce distorsiones del **tamaño**
+ejemplo clásico, la proyección de Mercator produce distorsiones del **tamaño**
 especialmente en aquellas regiones más cercanas a los polos (Groenlandia, que la
 proyección de Mercator presenta una área similar a la de África, tiene menor
 superficie real que Argelia). Otras de las métricas que suele verse
@@ -421,6 +430,8 @@ específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.
 
+
+
 ### Trabajando con proyecciones en R
 
 Existe toda una serie de proyecciones predefinidas, identificadas mediante los
@@ -449,18 +460,27 @@ En la sección \@ref(quecrsuso) veremos cómo encontrar un CRS usando el paquete
 El paquete `sf` permite obtener los parámetros de cualquier proyección mediante
 la función `st_crs()`:
 
-```{r crs}
+**(i) EPSG WGS 84 (Sistema Global GPS): EPSG 4326**
 
+```{r crs_epsg4326}
 library(sf)
 
 # Ejemplo: EPSG WGS 84 (Sistema Global GPS): EPSG 4326
-
 st_crs(4326)
+```
 
+
+**(ii) ESRI North America Albers Equal Area Conic: ESRI:102008**
+
+```{r crs}
 # Usando código ESRI North America Albers Equal Area Conic
 
 st_crs("ESRI:102008")
+```
 
+**(iii) Usando proj4string: Robinson: +proj=robin**
+
+```{r crs}
 # Usando proj4string: Robinson
 
 st_crs("+proj=robin")
@@ -580,6 +600,8 @@ elev_terra <- rast(elev)
 elev_terra_robinson <- terra::project(elev_terra, terra::crs(elev_terra))
 plot(elev_terra_robinson)
 ```
+
+
 
 ### ¿Qué proyección uso? {#quecrsuso}
 

@@ -34,9 +34,189 @@ knitr::opts_chunk$set(
 )
 ```
 
-Esta es una plantilla para cuando necesitemos crear un nuevo documento child.
 
-```{r}
+
+```{r cargo_lib}
+#leemos las librerías
+library(spatstat)
+library(rgdal)
+library(sf)
+library(ggplot2)
+```
+
+
+Si ponemos esto, sólo cogeríamos un mapa para poner en la teroía de ppp, 
+pero estoy bloqueada.
+
+
+
+Leo Valencia de `mapSpain`, no me hace falta shapes
+```{r cargo_val}
+#leo Valencia de mamSpain
+library(mapSpain)
+valencia <- esp_get_munic(munic = "^Valencia$") %>%
+  st_transform(25830) ## esto está bien??
+
+# Usamos imagen como mapa de fondo
+#tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
+
+
+# Necesitamos un recinto de observación: owin. 
+val_owin <- as.owin(valencia) #ventana rectangular
+```
+
+
+[DIEGO, DESPUÉS DE MUCHO TOQUETAR, crime_lon TENDRÍA QUE ESTAR MULTIPLICADO POR 10,no??
+La cuestión es que estoy atascada. NO se si es por crs o porque soy una inutil :( ]{style=color:red}
+
+
+```{r cargo_crime}
+## leemos los datos
+crime_todos<- read.csv("crime_data_valencia/crime-data-Valencia.csv",header = TRUE, sep =",",dec = ",")
+head(crime_todos)
+dim(crime_todos)
+
+#podemos coger hasta 4 años y tenemos 2010-2020
+# cojo, el 2010
+mydata_crime <- crime_todos %>% filter(year==2010)
+
+
+library(sf)
+# Objeto sf sin CRS
+
+mydata_crime_sf <- mydata_crime %>%
+  st_as_sf(coords = c("crime_lon", "crime_lat"),
+  crs = st_crs(25830)
+)
+```
+
+
+
+
+```{r cargo_crime}
+# Usamos imagen como mapa de fondo
+# tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
+
+ggplot() +
+ # layer_spatraster(tile) +
+  geom_sf(
+    data = mydata_crime_sf,
+    col = "blue",
+    size = 0.3,
+    alpha = 0.3
+  )
+
+
+mydata_crime_sfc <- st_as_sfc(mydata_crime)
+mydata_crime_sf <- st_as_sf(mydata_crime_sfc)
+
 
 ```
+
+
+```{r plot_crime}
+mydata_points <- SpatialPointsDataFrame(
+  coords = data.frame(x=as.numeric(mydata_crime$crime_lon),
+                      y=as.numeric(mydata_crime$crime_lat)),
+  data = data.frame(rep(0,nrow(mydata_crime)))
+)
+
+plot(mydata_points, cex=0.5, col="red", pch="+")
+
+# proj4string(mydata_points) <- CRS("+proj=longlat")
+# mydata_points <- st_as_sfc(mydata_points)
+```
+
+
+Dibujo y veo que el eje x no está bien...
+
+```{r}
+ggplot() +
+ # layer_spatraster(tile) +
+  geom_sf(
+    data = mydata_points,
+    col = "blue",
+    size = 0.3,
+    alpha = 0.3
+  )
+```
+
+
+
+```{r}
+library(ggmap)
+library(OpenStreetMap)
+valencia_bbox <- bbox(cbind(mydata_crime$crime_lon, mydata_crime$crime_lat))
+valencia_gg <- get_map(c(valencia_bbox), maptype='watercolor', source='stamen')
+ggmap(valencia_gg)
+
+
+plot(mydata_points, cex=0.5, col="red", pch="+")
+```
+
+
+
+
+```{r crime_ppp}
+# Creamos el objeto ppp
+# Es necesario que todas las coordenadas estén proyectadas en el mismo CRS!
+st_crs(mydata_points)==st_crs(valencia["cmun"])
+
+mydata_ppp <- ppp(
+  x=as.numeric(mydata_crime$crime_lon),
+  y=as.numeric(mydata_crime$crime_lat),
+  window = val_owin
+)
+
+summary(mydata_ppp)
+
+
+
+```
+
+
+
+
+
+
+Cálculo de la densidad mediante cuadrantes.
+Prueba de hipóteis para saber si los puntos se distribuyen al azar o tienen algún patrón.
+```{r}
+## Gráfica del objeto de patrones de puntos
+# plot(mydata_ppp) no está bien creado
+```
+
+```{r}
+## Resumen del objeto de patrones de puntos.
+summary(mydata_ppp)
+```
+
+
+Cálculo de la densidad mediante cuadrantes.
+Prueba de hipóteis para saber si los puntos se distribuyen al azar o tienen algún patrón.
+
+
+```{r}
+CC1 <- quadratcount(mydata_ppp, 
+                    nx=5, 
+                    ny=5)
+CC1
+```
+
+
+```{r}
+plot(mydata_ppp, pch=1)
+plot(CC1, add=TRUE, col="red")
+```
+
+
+
+Estimación de la densidad de patrones de puntos.
+
+```{r}
+plot(density(mydata_ppp), las = 1)
+points(mydata_ppp, pch = 19)
+```
+
+
 

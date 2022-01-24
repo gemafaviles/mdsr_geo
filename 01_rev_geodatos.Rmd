@@ -35,11 +35,11 @@ duplica se duplica.
 
 Este incremento exponencial de los datos ha sido posible, sin duda, gracias al
 desarrollo de la tecnología, la informática, los ordenadores, los teléfonos
-móviles móviles, los satélites, internet, etc... y asociado a estas nuevas
+móviles, los satélites, internet, etc... y asociado a estas nuevas
 herramientas, se ha producido una lluvia sin precedentes hasta el momento de
 **datos espaciales** o **datos georreferenciados**. Cada teléfono inteligente
 tiene un **Receptor de posicionamiento Global** (en inglés, *Global Positioning
-System*, **GPS**) y una multitud de sensores en dispositivos que van desde
+System*, **GPS**) y, además, convivimos con una multitud de sensores en dispositivos que van desde
 satélites y vehículos semi-autónomos hasta científicos ciudadanos que miden
 incesantemente cada parte del mundo. La tasa de datos producidos es abrumadora.
 Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos por día (The
@@ -54,14 +54,14 @@ información, lo que se conoce como **Geocomputación**, sino que han dado lugar
 una nueva rama de conocimiento, **Ciencia de Datos Espaciales** comunmente
 conocida como *Spatial Data Scicene* (SDS).
 
-Como ejemplo, de este abrumador desarrollo de datos georreferenciados, el
+Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los
 años 2020 y 2021 el denominado [Estudio de movilidad con Big
 Data](https://www.mitma.gob.es/ministerio/covid-19/evolucion-movilidad-big-data),
 cuya fuente principal de datos fue el posicionamiento de los teléfonos móviles
 anonimizado. Estos datos permiten, por ejemplo, analizar la movilidad entre
-diversas zonas del territorio español de manera diaria (véase Fig
-\@ref(fig:mov)) Este tipo de análisis era impensable hace tan solo unos años.
+diversas zonas del territorio español de manera diaria (véase la Fig.
+\@ref(fig:mov)). Este tipo de análisis era impensable hace tan solo unos años.
 
 ```{r mov, echo=FALSE, fig.cap="Análisis de movilidad COVID"}
 

@@ -1,0 +1,43 @@
+---
+title: "Nombre del tema"
+subtitle: "Subtítulo"
+author:
+- Autor Tema
+date: "`r Sys.Date()`"
+bibliography: refbib.bib
+csl: apa-6th-edition.csl
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  bookdown::html_document2: 
+    toc: yes
+    toc_depth: 2
+    number_sections: yes
+---
+
+```{r knitr_config, include=FALSE}
+
+# Configuración por defecto al compilar este archivo
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  out.width = "60%",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+```
+
+Poner el esquema de los Shapes. 
+
+https://en.wikipedia.org/wiki/Shapefile
+
+Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.
+
+Y pensar si tiene que venir aquí o dónode... quizá al final de la sección FORMATOS DE DATOS ESPACIALES

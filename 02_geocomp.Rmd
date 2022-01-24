@@ -25,16 +25,15 @@ de información geográficos y la Geocomutación.
 
 Un Sistema de información geográfica (SIG) es una herramienta que crea,
 administra, analiza y mapea todo tipo de datos. GIS conecta datos a un mapa,
-integrando datos de ubicación (dónde están las cosas) con todo tipo de
-información descriptiva (cómo son las cosas allí).
+integrando datos de ubicación (**dónde** están las cosas) con todo tipo de
+información descriptiva (**cómo** son las cosas allí).
 
 Esto proporciona una base para el mapeo y el análisis que se utiliza en la
 ciencia y en casi todas las industrias. GIS ayuda a los usuarios a comprender
 patrones, relaciones y contexto geográfico. Los beneficios incluyen una mejor
 comunicación y eficiencia, así como una mejor gestión y toma de decisiones.
 
-La figura \@ref(fig:gisflujo) muestra el flujo de trabajo de los Sistemas de
-Información Geográfica, que va desde (i) la elaboración de mapas, (ii) la
+La Fig. \@ref(fig:gisflujo) muestra el flujo de trabajo de los SIG, que va desde (i) la elaboración de mapas, (ii) la
 obtención de geodatos o datos espaciales, (iii) el análisis de los datos
 geográficamente referenciados y (iv) la edición, mapeo y presentación de los
 resultados.
@@ -44,10 +43,12 @@ knitr::include_graphics("img/GIS.png")
 ```
 
 Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia
-computacional**, han hecho que éstas se conviertan en herramientas creativas y
+computacional** se han convertido en herramientas creativas y
 complemenarías a los convencionales GIS, dando origen a la *Geocomputación*, que
-trata de utilizar el poder de los ordenadores para *hacer cosas* con los datos
-geográficos.
+trata de utilizar el *poder de los ordenadores para hacer cosas con los datos
+geográficos*.
+
+
 
 **¿Y que es la Geocomputación?**
 
@@ -59,8 +60,7 @@ aporta más elementos formales a esta definición destacando que *"la
 geocomputación trata sobre los diferentes tipos de geodatos, y sobre el
 desarrollo de geo-herramientas relevantes en un contexto científico"*.
 
-La geocomputación está muy relacionada con otros términos como los Sistema de
-información geográfica (GIS, del inglés, Geographic Information Systems), y con
+La geocomputación está muy relacionada con otros términos como los SIG, ya definidos, y con
 diversos tipos de campos científicos, como las Geociencias, las Ciencias
 atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología y las
 Ciencia de datos geográficos (GDS, Geographic Data Science).
@@ -68,26 +68,26 @@ Ciencia de datos geográficos (GDS, Geographic Data Science).
 Cada término comparte un énfasis en un enfoque **científico** (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
 principales campos de aplicación difieren. La geocomputación es ámpliamente
-utilizada en ámbitos como la sociología, análisis político o el desarrollo de
+utilizada en ámbitos como la sociología, el análisis político o el desarrollo de
 aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
 para trabajos científicos aplicados.
 
-En resumen, la geocomputación trata de aplicar herramientas y técnicas de
-análisis y estudio de datos a un tipo de datos específicos: los datos
-espaciales.
+
+
 
 **¿Por que R para datos geográficos?**
 
 R es una herramienta con capacidades avanzadas de análisis, modelado y
-visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (IDE),
+visualización. Por ejemplo, los nuevos entornos de desarrollo integrado 
+(en inglés, Integrated Development Environment, **IDE**),
 como RStudio, han hecho que R sea más fácil de usar para muchos, facilitando la
 creación de mapas con un panel dedicado a la visualización interactiva
-[@Lovelance_et_al_2019]. Además, el uso del código R, permite la enseñanza de la
+[@Lovelance_et_al_2019]. Además, el uso del código R permite la enseñanza de la
 geocomputación con referencia a ejemplos reproducibles en lugar de conceptos
 abstractos. Por ejemplo, de una forma relativamente sencialla, se puede
 geoposicionar de manera interactiva la localización de la Puerta del Sol en
-Madrid y, además, dejar la el código R para hacerlo reproducible, ver Figura
+Madrid y, además, dejar la el código R para hacerlo reproducible, ver Fig.
 \@ref(fig:leaflet).
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
@@ -112,13 +112,18 @@ no sólo en el tema que nos ocupa:
 -   `raster`,`terra` y `stars` para datos raster.
 
 -   `gstat` y `geoR`: para el análisis de datos geoestadísticos, ajuste y
-    estimación de semivariogramas, interpretación, etc.
+    estimación de semivariogramas, interpolación, etc.
 
--   `spdep` para el análisis de datos con econometía espacial, creación de
+-   `spdep` para el análisis de datos con modelos de econometría espacial, creación de
     matrices de contiguidad/distancia **W**, estimación de modelos econométricos
-    espaciales.
+    espaciales, etc
 
--   `spatstat` para el análisis de procesos de puntos espaciales.
+-   `spatstat` para el análisis de procesos de puntos espaciales, inensidad, etc.
+
+
+
+
+
 
 ## Conceptos clave
 
@@ -134,13 +139,14 @@ referencia de espacial** o Coordinate reference system (CRS) en el que están
 proyectadas dichas coordenadas.
 
 Por otra parte, los formatos de estos datos pueden ser **vectores** o **raster**
-como se explicará en la siguiente sección.
+como se explicará en la Sección \@ref(formatos).
 
 Si damos un paso más e incorporamos el concepto de **distancia**, pues es lógico
-pensar que en un fenómeno de interés, por ejemplo, en la modelización de la
+pensar que en un fenómeno de interés, por ejemplo, la modelización de la
 cantidad y dirección de lava en La Palma tras la erupción del volcán "Cumbre
-Vieja" la distancia es un factor clave, pues aquellas zonas más cercanas al
-volcán tendrán niveles más parecidos entre sí y con valores más altos.
+Vieja", la distancia es un factor clave, pues aquellas zonas más cercanas al
+volcán tendrán niveles más parecidos entre sí y con valores más altos que 
+aquellas que están más alejadas
 
 En este caso el nivel de contaminación en el aire en La Palma no puede ser
 modelado como si las observaciones fuesen independientes pues las más cercanas
@@ -148,11 +154,8 @@ entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
 **dependencia espacial**. Y depende del tipo de datos espaciales tendremos tres
 grandes formas de abordar el tratamiento de los datos espaciales:
 **geoestadística**, **procesos de punto** y **econometría espacial** (véase
-sección \[Sistema de Referencia de Coordenadas (CRS)\]).
+sección \@ref{CRS}).
 
-[**si nos gusta poner la imagen más pequeña**]{style="color:red"}
-
-[nos gusta]{style="color:blue"}
 
 ```{r gis, echo=FALSE, fig.align='center', fig.cap='Información espacial de la concentración de lava en Cumbre Vieja'}
 knitr::include_graphics("img/Cumbrevieja.png")

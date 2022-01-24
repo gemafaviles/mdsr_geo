@@ -87,16 +87,19 @@ Otros recursos web interesantes, esto es para nosotros:
 ```
 
 
-# Formatos de datos espaciales
+# Formatos de datos espaciales {#formatos}
 
 ## Tipos de ficheros
+```{r, child=c('04a_tipos_ficheros.Rmd')}
+```
+
 
 <!-- Vectores y Rasters, el titulo está ya incluido en el child -->
 
 ```{r, child=c('04bc_vect_rast.Rmd')}
 ```
 
-##  Sistema de Referencia de Coordenadas (CRS)
+##  Sistema de Referencia de Coordenadas (CRS) {#CRS}
 
 ```{r, child=c('04d_CRS.Rmd')}
 ```
@@ -121,6 +124,10 @@ Otros recursos web interesantes, esto es para nosotros:
 ```
 
 
-# Extensiones
+# Apéndice o nada
+
+
+
+
 
 # Referencias

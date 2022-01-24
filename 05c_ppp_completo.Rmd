@@ -1,0 +1,289 @@
+---
+title: "Análisis de patrones de puntos"
+author:
+- Diego Hernangómez
+date: "`r Sys.Date()`"
+bibliography: refbib.bib
+csl: apa-6th-edition.csl
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  bookdown::html_document2: 
+    toc: yes
+    toc_depth: 2
+    number_sections: yes
+---
+
+```{r knitr_ppp, include=FALSE}
+
+# Configuración por defecto al compilar este archivo
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  out.width = "60%",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+```
+
+## Análisis de patrones de puntos
+
+[**GEMA: CAMBIA LO QUE CONSIDERES, QUE DE TODO ESTO NO TENGO NI
+IDEA**]{style="color:blue"}
+
+Las técnicas de análisis de patrones de puntos analizan la distribución de
+eventos geolocalizados. La diferencia fundamental con otros análisis que
+comprenden también el uso de localizaciones (como las temperaturas mínimas
+medidas por estaciones meteorológicas) es que en este caso los puntos
+representan eventos conocidos y aleatorios (por ejemplo, los crímenes ocurridos
+en una ciudad, accidentes de tráfico o incendios en una región). A diferencia de
+otros eventos, como el ejemplo de las temperaturas mínimas, la ausencia de datos
+no se debe a la ausencia de medición (e.g. no existe una estación meteorológica
+en ese lugar), si no a que no se ha producido el evento en dicha localización.
+
+**Objetivo de aprendizaje**:
+
+[**GEMA**]{style="color:blue"}
+
+*Tarea 1: Abrimos RStudio*
+
+El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
+abriendo el programa y creando un nuevo script de R en *Proyecto>File>New File>R
+script*.
+
+*Tarea 2: Importamos y describimos los datos objeto de estudio*
+
+El primer paso consiste en importar la base de datos de accidentes de tráfico en
+la ciudad de Madrid para el año 2020 ([Portal de datos abiertos del Ayuntamiento
+de
+Madrid](https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=7c2843010d9c3610VgnVCM2000001f4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default)).
+El archivo está en formato csv, por lo que usaremos el paquete `readr` para
+importar los datos:
+
+```{r}
+library(readr)
+library(dplyr)
+
+# En este caso el archivo está en la carpeta "data" de nuestro proyecto
+accidentes2020 <- read_delim("data/2020_Accidentalidad.csv",
+  # Configuración adicional
+  delim = ";",
+  locale = locale(decimal_mark = ",", grouping_mark = "."),
+  col_types = cols(
+    num_expediente = col_character(),
+    fecha = col_date(format = "%d/%m/%Y")
+  ),
+  na = "NULL"
+)
+
+
+summary(accidentes2020)
+```
+
+Este archivo contiene en total
+`r prettyNum(nrow(accidentes2020), big.mark = ".", decimal.mark = ",")`
+registros, y proporciona `r ncol(accidentes2020)` campos asociados a cada
+registro. Los metadatos de esta información están disponibles en el [Portal de
+datos abiertos del Ayuntamiento de
+Madrid](https://datos.madrid.es/FWProjects/egob/Catalogo/Seguridad/Ficheros/Estructura_DS_Accidentes_trafico_desde_2019.pdf).
+
+Entre los campos disponibles, podemos destacar los siguientes:
+
+-   `distrito`: Nos proporciona el distrito de Madrid en el que se produjo el
+    accidente.
+-   `fecha`: En la que se produjo el accidente.
+-   `coordenada_x_utm`, `coordenada_y_utm`: Son las coordenadas en las que se
+    produjo el accidente.
+
+**Q1: ¿En qué CRS se encuentran las coordenadas?**
+
+Si nos fijamos, las coordenadas no parecen corresponder con longitudes o
+latitudes, ya que como se explicó el rango posible de valores es $[-180, 180]$
+(para longitudes) y $[-90, 90]$ (para latitudes):
+
+```{r coods-utm, echo=FALSE}
+accidentes2020 %>%
+  head() %>%
+  dplyr::select(coordenada_x_utm, coordenada_y_utm) %>%
+  knitr::kable(caption = "Accidentes de tráfico en Madrid 2020: Coordenadas")
+```
+
+Tenemos una indicación en el propio nombre de la variable: "UTM" se corresponde
+con las siglas de "Universal Transverse Mercator", otra proyección muy utilizada
+en GIS. En la página web del [Ministerio de Agricultura, Pesca y
+Alimentación](https://www.mapa.gob.es/es/cartografia-y-sig/ide/directorio_datos_servicios/caracteristicas_wms.aspx)
+podemos comprobar los códigos EPSG habitualmente empleados en la cartografía de
+España, entre la que se incluyen varias proyecciones UTM.
+
+Como nota, el sistema geodésico de referencia oficial en España es el sistema
+ETRS89[^1], y el huso UTM de Madrid es el 30 N[^2], por lo que vamos a probar
+con el código EPSG
+[25830](http://spatialreference.org/ref/epsg/25830/ "EPSG:25830"), que
+corresponde con la proyección ETRS89 / UTM zone 30N:
+
+[^1]: <https://www.mitma.gob.es/organos-colegiados/consejo-superior-geografico/csg/etrs89/etrs89-nuevo-sistema-de-referencia-geodesico-oficial-en-espana>
+
+[^2]: Se puede localizar la zona UTM de una localización mediante la siguiente
+    web: <https://mangomap.com/robertyoung/maps/69585/what-utm-zone-am-i-in-#>
+
+```{r accidentes1, fig.cap="Accidentes de Tráfico en Madrid (2020)"}
+
+library(sf)
+# Objeto sf sin CRS
+
+accidentes2020_sf <- st_as_sf(
+  accidentes2020,
+  coords = c(
+    "coordenada_x_utm",
+    "coordenada_y_utm"
+  ),
+  crs = st_crs(25830)
+)
+
+# Comprobamos con la geometría de Madrid
+
+library(mapSpain)
+library(ggplot2)
+madrid <- esp_get_munic(munic = "^Madrid$") %>%
+  st_transform(25830)
+
+# Usamos imagen como mapa de fondo
+tile <- esp_getTiles(madrid, "IDErioja", zoommin = 2)
+
+ggplot() +
+  layer_spatraster(tile) +
+  geom_sf(
+    data = accidentes2020_sf,
+    col = "blue",
+    size = 0.3,
+    alpha = 0.3
+  )
+```
+
+**Q2: ¿Hay algún patrón en la ocurrencia de accidentes de tráfico?**
+
+GEMA: CAMBIA LO QUE CONSIDERES, QUE DE TODO ESTO NO TENGO NI IDEA
+
+En la figura \@ref(fig:accidentes1) podemos intuir ciertos patrones en la
+ocurrencia de accidentes. Por ejemplo, apenas se producen accidentes en la Casa
+de Campo o en el Monte del Pardo, y parece observarse cierta concentración en
+las autopistas de salida de la ciudad
+
+Para el siguiente análisis, vamos a analizar el patrón de accidentes en el mes
+de febrero.
+
+```{r accidentes2, fig.cap="Accidentes de Tráfico en Madrid (Feb-2020)"}
+acc_feb <- accidentes2020_sf %>%
+  filter(
+    fecha >= "2020-02-01",
+    fecha < "2020-03-01"
+  )
+
+ggplot() +
+  layer_spatraster(tile) +
+  geom_sf(
+    data = accidentes2020_sf,
+    col = "blue",
+    size = 0.3,
+    alpha = 0.3
+  )
+```
+
+*Tarea 3: Análisis de patrones with* `spatstat`
+
+El paquete `spatstat` (**GEMA: REFERENCIA¿?**) está diseñado para realizar este
+tipo de análisis.
+
+Además, necesitaremos una ventana de observación (owin). Podemos en este caso
+obtener los datos espaciales de los distritos de Madrid en la siguiente
+dirección
+<https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=7d6e5eb0d73a7710VgnVCM2000001f4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD&vgnextfmt=default>
+
+Siguiendo el anterior ejemplo, vamos a analizar el patrón de accidentes en el
+mes de febrero. Además, en el análisis de patrones de puntos es necesario
+delimitar la ventana espacial de observación. En este caso será el municipio de
+Madrid.
+
+```{r}
+
+library(spatstat)
+# Necesitamos un recinto de observación: owin
+mad_owin <- as.owin(madrid)
+
+# Seleccionamos del data.frame inicial
+
+acc_feb_df <- accidentes2020 %>%
+  filter(
+    fecha >= "2020-02-01",
+    fecha < "2020-03-01"
+  )
+
+# Creamos el objeto ppp
+# Es necesario que todas las coordenadas estén proyectadas en el mismo CRS!
+feb_ppp <- ppp(
+  x = acc_feb_df$coordenada_x_utm,
+  y = acc_feb_df$coordenada_y_utm,
+  window = mad_owin
+)
+
+summary(feb_ppp)
+```
+
+**Q3: ¿Cual es la intensidad de los accidentes?**
+
+(**GEMA: ESTO ES COPIADO TAL CUAL DEL PAPER!!!**)
+
+```{r intensidad, fig.cap="Intensidad de accidentes de tráfico" }
+
+diggle_feb <- bw.diggle(feb_ppp)
+scott_feb <- bw.scott(feb_ppp)
+
+dens_diggle <- density.ppp(feb_ppp, sigma = diggle_feb)
+dens_scott <- density.ppp(feb_ppp, sigma = scott_feb)
+dens_300 <- density.ppp(feb_ppp, sigma = 300)
+dens_500 <- density.ppp(feb_ppp, sigma = 500)
+
+par(mfrow = c(2, 2), mar = c(1, 1, 1, 1))
+plot(dens_diggle)
+plot(dens_scott)
+plot(dens_300)
+plot(dens_500)
+```
+
+(**GEMA: ESTO ES PARA CONVERTIR ppp a otros formatos, vale la pena?**)
+
+```{r}
+# Convertimos a otros objetos
+library(raster)
+
+dens_500_rast <- raster(dens_500)
+crs(dens_500_rast) <- raster::crs(st_crs(accidentes2020_sf)$proj4string)
+
+plot(dens_500_rast, col = hcl.colors(20, "Inferno"))
+
+# A poligonos sf
+pols <- st_as_sf(rasterToPolygons(dens_500_rast))
+class(pols)
+
+# Con ggplot
+library(ggplot2)
+
+
+ggplot(pols) +
+  geom_sf(aes(fill = layer), col = NA, size = 0.01) +
+  scale_fill_gradientn(
+    colors = hcl.colors(20, "Inferno"),
+    labels = scales::label_math()
+  ) +
+  labs(
+    fill = "Intensidad",
+    caption = "Fuente: Datos Abierto, Ayto. Madrid"
+  )
+```

@@ -30,8 +30,9 @@ La estadística espacial reconoce y aprovecha la ubicación espacial de los dato
 a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
 observaciones. Éstas son generalmente **dependientes**, si bien existen modelos
 espaciales a disposición del investigador que permiten tratar con dicha
-dependencia espacial a la hora de llevar a cabo labores de predicción. La
-estadística espacio-temporal incorpora, además, el tiempo y su interacción con
+dependencia espacial a la hora de llevar a cabo labores de predicción. 
+Por extensión, la estadística espacio-temporal incorpora, además, 
+el tiempo y su interacción con
 el espacio como argumento de ayuda en tales labores predictivas.
 
 Las mediciones y modelos espaciales están presentes, sorprendentemente, en una
@@ -45,13 +46,6 @@ oro y petróleo es de vital importancia económica. Estos son, entre otros, buen
 ejemplos de la importancia del espacio (espacio-tiempo en su caso) en el mundo
 de la Ciencia.
 
-En todo caso, la geología, la edafología, el tratamiento de imágenes, la
-epidemiología, la agronomía, la ecología, la silvicultura, la astronomía, el
-estudio de la atmósfera, la economía, o simplemente, cualquier disciplina que
-trabaje con datos espaciales recopilados de diferentes lugares y en distintos
-instantes temporales, necesita del desarrollo de modelos geoestadísticos que
-indiquen la estructura e intensidad de la dependencia espacial y/o
-espacio-temporal presente en los fenómenos que comprenden.
 
 Sin embargo, el estudio de la **variabilidad espacial**, y sobre todo
 espacio-temporal, es una disciplina relativamente nueva en el marco de la
@@ -61,7 +55,7 @@ de esta necesidad, habiéndose realizado un gran esfuerzo por buscar herramienta
 adecuadas y útiles a tales efectos. Y todo ello porque utilizar modelos
 espaciales o espacio-temporales para caracterizar y explotar la dependencia
 espacial (o espacio-temporal) de un conjunto de observaciones tiene importantes
-ventajas:
+ventajas (@montero_el_al_2011):
 
 1.  Modelos más generales, ya que, en la mayoría de los casos, los modelos
     clásicos que no tienen en consideración la dimensión espacial o la
@@ -83,11 +77,7 @@ ventajas:
     ocasiones con muchos menos parámetros) que los clásicos modelos de
     superficie de tendencia.
 
-Estas mejoras de la estadística espacial y espacio-temporal, junto con el fuerte
-y reciente desarrollo de los Sistemas de Información Geográfica o GIS
-(Geographic Information System), han propiciado que en la actualidad exista una
-importante motivación por la búsqueda de herramientas espaciales o
-espacio-temporales.
+
 
 ## Antes de continuar... dependencia espacial.
 
@@ -108,6 +98,11 @@ Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. Veamos un ejemplo simulado de unos datos
 que muestras dependencia espacial y otros puramente aleatorios.
 
+La Fig. \@ref(fig:points_dep_iid) muestra unos datos simulados que presentan
+una estructura de dependencia espacial (panel izquierdo) frente a unos datos
+totalmente aleatorios (panel derecho), en ambos casos disribuidos de 
+forma irregular en el espacio.
+
 ```{r points_dep_iid, echo=FALSE, message=FALSE, warning=FALSE}
 library(geoR)
 library(fields)
@@ -115,7 +110,7 @@ library(fields)
 par(mfrow = c(1, 2))
 
 set.seed(2022)
-sim1 <- grf(441, cov.pars = c(1, 0.6), messages = FALSE)
+sim1 <- grf(201, cov.pars = c(1, 0.6), messages = FALSE)
 points.geodata(sim1,
   main = "Dependencia espacial (positiva)",
   col = tim.colors(), cex.max = 3
@@ -130,7 +125,12 @@ points.geodata(sim3,
 )
 ```
 
-Comentar
+
+La Fig. \@ref(fig:lattice_dep_iid), al igual que la Fig. \@ref(fig:points_dep_iid)
+presenta unos datos simulados donde que presentan
+una estructura de dependencia espacial (panel izquierdo) frente a unos datos
+ totalmente aleatorios (panel derecho), pero en este caso estos datos
+se distribuyen de forma ordenada en el espacio a través de una rejilla regular.
 
 ```{r lattice_dep_iid, echo=FALSE, message=FALSE, warning=FALSE}
 par(mfrow = c(1, 2))
@@ -157,10 +157,8 @@ aquellos datos relacionados o que contienen información de una localización o
 La forma más intuitiva de representar los datos espaciales es a través de un
 mapa.
 
-    <!-- Propuesta: mapa temático cualquiera con poco código para empezar como el libro de SDS  https://keen-swartz-3146c4.netlify.app/intro.html#a-first-map  -->
-    <!--    Y comentar algunas características de los datos espaciales que luego se explican. -->
-
-```{r}
+   
+```{r mapa_clm}
 # Mapa de porcentaje de mujeres en Castilla-La Mancha
 
 library(mapSpain)
@@ -170,16 +168,16 @@ pob <- mapSpain::pobmun19
 
 
 # Datos en forma de tabla, sin información en formato espacial
-head(pob)
+#head(pob)
 
 # Porcentaje
-pob$porc_mujeres <- pob$women / pob$pob19
+pob$porc_mujeres <- pob$women / pob$pob19 *100
 
 # Datos espaciales
 geo <- esp_get_munic(region = "Castilla-La Mancha")
 
 # Estos datos tienen una columna (geometry) con coordenadas.
-head(geo)
+#head(geo)
 
 # Une ambos datos
 geo_pob <- merge(geo,
@@ -194,10 +192,59 @@ plot(geo_pob["porc_mujeres"],
   main = "Castilla-La Mancha: % mujeres (2019)",
 
   # Cambiamos la paleta de colores para hacerlo mas atractivo
-  border = NA,
+  #border = NA,
   pal = hcl.colors(12, "RdYlBu")
 )
 ```
+
+
+La Fig. \@ref(fig:mapa_Clm) presenta una serie de elementos gráficos,
+característicos de los objetos espaciales:
+
+* Los municipios de Castilla-la Mancha están representados por polígonos
+con un contorno negro y se rellenan de colores de acuerdo con la variable que 
+estamos analizando, el porcentaje de mujeres en los municipios
+de Castilla-La Mancha en el año 2019. 
+
+[Lo he multiplicado por cien, creo que faltaba... échale un ojo**]{style="color:red"}
+
+
+* Una leyenda explica el significado de los colores.
+
+* [**DIEGO, se podría añadir una cuadrícula con el CRS,**]{style="color:red"}
+
+* La variable, el porcentaje de mujeres en los municipios
+de Castilla-La Mancha en el año 2019, no parece distribuirse de manera independiente
+sino todo lo contrario, muestra un patrón espacial. Los municipios del las
+provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
+municipios  del centro de la Comunidad. 
+
+```{r clm_tabla}
+head(geo_pob["porc_mujeres"])
+```
+
+Antes de dibujar la Fig. (\@ref(fig:mapa_Clm)) tuvimos que leer los datos 
+de la librería `mapSpain` que contenía tanto la variable que hemos analiazado
+como el formato del mapa. Tras unir variable y mapa con la función `merge()`. 
+Al llevar a cabo un resumen del objeto espacial nos encontramos con las siguiente
+información:
+
+* el conjunto de datos (seleccionado) tiene 919 registros (municipios)
+ 
+* el tipo de geometría es POLYGON.
+
+* tiene dimensión XY, lo que indica que cada punto constará de 2 valores de coordenadas.
+ 
+* el CRS es ETRS89
+
+
+
+[DIEGO, TE GUSTA ESTA PARTE O SOBRA... ???**]{style="color:red"}
+
+
+
+
+
 
 ## Clasificación de datos espaciales
 
@@ -210,13 +257,20 @@ general, simple y útil de datos espaciales proporcionada por @cressie1993.
 
 La **clasificación** de Cressie de datos espaciales se basa en la naturaleza del
 dominio espacial en estudio. Dependiendo de esto, podemos tener: datos
-geoestadísticos, datos de patrones de puntos y datos latice.
+geoestadísticos, datos de patrones de puntos y datos latice (véase Fig. \@ref(fig:hengl_cressie)).
+
+
+```{r hengl_cressie, echo=FALSE, fig.align='center', fig.cap='Clasificación de datos espaciales propuesta propuesta por @cressie1993. Imangen tomada de [Hengl (2009)](http://spatial-analyst.net/book/system/files/Hengl_2009_GEOSTATe2c1w.pdf) '}
+knitr::include_graphics("img/hengl_cressie_clases.png")
+```
+
+
 
 Siguiendo a @cressie1993, sea $s ∈ ℝ\^d$ una localización en un espacio Euclideo
 $d-$dimensional y ${Z(s)∶ s ∈ ℝ\^d}$ una función aleatoria espacial, donde $Z$
 representa el atributo en el cual estamos interesados:
 
-1.  **Datos geoestadísticos:** Surgen cuando el dominio en estudio es **conjunto
+1.  **Datos geoestadísticos:** Surgen cuando el dominio de estudio es **continuo
     y fijo** $D$. Es decir: (i) $Z(s)$ se puede observar en cualquier punto del
     dominio (continuo); y (ii) los puntos en $D$ no son estocásticos (son fijos,
     $D$ es el mismo para todas las realizaciones de la función aleatoria
@@ -230,9 +284,8 @@ representa el atributo en el cual estamos interesados:
     Es obvio que, al menos en teoría, el nivel de un contaminante específico
     podría medirse en cualquier lugar de la ciudad; Lo mismo puede decirse de
     las mediciones de precipitaciones o temperaturas del aire en un país o
-    concentraciones de un metal pesado en una región.
-
-    Sin embargo, en la práctica, no es posible una observación exhaustiva del
+    concentraciones de un metal pesado en una región. Sin embargo, en la práctica, 
+    no es posible una observación exhaustiva del
     proceso espacial. Por lo general, el proceso espacial se observa en un
     conjunto de ubicaciones (por ejemplo, el nivel de un contaminante específico
     en una ciudad se observa en los puntos donde están ubicadas las estaciones
@@ -246,7 +299,7 @@ representa el atributo en el cual estamos interesados:
     lograr los objetivos anteriores.
 
 ```{r ejem_geo}
-# ejemplo
+# ejemplo cual??? tmin interpolado
 ```
 
 2.  **Datos reticulares**: Surgen cuando: (i) el dominio bajo estudio $D$ es
@@ -259,14 +312,14 @@ representa el atributo en el cual estamos interesados:
     esto, junto con el carácter espacialmente agregado de la datos, es por lo
     que los datos latice tambien se denominan datos regionales. Y (ii) las
     ubicaciones en $D$ no son estocásticas. Por supuesto, un concepto clave en
-    el análisis de los datos lattice es el **vecindario**.
-
+    el análisis de los datos lattice es el **vecindario** y la matriz **W**.
+    
     Algunos ejemplos de reticulares incluyen la tasa de desempleo por estados,
     los datos de delincuencia por comarcas, rendimientos agrícolas en parcelas,
     precios medios de la vivienda por provincias, etc.
 
 ```{r ejem_lattice}
-# ejemplo
+# ejemplo ¿¿ el de la renta??
 ```
 
 3.  **Procesos de puntos:** Mientras que en los datos geoestadísticos y
@@ -294,11 +347,7 @@ representa el atributo en el cual estamos interesados:
     agrupados o agregados (la ubicación de los eventos se concentra en grupos).
 
 ```{r ejem_pp}
-# ejemplo
+# ejemplo, el de los accidentes??
 ```
 
-<!-- [**Los formatos**]{style="color:red"} más comunes de datos espaciales son -->
 
-<!-- vectores y ráster. -->
-
-<!-- [**Diego**]{style="color:red"} -->

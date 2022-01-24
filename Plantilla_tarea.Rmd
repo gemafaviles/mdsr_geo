@@ -1,0 +1,81 @@
+---
+title: "Visualización y geolocalización de datos"
+subtitle: "Máster en Data Science & Business Analytics (con R Software)"
+author: Alumno XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+date: "`r Sys.Date()`"
+bibliography: refbib.bib
+csl: apa-6th-edition.csl
+editor_options:
+  markdown:
+    wrap: 80
+  chunk_output_type: console
+output: 
+  html_document: 
+    toc: yes
+    number_sections: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  out.width = "50%"
+ # fig.height = "50%"
+)
+
+
+```
+
+
+
+<center>
+<img src="logo_mdsr_uclm.png" height="100px"/>
+</center>
+
+**Objetivos de aprendizaje**
+El alumno debe saber identificar los distintos tipos y formatos de datos espaciales
+así como elegir, en cada caso la representación más adecuada para un
+análisis geo-espacial.
+
+
+```{r lectura_datos}
+# rm(list = ls()) limpiamos memoria
+# Recuerda que tienes que instalar las librerías si no lo has hecho antes.
+
+
+```
+
+
+LO VEMOS EL MÍERCOLES
+
+**Pregunta 1:** En la base de datos de temperatura del aire, seleccione el día 
+tal 8 de enero... que hagan un plot con quintiles... 
+
+A ver... que comprueben crs y que pasen a sf
+
+```{r}
+## Desarrolla aquí tu código R
+```
+
+
+
+
+**Pregunta 2:** Otra sencilla con la renta..
+
+
+```{r}
+## Desarrolla aquí tu código R
+```
+
+
+
+**Pregunta 3:** Otra sencilla con los accidentes
+
+
+```{r}
+## Desarrolla aquí tu código R
+```
+
+

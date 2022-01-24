@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 IDEA**]{style="color:blue"}
 
 Las técnicas de análisis de patrones de puntos analizan la distribución de
-eventos geolocalizados. La diferencia fundamental con otros análisis que
+eventos geolocalizados que surgen al azar. La diferencia fundamental con otros análisis que
 comprenden también el uso de localizaciones (como las temperaturas mínimas
 medidas por estaciones meteorológicas) es que en este caso los puntos
 representan eventos conocidos y aleatorios (por ejemplo, los crímenes ocurridos
@@ -50,7 +50,8 @@ en ese lugar), si no a que no se ha producido el evento en dicha localización.
 
 **Objetivo de aprendizaje**:
 
-[**GEMA**]{style="color:blue"}
+El alumno debe ser capaz de conocer los datos de tipo patrones de punto, identificarlos
+y representarlos adecuadamente. 
 
 *Tarea 1: Abrimos RStudio*
 
@@ -87,6 +88,9 @@ accidentes2020 <- read_delim("data/2020_Accidentalidad.csv",
 summary(accidentes2020)
 ```
 
+
+**Q1. ¿Qué información contiene nuestros datos?**
+
 Este archivo contiene en total
 `r prettyNum(nrow(accidentes2020), big.mark = ".", decimal.mark = ",")`
 registros, y proporciona `r ncol(accidentes2020)` campos asociados a cada
@@ -102,7 +106,9 @@ Entre los campos disponibles, podemos destacar los siguientes:
 -   `coordenada_x_utm`, `coordenada_y_utm`: Son las coordenadas en las que se
     produjo el accidente.
 
-**Q1: ¿En qué CRS se encuentran las coordenadas?**
+
+
+**Q2: ¿En qué CRS se encuentran las coordenadas?**
 
 Si nos fijamos, las coordenadas no parecen corresponder con longitudes o
 latitudes, ya que como se explicó el rango posible de valores es $[-180, 180]$
@@ -167,9 +173,11 @@ ggplot() +
   )
 ```
 
-**Q2: ¿Hay algún patrón en la ocurrencia de accidentes de tráfico?**
 
-GEMA: CAMBIA LO QUE CONSIDERES, QUE DE TODO ESTO NO TENGO NI IDEA
+
+**Q3: ¿Hay algún patrón en la ocurrencia de accidentes de tráfico?**
+
+
 
 En la figura \@ref(fig:accidentes1) podemos intuir ciertos patrones en la
 ocurrencia de accidentes. Por ejemplo, apenas se producen accidentes en la Casa
@@ -196,10 +204,10 @@ ggplot() +
   )
 ```
 
-*Tarea 3: Análisis de patrones with* `spatstat`
+**Tarea 3: Análisis de patrones con  `spatstat`**
 
-El paquete `spatstat` (**GEMA: REFERENCIA¿?**) está diseñado para realizar este
-tipo de análisis.
+El paquete `spatstat` (@spatstat_2005) es el paquete de referencia cuando se 
+trabaja con patrones de puntos
 
 Además, necesitaremos una ventana de observación (owin). Podemos en este caso
 obtener los datos espaciales de los distritos de Madrid en la siguiente
@@ -211,7 +219,7 @@ mes de febrero. Además, en el análisis de patrones de puntos es necesario
 delimitar la ventana espacial de observación. En este caso será el municipio de
 Madrid.
 
-```{r}
+```{r objeto_ppp}
 
 library(spatstat)
 # Necesitamos un recinto de observación: owin
@@ -233,57 +241,55 @@ feb_ppp <- ppp(
   window = mad_owin
 )
 
+```
+
+
+Q4. ¿Qué información contiene nuestro objeto en formato ppp?
+
+```{r}
 summary(feb_ppp)
 ```
 
-**Q3: ¿Cual es la intensidad de los accidentes?**
 
-(**GEMA: ESTO ES COPIADO TAL CUAL DEL PAPER!!!**)
 
-```{r intensidad, fig.cap="Intensidad de accidentes de tráfico" }
+*Tarea 5: Cálculo de la densidad mediante cuadrantes.*
 
-diggle_feb <- bw.diggle(feb_ppp)
-scott_feb <- bw.scott(feb_ppp)
+Es importante determinar si los puntos se distribuyen al azar o tienen algún 
+patrón. Por ello, lo primero que haremos será representar el 
+objeto `feb_ppp` y superponer unos cuadrantes para  su comportamiento 
+(véase \@ref(fig:plot_ppp_cuadrante)).
 
-dens_diggle <- density.ppp(feb_ppp, sigma = diggle_feb)
-dens_scott <- density.ppp(feb_ppp, sigma = scott_feb)
-dens_300 <- density.ppp(feb_ppp, sigma = 300)
-dens_500 <- density.ppp(feb_ppp, sigma = 500)
+```{r plot_ppp_cuadrante}
+## Hallamos los cuadrantes
+cuadrante <- quadratcount(feb_ppp, 
+                    nx=5, 
+                    ny=5)
 
-par(mfrow = c(2, 2), mar = c(1, 1, 1, 1))
-plot(dens_diggle)
-plot(dens_scott)
-plot(dens_300)
-plot(dens_500)
+## Dibujamos el número de accidentes que hay en cada cuadrante
+plot(feb_ppp, pch=1, main="")
+plot(cuadrante, add=TRUE, col="red", cex=0.5)
 ```
 
-(**GEMA: ESTO ES PARA CONVERTIR ppp a otros formatos, vale la pena?**)
-
-```{r}
-# Convertimos a otros objetos
-library(raster)
-
-dens_500_rast <- raster(dens_500)
-crs(dens_500_rast) <- raster::crs(st_crs(accidentes2020_sf)$proj4string)
-
-plot(dens_500_rast, col = hcl.colors(20, "Inferno"))
-
-# A poligonos sf
-pols <- st_as_sf(rasterToPolygons(dens_500_rast))
-class(pols)
-
-# Con ggplot
-library(ggplot2)
+Como se puede apreciar en la Fig. \@ref(fig:plot_ppp_cuadrante)) hay cuadrantes
+que resgistran cero accidentes y otros qeu registran hasta 1488 accidentes.
 
 
-ggplot(pols) +
-  geom_sf(aes(fill = layer), col = NA, size = 0.01) +
-  scale_fill_gradientn(
-    colors = hcl.colors(20, "Inferno"),
-    labels = scales::label_math()
-  ) +
-  labs(
-    fill = "Intensidad",
-    caption = "Fuente: Datos Abierto, Ayto. Madrid"
-  )
+
+
+*Tarea 6: Estimación de la densidad de patrones de puntos.*
+
+En la Fig. \@ref(fig:intensidad_ripley)) se muestra la gráfica de la estimación 
+usando la K de Ripley. Los conocimientos teóricos necesarios para llevar a cabo 
+este tipo de estimación se verán en el tema **Patrones de Puntos**. El objetivo
+de este ejemplo es meramente ilustrativos.
+
+
+```{r intensidad_ripley, fig.cap="Intensidad de accidentes de tráfico estimada con la K-Ripley" }
+densidad <- density(feb_ppp)
+plot(densidad, main=" ")
+points(feb_ppp, pch = "+", cex=0.5)
 ```
+
+
+
+

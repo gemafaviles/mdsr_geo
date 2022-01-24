@@ -45,7 +45,7 @@ por las estaciones metereológicas de la AEMET.
 *Tarea 1: Abrimos RStudio*
 
 El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
-abriendo el programa y creando un nuevo script de R en *File>New File>R script*.
+abriendo el programa y creando un nuevo proyecto de R en *File>New Proyect*.
 
 *Tarea 2: Importamos y describimos los datos objeto de estudio*
 
@@ -66,6 +66,8 @@ paquetes del `tidyverse` para realizar todo el tratamiento de datos:
 
 library(readr)
 
+# cada uno debe seleccionar el directorio donde tiene los datos, de ahí 
+# que sea conveniente trabajar con proyectos
 tmin <- read_csv("data/tempmin.csv")
 
 ```
@@ -84,7 +86,7 @@ Podemos observar que la tabla generada contiene 5 columnas distintas:
     dato.
 
 -   `tmin`: Dato de temperatura mínima registrada en cada fecha por la estación
-    correspondiente.
+    correspondiente en grados centígrados.
 
 -   `longitud,latitud`: Coordenadas geográficas de la estación
 
@@ -114,10 +116,8 @@ summary(tmin_geoR)
 plot(tmin_geoR)
 ```
 
-[**DIEGO, y yo por qué se que España es esto 4326...**]{style="color:red"}
 
-[**Está explicado en la sección de CRS, es el código del CRS que usan los GPS,
-el habitual para coordenadas longitud/latitud**]{style="color:blue"}
+
 
 *Tarea 4. Convertir* `tmin` *a un objeto de la clase espacial* `sf`
 
@@ -144,7 +144,7 @@ tmin_sf
 *Tarea 5: Dibujemos las estaciones de monitoreo de la temperaria mínima en un
 mapa de España. Ámbito espacial.*
 
-Vamos además a incluir una capa de las comunidades autónomas de España. Para
+Vamos, además, a incluir una capa de las comunidades autónomas de España. Para
 ello usaremos un paquete API que nos proporciona esta información en formato
 `sf`:
 
@@ -162,7 +162,7 @@ plot(esp$geometry) # Dibujamo el mapa de España menos las Islas Canarias
 **Q2: ¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
 monitoreo en la misma proyección que el contorno de España?**
 
-Como se comentó en la sección correspondiente, cuando se emplean datos
+Como se comentó en la Sección \@{CRS}, cuando se emplean datos
 geográficos provenientes de varias fuentes, es necesario asegurarse de que ambos
 objetos están usando el mismo CRS. Vamos a comprobarlo:
 
@@ -181,7 +181,7 @@ st_crs(tmin_sf) == st_crs(esp2)
 
 Dibujamos las estaciones de monitoreo con el contorno de España. Vamos a usar el
 paquete `ggplot2` como referencia, sin embargo existen varios paquetes
-especializados en mapas temáticos, como pueden ser `tmap`o `mapsf`.
+especializados en mapas temáticos, como pueden ser `tmap` o `mapsf`.
 
 ```{r fig.cap="Estaciones de AEMET en la Península Ibérica"}
 library(ggplot2)
@@ -207,18 +207,10 @@ ggplot(esp2) +
   )
 ```
 
-**Q3. Mis datos y el contorno de España están en el mismo CRS, pero ¿es el
-adecuado?**
 
-[**DIEGO, POR QUÉ TRANFSORMAMOS, PARA PASAR A UTM E INTERPRETAR EN
-METROS?**]{style="color:red"}
 
-[**Explicado más adelante, para hacer el grid en metros cuadrados. Si no, se
-haría en grados cuadrados (¿?) porque long/lat no es medida de
-superficie**]{style="color:blue"}
-
-*Tarea 6: Representamos la variable temperatura mínima* `tmin` *para el día 8 de
-enero de 2021.*
+**Tarea 6: Representamos la variable temperatura mínima `tmin` para el día 8 de
+enero de 2021.**
 
 En la siguiente tarea, seleccionaremos los datos correspondientes al **8 de
 enero de 2021** y crearemos un mapa temático en el que representaremos los
@@ -283,6 +275,10 @@ ggplot() +
   )
 ```
 
+
+**Tarea 6: Interpolación de la variable temperatura mínima `tmin` para el día 8 de
+enero de 2021 con IDW**
+
 **Q4**. El mapa ha quedado muy claro. Vemos como los datos nos cuentan la
 historia de Filomena en aquellos sitios donde se tomaron mediciones, pero
 **¿podríamos tener un mapa de interpolación para tener una estimación de la
@@ -317,7 +313,11 @@ esp3 <- st_transform(esp2, crs_sugerido)
 tmin_8enero3 <- st_transform(tmin_8enero, crs_sugerido)
 ```
 
-A continuación, para realizar la interpolación, necesitamos generar una malla
+
+
+**Q6. ¿Dóne vamos a interpolar? ¿En que puntos? **
+
+Para realizar la interpolación, necesitamos generar una malla
 que representará las celdas de las que queremos obtener el valor interpolado.
 
 Dado que hemos proyectado nuestros datos a un CRS cuya unidad son los metros,
@@ -345,7 +345,7 @@ ggplot(esp3) +
   ) +
   geom_sf(
     data = tmin_8enero3,
-    aes(fill = "AEMET Stations"), size = 5, shape = 21,
+    aes(fill = "AEMET Stations"), size = 4, shape = 21,
     color = "blue"
   ) +
   scale_fill_manual(values = adjustcolor("blue", alpha.f = 0.2)) +
@@ -362,7 +362,7 @@ interpolación asignará un valor a cada uno de ellas.
 
 A continuación podemos llevar a cabo la interpolación usando el paquete `gstat`.
 Además, en lugar de celdas (polígonos) es necesario usar puntos en la
-interpolación. Calcularemos por tanto un punto representativo de cada celda, el
+interpolación. Calcularemos, por tanto, un punto representativo de cada celda, el
 centroide, que es el punto resultante de realizar la media arimética de las
 coordenadas de loss puntos que componen los lados de cada celda
 
@@ -382,6 +382,12 @@ tmin_idw <- idw(
 )
 head(tmin_idw)
 ```
+
+
+
+
+**Tarea 7. Mapa de contorno **
+
 
 Representamos la interpolación con un mapa y mapa de contorno muy utilizado para
 representar datos espaciales. Para ello, vamos a usar el paquete `raster`
@@ -404,7 +410,7 @@ rast_esp <- raster(tmin_pixels)
 rast_esp2 <- rasterize(
   tmin_idw,
   rast_esp,
-  field = "var1.pred",
+  field = "var1.pred", ## valores de predicción
   fun = mean
 )
 
@@ -453,13 +459,4 @@ ggplot() +
   )
 ```
 
-Representamos en 3D el mapa anterior, muy utilizado también en datos espaciales
 
-[**DIEGO, se útiliza mucho en espacial pero no se si este caso es muy
-ilustrativo....r**]{style="color:red"}
-
-[**Por mi lo quitamos**]{style="color:blue"}
-
-```{r}
-persp(rast_esp_mask, theta = 2000, d = 0.1)
-```

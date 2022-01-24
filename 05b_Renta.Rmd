@@ -48,7 +48,7 @@ siguientes tareas básicas:
 Para ello, partiremos de dos ficheros:
 
 1.  Fichero `renta_municipio.csv`: Este fichero contiene información de la Renta
-    Neta per cápita por municipios, distritos y secciones censales. Esta
+    Neta per cápita por municipios (en euros), distritos y secciones censales. Esta
     información se ha extraído del [Atlas de distribución de renta de los
     hogares](https://www.ine.es/experimental/atlas/experimental_atlas.htm)
     proporcionado por el INE, y ha sido tratado previamente para adaptar la
@@ -58,37 +58,51 @@ Para ello, partiremos de dos ficheros:
     (polígonos) de los municipios en España en el año 2019. Se ha extraído del
     Instituto Geográfico Nacional (IGN) usando el paquete `mapSpain`.
 
+
+**Tarea 1. Importar los datos a R**
+
 El primer paso en cualquier tipo de análisis de datos es importar los datos al
 software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
 de información que contiene:
 
 ```{r importa_renta}
-
 # Usaremos paquetes del tidyverse
 library(dplyr)
 library(readr)
 
-
 renta <- read_csv("data/renta_municipio.csv", na = ".")
+```
 
+
+```{r importa_muni}
+library(sf)
+munis <- st_read("data/municipios.gpkg", quiet = TRUE)
+```
+
+
+**Q1. ¿Qué información tenemos sobre la variable?**
+
+```{r importa_renta_tabla}
 head(renta)
 ```
+
 
 Podemos comprobar que tenemos información para los años 2015 a 2019. Además, la
 columna `Unidad` contiene un literal con el municipio o sección correspondiente.
 
-```{r importa_munis}
-library(sf)
 
-munis <- st_read("data/municipios.gpkg", quiet = TRUE)
+**Q2. ¿Qué información tenemos sobre el objeto espacial?**
 
+```{r importa_munis_tabla}
 head(munis)
 ```
 
 Podemos comprobar que `munis` es un objeto que contiene Polígonos y varias
 columnas, entre ellas dos especialmente relevantes: `cpro` y `cmun`, que
 corresponden a los códigos de provincia y de municipio respectivamente. Podemos
-comprobar que este código también se encuentra en nuestro dataset `renta`:
+comprobar que este código también se encuentra en nuestro dataset `renta`.
+
+**Tatea 2. Comprobamos campos en común para un municipio: Noblejas**
 
 ```{r noblejas}
 # Miro un municipio: Noblejas
@@ -124,6 +138,9 @@ munis$codigo_ine <- paste0(munis$cpro, munis$cmun)
 head(munis[, c("name", "codigo_ine")])
 ```
 
+
+** Tarea 4: Unimos los objetos renta y mapas con la función `left_join`**
+
 Ya estamos listos para realizar el cruce. Además, seleccionaremos sólo las
 columnas que vamos a usar, en este caso la del año 2019:
 
@@ -136,8 +153,13 @@ munis_renta <- munis %>%
 
 **Cuando crucemos datos espaciales con datos no espaciales en R, es importante
 que el primer dataset sea el que contiene los datos espaciales**. Esto es así
-porque el objeto resultante "hereda" la clase del primer objeto. A modo de
-ejemplo, si realizáramos el proceso poniendo los datos espaciales en el lado
+porque el objeto resultante "hereda" la clase del primer objeto. 
+
+** Q5. ¿Qué ocurre si realizáramos el proceso poniendo los datos espaciales en el lado
+derecho del join?**
+
+
+A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en el lado
 derecho del join, los datos finales no serán espaciales:
 
 ```{r cruces_espaciales}
@@ -154,8 +176,12 @@ renta %>%
   dplyr::select(name, cpro, cmun, `2019`) %>%
   class()
 
-# Es un tibble o data.frame, pero no es espacial!
 ```
+
+El resultado es un tibble o data.frame, ¡pero no es espacial!
+
+
+**Tarea 6. Histograma de la distribución de la renta**
 
 Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
 como la realización de un histograma
@@ -179,6 +205,9 @@ Podemos observar que la renta presenta una distribución Gamma con un gran de
 municipios concentrados en zonas medias de renta y pocos municipios en tramos de
 rentas altas. Como veremos más adelante, esta distribución va a afectar a la
 información que transmite el mapa.
+
+
+**Tarea 7. Mapa de coropletas de la distribución de la renta**
 
 Vamos a realizar ahora un mapa de coropletas mostrando la distribución de la
 renta usando los valores brutos de renta sin modificar:
@@ -211,8 +240,12 @@ Este primer mapa no es demasiado informativo, por los siguientes motivos:
 -   Dada la distribución de los datos, puede ser adecuado crear grupos de renta
     para que el mapa sea más interpretable.
 
+
+**Tarea 7. Eliminamos los municipios sin datos y cambiamos la escala de color**
+
+
 Vamos a probar a eliminar los municipios sin datos y a cambiar la escala de
-color:
+color para ver si mejora la visualización.
 
 ```{r maparenta2}
 
@@ -244,6 +277,9 @@ altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo, el
 hecho de que la distribución de los datos no sea normal está afectando a la
 visualización.
 
+
+**Tarea 8. Agrupar los datos en clases para mejorar la visualización**
+
 Para intentar atajar este problema, podemos dividir nuestros datos en clases,
 por ejemplo cuartiles o deciles. Existen varios métodos de clasificación de
 datos, que en R se encuentran implementados en el paquete `classInt`. A
@@ -251,15 +287,15 @@ continuación vamos a plantear diversos métodos de clasificación y observar c�
 la "historia" que cuenta el mapa varía en función de dichas clases. En este
 ejemplo planteamos los siguientes métodos de clasificación:
 
--   El método de deciles: Consiste en crear 10 categorías incluyendo el mismo
+-   El método de deciles: consiste en crear 10 categorías incluyendo el mismo
     número de registros en cada una de ellas.
 
--   El método de intervalos equivalentes: Este método divide el rango de valores
+-   El método de intervalos equivalentes: divide el rango de valores
     en un número de grupos definido. La distancia de todos los intervalos es
     idéntica, por lo que este método no tiene en cuenta la distribución de los
     registros.
 
--   El método de Fisher-Jenks: Este método se desarrolló específicamente para la
+-   El método de Fisher-Jenks: desarrollado específicamente para la
     clasificación de datos espaciales y su visualización en mapas. Produce
     agrupaciones de tal manera que los datos de cada grupo son "cercanas" entre
     sí y sustancialmente distintas de los valores de otros grupos.
@@ -311,6 +347,10 @@ Podemos observar lo siguiente:
 -   El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
     apropiados para los tramos altos de renta.
 
+
+
+**Tarea 9. Representar los mapas según las clases obtenidas**
+
 Vamos ahora a realizar 3 mapas distintos, creando clases de renta según cada uno
 de los métodos anteriormente mostrados.
 
@@ -358,7 +398,7 @@ ggplot(munis_renta_clean) +
   )
 ```
 
-Este mapa ya nos permite observar patrones geográficos, donde se ve una clara
+El mapa de la Fig. \@ref(fig:mapa_deciles) ya nos permite observar patrones geográficos, donde se ve una clara
 diferencia entre la Comunidades Autónomas del Norte y las del Sur. Veamos una
 representación distina usando otras clases diferentes:
 
@@ -387,7 +427,7 @@ ggplot(munis_renta_clean) +
   )
 ```
 
-Este otro mapa, sin embargo, se parece más al mapa que hicimos con los datos sin
+El mapa de la Fig. \@ref(fig:mapa_fisher), sin embargo, se parece más al mapa que hicimos con los datos sin
 clasificar, donde el peso visual se concentra más bien en los municipios con
 rentas mucho más altas que el resto (por encimoa de 18.000 €).
 
@@ -418,7 +458,7 @@ ggplot(munis_renta_clean) +
   )
 ```
 
-En este mapa se puede observar de una manera más clara un cluster adicional de
+En el mapa de la Fig. \@ref(fig:trucado) se puede observar de una manera más clara un cluster adicional de
 renta en la zona de Asturias y el norte de León. Además, gracias a la escala de
 colores puede intuirse que este clúster de renta no presenta valores tan altos
 como los observados en País Vasco o Madrid.
@@ -431,8 +471,8 @@ que tienen una influencia significativa en cómo se percibe la información
 representada. Es responsabilidad del creador de la visualización el conocer
 todos estos factores y aplicarlos de manera conveniente.
 
-Como ejemplo, aquí tenemos un mapa de los mismos datos pero la información se
-presenta de manera sesgada, ¿puedes identificar los motivos?
+** Q.10 Tenemos un mapa de los mismos datos pero la información se
+presenta de manera sesgada, ¿puedes identificar los motivos?**
 
 ```{r trucado, echo=FALSE, fig.cap="Ejemplo de visualización sesgada"}
 
