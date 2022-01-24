@@ -35,3 +35,8 @@ knitr::opts_chunk$set(
 ```
 
 Esta es una plantilla para cuando necesitemos crear un nuevo documento child.
+
+```{r}
+
+```
+
