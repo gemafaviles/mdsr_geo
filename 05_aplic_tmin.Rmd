@@ -66,10 +66,9 @@ paquetes del `tidyverse` para realizar todo el tratamiento de datos:
 
 library(readr)
 
-# cada uno debe seleccionar el directorio donde tiene los datos, de ahí 
+# cada uno debe seleccionar el directorio donde tiene los datos, de ahí
 # que sea conveniente trabajar con proyectos
 tmin <- read_csv("data/tempmin.csv")
-
 ```
 
 **Q1: ¿Qué información tiene `tmin`?**
