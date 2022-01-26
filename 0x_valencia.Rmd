@@ -55,8 +55,9 @@ Leo Valencia de `mapSpain`, no me hace falta shapes
 #leo Valencia de mamSpain
 library(mapSpain)
 valencia <- esp_get_munic(munic = "^Valencia$") %>%
-  st_transform(25830) ## esto está bien??
+  st_transform(25830)
 
+plot(st_geometry(valencia))
 # Usamos imagen como mapa de fondo
 #tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
 
@@ -78,7 +79,7 @@ dim(crime_todos)
 
 #podemos coger hasta 4 años y tenemos 2010-2020
 # cojo, el 2010
-mydata_crime <- crime_todos %>% filter(year==2010)
+mydata_crime <- crime_todos %>% dplyr::filter(year==2010)
 
 
 library(sf)
@@ -86,19 +87,21 @@ library(sf)
 
 mydata_crime_sf <- mydata_crime %>%
   st_as_sf(coords = c("crime_lon", "crime_lat"),
-  crs = st_crs(25830)
-)
+  crs = st_crs(4326)
+) %>%
+  st_transform(25830)
+
 ```
 
 
 
 
-```{r cargo_crime}
+```{r cargo_crime2}
 # Usamos imagen como mapa de fondo
-# tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
+tile <- esp_getTiles(valencia, "IDErioja")
 
 ggplot() +
- # layer_spatraster(tile) +
+ layer_spatraster(tile) +
   geom_sf(
     data = mydata_crime_sf,
     col = "blue",
@@ -106,9 +109,6 @@ ggplot() +
     alpha = 0.3
   )
 
-
-mydata_crime_sfc <- st_as_sfc(mydata_crime)
-mydata_crime_sf <- st_as_sf(mydata_crime_sfc)
 
 
 ```
@@ -131,27 +131,18 @@ plot(mydata_points, cex=0.5, col="red", pch="+")
 Dibujo y veo que el eje x no está bien...
 
 ```{r}
-ggplot() +
- # layer_spatraster(tile) +
-  geom_sf(
-    data = mydata_points,
-    col = "blue",
-    size = 0.3,
-    alpha = 0.3
-  )
+
 ```
 
 
 
 ```{r}
-library(ggmap)
-library(OpenStreetMap)
-valencia_bbox <- bbox(cbind(mydata_crime$crime_lon, mydata_crime$crime_lat))
-valencia_gg <- get_map(c(valencia_bbox), maptype='watercolor', source='stamen')
-ggmap(valencia_gg)
+library(maptiles)
 
+valencia_gg <- maptiles::get_tiles(mydata_crime_sf, "Stamen.Watercolor")
+plot_tiles(valencia_gg)
+plot(st_geometry(mydata_crime_sf), add=TRUE, cex=0.5, col="red", pch="+")
 
-plot(mydata_points, cex=0.5, col="red", pch="+")
 ```
 
 
@@ -160,17 +151,20 @@ plot(mydata_points, cex=0.5, col="red", pch="+")
 ```{r crime_ppp}
 # Creamos el objeto ppp
 # Es necesario que todas las coordenadas estén proyectadas en el mismo CRS!
-st_crs(mydata_points)==st_crs(valencia["cmun"])
+st_crs(mydata_crime_sf)==st_crs(valencia)
+
+coords <- st_coordinates(mydata_crime_sf)
+
 
 mydata_ppp <- ppp(
-  x=as.numeric(mydata_crime$crime_lon),
-  y=as.numeric(mydata_crime$crime_lat),
+  x=as.numeric(coords[, 1]),
+  y=as.numeric(coords[, 2]),
   window = val_owin
 )
 
 summary(mydata_ppp)
 
-
+plot(mydata_ppp)
 
 ```
 
