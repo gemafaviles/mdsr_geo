@@ -22,10 +22,8 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   out.width = "50%"
- # fig.height = "50%"
+  # fig.height = "50%"
 )
-
-
 ```
 
 
@@ -43,8 +41,6 @@ análisis geo-espacial.
 ```{r lectura_datos}
 # rm(list = ls()) limpiamos memoria
 # Recuerda que tienes que instalar las librerías si no lo has hecho antes.
-
-
 ```
 
 

@@ -30,10 +30,9 @@ La estadística espacial reconoce y aprovecha la ubicación espacial de los dato
 a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
 observaciones. Éstas son generalmente **dependientes**, si bien existen modelos
 espaciales a disposición del investigador que permiten tratar con dicha
-dependencia espacial a la hora de llevar a cabo labores de predicción. 
-Por extensión, la estadística espacio-temporal incorpora, además, 
-el tiempo y su interacción con
-el espacio como argumento de ayuda en tales labores predictivas.
+dependencia espacial a la hora de llevar a cabo labores de predicción. Por
+extensión, la estadística espacio-temporal incorpora, además, el tiempo y su
+interacción con el espacio como argumento de ayuda en tales labores predictivas.
 
 Las mediciones y modelos espaciales están presentes, sorprendentemente, en una
 amplia variedad de disciplinas científicas. Los orígenes de la vida humana
@@ -45,7 +44,6 @@ para sus experimentos. La estimación de las precipitaciones y de las reservas d
 oro y petróleo es de vital importancia económica. Estos son, entre otros, buenos
 ejemplos de la importancia del espacio (espacio-tiempo en su caso) en el mundo
 de la Ciencia.
-
 
 Sin embargo, el estudio de la **variabilidad espacial**, y sobre todo
 espacio-temporal, es una disciplina relativamente nueva en el marco de la
@@ -77,8 +75,6 @@ ventajas (@montero_el_al_2011):
     ocasiones con muchos menos parámetros) que los clásicos modelos de
     superficie de tendencia.
 
-
-
 ## Antes de continuar... dependencia espacial.
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
@@ -98,12 +94,12 @@ Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. Veamos un ejemplo simulado de unos datos
 que muestras dependencia espacial y otros puramente aleatorios.
 
-La Fig. \@ref(fig:points_dep_iid) muestra unos datos simulados que presentan
-una estructura de dependencia espacial (panel izquierdo) frente a unos datos
-totalmente aleatorios (panel derecho), en ambos casos disribuidos de 
-forma irregular en el espacio.
+La Fig. \@ref(fig:points-depiid) muestra unos datos simulados que presentan una
+estructura de dependencia espacial (panel izquierdo) frente a unos datos
+totalmente aleatorios (panel derecho), en ambos casos distribuidos de forma
+irregular en el espacio.
 
-```{r points_dep_iid, echo=FALSE, message=FALSE, warning=FALSE}
+```{r points-depiid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Puntos: Ejemplo de independencia espacial"}
 library(geoR)
 library(fields)
 
@@ -125,14 +121,13 @@ points.geodata(sim3,
 )
 ```
 
+La Fig. \@ref(fig:lattice-dep-iid), al igual que la Fig.
+\@ref(fig:points-depiid) presenta unos datos simulados donde que presentan una
+estructura de dependencia espacial (panel izquierdo) frente a unos datos
+totalmente aleatorios (panel derecho), pero en este caso estos datos se
+distribuyen de forma ordenada en el espacio a través de una rejilla regular.
 
-La Fig. \@ref(fig:lattice_dep_iid), al igual que la Fig. \@ref(fig:points_dep_iid)
-presenta unos datos simulados donde que presentan
-una estructura de dependencia espacial (panel izquierdo) frente a unos datos
- totalmente aleatorios (panel derecho), pero en este caso estos datos
-se distribuyen de forma ordenada en el espacio a través de una rejilla regular.
-
-```{r lattice_dep_iid, echo=FALSE, message=FALSE, warning=FALSE}
+```{r lattice-dep-iid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Rejilla: Ejemplo de independencia especial"}
 par(mfrow = c(1, 2))
 set.seed(2022)
 sim2 <- grf(441, grid = "reg", cov.pars = c(1, 0.25), messages = FALSE)
@@ -157,7 +152,6 @@ aquellos datos relacionados o que contienen información de una localización o
 La forma más intuitiva de representar los datos espaciales es a través de un
 mapa.
 
-   
 ```{r mapa_clm}
 # Mapa de porcentaje de mujeres en Castilla-La Mancha
 
@@ -168,16 +162,16 @@ pob <- mapSpain::pobmun19
 
 
 # Datos en forma de tabla, sin información en formato espacial
-#head(pob)
+# head(pob)
 
 # Porcentaje
-pob$porc_mujeres <- pob$women / pob$pob19 *100
+pob$porc_mujeres <- pob$women / pob$pob19 * 100
 
 # Datos espaciales
 geo <- esp_get_munic(region = "Castilla-La Mancha")
 
 # Estos datos tienen una columna (geometry) con coordenadas.
-#head(geo)
+# head(geo)
 
 # Une ambos datos
 geo_pob <- merge(geo,
@@ -192,59 +186,52 @@ plot(geo_pob["porc_mujeres"],
   main = "Castilla-La Mancha: % mujeres (2019)",
 
   # Cambiamos la paleta de colores para hacerlo mas atractivo
-  #border = NA,
+  # border = NA,
   pal = hcl.colors(12, "RdYlBu")
 )
 ```
 
-
 La Fig. \@ref(fig:mapa_Clm) presenta una serie de elementos gráficos,
 característicos de los objetos espaciales:
 
-* Los municipios de Castilla-la Mancha están representados por polígonos
-con un contorno negro y se rellenan de colores de acuerdo con la variable que 
-estamos analizando, el porcentaje de mujeres en los municipios
-de Castilla-La Mancha en el año 2019. 
+-   Los municipios de Castilla-la Mancha están representados por polígonos con
+    un contorno negro y se rellenan de colores de acuerdo con la variable que
+    estamos analizando, el porcentaje de mujeres en los municipios de
+    Castilla-La Mancha en el año 2019.
 
-[Lo he multiplicado por cien, creo que faltaba... échale un ojo**]{style="color:red"}
+[Lo he multiplicado por cien, creo que faltaba... échale un
+ojo\*\*]{style="color:red"}
 
+-   Una leyenda explica el significado de los colores.
 
-* Una leyenda explica el significado de los colores.
+-   [**DIEGO, se podría añadir una cuadrícula con el CRS,**]{style="color:red"}
 
-* [**DIEGO, se podría añadir una cuadrícula con el CRS,**]{style="color:red"}
-
-* La variable, el porcentaje de mujeres en los municipios
-de Castilla-La Mancha en el año 2019, no parece distribuirse de manera independiente
-sino todo lo contrario, muestra un patrón espacial. Los municipios del las
-provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
-municipios  del centro de la Comunidad. 
+-   La variable, el porcentaje de mujeres en los municipios de Castilla-La
+    Mancha en el año 2019, no parece distribuirse de manera independiente sino
+    todo lo contrario, muestra un patrón espacial. Los municipios del las
+    provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
+    municipios del centro de la Comunidad.
 
 ```{r clm_tabla}
 head(geo_pob["porc_mujeres"])
 ```
 
-Antes de dibujar la Fig. (\@ref(fig:mapa_Clm)) tuvimos que leer los datos 
-de la librería `mapSpain` que contenía tanto la variable que hemos analiazado
-como el formato del mapa. Tras unir variable y mapa con la función `merge()`. 
-Al llevar a cabo un resumen del objeto espacial nos encontramos con las siguiente
+Antes de dibujar la Fig. (\@ref(fig:mapa_Clm)) tuvimos que leer los datos de la
+librería `mapSpain` que contenía tanto la variable que hemos analiazado como el
+formato del mapa. Tras unir variable y mapa con la función `merge()`. Al llevar
+a cabo un resumen del objeto espacial nos encontramos con las siguiente
 información:
 
-* el conjunto de datos (seleccionado) tiene 919 registros (municipios)
- 
-* el tipo de geometría es POLYGON.
+-   el conjunto de datos (seleccionado) tiene 919 registros (municipios)
 
-* tiene dimensión XY, lo que indica que cada punto constará de 2 valores de coordenadas.
- 
-* el CRS es ETRS89
+-   el tipo de geometría es POLYGON.
 
+-   tiene dimensión XY, lo que indica que cada punto constará de 2 valores de
+    coordenadas.
 
+-   el CRS es ETRS89
 
-[DIEGO, TE GUSTA ESTA PARTE O SOBRA... ???**]{style="color:red"}
-
-
-
-
-
+[DIEGO, TE GUSTA ESTA PARTE O SOBRA... ???\*\*]{style="color:red"}
 
 ## Clasificación de datos espaciales
 
@@ -257,14 +244,13 @@ general, simple y útil de datos espaciales proporcionada por @cressie1993.
 
 La **clasificación** de Cressie de datos espaciales se basa en la naturaleza del
 dominio espacial en estudio. Dependiendo de esto, podemos tener: datos
-geoestadísticos, datos de patrones de puntos y datos latice (véase Fig. \@ref(fig:hengl_cressie)).
+geoestadísticos, datos de patrones de puntos y datos latice (véase Fig.
+\@ref(fig:hengl-cressie), tomada de [Hengl
+(2009)](http://spatial-analyst.net/book/system/files/Hengl_2009_GEOSTATe2c1w.pdf)).
 
-
-```{r hengl_cressie, echo=FALSE, fig.align='center', fig.cap='Clasificación de datos espaciales propuesta propuesta por @cressie1993. Imangen tomada de [Hengl (2009)](http://spatial-analyst.net/book/system/files/Hengl_2009_GEOSTATe2c1w.pdf) '}
+```{r hengl-cressie, echo=FALSE, fig.align='center', fig.cap='Clasificación de datos espaciales propuesta propuesta por @cressie1993'}
 knitr::include_graphics("img/hengl_cressie_clases.png")
 ```
-
-
 
 Siguiendo a @cressie1993, sea $s ∈ ℝ\^d$ una localización en un espacio Euclideo
 $d-$dimensional y ${Z(s)∶ s ∈ ℝ\^d}$ una función aleatoria espacial, donde $Z$
@@ -284,14 +270,13 @@ representa el atributo en el cual estamos interesados:
     Es obvio que, al menos en teoría, el nivel de un contaminante específico
     podría medirse en cualquier lugar de la ciudad; Lo mismo puede decirse de
     las mediciones de precipitaciones o temperaturas del aire en un país o
-    concentraciones de un metal pesado en una región. Sin embargo, en la práctica, 
-    no es posible una observación exhaustiva del
-    proceso espacial. Por lo general, el proceso espacial se observa en un
-    conjunto de ubicaciones (por ejemplo, el nivel de un contaminante específico
-    en una ciudad se observa en los puntos donde están ubicadas las estaciones
-    de monitoreo) y, basado en tales valores observados, el análisis
-    geoestadístico reproduce el comportamiento de el proceso espacial en todo el
-    dominio de interés.
+    concentraciones de un metal pesado en una región. Sin embargo, en la
+    práctica, no es posible una observación exhaustiva del proceso espacial. Por
+    lo general, el proceso espacial se observa en un conjunto de ubicaciones
+    (por ejemplo, el nivel de un contaminante específico en una ciudad se
+    observa en los puntos donde están ubicadas las estaciones de monitoreo) y,
+    basado en tales valores observados, el análisis geoestadístico reproduce el
+    comportamiento de el proceso espacial en todo el dominio de interés.
 
     En el análisis geoestadístico lo más importante es cuantificar la
     correlación espacial entre observaciones (a través de la herramienta básica
@@ -313,7 +298,7 @@ representa el atributo en el cual estamos interesados:
     que los datos latice tambien se denominan datos regionales. Y (ii) las
     ubicaciones en $D$ no son estocásticas. Por supuesto, un concepto clave en
     el análisis de los datos lattice es el **vecindario** y la matriz **W**.
-    
+
     Algunos ejemplos de reticulares incluyen la tasa de desempleo por estados,
     los datos de delincuencia por comarcas, rendimientos agrícolas en parcelas,
     precios medios de la vivienda por provincias, etc.
@@ -349,5 +334,3 @@ representa el atributo en el cual estamos interesados:
 ```{r ejem_pp}
 # ejemplo, el de los accidentes??
 ```
-
-

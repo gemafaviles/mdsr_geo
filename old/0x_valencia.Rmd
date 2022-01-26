@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
 
 
 ```{r cargo_lib}
-#leemos las librerías
+# leemos las librerías
 library(spatstat)
 library(rgdal)
 library(sf)
@@ -52,18 +52,18 @@ pero estoy bloqueada.
 
 Leo Valencia de `mapSpain`, no me hace falta shapes
 ```{r cargo_val}
-#leo Valencia de mamSpain
+# leo Valencia de mamSpain
 library(mapSpain)
 valencia <- esp_get_munic(munic = "^Valencia$") %>%
   st_transform(25830)
 
 plot(st_geometry(valencia))
 # Usamos imagen como mapa de fondo
-#tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
+# tile <- esp_getTiles(valencia, "IDErioja", zoommin = 2)
 
 
-# Necesitamos un recinto de observación: owin. 
-val_owin <- as.owin(valencia) #ventana rectangular
+# Necesitamos un recinto de observación: owin.
+val_owin <- as.owin(valencia) # ventana rectangular
 ```
 
 
@@ -73,24 +73,24 @@ La cuestión es que estoy atascada. NO se si es por crs o porque soy una inutil 
 
 ```{r cargo_crime}
 ## leemos los datos
-crime_todos<- read.csv("crime_data_valencia/crime-data-Valencia.csv",header = TRUE, sep =",",dec = ",")
+crime_todos <- read.csv("crime_data_valencia/crime-data-Valencia.csv", header = TRUE, sep = ",", dec = ",")
 head(crime_todos)
 dim(crime_todos)
 
-#podemos coger hasta 4 años y tenemos 2010-2020
+# podemos coger hasta 4 años y tenemos 2010-2020
 # cojo, el 2010
-mydata_crime <- crime_todos %>% dplyr::filter(year==2010)
+mydata_crime <- crime_todos %>% dplyr::filter(year == 2010)
 
 
 library(sf)
 # Objeto sf sin CRS
 
 mydata_crime_sf <- mydata_crime %>%
-  st_as_sf(coords = c("crime_lon", "crime_lat"),
-  crs = st_crs(4326)
-) %>%
+  st_as_sf(
+    coords = c("crime_lon", "crime_lat"),
+    crs = st_crs(4326)
+  ) %>%
   st_transform(25830)
-
 ```
 
 
@@ -101,27 +101,26 @@ mydata_crime_sf <- mydata_crime %>%
 tile <- esp_getTiles(valencia, "IDErioja")
 
 ggplot() +
- layer_spatraster(tile) +
+  layer_spatraster(tile) +
   geom_sf(
     data = mydata_crime_sf,
     col = "blue",
     size = 0.3,
     alpha = 0.3
   )
-
-
-
 ```
 
 
 ```{r plot_crime}
 mydata_points <- SpatialPointsDataFrame(
-  coords = data.frame(x=as.numeric(mydata_crime$crime_lon),
-                      y=as.numeric(mydata_crime$crime_lat)),
-  data = data.frame(rep(0,nrow(mydata_crime)))
+  coords = data.frame(
+    x = as.numeric(mydata_crime$crime_lon),
+    y = as.numeric(mydata_crime$crime_lat)
+  ),
+  data = data.frame(rep(0, nrow(mydata_crime)))
 )
 
-plot(mydata_points, cex=0.5, col="red", pch="+")
+plot(mydata_points, cex = 0.5, col = "red", pch = "+")
 
 # proj4string(mydata_points) <- CRS("+proj=longlat")
 # mydata_points <- st_as_sfc(mydata_points)
@@ -141,8 +140,7 @@ library(maptiles)
 
 valencia_gg <- maptiles::get_tiles(mydata_crime_sf, "Stamen.Watercolor")
 plot_tiles(valencia_gg)
-plot(st_geometry(mydata_crime_sf), add=TRUE, cex=0.5, col="red", pch="+")
-
+plot(st_geometry(mydata_crime_sf), add = TRUE, cex = 0.5, col = "red", pch = "+")
 ```
 
 
@@ -151,21 +149,20 @@ plot(st_geometry(mydata_crime_sf), add=TRUE, cex=0.5, col="red", pch="+")
 ```{r crime_ppp}
 # Creamos el objeto ppp
 # Es necesario que todas las coordenadas estén proyectadas en el mismo CRS!
-st_crs(mydata_crime_sf)==st_crs(valencia)
+st_crs(mydata_crime_sf) == st_crs(valencia)
 
 coords <- st_coordinates(mydata_crime_sf)
 
 
 mydata_ppp <- ppp(
-  x=as.numeric(coords[, 1]),
-  y=as.numeric(coords[, 2]),
+  x = as.numeric(coords[, 1]),
+  y = as.numeric(coords[, 2]),
   window = val_owin
 )
 
 summary(mydata_ppp)
 
 plot(mydata_ppp)
-
 ```
 
 
@@ -191,16 +188,17 @@ Prueba de hipóteis para saber si los puntos se distribuyen al azar o tienen alg
 
 
 ```{r}
-CC1 <- quadratcount(mydata_ppp, 
-                    nx=5, 
-                    ny=5)
+CC1 <- quadratcount(mydata_ppp,
+  nx = 5,
+  ny = 5
+)
 CC1
 ```
 
 
 ```{r}
-plot(mydata_ppp, pch=1)
-plot(CC1, add=TRUE, col="red")
+plot(mydata_ppp, pch = 1)
+plot(CC1, add = TRUE, col = "red")
 ```
 
 

@@ -33,22 +33,20 @@ ciencia y en casi todas las industrias. GIS ayuda a los usuarios a comprender
 patrones, relaciones y contexto geográfico. Los beneficios incluyen una mejor
 comunicación y eficiencia, así como una mejor gestión y toma de decisiones.
 
-La Fig. \@ref(fig:gisflujo) muestra el flujo de trabajo de los SIG, que va desde (i) la elaboración de mapas, (ii) la
-obtención de geodatos o datos espaciales, (iii) el análisis de los datos
-geográficamente referenciados y (iv) la edición, mapeo y presentación de los
-resultados.
+La Fig. \@ref(fig:gisflujo) muestra el flujo de trabajo de los SIG, que va desde
+(i) la elaboración de mapas, (ii) la obtención de geodatos o datos espaciales,
+(iii) el análisis de los datos geográficamente referenciados y (iv) la edición,
+mapeo y presentación de los resultados.
 
 ```{r gisflujo, echo=FALSE, fig.align='center', fig.cap='Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview', out.width="70%"}
 knitr::include_graphics("img/GIS.png")
 ```
 
 Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia
-computacional** se han convertido en herramientas creativas y
-complemenarías a los convencionales GIS, dando origen a la *Geocomputación*, que
-trata de utilizar el *poder de los ordenadores para hacer cosas con los datos
+computacional** se han convertido en herramientas creativas y complemenarías a
+los convencionales GIS, dando origen a la *Geocomputación*, que trata de
+utilizar el *poder de los ordenadores para hacer cosas con los datos
 geográficos*.
-
-
 
 **¿Y que es la Geocomputación?**
 
@@ -60,10 +58,10 @@ aporta más elementos formales a esta definición destacando que *"la
 geocomputación trata sobre los diferentes tipos de geodatos, y sobre el
 desarrollo de geo-herramientas relevantes en un contexto científico"*.
 
-La geocomputación está muy relacionada con otros términos como los SIG, ya definidos, y con
-diversos tipos de campos científicos, como las Geociencias, las Ciencias
-atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología y las
-Ciencia de datos geográficos (GDS, Geographic Data Science).
+La geocomputación está muy relacionada con otros términos como los SIG, ya
+definidos, y con diversos tipos de campos científicos, como las Geociencias, las
+Ciencias atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología
+y las Ciencia de datos geográficos (GDS, Geographic Data Science).
 
 Cada término comparte un énfasis en un enfoque **científico** (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
@@ -73,22 +71,18 @@ aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
 para trabajos científicos aplicados.
 
-
-
-
 **¿Por que R para datos geográficos?**
 
 R es una herramienta con capacidades avanzadas de análisis, modelado y
-visualización. Por ejemplo, los nuevos entornos de desarrollo integrado 
-(en inglés, Integrated Development Environment, **IDE**),
-como RStudio, han hecho que R sea más fácil de usar para muchos, facilitando la
-creación de mapas con un panel dedicado a la visualización interactiva
-[@Lovelance_et_al_2019]. Además, el uso del código R permite la enseñanza de la
-geocomputación con referencia a ejemplos reproducibles en lugar de conceptos
-abstractos. Por ejemplo, de una forma relativamente sencialla, se puede
-geoposicionar de manera interactiva la localización de la Puerta del Sol en
-Madrid y, además, dejar la el código R para hacerlo reproducible, ver Fig.
-\@ref(fig:leaflet).
+visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
+inglés, Integrated Development Environment, **IDE**), como RStudio, han hecho
+que R sea más fácil de usar para muchos, facilitando la creación de mapas con un
+panel dedicado a la visualización interactiva [@Lovelance_et_al_2019]. Además,
+el uso del código R permite la enseñanza de la geocomputación con referencia a
+ejemplos reproducibles en lugar de conceptos abstractos. Por ejemplo, de una
+forma relativamente sencialla, se puede geoposicionar de manera interactiva la
+localización de la Puerta del Sol en Madrid y, además, dejar la el código R para
+hacerlo reproducible, ver Fig. \@ref(fig:leaflet).
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
 library(leaflet)
@@ -114,16 +108,12 @@ no sólo en el tema que nos ocupa:
 -   `gstat` y `geoR`: para el análisis de datos geoestadísticos, ajuste y
     estimación de semivariogramas, interpolación, etc.
 
--   `spdep` para el análisis de datos con modelos de econometría espacial, creación de
-    matrices de contiguidad/distancia **W**, estimación de modelos econométricos
-    espaciales, etc
+-   `spdep` para el análisis de datos con modelos de econometría espacial,
+    creación de matrices de contiguidad/distancia **W**, estimación de modelos
+    econométricos espaciales, etc
 
--   `spatstat` para el análisis de procesos de puntos espaciales, inensidad, etc.
-
-
-
-
-
+-   `spatstat` para el análisis de procesos de puntos espaciales, inensidad,
+    etc.
 
 ## Conceptos clave
 
@@ -145,7 +135,7 @@ Si damos un paso más e incorporamos el concepto de **distancia**, pues es lógi
 pensar que en un fenómeno de interés, por ejemplo, la modelización de la
 cantidad y dirección de lava en La Palma tras la erupción del volcán "Cumbre
 Vieja", la distancia es un factor clave, pues aquellas zonas más cercanas al
-volcán tendrán niveles más parecidos entre sí y con valores más altos que 
+volcán tendrán niveles más parecidos entre sí y con valores más altos que
 aquellas que están más alejadas
 
 En este caso el nivel de contaminación en el aire en La Palma no puede ser
@@ -154,8 +144,7 @@ entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
 **dependencia espacial**. Y depende del tipo de datos espaciales tendremos tres
 grandes formas de abordar el tratamiento de los datos espaciales:
 **geoestadística**, **procesos de punto** y **econometría espacial** (véase
-sección \@ref{CRS}).
-
+sección \@ref(CRS)).
 
 ```{r gis, echo=FALSE, fig.align='center', fig.cap='Información espacial de la concentración de lava en Cumbre Vieja'}
 knitr::include_graphics("img/Cumbrevieja.png")

@@ -10,7 +10,7 @@ editor_options:
 output: bookdown::html_document2
 ---
 
-```{r knitr_config, message=FALSE, warning=FALSE, include=FALSE}
+```{r knitr_configv, message=FALSE, warning=FALSE, include=FALSE}
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -25,10 +25,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-En el ámbito del análisis espacial en **R**, se pueden clasificar 
- **el formato** de datos espaciales en función del modelo de datos
-[@Lovelance_et_al_2019]. Se pueden distinguir dos tipos de modelos de datos: 
-vectores y raster.
+En el ámbito del análisis espacial en **R**, se pueden clasificar **el formato**
+de datos espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se
+pueden distinguir dos tipos de modelos de datos: vectores y raster.
 
 ## Datos de vectores
 

@@ -175,7 +175,6 @@ renta %>%
   left_join(munis) %>%
   dplyr::select(name, cpro, cmun, `2019`) %>%
   class()
-
 ```
 
 El resultado es un tibble o data.frame, ¡pero no es espacial!
