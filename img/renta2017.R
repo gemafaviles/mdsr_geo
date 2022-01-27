@@ -27,20 +27,20 @@ munis_renta <- munis %>%
 ## ¿Son longitud y latitud significativas para explicar la renta?
 # ------------------------------------------------------------------------------
 renta_hogar_y <- munis_renta$Renta_hogar
-long= st_coordinates(munis_renta$geometry)[, 1]
-lat = st_coordinates(munis_renta$geometry)[, 2]
+long <- st_coordinates(munis_renta$geometry)[, 1]
+lat <- st_coordinates(munis_renta$geometry)[, 2]
 
-df_renta_coord= as.data.frame(cbind(renta_hogar_y, long, lat))
+df_renta_coord <- as.data.frame(cbind(renta_hogar_y, long, lat))
 summary(is.na(df_renta_coord))
-df_renta_coord <- na.omit(df_renta_coord) 
+df_renta_coord <- na.omit(df_renta_coord)
 
 ## lm --- no salen significativas. Sorpresa!
-fit_lm <- lm(log(renta_hogar_y) ~ long + lat, df_renta_coord )
+fit_lm <- lm(log(renta_hogar_y) ~ long + lat, df_renta_coord)
 summary(fit_lm)
 
 ## GAM --- sí salen significativas. Lo esperado!
 library(mgcv)
-fit_gam <- gam(log(renta_hogar_y) ~ s(long, bs="ps") + s(lat,bs="ps"), data=df_renta_coord)
+fit_gam <- gam(log(renta_hogar_y) ~ s(long, bs = "ps") + s(lat, bs = "ps"), data = df_renta_coord)
 summary(fit_gam)
 
 # ------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ canbox <- esp_get_can_box()
 ggplot(munis_renta) +
   geom_sf(aes(fill = labs), color = NA) +
   geom_sf(data = ccaa, fill = NA, color = "grey10", size = 0.2) +
-  geom_sf(data=canbox, color ="grey10", size = 0.2)+
+  geom_sf(data = canbox, color = "grey10", size = 0.2) +
   scale_fill_manual(values = c(hcl.colors(10, "Blue-Red"), "grey10")) +
   theme_void() +
   labs(
@@ -86,8 +86,3 @@ ggplot(munis_renta) +
   )
 
 ggsave("img/renta2017.png", dpi = 300, bg = "white")
-
-
-
-
-

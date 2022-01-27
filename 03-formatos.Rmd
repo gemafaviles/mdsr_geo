@@ -1,0 +1,691 @@
+```{r knitr_configv, message=FALSE, warning=FALSE, include=FALSE}
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+```
+
+# Formatos de datos espaciales {#formatos}
+
+## Tipos de ficheros (COMPLETAR)
+
+Poner el esquema de los Shapes.
+
+<https://en.wikipedia.org/wiki/Shapefile>
+
+Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.
+
+Y pensar si tiene que venir aquí o dónde... quizá al final de la sección
+FORMATOS DE DATOS ESPACIALES
+
+En el ámbito del análisis espacial en **R**, se pueden clasificar **el formato**
+de datos espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se
+pueden distinguir dos tipos de modelos de datos: vectores y raster.
+
+## Datos de vectores
+
+Este modelo está basado en puntos georeferenciados. Los **puntos** pueden
+representar localizaciones específicas, como la localización de edificios:
+
+```{r puntos, fig.cap="Datos vector: Puntos"}
+
+library(ggplot2)
+library(sf)
+
+
+# Hospitales en Toledo segun Eurostat
+hosp_toledo <- st_read("data/hosp_toledo.geojson", quiet = TRUE)
+
+# Plot
+ggplot() +
+  geom_sf(
+    data = hosp_toledo, aes(fill = "Centros Sanitarios"),
+    color = "blue"
+  ) +
+  labs(
+    caption = "Datos: Eurostat",
+    title = "Hospitales y Centros de Salud en Toledo",
+    fill = ""
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Estos puntos también pueden estar conectados entre sí, de manera que formen
+geometrías más complejas, como **líneas** y **polígonos**:
+
+```{r lineas-pol, fig.cap="Datos vector: Puntos, líneas y polígonos"}
+
+tajo <- st_read("data/tajo_toledo.shp", quiet = TRUE)
+toledo <- st_read("data/toledo_ciudad.gpkg", quiet = TRUE)
+
+
+ggplot(toledo) +
+  geom_sf(fill = "cornsilk2") +
+  geom_sf(data = tajo, col = "lightblue2", lwd = 2, alpha = 0.7) +
+  geom_sf(data = hosp_toledo, col = "blue") +
+  coord_sf(
+    xlim = c(-4.2, -3.8),
+    ylim = c(39.8, 39.95)
+  ) +
+  theme_minimal()
+```
+
+En la Fig. \@ref(fig:lineas-pol), el río Tajo está representado como una línea
+(sucesión de puntos unidos entre sí) y la ciudad de Toledo como un polígono
+(línea de puntos cerrada formando un continuo). A modo ilustrativo, la Fig.
+\@ref(fig:lineas-pol-desc) representa la descomposición en puntos de todos los
+datos espaciales representados en la Fig. \@ref(fig:lineas-pol).
+
+```{r lineas-pol-desc, echo=FALSE, fig.cap="Datos vector: Descomposición en puntos"}
+
+ggplot(st_cast(st_geometry(toledo), "POINT")) +
+  geom_sf(col = "cornsilk3") +
+  geom_sf(
+    data = st_cast(st_geometry(tajo), "POINT"),
+    col = "lightblue2"
+  ) +
+  geom_sf(data = hosp_toledo, col = "blue") +
+  coord_sf(
+    xlim = c(-4.2, -3.8),
+    ylim = c(39.8, 39.95)
+  ) +
+  theme_minimal() +
+  labs(title = "Descomposición de vectores")
+```
+
+## Datos raster
+
+Los datos ráster son datos representandos en una rejilla rectangular de píxeles
+(denomindada **matriz**) que se puede visualizar en diversos dispositivo de
+representación. El caso más cotidiano de un ráster es una fotografía, donde la
+imagen se representa como una serie de celdas, determinadas por la resolución de
+la imagen (número total de píxeles, determinados como número de píxeles en cada
+fila por número de píxeles en cada columna) y el color que presenta cada uno de
+estos píxeles.
+
+En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
+ráster está formado por una malla regular de píxeles georreferenciada, tal y
+como muestra la Fig. \@ref(fig:raster):
+
+```{r raster, fig.cap="Datos ráster"}
+
+library(raster)
+
+elev <- raster("data/Toledo_DEM.tiff")
+plot(elev, main = "Elevación de la provincia de Toledo")
+
+# Mostramos el grid
+pols <- rasterToPolygons(elev)
+plot(pols, add = TRUE, border = "grey90")
+
+# Añadimos la provincia
+Tol_prov <- st_read("data/Toledo_prov.gpkg", quiet = TRUE)
+
+# Si queremos solamente la forma en sf, usamos st_geometry
+plot(st_geometry(Tol_prov), add = TRUE)
+```
+
+En la Fig. \@ref(fig:raster), el objeto ráster `elev` tiene únicamente una capa
+(denominada `ESP_alt`). Eso implica que cada píxel tiene asociado un único
+valor, en este caso, en este caso la altitud media del terreno observada:
+
+```{r detalle-pixel, echo=FALSE, fig.cap="Datos ráster: Detalle"}
+
+library(dplyr)
+
+as.data.frame(elev, xy = TRUE) %>%
+  as_tibble() %>%
+  head(15) %>%
+  knitr::kable(caption = "Datos de un ráster (detalle)")
+
+
+# Subset de las primeras 15 celdas
+
+top15 <- elev[1, 1:15, drop = FALSE]
+
+plot(top15, main = "Detalle de los primeros 15 pixels")
+```
+
+Los rásters pueden contener varias capas (o layers), de manera que cada píxel
+puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
+un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
+azul), de manera que al combinar las tres capas se puede definir un color
+distinto en cada píxel.
+
+En la Fig. \@ref(fig:raster-multilayer) vamos a usar una imagen de mapa
+georreferenciada, como las proporcionadas por servicios de mapas online, para
+analizar su composición.
+
+```{r raster-multilayer, echo=FALSE, fig.cap="Datos ráster con varias bandas"}
+
+# Para leer archivos con varios layers usaremos brick
+tile <- brick("data/Toledo_multi_tile.tiff")
+
+plotRGB(tile, mar = c(0, 0, 2, 0), main = "Provincia de Toledo")
+plot(st_geometry(Tol_prov), add = TRUE)
+```
+
+El ráster se puede descomponer en las tres capas RGB mencionadas anteriormente:
+
+```{r detalle-pixel-multicapa, echo=FALSE, fig.cap="Datos ráster multicapa: Descomposición"}
+as.data.frame(tile, xy = TRUE) %>%
+  as_tibble() %>%
+  head(15) %>%
+  knitr::kable(caption = "Datos de un ráster multicapa (detalle)")
+
+# Subset de las primeras 15 celdas
+
+top15_2 <- tile[1:100, 1:100, drop = FALSE]
+
+plotRGB(top15_2, mar = c(0, 0, 2, 0), main = "Imagen: Detalle")
+plot(top15_2,
+  mar = c(0, 0, 2, 4), main = "Imagen: Detalle capas",
+  axes = FALSE
+)
+```
+
+## Sistema de Referencia de Coordenadas (CRS) {#CRS}
+
+Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
+**Coordinate Reference System**) permite relacionar datos espaciales con su
+localización en la superficie terrestre.
+
+**Los CRS constituyen por tanto un aspecto fundamental en el análisis y
+representación de datos espaciales**, ya que nos permiten identificar con
+exactitud la posición de los datos sobre el globo terráqueo.
+
+Así mismo, cuando se trabaja con datos espaciales provenientes de distintas
+fuentes de información, es necesario comprobar que dichos datos se encuentran
+definidos en el mismo CRS:
+
+```{r datosdesalineados, echo=FALSE, fig.cap="Representación de mismos valores de coordenadas en distintos CRS"}
+
+library(giscoR)
+library(nominatimlite)
+library(sf)
+
+
+# Mundo en WGS84
+world <- gisco_get_countries(epsg = 4326)
+
+# Toledo  en WGS84
+toledo <- geo_lite_sf("Toledo, Spain")
+
+toledo_ok <- st_transform(toledo, st_crs(4326))
+
+# Fuerza error sobreescribiendo (no transformando) coordenadas
+toledo_err <- toledo_ok
+st_crs(toledo_err) <- st_crs(3857)
+
+plot(st_geometry(world),
+  ylim = c(-10, 80),
+  xlim = c(-20, 20), axes = TRUE
+)
+plot(st_geometry(toledo_ok),
+  add = TRUE, bg = "green", color = "black", pch = 21, cex = 2
+)
+
+# Aún necesito transformarlo para crear el plot
+plot(st_geometry(st_transform(toledo_err, st_crs(4326))),
+  add = TRUE, bg = "red", color = "black", pch = 21, cex = 2
+)
+title("Ejemplo: Mismas coordenadas en distintos CRS")
+```
+
+En la Fig. \@ref(fig:datosdesalineados), ambos puntos (verde y rojo) tienen los
+mismos valores de coordenadas en los ejes X e Y, en este caso las
+correspondientes a la ciudad de Toledo. Sin embargo, presentan distintos CRS.
+Por este motivo, al representar ambos puntos en un mapa, se observa que no se
+están refiriendo a la misma localización geográfica. Esto es así porque el CRS
+define la referencia (punto x=0 e y =0) y las unidades de los ejes (grados,
+metros, millas).
+
+Como conclusión, **además de disponer de las coordenadas de los datos
+espaciales, es necesario conocer el CRS en el que están definidos para conocer
+de manera exacta su localización geográfica.** Además, nótese que para cualquier
+**análisis de datos espaciales** es necesario que todos los geodatos **se
+encuentren referenciados en el mismo CRS**. Esto se consigue transformando (o
+proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
+mismos.
+
+### Tipos de CRS
+
+A continuación se definen los dos grandes tipos de CRS, los CRS geográficos y
+los CRS proyectados.
+
+#### CRS geográficos
+
+Los CRS geográficos son aquellos en los que los parámetros empleados para
+localizar una posición espacial son la latitud y la longitud:
+
+-   **Latitud**: Es la distancia angular expresada en grados sobre el plano
+    definido por el ecuador terrestre. Determina la posición sobre de una
+    localización en el eje Norte-Sur de la Tierra y toma valores en el rango
+    $[-90º,90º]$ . Las líneas imaginarias determinadas por una sucesión de
+    puntos con la misma latitud a lo largo del eje Este-Oeste se denominan
+    **paralelos** (Ver Fig. \@ref(fig:meridianos)).
+
+```{r paralelos, echo=FALSE, fig.cap="Paralelos terrestres"}
+
+library(sf)
+library(s2)
+library(giscoR)
+library(dplyr)
+
+g <- as_s2_geography(TRUE)
+
+mundo_init <- gisco_get_coastallines(
+  epsg = 4326,
+  resolution = 20
+)
+
+mundo <- mundo_init %>%
+  st_as_s2()
+
+# Parte visible
+b <- s2_buffer_cells(
+  as_s2_geography("POINT(10 10)"),
+  9800000
+)
+
+# Lineas de latitud
+all <- st_graticule(
+  crs = st_crs(4326),
+  ndiscr = 300
+)
+lat <- all %>% filter(type == "N")
+ecuador <- lat %>% filter(degree == 0)
+
+# Crea modelo de Tierra esférica
+mundo_v <- s2_intersection(b, mundo)
+lat_v <- s2_intersection(b, lat)
+ecuador_v <- s2_intersection(b, ecuador)
+
+# Proyecta a ortogonal
+orto_crs <- st_crs("+proj=ortho +lat_0=10 +lon_0=10")
+
+mundo_ort <- st_as_sfc(mundo_v) %>% st_transform(orto_crs)
+lat_orto <- st_as_sfc(lat_v) %>%
+  st_transform(orto_crs) %>%
+  st_as_sf(st_drop_geometry(lat), .) %>%
+  mutate(label = paste0(degree, "º"))
+ecuador_orto <- st_as_sfc(ecuador_v) %>%
+  st_transform(orto_crs) %>%
+  st_as_sf(label = "Ecuador")
+b_orto <- st_as_sfc(b) %>% st_transform(orto_crs)
+
+
+library(ggplot2)
+
+paralelos <- ggplot(mundo_ort) +
+  geom_sf(fill = "grey95", color = NA) +
+  geom_sf(data = b_orto, fill = NA) +
+  geom_sf(data = lat_orto, linetype = "dashed") +
+  geom_sf(data = ecuador_orto, aes(color = label), size = 1.5) +
+  geom_sf_text(
+    data = lat_orto, aes(label = label),
+    nudge_x = -180 * 10000,
+    nudge_y = 40 * 10000,
+    size = 3
+  ) +
+  scale_color_manual(values = "blue", name = "") +
+  coord_sf(
+    lims_method = c("geometry_bbox")
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = .5, face = "bold"),
+    legend.position = "top"
+  ) +
+  labs(title = "Líneas de Latitud o Paralelos")
+```
+
+-   **Longitud**: Es la distancia angular expresada en grados sobre el plano
+    definido por el meridiano de Greenwich. Determina la posición sobre de una
+    localización en el eje Este-Oeste de la Tierra y toma valores en el rango
+    $[-180º,180º]$ . Las líneas imaginarias determinadas por una sucesión de
+    puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
+    **meridianos** (Ver Fig. \@ref(fig:meridianos)).
+
+```{r meridianos, echo=FALSE, fig.show="hold", out.width="50%", fig.cap="Paralelos y Meridianos terrestres"}
+lon <- all %>% filter(type == "E")
+greenwich <- lon %>% filter(degree == 0)
+
+lon_v <- s2_intersection(b, lon)
+greenwich_v <- s2_intersection(b, greenwich)
+
+lon_orto <- st_as_sfc(lon_v) %>%
+  st_transform(orto_crs) %>%
+  st_collection_extract("LINESTRING")
+
+greenwich_orto <- st_as_sfc(greenwich_v) %>%
+  st_transform(orto_crs) %>%
+  st_collection_extract("LINESTRING") %>%
+  st_as_sf(label = "Meridiano de Greenwich")
+
+# Labels, donde corten los meridianos con el Ecuador
+labs_geo <- st_intersection(lon_orto, ecuador_orto)
+labs <- st_sf(label = paste0(seq(-60, 80, 20), "º"), labs_geo)
+
+merid <- ggplot(mundo_ort) +
+  geom_sf(fill = "grey95", color = NA) +
+  geom_sf(data = b_orto, fill = NA) +
+  geom_sf(data = lon_orto, linetype = "dashed") +
+  geom_sf(data = greenwich_orto, aes(color = label), size = 1.5) +
+  geom_sf_text(
+    data = labs, aes(label = label),
+    nudge_x = -40 * 10000,
+    nudge_y = 100 * 10000,
+    size = 3
+  ) +
+  scale_color_manual(values = "blue", name = "") +
+  coord_sf(
+    lims_method = c("geometry_bbox")
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = .5, face = "bold"),
+    legend.position = "top"
+  ) +
+  labs(title = "Líneas de Longitud o Meridianos")
+
+paralelos
+merid
+```
+
+Es muy importante destacar que en un sistema de coordenadas geográfico, es
+decir, basado en latitudes y longitudes, las **distancias** entre dos puntos
+representan **distancias angulares**. Por ejemplo, la distancia entre el
+meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
+es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
+metros entre ambos meridianos no es constante.
+
+```{r distang, echo=FALSE, fig.cap="Distancia entre meridianos en distintas latitudes" }
+
+# Selecciona lineas
+l0 <- st_linestring(matrix(c(0, 20, 0, 0), nrow = 2)) %>%
+  st_sfc(crs = st_crs(4326)) %>%
+  st_segmentize(300)
+
+l60 <- st_linestring(matrix(c(0, 20, 60, 60), nrow = 2)) %>%
+  st_sfc(crs = st_crs(4326)) %>%
+  st_segmentize(300)
+
+
+# Une lineas
+geom <- c(l0, l60)
+
+# Data frame
+df <- st_sf(dist = as.numeric(st_length(geom)) / 1000, geom)
+df_ortho <- st_transform(df, st_crs(lon_orto))
+df_ortho$dist <- paste(prettyNum(round(df_ortho$dist, 0),
+  big.mark = ","
+), "km")
+
+
+p <- merid +
+  geom_sf(data = df_ortho, color = "red", size = 2) +
+  geom_sf_label(
+    data = df_ortho, aes(label = dist), size = 4.5,
+    color = "red",
+    nudge_x = 300 * 10000
+  ) +
+  theme(
+    legend.position = "none",
+    plot.subtitle = element_text(hjust = .5)
+  ) +
+  labs(
+    title = "Distancia entre meridianos",
+    subtitle = "En latitud 0º y 20ºN"
+  )
+
+p
+```
+
+#### CRS proyectados
+
+La representación de formas tridimensionales en un soporte plano (dos
+dimensiones) presenta algunos retos. Por ello, es habitual trabajar con
+proyecciones de mapas.
+
+Una **proyección geográfica** es un método para reducir la superficie de la
+esfera terrestre a un sistema cartesiano de dos dimensiones. Para ello, es
+necesario transformar las coordenadas longitud y latitud en coordenadas
+cartesianas x e y.
+
+Es importante destacar que las proyecciones pueden incluir un punto de origen
+(X=0, Y=0) y unas unidades de distancia (habitualmente metros) específicas. Por
+ejemplo, la **proyección cónica equiáreas de Albers** (específica para Estados
+Unidos) define su punto de referencia (0,0) en la latitud 40º N y longitud 96º,
+y la unidad de variación están definida en metros. De ahí la importancia de
+conocer el CRS de los datos geográficos, como se expuso al principio de este
+tema.
+
+El Anexo \@ref(crsproy) proporciona más información sobre los tipos de CRS
+proyectados.
+
+### Trabajando con proyecciones en R
+
+Existe toda una serie de proyecciones predefinidas, identificadas mediante los
+**códigos EPSG, ESRI, WKT** o proj4 (en desuso en R, pero todavía admitidos).
+Existen varios recursos web donde se pueden consultar y seleccionar los códigos
+correspondientes:
+
+-   <https://epsg.io/>
+
+-   <https://spatialreference.org/>
+
+-   <https://proj.org/operations/projections/index.html>
+
+Algunos de los códigos de proyecciones que es fundamental conocer son:
+
+-   **EPSG: 4326**: Proyección correspondiente a WGS 84, que es el sistema usado
+    por los sistemas GPS. Cuando trabajemos con coordenadas geográficas
+    longitud/latitud, este es habitualmente el CRS de referencia.
+
+-   **EPSG: 3857**: Código correspondiente a la proyección de Mercator, usada
+    habitualmente por servicios como Google Maps, etc.
+
+Se pueden consultar otros CRS de uso común en España en la página del
+[Ministerio de Agricultura, Pesca y
+Alimentación](https://www.mapa.gob.es/es/cartografia-y-sig/ide/directorio_datos_servicios/caracteristicas_wms.aspx)
+
+En la sección \@ref(quecrsuso) veremos cómo encontrar un CRS usando el paquete
+`crsuggest`.
+
+El paquete `sf` permite obtener los parámetros de cualquier proyección mediante
+la función `st_crs()`:
+
+**(i) EPSG WGS 84 (Sistema Global GPS): EPSG 4326**
+
+```{r crs_epsg4326}
+library(sf)
+
+# Ejemplo: EPSG WGS 84 (Sistema Global GPS): EPSG 4326
+st_crs(4326)
+```
+
+**(ii) ESRI North America Albers Equal Area Conic: ESRI:102008**
+
+```{r crs2}
+# Usando código ESRI North America Albers Equal Area Conic
+
+st_crs("ESRI:102008")
+```
+
+**(iii) Usando proj4string: Robinson: +proj=robin**
+
+```{r crs3}
+# Usando proj4string: Robinson
+
+st_crs("+proj=robin")
+```
+
+La mayoría de los objetos espaciales serán de la clase `sf`, por tanto, resulta
+interesante conocer cómo se proyectan estos objetos.
+
+Es posible proyectar un objeto `sf` mediante la función `st_transform()`. En el
+siguiente ejemplo vemos cómo partimos de un objeto con **EPSG:4326** y cambiamos
+su proyección a otras proyecciones, como **Mercator** o **Robinson**:
+
+```{r project-map, fig.cap=c("Proyección del mundo en coordenadas geográficas (EPSG 4326)", "Proyección del mundo en Mercator (EPSG 3857)", "Proyección del mundo en Robinson (+proj=robin)")}
+
+# Usa datos del paquete giscoR
+
+library(giscoR)
+
+paises <- gisco_get_countries()
+
+# Comprobamos el CRS de estos datos
+# Se puede almacenar en un objeto y usar posteriormente
+# Vemos que es EPSG:4326, por tanto son coordenadas geográficas longitud/latitud
+st_crs(paises)
+
+# Plot
+plot(st_geometry(paises), axes = TRUE)
+
+# Proyectamos a Mercator
+# El eje cambia porque Mercator usa metros
+paises_merc <- st_transform(paises, st_crs(3857))
+plot(st_geometry(paises_merc), axes = TRUE)
+# Proyectamos a Robinson
+paises_robin <- st_transform(paises, st_crs("+proj=robin"))
+plot(st_geometry(paises_robin), axes = TRUE)
+```
+
+Como se comentó anteriormente, cuando se usan geodatos de diversas fuentes, es
+necesario que todos presenten el mismo CRS. En la Fig \@ref(fig:puertos-error)
+se muestra lo que ocurre si esto no se cumple:
+
+```{r puertos-error, fig.cap="Ejemplo: Puertos del mundo"}
+# Añadimos a este mapa puertos mundiales de giscoR
+
+puertos <- gisco_get_ports()
+plot(st_geometry(paises_robin), main = "Puertos en el mundo")
+plot(st_geometry(puertos), add = TRUE, col = "red", pch = 20)
+```
+
+Vemos que ha habido algún tipo de error, ¿a que puede deberse?
+
+```{r puertos-ok, fig.cap="Ejemplo: Puertos del mundo, CRS alineados"}
+# Comprueba CRS
+
+st_crs(puertos) == st_crs(paises_robin)
+
+# Los puertos no están en Robinson! Proyectamos al mismo CRS
+puertos_robin <- st_transform(puertos, st_crs(paises_robin))
+plot(st_geometry(paises_robin), main = "Puertos en el mundo")
+plot(st_geometry(puertos_robin), add = TRUE, col = "blue", pch = 20)
+```
+
+Como vemos, en el primer mapa (Fig. \@ref(fig:puertos-error)) los puertos se
+concentran en un único punto, dado que no están referenciados en el mismo CRS.
+Tras proyectarlos al mismo CRS, el mapa se representa adecuadamente (Fig.
+\@ref(fig:puertos-ok)).
+
+En otros paquetes, como `sp` o `raster`, existen funciones parecidas que nos van
+a permitir obtener los parámetros de un CRS y proyectar los objetos al CRS
+deseado. Cuando empleemos el paquete `sp` podemos usar las funciones `CRS()` y
+`spTransform()`:
+
+```{r sp, fig.cap="Transformaciones en sp"}
+
+library(sp)
+
+# Convertimos sf a sp
+paises_sp <- as(paises, "Spatial")
+
+# En sp podemos usar:
+# CRS("+proj=robin")
+#
+# O también desde sf
+# CRS(st_crs(paises_robin)$proj4string)
+
+
+paises_sp_robin <- spTransform(paises_sp, CRS("+proj=robin"))
+plot(paises_sp_robin)
+```
+
+En el caso de un objeto `raster`, podemos usar `crs()` y `projectRaster()`:
+
+```{r raster-crs, fig.cap="Transformaciones en raster"}
+library(raster)
+
+
+# Extrae información de altitud para España
+elev <- raster("data/ESP_msk_alt.grd")
+
+
+# Transforma
+elev_robinson <- projectRaster(elev, crs = crs("+proj=robin"))
+plot(elev_robinson)
+```
+
+Por último, en el paquete `terra` las funciones correspondientes son `crs()` y
+`project()`:
+
+```{r terra, fig.cap="Transformaciones en terra"}
+library(terra)
+
+# Convierte de raster a terra
+elev_terra <- rast(elev)
+
+
+# Transforma
+elev_terra_robinson <- terra::project(elev_terra, terra::crs(elev_terra))
+plot(elev_terra_robinson)
+```
+
+### ¿Qué proyección uso? {#quecrsuso}
+
+El CRS adecuado para cada análisis depende de la localización y el rango
+espacial de los datos. Un CRS adecuado para representar un mapa del mundo puede
+no serlo para representar datos de zonas específicas de la Tierra. Los recursos
+web mencionados anteriormente permiten la búsqueda de CRS por zona geográfica, y
+adicionalmente en **R** existe el paquete `crsuggest` [@R-crsuggest] que nos
+facilita la labor, sugiriendo el CRS más adecuado para cada zona:
+
+```{r crsuggest}
+library(crsuggest)
+
+# Usando raster
+sugerencias <- suggest_crs(elev)
+```
+
+```{r muestra-tabla, echo=FALSE}
+
+knitr::kable(sugerencias, caption = "Tabla sugerencias, detalle")
+```
+
+```{r sugerencia, fig.cap=c("raster: Ejemplo de transformación usando crsuggest","sf: Ejemplo de transformación usando crsuggest")}
+# Probamos sugerencia
+crs_suggest <- suggest_crs(elev, limit = 1)
+
+elev_suggest <- projectRaster(elev, crs = raster::crs(crs_suggest$crs_proj4))
+
+plot(elev_suggest)
+
+# Ejemplo con sf: China
+
+china <- gisco_get_countries(country = "China")
+china_crs <- suggest_crs(china, limit = 1)
+
+china_crs
+
+
+china_suggest <- st_transform(
+  china,
+  st_crs(as.integer(china_crs$crs_code))
+)
+
+
+plot(st_geometry(china_suggest), axes = TRUE)
+```

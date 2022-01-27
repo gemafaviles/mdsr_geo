@@ -7,13 +7,21 @@ author:
 date: "`r Sys.Date()`"
 bibliography: refbib.bib
 csl: apa-6th-edition.csl
+lang: es
 editor_options:
   markdown:
     wrap: 80
   chunk_output_type: console
 output: 
-  html_document: 
+  bookdown::html_document2:
+    theme: lumen
     toc: yes
+    toc_depth: 2
+    number_sections: yes
+  bookdown::pdf_document2:
+    latex_engine: "xelatex"
+    toc: yes
+    toc_depth: 2
     number_sections: yes
 ---
 
@@ -22,11 +30,15 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   warning = FALSE,
-  tidy = "styler",
   message = FALSE,
+  tidy = "styler",
   out.width = "60%",
-  fig.align = "center"
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
 )
+
+
 ```
 
 <center>
@@ -54,66 +66,68 @@ Recursos de estadísitca espacial en R:
 -   [rspatial](https://rspatial.org/)
 -   [R-spatial](https://r-spatial.org/projects/)
 
-Otros recursos web interesantes:
+Otros recursos web interesantes, esto es para nosotros:
 
 -   Libro de Ruben
 -   Rositter
 -   Libro Hengl
 -   Libro de Páez
 
-<!-- La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te -->
-<!-- parece bien? -->
+<!-- La idea es que en los apuntes el código vaya oculto y luego se lo pasamos. ¿Te parece bien? -->
 
 # La revolución de los geodatos
 
-```{r, child=c('child_02_geodata_rev.Rmd')}
+```{r, child=c('01_rev_geodatos.Rmd')}
+
 ```
 
-<!-- Propuesta: Ejemplo de movilidad covid. HECHO -->
+# Datos geográficos
 
-# Geocomputación y R-spatial
+```{r, child=c('02_geocomp.Rmd')}
+```
 
-```{r, child=c('child_02_geocomp_Rsp.Rmd')}
+
+# Formatos de datos espaciales {#formatos}
+
+## Tipos de ficheros
+```{r, child=c('04a_tipos_ficheros.Rmd')}
+```
+
+
+<!-- Vectores y Rasters, el titulo está ya incluido en el child -->
+
+```{r, child=c('04bc_vect_rast.Rmd')}
+```
+
+##  Sistema de Referencia de Coordenadas (CRS) {#CRS}
+
+```{r, child=c('04d_CRS.Rmd')}
 ```
 
 # Estadística espacial
 
-```{r, child=c('child_02_est_esp.Rmd')}
+```{r, child=c('03_est_esp.Rmd')}
 ```
 
-# Formatos de datos espaciales IGUAL SE PUEDE PONER UN NOMBRE MÁS GENÉRICO Y QUE VAYA TODOD
+# Aplicaciones
 
-## Vectores
-
-## Ráster.
-
-## CRS
-
-```{r, child=c('child_CRS.Rmd')}
+```{r, child=c('05_aplic_tmin.Rmd')}
 ```
 
-## Tipos de ficheros (ver contigo).
 
-# APLICACIÓNES:
+<!-- Renta -->
+```{r, child=c('05b_Renta.Rmd')}
+```
 
-para explicar cómo se hace un merge y luego se representa en un mapa o en unos
-puntos
+<!-- Puntos -->
+```{r, child=c('05c_ppp.Rmd')}
+```
 
-# EXTENSIONES:
 
-ESPACIO-TEMPORAL SÍ. Pensar qué. Temperatura mínima? Mapas de contorno y en 3D,
-se usan mucho.
+# Apéndice o nada
 
-Leaflet: el de contaminación con las capas quedó muy bien, se puede poner.
 
-bbox, elecciones (discreta), google satélite ? SE podía poner algo de COVID...
 
-Todo muy sencillo y con un ejemplito
 
-## Mapas temáticos (esto podría ir dentro de los ejemplos..., ver con DIEGO)
 
-mapSpain, tmap Datos que ya tenemos: -Medioambiente Madrid. -Temperatura mínima
-ESpaña - Alguno económico a nivel municipal para españa (PIB, PARO,..) - Alguno
-de La Palma.
-
-# References
+# Referencias

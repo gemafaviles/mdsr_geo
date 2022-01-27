@@ -1,0 +1,60 @@
+--- 
+title: "Visualización y geolocalización de datos"
+author:
+- Gema Fernández-Avilés
+- Diego Hernangómez
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+csl: apa-6th-edition.csl
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  Máster en Data Science & Business Analytics (con R Software)
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+```{r setup_book, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  tidy = "styler",
+  out.width = "60%",
+  fig.align = "center",
+  dev = "ragg_png",
+  dpi = 300
+)
+
+
+```
+
+# Introducción {-}
+
+```{r echo=FALSE}
+knitr::include_graphics("img/logo_mdsr_uclm.png")
+```
+
+**Objetivos de aprendizaje**
+
+**¿Por dónde empezamos? Recursos interesantes**
+
+Libros de referencia:
+
+-   [Spatial Data Science with applications in
+    R](https://keen-swartz-3146c4.netlify.app/)
+
+-   [Geocomputation with R](https://geocompr.robinlovelace.net/)
+
+-   [Displaying time series, spatial and space-time data with
+    R](https://oscarperpinan.github.io/bookvis/)
+
+Recursos de estadística espacial en R:
+
+-   [rspatial](https://rspatial.org/)
+-   [R-spatial](https://r-spatial.org/projects/)
+
+
