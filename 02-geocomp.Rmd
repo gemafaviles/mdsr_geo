@@ -32,7 +32,7 @@ knitr::include_graphics("img/GIS.png")
 ```
 
 Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia
-computacional** se han convertido en herramientas creativas y complemenarías a
+computacional** se han convertido en herramientas creativas y complementarias a
 los convencionales GIS, dando origen a la *Geocomputación*, que trata de
 utilizar el *poder de los ordenadores para hacer cosas con los datos
 geográficos*.
@@ -101,7 +101,7 @@ no sólo en el tema que nos ocupa:
     creación de matrices de contiguidad/distancia **W**, estimación de modelos
     econométricos espaciales, etc
 
--   `spatstat` para el análisis de procesos de puntos espaciales, inensidad,
+-   `spatstat` para el análisis de procesos de puntos espaciales, intensidad,
     etc.
 
 ## Conceptos clave

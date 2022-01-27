@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # La revolución de los geodatos
 
-Que estamos en la la *era del dato*, que los *datos son el petroleo del siglo
+Que estamos en la la *era del dato*, que los *datos son el petróleo del siglo
 XXI* y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
 *Data Scientist* se ha convertido en la **profesión más sexy del siglo XXI**
@@ -36,12 +36,12 @@ abrumadora. Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos p
 día (The Economist, 2016).
 
 Esta **revolución de los geodatos** y el **análisis de los datos espaciales**
-junto con los **Sistemas de Infomación Geográficos** (habitualmente expresados
+junto con los **Sistemas de Información Geográficos** (habitualmente expresados
 como **GIS** por las siglas de su nombre en inglés *Geographical Information
 System*) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como **Geocomputación**, sino que han dado lugar
-una nueva rama de conocimiento, **Ciencia de Datos Espaciales** comunmente
+una nueva rama de conocimiento, **Ciencia de Datos Espaciales** comúnmente
 conocida como *Spatial Data Scicene* (SDS).
 
 Como ejemplo de este abrumador desarrollo de datos georreferenciados, el

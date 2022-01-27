@@ -5,7 +5,7 @@ author:
 - Diego Hernangómez
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-documentclass: book
+documentclass: report
 bibliography: [book.bib]
 csl: apa-6th-edition.csl
 # url: your book url like https://bookdown.org/yihui/bookdown
@@ -29,7 +29,8 @@ knitr::opts_chunk$set(
   dpi = 300
 )
 
-
+Sys.setenv(GISCO_CACHE_DIR = "cache_dir")
+Sys.setenv(MAPSPAIN_CACHE_DIR = "cache_dir")
 ```
 
 # Introducción {-}
