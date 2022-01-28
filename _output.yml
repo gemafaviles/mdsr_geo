@@ -1,3 +1,5 @@
+book_filename: 'Visualización_geolocalizadión_datos'
+output_dir: book_geodatos
 bookdown::gitbook:
   css: style.css
   config:
