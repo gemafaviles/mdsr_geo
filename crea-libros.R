@@ -9,15 +9,34 @@ bookdown::render_book("index.Rmd",
   clean = TRUE, envir = new.env()
 )
 
+# Esto cambia References por Referencias en el html
+html <- list.files("_book", pattern = ".html$", full.names = TRUE)
 
-# bookdown::render_book("index.Rmd",
-#   output_format = "bookdown::pdf_book",
-#   envir = new.env()
-# )
+for (file in html) {
+  n <- readLines(file)
+  n <- gsub("References", "Referencias", n)
+  writeLines(n, file)
+  rm("n")
+}
+
+# Esto crea un pdf
+bookdown::render_book("index.Rmd",
+  output_format = "bookdown::pdf_book",
+  envir = new.env()
+)
+
+# Esto crea un epub
+bookdown::render_book("index.Rmd",
+  output_format = "bookdown::epub_book",
+  envir = new.env()
+)
+
 
 # Esto crea las aplicaciones
+# Por algún motivo ¿? en mi ordenador es necesario correrlo
+# a partir de una session nueva (Session>Restart)
 rmarkdown::render("99-aplicaciones.Rmd",
-  output_format = "html_document",
+  output_format = "bookdown::html_document2",
   output_file = "Aplicaciones.html"
 )
 

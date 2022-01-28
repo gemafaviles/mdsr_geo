@@ -11,7 +11,7 @@ bookdown::gitbook:
         <li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
       scroll_highlight: true
     edit: null
-    download: ["pdf"]
+    download: ["pdf", "epub"]
     search:
       engine: lunr
 bookdown::pdf_book:

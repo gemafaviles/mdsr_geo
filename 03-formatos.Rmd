@@ -217,7 +217,7 @@ library(sf)
 world <- gisco_get_countries(epsg = 4326)
 
 # Toledo  en WGS84
-toledo <- geo_lite_sf("Toledo, Spain")
+toledo <- mapSpain::esp_get_capimun(munic = "^Toledo$", epsg = 4326)
 
 toledo_ok <- st_transform(toledo, st_crs(4326))
 

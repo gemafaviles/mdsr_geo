@@ -1,8 +1,8 @@
 --- 
 title: "Visualización y geolocalización de datos"
 author:
-- Gema Fernández-Avilés
 - Diego Hernangómez
+- Gema Fernández-Avilés
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: report

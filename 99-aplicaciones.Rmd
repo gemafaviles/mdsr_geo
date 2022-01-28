@@ -2,8 +2,8 @@
 title: "Aplicaciones: Visualización y geolocalización de datos"
 subtitle: "Máster en Data Science & Business Analytics (con R Software)"
 author:
-- Gema Fernández-Avilés
 - Diego Hernangómez
+- Gema Fernández-Avilés
 bibliography: book.bib
 csl: apa-6th-edition.csl
 output:
@@ -36,7 +36,6 @@ knitr::opts_chunk$set(
 ***NOTA**: En las siguientes aplicaciones se asumen que los datos se localizan
 en la carpeta `data` del proyecto de R-Studio en el que se esté trabajando.*
 
-
 ## Temperaturas mínimas en España
 
 **Objetivo de aprendizaje**
@@ -54,11 +53,11 @@ abriendo el programa y creando un nuevo proyecto de R en *File>New Proyect*.
 
 El conjunto de datos proporcionado `(tempmin.csv`) contiene el nivel de
 temperatura del aire en España entre el 6 y el 10 de Enero de
-2021[^ap1_aplic_tmin-1]. Estos datos han sido descargados usando la librería
+2021[^aplicaciones-1]. Estos datos han sido descargados usando la librería
 `climaemet` [@R-climaemet] y han sido posteriormente tratados para su uso en
 esta práctica.
 
-[^ap1_aplic_tmin-1]: Las fechas seleccionadas coinciden con el periodo en el que
+[^aplicaciones-1]: Las fechas seleccionadas coinciden con el periodo en el que
     la tormenta Filomena tuvo su auge en la Península Ibérica.
 
 El primer paso consiste en importar la base de datos de temperatura mínima. El
@@ -276,11 +275,11 @@ ggplot() +
 *Tarea 7: Interpolación de la variable temperatura mínima `tmin` para el día 8
 de enero de 2021 con IDW*
 
-**Q3**: El mapa ha quedado muy claro. Vemos como los datos nos cuentan la
-historia de Filomena en aquellos sitios donde se tomaron mediciones, pero
-**¿podríamos tener un mapa de interpolación para tener una estimación de la
-temperatura mínima en las partes donde la AEMET no tiene estación de
-monitoreo?**
+**Q3**: El mapa (\@ref(fig:spatial-plots)) ha quedado muy claro. Vemos como los
+datos nos cuentan la historia de Filomena en aquellos sitios donde se tomaron
+mediciones, pero **¿podríamos tener un mapa de interpolación para tener una
+estimación de la temperatura mínima en las partes donde la AEMET no tiene
+estación de monitoreo?**
 
 Tal y como se avanzó en teoría, parece lógico pensar que aquellos puntos que
 estén cerca tendrán valores similares así que tomemos ventaja de la dependencia
@@ -330,7 +329,7 @@ malla_sf <- st_make_grid(
 
 Graficamos la superficie para ver exactamente qué hemos construido:
 
-```{r, fig.cap="Malla de puntos para interpolación"}
+```{r malla, fig.cap="Malla de puntos para interpolación"}
 
 ggplot(esp3) +
   geom_sf() +
@@ -354,8 +353,8 @@ ggplot(esp3) +
   )
 ```
 
-Se puede observar claramente cada una de las celdas que hemos creado. La
-interpolación asignará un valor a cada uno de ellas.
+En la Fig. \@ref(fig:malla) se puede observar claramente cada una de las celdas
+que hemos creado. La interpolación asignará un valor a cada uno de ellas.
 
 A continuación podemos llevar a cabo la interpolación usando el paquete `gstat`.
 Además, en lugar de celdas (polígonos) es necesario usar puntos en la
@@ -452,7 +451,6 @@ ggplot() +
   )
 ```
 
-
 ## Renta media por municipios
 
 Esta sección presenta un caso de uso en el que aprenderemos a realizar las
@@ -527,9 +525,20 @@ renta[grep("Noblejas", renta$Unidad), ]
 munis[grep("Noblejas", munis$name), c("name", "cpro", "cmun")]
 ```
 
-En el caso de Noblejas, el código completo es 45115. Sin embargo, en el caso de
-la tabla `renta`, debemos extraer ese valor del literal. Para ello debemos
-manipular la columna y extraer la primera palabra de la columna `Unidad`:
+En el caso de Noblejas, el código completo es **45115**. Sin embargo, en el caso
+de la tabla `renta`, debemos extraer ese valor del literal, ya que no tenemos
+este valor directamente, sino en combinación con otros valores ("**45115
+Noblejas**"). Para conseguir extraer un campo adecuado para el cruce en la tabla
+`renta` que contenga únicamente el código numérico vamos a hacer la siguiente
+manipulacion de datos:
+
+-   Para cada valor de la columna `Unidad`, dividiremos el texto usando los
+    espacios como delimitadores ("**45115 Noblejas"** pasará a ser **c("45115",
+    "Noblejas")**) y extraremos el código como el primer valor del vector
+    (**c("45115", "Noblejas")\[1\]** extrae **"45115"**).
+
+-   Usaremos ese resultado para crear una nueva columna `codigo_ine` que
+    usaremos como campo para cruzar.
 
 ```{r limpia_renta}
 
@@ -597,7 +606,7 @@ El resultado es un tibble o data.frame, **¡pero no es espacial!**
 Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
 como la realización de un histograma
 
-```{r basic}
+```{r basic, fig.cap="Histograma de la Renta per cápita en España (2019)"}
 
 library(ggplot2)
 
@@ -612,17 +621,17 @@ munis_renta %>%
   )
 ```
 
-Podemos observar que la renta presenta una distribución Gamma con un gran de
-municipios concentrados en zonas medias de renta y pocos municipios en tramos de
-rentas altas. Como veremos más adelante, esta distribución va a afectar a la
-información que transmite el mapa.
+En la Fig. \@ref(fig:basic) podemos observar que la renta presenta una
+distribución Gamma con un gran de municipios concentrados en zonas medias de
+renta y pocos municipios en tramos de rentas altas. Como veremos más adelante,
+esta distribución va a afectar a la información que transmite el mapa.
 
 *Tarea 5. Mapa de coropletas de la distribución de la renta*
 
 Vamos a realizar ahora un mapa de coropletas mostrando la distribución de la
 renta usando los valores brutos de renta sin modificar:
 
-```{r maparenta1}
+```{r maparenta1, fig.cap="Renta neta media por persona"}
 
 ggplot(munis_renta) +
   # Usamos geom_sf, y como aes() lo que queremos mostrar, en este caso, el
@@ -655,7 +664,7 @@ Este primer mapa no es demasiado informativo, por los siguientes motivos:
 Vamos a probar a eliminar los municipios sin datos y a cambiar la escala de
 color para ver si mejora la visualización.
 
-```{r maparenta2}
+```{r maparenta2, fig.cap="Renta neta media por persona con paleta de colores alternativa"}
 
 munis_renta_clean <- munis_renta %>% filter(!is.na(`2019`))
 
@@ -706,7 +715,7 @@ ejemplo planteamos los siguientes métodos de clasificación:
     agrupaciones de tal manera que los datos de cada grupo son "cercanas" entre
     sí y sustancialmente distintas de los valores de otros grupos.
 
-```{r classint, message=FALSE}
+```{r deciles, message=FALSE, fig.cap="Deciles de renta"}
 
 library(classInt)
 # Vamos a probar 3 métodos de clasificación: Deciles, tramos de Renta
@@ -717,7 +726,9 @@ deciles <- classIntervals(munis_renta_clean$`2019`,
 )
 deciles
 plot(deciles, pal = hcl.colors(20, "Inferno"), main = "Deciles")
+```
 
+```{r equidist, message=FALSE, fig.cap="Tramos de renta equidistante"}
 
 # Tramos equidistantes en términos de renta
 equal <- classIntervals(munis_renta_clean$`2019`,
@@ -725,6 +736,9 @@ equal <- classIntervals(munis_renta_clean$`2019`,
 )
 equal
 plot(equal, pal = hcl.colors(20, "Inferno"), main = "Equidistantes")
+```
+
+```{r fisher, message=FALSE, fig.cap="Tramos de renta usando Fisher-Jenks"}
 
 fisher <- classIntervals(munis_renta_clean$`2019`,
   style = "fisher",
@@ -741,17 +755,17 @@ plot(fisher,
 Podemos observar lo siguiente:
 
 -   El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
-    €.
+    € (Fig \@ref(fig:deciles)).
 
--   El método por deciles proporciona unos grupos con valores de renta muy
-    parecidos entre sí en los valores medios. Esto es debido a la propia
-    distribución de la variable.
+-   El método por deciles (Fig \@ref(fig:deciles)) proporciona unos grupos con
+    valores de renta muy parecidos entre sí en los valores medios. Esto es
+    debido a la propia distribución de la variable.
 
--   El método de rangos equidistantes proporciona algunos grupos con un número
-    muy reducido de municipios.
+-   El método de rangos equidistantes (Fig \@ref(fig:equidist)) proporciona
+    algunos grupos con un número muy reducido de municipios.
 
--   El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
-    apropiados para los tramos altos de renta.
+-   El método de Fisher-Jenks (Fig \@ref(fig:fisher)) puede proporcionar unas
+    clases con unos rangos más apropiados para los tramos altos de renta.
 
 *Tarea 8. Representar los mapas según las clases obtenidas*
 
@@ -832,10 +846,10 @@ ggplot(munis_renta_clean) +
   )
 ```
 
-El mapa de la Fig. \@ref(fig:mapa-deciles), sin embargo, se parece más al mapa
-que hicimos con los datos sin clasificar, donde el peso visual se concentra más
-bien en los municipios con rentas mucho más altas que el resto (por encimoa de
-18.000 €).
+El mapa de la Fig. \@ref(fig:mapa-equal), sin embargo, se parece más al mapa que
+hicimos con los datos sin clasificar (Fig. \@ref(fig:maparenta2)), donde el peso
+visual se concentra más bien en los municipios con rentas mucho más altas que el
+resto (por encimoa de 18.000 €).
 
 Veamos el mismo mapa usando Fisher-Jenks:
 
@@ -864,10 +878,10 @@ ggplot(munis_renta_clean) +
   )
 ```
 
-En el mapa de la Fig. \@ref(fig:mapa-deciles) se puede observar de una manera
-más clara un cluster adicional de renta en la zona de Asturias y el norte de
-León. Además, gracias a la escala de colores puede intuirse que este clúster de
-renta no presenta valores tan altos como los observados en País Vasco o Madrid.
+En el mapa de la Fig. \@ref(fig:mapa-fisher) se puede observar de una manera más
+clara un cluster adicional de renta en la zona de Asturias y el norte de León.
+Además, gracias a la escala de colores puede intuirse que este clúster de renta
+no presenta valores tan altos como los observados en País Vasco o Madrid.
 
 En conclusión, en el momento de realizar una visualización de datos es
 importante conocer el dato a representar, así como entender algunas propiedades
@@ -1128,6 +1142,5 @@ densidad <- density(mydata_ppp)
 plot(densidad, main = " ")
 points(mydata_ppp, pch = "+", cex = 0.5)
 ```
-
 
 # Referencias
