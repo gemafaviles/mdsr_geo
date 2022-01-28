@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos</title>
+  <meta name="description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos" />
+  
+  <meta name="twitter:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
+  
+
+<meta name="author" content="Diego Hernangómez" />
+<meta name="author" content="Gema Fernández-Avilés" />
+
+
+<meta name="date" content="2022-01-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="datos-geográficos.html"/>
+<link rel="next" href="estadística-espacial.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Visualización y geolocalización de datos</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introducción</a></li>
+<li class="chapter" data-level="1" data-path="la-revolución-de-los-geodatos.html"><a href="la-revolución-de-los-geodatos.html"><i class="fa fa-check"></i><b>1</b> La revolución de los geodatos</a></li>
+<li class="chapter" data-level="2" data-path="datos-geográficos.html"><a href="datos-geográficos.html"><i class="fa fa-check"></i><b>2</b> Datos geográficos</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-geográficos.html"><a href="datos-geográficos.html#contexto-general"><i class="fa fa-check"></i><b>2.1</b> Contexto general</a></li>
+<li class="chapter" data-level="2.2" data-path="datos-geográficos.html"><a href="datos-geográficos.html#conceptos-clave"><i class="fa fa-check"></i><b>2.2</b> Conceptos clave</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="formatos.html"><a href="formatos.html"><i class="fa fa-check"></i><b>3</b> Formatos de datos espaciales</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-ficheros-completar"><i class="fa fa-check"></i><b>3.1</b> Tipos de ficheros (COMPLETAR)</a></li>
+<li class="chapter" data-level="3.2" data-path="formatos.html"><a href="formatos.html#datos-de-vectores"><i class="fa fa-check"></i><b>3.2</b> Datos de vectores</a></li>
+<li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#datos-raster"><i class="fa fa-check"></i><b>3.3</b> Datos raster</a></li>
+<li class="chapter" data-level="3.4" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.4</b> Sistema de Referencia de Coordenadas (CRS)</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.4.1</b> Tipos de CRS</a></li>
+<li class="chapter" data-level="3.4.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.4.2</b> Trabajando con proyecciones en R</a></li>
+<li class="chapter" data-level="3.4.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.4.3</b> ¿Qué proyección uso?</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estadística-espacial.html"><a href="estadística-espacial.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estadística-espacial.html"><a href="estadística-espacial.html#antes-de-continuar-dependencia-espacial."><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial.</a></li>
+<li class="chapter" data-level="4.2" data-path="estadística-espacial.html"><a href="estadística-espacial.html#datos-espaciales"><i class="fa fa-check"></i><b>4.2</b> Datos espaciales</a></li>
+<li class="chapter" data-level="4.3" data-path="estadística-espacial.html"><a href="estadística-espacial.html#clasificación-de-datos-espaciales"><i class="fa fa-check"></i><b>4.3</b> Clasificación de datos espaciales</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
+<li class="appendix"><span><b>Anexo</b></span></li>
+<li class="chapter" data-level="A" data-path="crsproy.html"><a href="crsproy.html"><i class="fa fa-check"></i><b>A</b> Tipos de CRS proyectados</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="crsproy.html"><a href="crsproy.html#por-tipo-de-superficie-de-proyección"><i class="fa fa-check"></i><b>A.1</b> Por tipo de superficie de proyección</a></li>
+<li class="chapter" data-level="A.2" data-path="crsproy.html"><a href="crsproy.html#por-métrica-a-preservar"><i class="fa fa-check"></i><b>A.2</b> Por métrica a preservar</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="formatos" class="section level1" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Formatos de datos espaciales</h1>
+<div id="tipos-de-ficheros-completar" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Tipos de ficheros (COMPLETAR)</h2>
+<p>Poner el esquema de los Shapes.</p>
+<p><a href="https://en.wikipedia.org/wiki/Shapefile" class="uri">https://en.wikipedia.org/wiki/Shapefile</a></p>
+<p>Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.</p>
+<p>Y pensar si tiene que venir aquí o dónde… quizá al final de la sección
+FORMATOS DE DATOS ESPACIALES</p>
+<p>En el ámbito del análisis espacial en <strong>R</strong>, se pueden clasificar <strong>el formato</strong>
+de datos espaciales en función del modelo de datos <span class="citation">(<a href="#ref-Lovelance_et_al_2019" role="doc-biblioref">Lovelace et al., 2019</a>)</span>. Se
+pueden distinguir dos tipos de modelos de datos: vectores y raster.</p>
+</div>
+<div id="datos-de-vectores" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Datos de vectores</h2>
+<p>Este modelo está basado en puntos georeferenciados. Los <strong>puntos</strong> pueden
+representar localizaciones específicas, como la localización de edificios:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="formatos.html#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="formatos.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="formatos.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-4"><a href="formatos.html#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="formatos.html#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="formatos.html#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Hospitales en Toledo segun Eurostat</span></span>
+<span id="cb2-7"><a href="formatos.html#cb2-7" aria-hidden="true" tabindex="-1"></a>hosp_toledo <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/hosp_toledo.geojson&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-8"><a href="formatos.html#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="formatos.html#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb2-10"><a href="formatos.html#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-11"><a href="formatos.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
+<span id="cb2-12"><a href="formatos.html#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> hosp_toledo, <span class="fu">aes</span>(<span class="at">fill =</span> <span class="st">&quot;Centros Sanitarios&quot;</span>),</span>
+<span id="cb2-13"><a href="formatos.html#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb2-14"><a href="formatos.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="formatos.html#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-16"><a href="formatos.html#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Datos: Eurostat&quot;</span>,</span>
+<span id="cb2-17"><a href="formatos.html#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Hospitales y Centros de Salud en Toledo&quot;</span>,</span>
+<span id="cb2-18"><a href="formatos.html#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb2-19"><a href="formatos.html#cb2-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="formatos.html#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-21"><a href="formatos.html#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:puntos"></span>
+<img src="_main_files/figure-html/puntos-1.png" alt="Datos vector: Puntos" width="60%" />
+<p class="caption">
+Figura 3.1: Datos vector: Puntos
+</p>
+</div>
+<p>Estos puntos también pueden estar conectados entre sí, de manera que formen
+geometrías más complejas, como <strong>líneas</strong> y <strong>polígonos</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="formatos.html#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="formatos.html#cb3-2" aria-hidden="true" tabindex="-1"></a>tajo <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/tajo_toledo.shp&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="formatos.html#cb3-3" aria-hidden="true" tabindex="-1"></a>toledo <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/toledo_ciudad.gpkg&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="formatos.html#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="formatos.html#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="formatos.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(toledo) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="formatos.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">&quot;cornsilk2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="formatos.html#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> tajo, <span class="at">col =</span> <span class="st">&quot;lightblue2&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="formatos.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> hosp_toledo, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="formatos.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(</span>
+<span id="cb3-11"><a href="formatos.html#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">4.2</span>, <span class="sc">-</span><span class="fl">3.8</span>),</span>
+<span id="cb3-12"><a href="formatos.html#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">39.8</span>, <span class="fl">39.95</span>)</span>
+<span id="cb3-13"><a href="formatos.html#cb3-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="formatos.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lineas-pol"></span>
+<img src="_main_files/figure-html/lineas-pol-1.png" alt="Datos vector: Puntos, líneas y polígonos" width="60%" />
+<p class="caption">
+Figura 3.2: Datos vector: Puntos, líneas y polígonos
+</p>
+</div>
+<p>En la Fig. <a href="formatos.html#fig:lineas-pol">3.2</a>, el río Tajo está representado como una línea
+(sucesión de puntos unidos entre sí) y la ciudad de Toledo como un polígono
+(línea de puntos cerrada formando un continuo). A modo ilustrativo, la Fig.
+<a href="formatos.html#fig:lineas-pol-desc">3.3</a> representa la descomposición en puntos de todos los
+datos espaciales representados en la Fig. <a href="formatos.html#fig:lineas-pol">3.2</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lineas-pol-desc"></span>
+<img src="_main_files/figure-html/lineas-pol-desc-1.png" alt="Datos vector: Descomposición en puntos" width="60%" />
+<p class="caption">
+Figura 3.3: Datos vector: Descomposición en puntos
+</p>
+</div>
+</div>
+<div id="datos-raster" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Datos raster</h2>
+<p>Los datos ráster son datos representandos en una rejilla rectangular de píxeles
+(denomindada <strong>matriz</strong>) que se puede visualizar en diversos dispositivo de
+representación. El caso más cotidiano de un ráster es una fotografía, donde la
+imagen se representa como una serie de celdas, determinadas por la resolución de
+la imagen (número total de píxeles, determinados como número de píxeles en cada
+fila por número de píxeles en cada columna) y el color que presenta cada uno de
+estos píxeles.</p>
+<p>En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
+ráster está formado por una malla regular de píxeles georreferenciada, tal y
+como muestra la Fig. <a href="formatos.html#fig:raster">3.4</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="formatos.html#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="formatos.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb4-3"><a href="formatos.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="formatos.html#cb4-4" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">&quot;data/Toledo_DEM.tiff&quot;</span>)</span>
+<span id="cb4-5"><a href="formatos.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">main =</span> <span class="st">&quot;Elevación de la provincia de Toledo&quot;</span>)</span>
+<span id="cb4-6"><a href="formatos.html#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="formatos.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostramos el grid</span></span>
+<span id="cb4-8"><a href="formatos.html#cb4-8" aria-hidden="true" tabindex="-1"></a>pols <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(elev)</span>
+<span id="cb4-9"><a href="formatos.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pols, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">border =</span> <span class="st">&quot;grey90&quot;</span>)</span>
+<span id="cb4-10"><a href="formatos.html#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="formatos.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadimos la provincia</span></span>
+<span id="cb4-12"><a href="formatos.html#cb4-12" aria-hidden="true" tabindex="-1"></a>Tol_prov <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/Toledo_prov.gpkg&quot;</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-13"><a href="formatos.html#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="formatos.html#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Si queremos solamente la forma en sf, usamos st_geometry</span></span>
+<span id="cb4-15"><a href="formatos.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(Tol_prov), <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:raster"></span>
+<img src="_main_files/figure-html/raster-1.png" alt="Datos ráster" width="60%" />
+<p class="caption">
+Figura 3.4: Datos ráster
+</p>
+</div>
+<p>En la Fig. <a href="formatos.html#fig:raster">3.4</a>, el objeto ráster <code>elev</code> tiene únicamente una capa
+(denominada <code>ESP_alt</code>). Eso implica que cada píxel tiene asociado un único
+valor, en este caso, en este caso la altitud media del terreno observada:</p>
+<table>
+<caption><span id="tab:detalle-pixel">Tabla 3.1: </span>Datos de un ráster (detalle)</caption>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">Toledo_DEM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-5.391667</td>
+<td align="right">40.3</td>
+<td align="right">1498.312</td>
+</tr>
+<tr class="even">
+<td align="right">-5.358333</td>
+<td align="right">40.3</td>
+<td align="right">1701.125</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.325000</td>
+<td align="right">40.3</td>
+<td align="right">1825.312</td>
+</tr>
+<tr class="even">
+<td align="right">-5.291667</td>
+<td align="right">40.3</td>
+<td align="right">1739.062</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.258333</td>
+<td align="right">40.3</td>
+<td align="right">1756.062</td>
+</tr>
+<tr class="even">
+<td align="right">-5.225000</td>
+<td align="right">40.3</td>
+<td align="right">1659.688</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.191667</td>
+<td align="right">40.3</td>
+<td align="right">1607.375</td>
+</tr>
+<tr class="even">
+<td align="right">-5.158333</td>
+<td align="right">40.3</td>
+<td align="right">1809.562</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.125000</td>
+<td align="right">40.3</td>
+<td align="right">1874.625</td>
+</tr>
+<tr class="even">
+<td align="right">-5.091667</td>
+<td align="right">40.3</td>
+<td align="right">1691.312</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.058333</td>
+<td align="right">40.3</td>
+<td align="right">1511.500</td>
+</tr>
+<tr class="even">
+<td align="right">-5.025000</td>
+<td align="right">40.3</td>
+<td align="right">1207.000</td>
+</tr>
+<tr class="odd">
+<td align="right">-4.991667</td>
+<td align="right">40.3</td>
+<td align="right">1160.125</td>
+</tr>
+<tr class="even">
+<td align="right">-4.958333</td>
+<td align="right">40.3</td>
+<td align="right">1396.125</td>
+</tr>
+<tr class="odd">
+<td align="right">-4.925000</td>
+<td align="right">40.3</td>
+<td align="right">1624.125</td>
+</tr>
+</tbody>
+</table>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:detalle-pixel"></span>
+<img src="_main_files/figure-html/detalle-pixel-1.png" alt="Datos ráster: Detalle" width="60%" />
+<p class="caption">
+Figura 3.5: Datos ráster: Detalle
+</p>
+</div>
+<p>Los rásters pueden contener varias capas (o layers), de manera que cada píxel
+puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
+un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
+azul), de manera que al combinar las tres capas se puede definir un color
+distinto en cada píxel.</p>
+<p>En la Fig. <a href="formatos.html#fig:raster-multilayer">3.6</a> vamos a usar una imagen de mapa
+georreferenciada, como las proporcionadas por servicios de mapas online, para
+analizar su composición.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:raster-multilayer"></span>
+<img src="_main_files/figure-html/raster-multilayer-1.png" alt="Datos ráster con varias bandas" width="60%" />
+<p class="caption">
+Figura 3.6: Datos ráster con varias bandas
+</p>
+</div>
+<p>El ráster se puede descomponer en las tres capas RGB mencionadas anteriormente:</p>
+<table>
+<caption><span id="tab:detalle-pixel-multicapa">Tabla 3.2: </span>Datos de un ráster multicapa (detalle)</caption>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+<th align="right">y</th>
+<th align="right">lyr.1</th>
+<th align="right">lyr.2</th>
+<th align="right">lyr.3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-5.466412</td>
+<td align="right">40.34418</td>
+<td align="right">215.2128</td>
+<td align="right">208.1061</td>
+<td align="right">190.5410</td>
+</tr>
+<tr class="even">
+<td align="right">-5.463875</td>
+<td align="right">40.34418</td>
+<td align="right">228.0369</td>
+<td align="right">223.1854</td>
+<td align="right">211.2115</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.461338</td>
+<td align="right">40.34418</td>
+<td align="right">229.3495</td>
+<td align="right">224.3414</td>
+<td align="right">213.4325</td>
+</tr>
+<tr class="even">
+<td align="right">-5.458800</td>
+<td align="right">40.34418</td>
+<td align="right">215.8592</td>
+<td align="right">208.8660</td>
+<td align="right">191.2922</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.456263</td>
+<td align="right">40.34418</td>
+<td align="right">219.2696</td>
+<td align="right">212.8231</td>
+<td align="right">196.6812</td>
+</tr>
+<tr class="even">
+<td align="right">-5.453725</td>
+<td align="right">40.34418</td>
+<td align="right">235.0954</td>
+<td align="right">231.4222</td>
+<td align="right">222.4115</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.451188</td>
+<td align="right">40.34418</td>
+<td align="right">240.3514</td>
+<td align="right">237.9094</td>
+<td align="right">231.4736</td>
+</tr>
+<tr class="even">
+<td align="right">-5.448651</td>
+<td align="right">40.34418</td>
+<td align="right">237.2358</td>
+<td align="right">233.7561</td>
+<td align="right">226.2005</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.446113</td>
+<td align="right">40.34418</td>
+<td align="right">229.9570</td>
+<td align="right">225.3262</td>
+<td align="right">214.6201</td>
+</tr>
+<tr class="even">
+<td align="right">-5.443576</td>
+<td align="right">40.34418</td>
+<td align="right">226.7812</td>
+<td align="right">221.6796</td>
+<td align="right">209.2929</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.441038</td>
+<td align="right">40.34418</td>
+<td align="right">222.3593</td>
+<td align="right">216.5022</td>
+<td align="right">202.0188</td>
+</tr>
+<tr class="even">
+<td align="right">-5.438501</td>
+<td align="right">40.34418</td>
+<td align="right">220.9312</td>
+<td align="right">214.9060</td>
+<td align="right">200.0306</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.435964</td>
+<td align="right">40.34418</td>
+<td align="right">224.7755</td>
+<td align="right">219.2661</td>
+<td align="right">206.2156</td>
+</tr>
+<tr class="even">
+<td align="right">-5.433426</td>
+<td align="right">40.34418</td>
+<td align="right">222.0479</td>
+<td align="right">216.0124</td>
+<td align="right">201.6103</td>
+</tr>
+<tr class="odd">
+<td align="right">-5.430889</td>
+<td align="right">40.34418</td>
+<td align="right">225.0516</td>
+<td align="right">219.8074</td>
+<td align="right">207.0263</td>
+</tr>
+</tbody>
+</table>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:detalle-pixel-multicapa-1"></span>
+<img src="_main_files/figure-html/detalle-pixel-multicapa-1.png" alt="Datos ráster multicapa: Descomposición" width="60%" />
+<p class="caption">
+Figura 3.7: Datos ráster multicapa: Descomposición
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:detalle-pixel-multicapa-2"></span>
+<img src="_main_files/figure-html/detalle-pixel-multicapa-2.png" alt="Datos ráster multicapa: Descomposición" width="60%" />
+<p class="caption">
+Figura 3.8: Datos ráster multicapa: Descomposición
+</p>
+</div>
+</div>
+<div id="CRS" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Sistema de Referencia de Coordenadas (CRS)</h2>
+<p>Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
+<strong>Coordinate Reference System</strong>) permite relacionar datos espaciales con su
+localización en la superficie terrestre.</p>
+<p><strong>Los CRS constituyen por tanto un aspecto fundamental en el análisis y
+representación de datos espaciales</strong>, ya que nos permiten identificar con
+exactitud la posición de los datos sobre el globo terráqueo.</p>
+<p>Así mismo, cuando se trabaja con datos espaciales provenientes de distintas
+fuentes de información, es necesario comprobar que dichos datos se encuentran
+definidos en el mismo CRS:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:datosdesalineados"></span>
+<img src="_main_files/figure-html/datosdesalineados-1.png" alt="Representación de mismos valores de coordenadas en distintos CRS" width="60%" />
+<p class="caption">
+Figura 3.9: Representación de mismos valores de coordenadas en distintos CRS
+</p>
+</div>
+<p>En la Fig. <a href="formatos.html#fig:datosdesalineados">3.9</a>, ambos puntos (verde y rojo) tienen los
+mismos valores de coordenadas en los ejes X e Y, en este caso las
+correspondientes a la ciudad de Toledo. Sin embargo, presentan distintos CRS.
+Por este motivo, al representar ambos puntos en un mapa, se observa que no se
+están refiriendo a la misma localización geográfica. Esto es así porque el CRS
+define la referencia (punto x=0 e y =0) y las unidades de los ejes (grados,
+metros, millas).</p>
+<p>Como conclusión, <strong>además de disponer de las coordenadas de los datos
+espaciales, es necesario conocer el CRS en el que están definidos para conocer
+de manera exacta su localización geográfica.</strong> Además, nótese que para cualquier
+<strong>análisis de datos espaciales</strong> es necesario que todos los geodatos <strong>se
+encuentren referenciados en el mismo CRS</strong>. Esto se consigue transformando (o
+proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
+mismos.</p>
+<div id="tipos-de-crs" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Tipos de CRS</h3>
+<p>A continuación se definen los dos grandes tipos de CRS, los CRS geográficos y
+los CRS proyectados.</p>
+<div id="crs-geográficos" class="section level4" number="3.4.1.1">
+<h4><span class="header-section-number">3.4.1.1</span> CRS geográficos</h4>
+<p>Los CRS geográficos son aquellos en los que los parámetros empleados para
+localizar una posición espacial son la latitud y la longitud:</p>
+<ul>
+<li><p><strong>Latitud</strong>: Es la distancia angular expresada en grados sobre el plano
+definido por el ecuador terrestre. Determina la posición sobre de una
+localización en el eje Norte-Sur de la Tierra y toma valores en el rango
+<span class="math inline">\([-90º,90º]\)</span> . Las líneas imaginarias determinadas por una sucesión de
+puntos con la misma latitud a lo largo del eje Este-Oeste se denominan
+<strong>paralelos</strong> (Ver Fig. <a href="formatos.html#fig:meridianos">3.10</a>).</p></li>
+<li><p><strong>Longitud</strong>: Es la distancia angular expresada en grados sobre el plano
+definido por el meridiano de Greenwich. Determina la posición sobre de una
+localización en el eje Este-Oeste de la Tierra y toma valores en el rango
+<span class="math inline">\([-180º,180º]\)</span> . Las líneas imaginarias determinadas por una sucesión de
+puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
+<strong>meridianos</strong> (Ver Fig. <a href="formatos.html#fig:meridianos">3.10</a>).</p></li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:meridianos"></span>
+<img src="_main_files/figure-html/meridianos-1.png" alt="Paralelos y Meridianos terrestres" width="50%" /><img src="_main_files/figure-html/meridianos-2.png" alt="Paralelos y Meridianos terrestres" width="50%" />
+<p class="caption">
+Figura 3.10: Paralelos y Meridianos terrestres
+</p>
+</div>
+<p>Es muy importante destacar que en un sistema de coordenadas geográfico, es
+decir, basado en latitudes y longitudes, las <strong>distancias</strong> entre dos puntos
+representan <strong>distancias angulares</strong>. Por ejemplo, la distancia entre el
+meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
+es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
+metros entre ambos meridianos no es constante.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:distang"></span>
+<img src="_main_files/figure-html/distang-1.png" alt="Distancia entre meridianos en distintas latitudes" width="60%" />
+<p class="caption">
+Figura 3.11: Distancia entre meridianos en distintas latitudes
+</p>
+</div>
+</div>
+<div id="crs-proyectados" class="section level4" number="3.4.1.2">
+<h4><span class="header-section-number">3.4.1.2</span> CRS proyectados</h4>
+<p>La representación de formas tridimensionales en un soporte plano (dos
+dimensiones) presenta algunos retos. Por ello, es habitual trabajar con
+proyecciones de mapas.</p>
+<p>Una <strong>proyección geográfica</strong> es un método para reducir la superficie de la
+esfera terrestre a un sistema cartesiano de dos dimensiones. Para ello, es
+necesario transformar las coordenadas longitud y latitud en coordenadas
+cartesianas x e y.</p>
+<p>Es importante destacar que las proyecciones pueden incluir un punto de origen
+(X=0, Y=0) y unas unidades de distancia (habitualmente metros) específicas. Por
+ejemplo, la <strong>proyección cónica equiáreas de Albers</strong> (específica para Estados
+Unidos) define su punto de referencia (0,0) en la latitud 40º N y longitud 96º,
+y la unidad de variación están definida en metros. De ahí la importancia de
+conocer el CRS de los datos geográficos, como se expuso al principio de este
+tema.</p>
+<p>El Anexo <a href="crsproy.html#crsproy">A</a> proporciona más información sobre los tipos de CRS
+proyectados.</p>
+</div>
+</div>
+<div id="trabajando-con-proyecciones-en-r" class="section level3" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Trabajando con proyecciones en R</h3>
+<p>Existe toda una serie de proyecciones predefinidas, identificadas mediante los
+<strong>códigos EPSG, ESRI, WKT</strong> o proj4 (en desuso en R, pero todavía admitidos).
+Existen varios recursos web donde se pueden consultar y seleccionar los códigos
+correspondientes:</p>
+<ul>
+<li><p><a href="https://epsg.io/" class="uri">https://epsg.io/</a></p></li>
+<li><p><a href="https://spatialreference.org/" class="uri">https://spatialreference.org/</a></p></li>
+<li><p><a href="https://proj.org/operations/projections/index.html" class="uri">https://proj.org/operations/projections/index.html</a></p></li>
+</ul>
+<p>Algunos de los códigos de proyecciones que es fundamental conocer son:</p>
+<ul>
+<li><p><strong>EPSG: 4326</strong>: Proyección correspondiente a WGS 84, que es el sistema usado
+por los sistemas GPS. Cuando trabajemos con coordenadas geográficas
+longitud/latitud, este es habitualmente el CRS de referencia.</p></li>
+<li><p><strong>EPSG: 3857</strong>: Código correspondiente a la proyección de Mercator, usada
+habitualmente por servicios como Google Maps, etc.</p></li>
+</ul>
+<p>Se pueden consultar otros CRS de uso común en España en la página del
+<a href="https://www.mapa.gob.es/es/cartografia-y-sig/ide/directorio_datos_servicios/caracteristicas_wms.aspx">Ministerio de Agricultura, Pesca y
+Alimentación</a></p>
+<p>En la sección <a href="formatos.html#quecrsuso">3.4.3</a> veremos cómo encontrar un CRS usando el paquete
+<code>crsuggest</code>.</p>
+<p>El paquete <code>sf</code> permite obtener los parámetros de cualquier proyección mediante
+la función <code>st_crs()</code>:</p>
+<p><strong>(i) EPSG WGS 84 (Sistema Global GPS): EPSG 4326</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="formatos.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb5-2"><a href="formatos.html#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="formatos.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: EPSG WGS 84 (Sistema Global GPS): EPSG 4326</span></span>
+<span id="cb5-4"><a href="formatos.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="dv">4326</span>)</span>
+<span id="cb5-5"><a href="formatos.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span id="cb5-6"><a href="formatos.html#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   User input: EPSG:4326 </span></span>
+<span id="cb5-7"><a href="formatos.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wkt:</span></span>
+<span id="cb5-8"><a href="formatos.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GEOGCRS[&quot;WGS 84&quot;,</span></span>
+<span id="cb5-9"><a href="formatos.html#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     DATUM[&quot;World Geodetic System 1984&quot;,</span></span>
+<span id="cb5-10"><a href="formatos.html#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span></span>
+<span id="cb5-11"><a href="formatos.html#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1]]],</span></span>
+<span id="cb5-12"><a href="formatos.html#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     PRIMEM[&quot;Greenwich&quot;,0,</span></span>
+<span id="cb5-13"><a href="formatos.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],</span></span>
+<span id="cb5-14"><a href="formatos.html#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CS[ellipsoidal,2],</span></span>
+<span id="cb5-15"><a href="formatos.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;geodetic latitude (Lat)&quot;,north,</span></span>
+<span id="cb5-16"><a href="formatos.html#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[1],</span></span>
+<span id="cb5-17"><a href="formatos.html#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],</span></span>
+<span id="cb5-18"><a href="formatos.html#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;geodetic longitude (Lon)&quot;,east,</span></span>
+<span id="cb5-19"><a href="formatos.html#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[2],</span></span>
+<span id="cb5-20"><a href="formatos.html#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],</span></span>
+<span id="cb5-21"><a href="formatos.html#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     USAGE[</span></span>
+<span id="cb5-22"><a href="formatos.html#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         SCOPE[&quot;Horizontal component of 3D system.&quot;],</span></span>
+<span id="cb5-23"><a href="formatos.html#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AREA[&quot;World.&quot;],</span></span>
+<span id="cb5-24"><a href="formatos.html#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         BBOX[-90,-180,90,180]],</span></span>
+<span id="cb5-25"><a href="formatos.html#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ID[&quot;EPSG&quot;,4326]]</span></span></code></pre></div>
+<p><strong>(ii) ESRI North America Albers Equal Area Conic: ESRI:102008</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="formatos.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando código ESRI North America Albers Equal Area Conic</span></span>
+<span id="cb6-2"><a href="formatos.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="formatos.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="st">&quot;ESRI:102008&quot;</span>)</span>
+<span id="cb6-4"><a href="formatos.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span id="cb6-5"><a href="formatos.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   User input: ESRI:102008 </span></span>
+<span id="cb6-6"><a href="formatos.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wkt:</span></span>
+<span id="cb6-7"><a href="formatos.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PROJCRS[&quot;North_America_Albers_Equal_Area_Conic&quot;,</span></span>
+<span id="cb6-8"><a href="formatos.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     BASEGEOGCRS[&quot;NAD83&quot;,</span></span>
+<span id="cb6-9"><a href="formatos.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         DATUM[&quot;North American Datum 1983&quot;,</span></span>
+<span id="cb6-10"><a href="formatos.html#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,</span></span>
+<span id="cb6-11"><a href="formatos.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 LENGTHUNIT[&quot;metre&quot;,1]]],</span></span>
+<span id="cb6-12"><a href="formatos.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PRIMEM[&quot;Greenwich&quot;,0,</span></span>
+<span id="cb6-13"><a href="formatos.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;Degree&quot;,0.0174532925199433]]],</span></span>
+<span id="cb6-14"><a href="formatos.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CONVERSION[&quot;North_America_Albers_Equal_Area_Conic&quot;,</span></span>
+<span id="cb6-15"><a href="formatos.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         METHOD[&quot;Albers Equal Area&quot;,</span></span>
+<span id="cb6-16"><a href="formatos.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,9822]],</span></span>
+<span id="cb6-17"><a href="formatos.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of false origin&quot;,40,</span></span>
+<span id="cb6-18"><a href="formatos.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;Degree&quot;,0.0174532925199433],</span></span>
+<span id="cb6-19"><a href="formatos.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8821]],</span></span>
+<span id="cb6-20"><a href="formatos.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Longitude of false origin&quot;,-96,</span></span>
+<span id="cb6-21"><a href="formatos.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;Degree&quot;,0.0174532925199433],</span></span>
+<span id="cb6-22"><a href="formatos.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8822]],</span></span>
+<span id="cb6-23"><a href="formatos.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of 1st standard parallel&quot;,20,</span></span>
+<span id="cb6-24"><a href="formatos.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;Degree&quot;,0.0174532925199433],</span></span>
+<span id="cb6-25"><a href="formatos.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8823]],</span></span>
+<span id="cb6-26"><a href="formatos.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of 2nd standard parallel&quot;,60,</span></span>
+<span id="cb6-27"><a href="formatos.html#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;Degree&quot;,0.0174532925199433],</span></span>
+<span id="cb6-28"><a href="formatos.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8824]],</span></span>
+<span id="cb6-29"><a href="formatos.html#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Easting at false origin&quot;,0,</span></span>
+<span id="cb6-30"><a href="formatos.html#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1],</span></span>
+<span id="cb6-31"><a href="formatos.html#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8826]],</span></span>
+<span id="cb6-32"><a href="formatos.html#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Northing at false origin&quot;,0,</span></span>
+<span id="cb6-33"><a href="formatos.html#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1],</span></span>
+<span id="cb6-34"><a href="formatos.html#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8827]]],</span></span>
+<span id="cb6-35"><a href="formatos.html#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span id="cb6-36"><a href="formatos.html#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;(E)&quot;,east,</span></span>
+<span id="cb6-37"><a href="formatos.html#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[1],</span></span>
+<span id="cb6-38"><a href="formatos.html#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1]],</span></span>
+<span id="cb6-39"><a href="formatos.html#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;(N)&quot;,north,</span></span>
+<span id="cb6-40"><a href="formatos.html#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[2],</span></span>
+<span id="cb6-41"><a href="formatos.html#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1]],</span></span>
+<span id="cb6-42"><a href="formatos.html#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     USAGE[</span></span>
+<span id="cb6-43"><a href="formatos.html#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         SCOPE[&quot;Not known.&quot;],</span></span>
+<span id="cb6-44"><a href="formatos.html#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AREA[&quot;North America - onshore and offshore: Canada - Alberta; British Columbia; Manitoba; New Brunswick; Newfoundland and Labrador; Northwest Territories; Nova Scotia; Nunavut; Ontario; Prince Edward Island; Quebec; Saskatchewan; Yukon. United States (USA) - Alabama; Alaska (mainland); Arizona; Arkansas; California; Colorado; Connecticut; Delaware; Florida; Georgia; Idaho; Illinois; Indiana; Iowa; Kansas; Kentucky; Louisiana; Maine; Maryland; Massachusetts; Michigan; Minnesota; Mississippi; Missouri; Montana; Nebraska; Nevada; New Hampshire; New Jersey; New Mexico; New York; North Carolina; North Dakota; Ohio; Oklahoma; Oregon; Pennsylvania; Rhode Island; South Carolina; South Dakota; Tennessee; Texas; Utah; Vermont; Virginia; Washington; West Virginia; Wisconsin; Wyoming.&quot;],</span></span>
+<span id="cb6-45"><a href="formatos.html#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         BBOX[23.81,-172.54,86.46,-47.74]],</span></span>
+<span id="cb6-46"><a href="formatos.html#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ID[&quot;ESRI&quot;,102008]]</span></span></code></pre></div>
+<p><strong>(iii) Usando proj4string: Robinson: +proj=robin</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="formatos.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando proj4string: Robinson</span></span>
+<span id="cb7-2"><a href="formatos.html#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="formatos.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="st">&quot;+proj=robin&quot;</span>)</span>
+<span id="cb7-4"><a href="formatos.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span id="cb7-5"><a href="formatos.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   User input: +proj=robin </span></span>
+<span id="cb7-6"><a href="formatos.html#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wkt:</span></span>
+<span id="cb7-7"><a href="formatos.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PROJCRS[&quot;unknown&quot;,</span></span>
+<span id="cb7-8"><a href="formatos.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     BASEGEOGCRS[&quot;unknown&quot;,</span></span>
+<span id="cb7-9"><a href="formatos.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         DATUM[&quot;World Geodetic System 1984&quot;,</span></span>
+<span id="cb7-10"><a href="formatos.html#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,</span></span>
+<span id="cb7-11"><a href="formatos.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 LENGTHUNIT[&quot;metre&quot;,1]],</span></span>
+<span id="cb7-12"><a href="formatos.html#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,6326]],</span></span>
+<span id="cb7-13"><a href="formatos.html#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PRIMEM[&quot;Greenwich&quot;,0,</span></span>
+<span id="cb7-14"><a href="formatos.html#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb7-15"><a href="formatos.html#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8901]]],</span></span>
+<span id="cb7-16"><a href="formatos.html#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CONVERSION[&quot;unknown&quot;,</span></span>
+<span id="cb7-17"><a href="formatos.html#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         METHOD[&quot;Robinson&quot;],</span></span>
+<span id="cb7-18"><a href="formatos.html#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Longitude of natural origin&quot;,0,</span></span>
+<span id="cb7-19"><a href="formatos.html#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb7-20"><a href="formatos.html#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8802]],</span></span>
+<span id="cb7-21"><a href="formatos.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;False easting&quot;,0,</span></span>
+<span id="cb7-22"><a href="formatos.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1],</span></span>
+<span id="cb7-23"><a href="formatos.html#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8806]],</span></span>
+<span id="cb7-24"><a href="formatos.html#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;False northing&quot;,0,</span></span>
+<span id="cb7-25"><a href="formatos.html#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1],</span></span>
+<span id="cb7-26"><a href="formatos.html#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8807]]],</span></span>
+<span id="cb7-27"><a href="formatos.html#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span id="cb7-28"><a href="formatos.html#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;(E)&quot;,east,</span></span>
+<span id="cb7-29"><a href="formatos.html#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[1],</span></span>
+<span id="cb7-30"><a href="formatos.html#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1,</span></span>
+<span id="cb7-31"><a href="formatos.html#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 ID[&quot;EPSG&quot;,9001]]],</span></span>
+<span id="cb7-32"><a href="formatos.html#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;(N)&quot;,north,</span></span>
+<span id="cb7-33"><a href="formatos.html#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[2],</span></span>
+<span id="cb7-34"><a href="formatos.html#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;metre&quot;,1,</span></span>
+<span id="cb7-35"><a href="formatos.html#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 ID[&quot;EPSG&quot;,9001]]]]</span></span></code></pre></div>
+<p>La mayoría de los objetos espaciales serán de la clase <code>sf</code>, por tanto, resulta
+interesante conocer cómo se proyectan estos objetos.</p>
+<p>Es posible proyectar un objeto <code>sf</code> mediante la función <code>st_transform()</code>. En el
+siguiente ejemplo vemos cómo partimos de un objeto con <strong>EPSG:4326</strong> y cambiamos
+su proyección a otras proyecciones, como <strong>Mercator</strong> o <strong>Robinson</strong>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="formatos.html#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="formatos.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Usa datos del paquete giscoR</span></span>
+<span id="cb8-3"><a href="formatos.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="formatos.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(giscoR)</span>
+<span id="cb8-5"><a href="formatos.html#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="formatos.html#cb8-6" aria-hidden="true" tabindex="-1"></a>paises <span class="ot">&lt;-</span> <span class="fu">gisco_get_countries</span>()</span>
+<span id="cb8-7"><a href="formatos.html#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="formatos.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Comprobamos el CRS de estos datos</span></span>
+<span id="cb8-9"><a href="formatos.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Se puede almacenar en un objeto y usar posteriormente</span></span>
+<span id="cb8-10"><a href="formatos.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Vemos que es EPSG:4326, por tanto son coordenadas geográficas longitud/latitud</span></span>
+<span id="cb8-11"><a href="formatos.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(paises)</span>
+<span id="cb8-12"><a href="formatos.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span id="cb8-13"><a href="formatos.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   User input: EPSG:4326 </span></span>
+<span id="cb8-14"><a href="formatos.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wkt:</span></span>
+<span id="cb8-15"><a href="formatos.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GEOGCS[&quot;WGS 84&quot;,</span></span>
+<span id="cb8-16"><a href="formatos.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     DATUM[&quot;WGS_1984&quot;,</span></span>
+<span id="cb8-17"><a href="formatos.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         SPHEROID[&quot;WGS 84&quot;,6378137,298.257223563,</span></span>
+<span id="cb8-18"><a href="formatos.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]],</span></span>
+<span id="cb8-19"><a href="formatos.html#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]],</span></span>
+<span id="cb8-20"><a href="formatos.html#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     PRIMEM[&quot;Greenwich&quot;,0,</span></span>
+<span id="cb8-21"><a href="formatos.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]],</span></span>
+<span id="cb8-22"><a href="formatos.html#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     UNIT[&quot;degree&quot;,0.0174532925199433,</span></span>
+<span id="cb8-23"><a href="formatos.html#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AUTHORITY[&quot;EPSG&quot;,&quot;9122&quot;]],</span></span>
+<span id="cb8-24"><a href="formatos.html#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]]</span></span>
+<span id="cb8-25"><a href="formatos.html#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="formatos.html#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb8-27"><a href="formatos.html#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(paises), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:project-map-1"></span>
+<img src="_main_files/figure-html/project-map-1.png" alt="Proyección del mundo en coordenadas geográficas (EPSG 4326)" width="60%" />
+<p class="caption">
+Figura 3.12: Proyección del mundo en coordenadas geográficas (EPSG 4326)
+</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="formatos.html#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="formatos.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Proyectamos a Mercator</span></span>
+<span id="cb9-3"><a href="formatos.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># El eje cambia porque Mercator usa metros</span></span>
+<span id="cb9-4"><a href="formatos.html#cb9-4" aria-hidden="true" tabindex="-1"></a>paises_merc <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(paises, <span class="fu">st_crs</span>(<span class="dv">3857</span>))</span>
+<span id="cb9-5"><a href="formatos.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(paises_merc), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:project-map-2"></span>
+<img src="_main_files/figure-html/project-map-2.png" alt="Proyección del mundo en Mercator (EPSG 3857)" width="60%" />
+<p class="caption">
+Figura 3.13: Proyección del mundo en Mercator (EPSG 3857)
+</p>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="formatos.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proyectamos a Robinson</span></span>
+<span id="cb10-2"><a href="formatos.html#cb10-2" aria-hidden="true" tabindex="-1"></a>paises_robin <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(paises, <span class="fu">st_crs</span>(<span class="st">&quot;+proj=robin&quot;</span>))</span>
+<span id="cb10-3"><a href="formatos.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(paises_robin), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:project-map-3"></span>
+<img src="_main_files/figure-html/project-map-3.png" alt="Proyección del mundo en Robinson (+proj=robin)" width="60%" />
+<p class="caption">
+Figura 3.14: Proyección del mundo en Robinson (+proj=robin)
+</p>
+</div>
+<p>Como se comentó anteriormente, cuando se usan geodatos de diversas fuentes, es
+necesario que todos presenten el mismo CRS. En la Fig <a href="formatos.html#fig:puertos-error">3.15</a>
+se muestra lo que ocurre si esto no se cumple:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="formatos.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadimos a este mapa puertos mundiales de giscoR</span></span>
+<span id="cb11-2"><a href="formatos.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="formatos.html#cb11-3" aria-hidden="true" tabindex="-1"></a>puertos <span class="ot">&lt;-</span> <span class="fu">gisco_get_ports</span>()</span>
+<span id="cb11-4"><a href="formatos.html#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(paises_robin), <span class="at">main =</span> <span class="st">&quot;Puertos en el mundo&quot;</span>)</span>
+<span id="cb11-5"><a href="formatos.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(puertos), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:puertos-error"></span>
+<img src="_main_files/figure-html/puertos-error-1.png" alt="Ejemplo: Puertos del mundo" width="60%" />
+<p class="caption">
+Figura 3.15: Ejemplo: Puertos del mundo
+</p>
+</div>
+<p>Vemos que ha habido algún tipo de error, ¿a que puede deberse?</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="formatos.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comprueba CRS</span></span>
+<span id="cb12-2"><a href="formatos.html#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="formatos.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(puertos) <span class="sc">==</span> <span class="fu">st_crs</span>(paises_robin)</span>
+<span id="cb12-4"><a href="formatos.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb12-5"><a href="formatos.html#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="formatos.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Los puertos no están en Robinson! Proyectamos al mismo CRS</span></span>
+<span id="cb12-7"><a href="formatos.html#cb12-7" aria-hidden="true" tabindex="-1"></a>puertos_robin <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(puertos, <span class="fu">st_crs</span>(paises_robin))</span>
+<span id="cb12-8"><a href="formatos.html#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(paises_robin), <span class="at">main =</span> <span class="st">&quot;Puertos en el mundo&quot;</span>)</span>
+<span id="cb12-9"><a href="formatos.html#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(puertos_robin), <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">pch =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:puertos-ok"></span>
+<img src="_main_files/figure-html/puertos-ok-1.png" alt="Ejemplo: Puertos del mundo, CRS alineados" width="60%" />
+<p class="caption">
+Figura 3.16: Ejemplo: Puertos del mundo, CRS alineados
+</p>
+</div>
+<p>Como vemos, en el primer mapa (Fig. <a href="formatos.html#fig:puertos-error">3.15</a>) los puertos se
+concentran en un único punto, dado que no están referenciados en el mismo CRS.
+Tras proyectarlos al mismo CRS, el mapa se representa adecuadamente (Fig.
+<a href="formatos.html#fig:puertos-ok">3.16</a>).</p>
+<p>En otros paquetes, como <code>sp</code> o <code>raster</code>, existen funciones parecidas que nos van
+a permitir obtener los parámetros de un CRS y proyectar los objetos al CRS
+deseado. Cuando empleemos el paquete <code>sp</code> podemos usar las funciones <code>CRS()</code> y
+<code>spTransform()</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="formatos.html#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="formatos.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb13-3"><a href="formatos.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="formatos.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos sf a sp</span></span>
+<span id="cb13-5"><a href="formatos.html#cb13-5" aria-hidden="true" tabindex="-1"></a>paises_sp <span class="ot">&lt;-</span> <span class="fu">as</span>(paises, <span class="st">&quot;Spatial&quot;</span>)</span>
+<span id="cb13-6"><a href="formatos.html#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="formatos.html#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># En sp podemos usar:</span></span>
+<span id="cb13-8"><a href="formatos.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># CRS(&quot;+proj=robin&quot;)</span></span>
+<span id="cb13-9"><a href="formatos.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-10"><a href="formatos.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># O también desde sf</span></span>
+<span id="cb13-11"><a href="formatos.html#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># CRS(st_crs(paises_robin)$proj4string)</span></span>
+<span id="cb13-12"><a href="formatos.html#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="formatos.html#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="formatos.html#cb13-14" aria-hidden="true" tabindex="-1"></a>paises_sp_robin <span class="ot">&lt;-</span> <span class="fu">spTransform</span>(paises_sp, <span class="fu">CRS</span>(<span class="st">&quot;+proj=robin&quot;</span>))</span>
+<span id="cb13-15"><a href="formatos.html#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(paises_sp_robin)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sp"></span>
+<img src="_main_files/figure-html/sp-1.png" alt="Transformaciones en sp" width="60%" />
+<p class="caption">
+Figura 3.17: Transformaciones en sp
+</p>
+</div>
+<p>En el caso de un objeto <code>raster</code>, podemos usar <code>crs()</code> y <code>projectRaster()</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="formatos.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb14-2"><a href="formatos.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="formatos.html#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="formatos.html#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrae información de altitud para España</span></span>
+<span id="cb14-5"><a href="formatos.html#cb14-5" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">&quot;data/ESP_msk_alt.grd&quot;</span>)</span>
+<span id="cb14-6"><a href="formatos.html#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="formatos.html#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="formatos.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforma</span></span>
+<span id="cb14-9"><a href="formatos.html#cb14-9" aria-hidden="true" tabindex="-1"></a>elev_robinson <span class="ot">&lt;-</span> <span class="fu">projectRaster</span>(elev, <span class="at">crs =</span> <span class="fu">crs</span>(<span class="st">&quot;+proj=robin&quot;</span>))</span>
+<span id="cb14-10"><a href="formatos.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_robinson)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:raster-crs"></span>
+<img src="_main_files/figure-html/raster-crs-1.png" alt="Transformaciones en raster" width="60%" />
+<p class="caption">
+Figura 3.18: Transformaciones en raster
+</p>
+</div>
+<p>Por último, en el paquete <code>terra</code> las funciones correspondientes son <code>crs()</code> y
+<code>project()</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="formatos.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb15-2"><a href="formatos.html#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="formatos.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convierte de raster a terra</span></span>
+<span id="cb15-4"><a href="formatos.html#cb15-4" aria-hidden="true" tabindex="-1"></a>elev_terra <span class="ot">&lt;-</span> <span class="fu">rast</span>(elev)</span>
+<span id="cb15-5"><a href="formatos.html#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="formatos.html#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="formatos.html#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforma</span></span>
+<span id="cb15-8"><a href="formatos.html#cb15-8" aria-hidden="true" tabindex="-1"></a>elev_terra_robinson <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(elev_terra, terra<span class="sc">::</span><span class="fu">crs</span>(elev_terra))</span>
+<span id="cb15-9"><a href="formatos.html#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_terra_robinson)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:terra"></span>
+<img src="_main_files/figure-html/terra-1.png" alt="Transformaciones en terra" width="60%" />
+<p class="caption">
+Figura 3.19: Transformaciones en terra
+</p>
+</div>
+</div>
+<div id="quecrsuso" class="section level3" number="3.4.3">
+<h3><span class="header-section-number">3.4.3</span> ¿Qué proyección uso?</h3>
+<p>El CRS adecuado para cada análisis depende de la localización y el rango
+espacial de los datos. Un CRS adecuado para representar un mapa del mundo puede
+no serlo para representar datos de zonas específicas de la Tierra. Los recursos
+web mencionados anteriormente permiten la búsqueda de CRS por zona geográfica, y
+adicionalmente en <strong>R</strong> existe el paquete <code>crsuggest</code> <span class="citation">(<a href="#ref-R-crsuggest" role="doc-biblioref">Walker, 2021</a>)</span> que nos
+facilita la labor, sugiriendo el CRS más adecuado para cada zona:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="formatos.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crsuggest)</span>
+<span id="cb16-2"><a href="formatos.html#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="formatos.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando raster</span></span>
+<span id="cb16-4"><a href="formatos.html#cb16-4" aria-hidden="true" tabindex="-1"></a>sugerencias <span class="ot">&lt;-</span> <span class="fu">suggest_crs</span>(elev)</span></code></pre></div>
+<table>
+<caption><span id="tab:muestra-tabla">Tabla 3.3: </span>Tabla sugerencias, detalle</caption>
+<colgroup>
+<col width="3%" />
+<col width="14%" />
+<col width="3%" />
+<col width="2%" />
+<col width="3%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">crs_code</th>
+<th align="left">crs_name</th>
+<th align="left">crs_type</th>
+<th align="right">crs_gcs</th>
+<th align="left">crs_units</th>
+<th align="left">crs_proj4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2062</td>
+<td align="left">Madrid 1870 (Madrid) / Spain LCC</td>
+<td align="left">projected</td>
+<td align="right">4903</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=40 +lat_0=40 +lon_0=0 +k_0=0.9988085293 +x_0=600000 +y_0=600000 +a=6378298.3 +rf=294.73 +pm=madrid +units=m +no_defs</td>
+</tr>
+<tr class="even">
+<td align="left">2154</td>
+<td align="left">RGF93 / Lambert-93</td>
+<td align="left">projected</td>
+<td align="right">4171</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=49 +lat_2=44 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="odd">
+<td align="left">26191</td>
+<td align="left">Merchich / Nord Maroc</td>
+<td align="left">projected</td>
+<td align="right">4261</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=33.3 +lat_0=33.3 +lon_0=-5.4 +k_0=0.999625769 +x_0=500000 +y_0=300000 +ellps=clrk80ign +towgs84=31,146,47,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="even">
+<td align="left">3944</td>
+<td align="left">RGF93 / CC44</td>
+<td align="left">projected</td>
+<td align="right">4171</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_0=44 +lon_0=3 +lat_1=43.25 +lat_2=44.75 +x_0=1700000 +y_0=3200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="odd">
+<td align="left">3943</td>
+<td align="left">RGF93 / CC43</td>
+<td align="left">projected</td>
+<td align="right">4171</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_0=43 +lon_0=3 +lat_1=42.25 +lat_2=43.75 +x_0=1700000 +y_0=2200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="even">
+<td align="left">27573</td>
+<td align="left">NTF (Paris) / Lambert zone III</td>
+<td align="left">projected</td>
+<td align="right">4807</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=44.1 +lat_0=44.1 +lon_0=0 +k_0=0.999877499 +x_0=600000 +y_0=3200000 +ellps=clrk80ign +pm=paris +towgs84=-168,-60,320,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="odd">
+<td align="left">27572</td>
+<td align="left">NTF (Paris) / Lambert zone II</td>
+<td align="left">projected</td>
+<td align="right">4807</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=46.8 +lat_0=46.8 +lon_0=0 +k_0=0.99987742 +x_0=600000 +y_0=2200000 +ellps=clrk80ign +pm=paris +towgs84=-168,-60,320,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="even">
+<td align="left">27563</td>
+<td align="left">NTF (Paris) / Lambert Sud France</td>
+<td align="left">projected</td>
+<td align="right">4807</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=44.1 +lat_0=44.1 +lon_0=0 +k_0=0.999877499 +x_0=600000 +y_0=200000 +ellps=clrk80ign +pm=paris +towgs84=-168,-60,320,0,0,0,0 +units=m +no_defs</td>
+</tr>
+<tr class="odd">
+<td align="left">30791</td>
+<td align="left">Nord Sahara 1959 / Nord Algerie</td>
+<td align="left">projected</td>
+<td align="right">4307</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=36 +lat_0=36 +lon_0=2.7 +k_0=0.999625544 +x_0=500135 +y_0=300090 +a=6378249.145 +rf=293.465 +towgs84=-209.3622,-87.8162,404.6198,0.0046,3.4784,0.5805,-1.4547 +units=m +no_defs</td>
+</tr>
+<tr class="even">
+<td align="left">30493</td>
+<td align="left">Voirol 1879 / Nord Algerie (ancienne)</td>
+<td align="left">projected</td>
+<td align="right">4671</td>
+<td align="left">m</td>
+<td align="left">+proj=lcc +lat_1=36 +lat_0=36 +lon_0=2.7 +k_0=0.999625544 +x_0=500000 +y_0=300000 +ellps=clrk80ign +units=m +no_defs</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="formatos.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probamos sugerencia</span></span>
+<span id="cb17-2"><a href="formatos.html#cb17-2" aria-hidden="true" tabindex="-1"></a>crs_suggest <span class="ot">&lt;-</span> <span class="fu">suggest_crs</span>(elev, <span class="at">limit =</span> <span class="dv">1</span>)</span>
+<span id="cb17-3"><a href="formatos.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="formatos.html#cb17-4" aria-hidden="true" tabindex="-1"></a>elev_suggest <span class="ot">&lt;-</span> <span class="fu">projectRaster</span>(elev, <span class="at">crs =</span> raster<span class="sc">::</span><span class="fu">crs</span>(crs_suggest<span class="sc">$</span>crs_proj4))</span>
+<span id="cb17-5"><a href="formatos.html#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="formatos.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_suggest)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sugerencia-1"></span>
+<img src="_main_files/figure-html/sugerencia-1.png" alt="raster: Ejemplo de transformación usando crsuggest" width="60%" />
+<p class="caption">
+Figura 3.20: raster: Ejemplo de transformación usando crsuggest
+</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="formatos.html#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="formatos.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo con sf: China</span></span>
+<span id="cb18-3"><a href="formatos.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="formatos.html#cb18-4" aria-hidden="true" tabindex="-1"></a>china <span class="ot">&lt;-</span> <span class="fu">gisco_get_countries</span>(<span class="at">country =</span> <span class="st">&quot;China&quot;</span>)</span>
+<span id="cb18-5"><a href="formatos.html#cb18-5" aria-hidden="true" tabindex="-1"></a>china_crs <span class="ot">&lt;-</span> <span class="fu">suggest_crs</span>(china, <span class="at">limit =</span> <span class="dv">1</span>)</span>
+<span id="cb18-6"><a href="formatos.html#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="formatos.html#cb18-7" aria-hidden="true" tabindex="-1"></a>china_crs</span>
+<span id="cb18-8"><a href="formatos.html#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
+<span id="cb18-9"><a href="formatos.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   crs_code crs_name     crs_type crs_gcs crs_units crs_proj4</span></span>
+<span id="cb18-10"><a href="formatos.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span id="cb18-11"><a href="formatos.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 4584     New Beijing~ project~    4555 m         +proj=tm~</span></span>
+<span id="cb18-12"><a href="formatos.html#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="formatos.html#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="formatos.html#cb18-14" aria-hidden="true" tabindex="-1"></a>china_suggest <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(</span>
+<span id="cb18-15"><a href="formatos.html#cb18-15" aria-hidden="true" tabindex="-1"></a>  china,</span>
+<span id="cb18-16"><a href="formatos.html#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_crs</span>(<span class="fu">as.integer</span>(china_crs<span class="sc">$</span>crs_code))</span>
+<span id="cb18-17"><a href="formatos.html#cb18-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-18"><a href="formatos.html#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="formatos.html#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="formatos.html#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(china_suggest), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sugerencia-2"></span>
+<img src="_main_files/figure-html/sugerencia-2.png" alt="sf: Ejemplo de transformación usando crsuggest" width="60%" />
+<p class="caption">
+Figura 3.21: sf: Ejemplo de transformación usando crsuggest
+</p>
+</div>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Lovelance_et_al_2019" class="csl-entry">
+Lovelace, R., Nowosad, J., &amp; Muenchow, J. (2019). <em>Geocomputation with <span>R</span></em>. <span>CRC Press</span>.
+</div>
+<div id="ref-R-crsuggest" class="csl-entry">
+Walker, K. (2021). <em><span class="nocase">crsuggest</span>: Obtain suggested coordinate reference system information for spatial data</em>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="datos-geográficos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estadística-espacial.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

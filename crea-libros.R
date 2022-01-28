@@ -19,11 +19,11 @@ for (file in html) {
   rm("n")
 }
 
-# Esto crea un pdf
-bookdown::render_book("index.Rmd",
-  output_format = "bookdown::pdf_book",
-  envir = new.env()
-)
+# # Esto crea un pdf
+# bookdown::render_book("index.Rmd",
+#   output_format = "bookdown::pdf_book",
+#   envir = new.env()
+# )
 
 # Esto crea un epub
 bookdown::render_book("index.Rmd",
