@@ -41,6 +41,12 @@ rmarkdown::render("99-aplicaciones.Rmd",
   output_file = "book_geodatos/aplicaciones/index.html"
 )
 
+# Extrae código
+knitr::purl("99-aplicaciones.Rmd",
+            "book_geodatos/aplicaciones/aplicaciones.R")
+
+
+knitr::pu
 # rmd_files: ["index.Rmd", "01-rev_geodatos.Rmd", "02-geocomp.Rmd","03-formatos.Rmd", "04-est_esp.Rmd","05-anexo.Rmd"]
 
 # bookdown::render_book("index.Rmd", output_format = "bookdown::epub_book", envir = new.env())

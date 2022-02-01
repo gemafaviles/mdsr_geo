@@ -37,6 +37,8 @@ knitr::opts_chunk$set(
 ***NOTA**: En las siguientes aplicaciones se asumen que los datos se localizan
 en la carpeta `data` del proyecto de R-Studio en el que se esté trabajando.*
 
+[**Descarga el script completo**](./aplicaciones.R)
+
 ## Temperaturas mínimas en España
 
 **Objetivo de aprendizaje**
