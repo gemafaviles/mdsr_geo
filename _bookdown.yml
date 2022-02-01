@@ -2,7 +2,7 @@ before_chapter_script: ["clean.R"]
 rmd_files: ["index.Rmd", 
 #"01-rev_geodatos.Rmd", "02-geocomp.Rmd","03-formatos.Rmd", 
 #"04-est_esp.Rmd",
-"09-aplicaciones_libro.Rmd", "05-anexo.Rmd"]
+"05-aplicaciones_libro.Rmd", "06-anexo.Rmd"]
 delete_merged_file: true
 language:
   label:

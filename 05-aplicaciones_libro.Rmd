@@ -1,54 +1,50 @@
----
-title: "Aplicaciones: Visualización y geolocalización de datos"
-subtitle: "Máster en Data Science & Business Analytics (con R Software)"
-author:
-- Gema Fernández-Avilés
-- Diego Hernangómez
-bibliography: book.bib
-csl: apa-6th-edition.csl
-output:
-  bookdown::html_document2:
-    toc: yes
-    toc_depth: 2
-    number_sections: yes
----
-
-```{r include=FALSE}
-rm(list = ls(all = TRUE))
-
-Sys.setenv(MAPSPAIN_CACHE_DIR = "cache_dir")
-
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  warning = FALSE,
-  message = FALSE,
-  tidy = "styler",
-  out.width = "60%",
-  fig.align = "center",
-  dev = "ragg_png",
-  dpi = 300
-)
-```
-
-# Aplicaciones
-
-***NOTA**: En las siguientes aplicaciones se asumen que los datos se localizan
-en la carpeta `data` del proyecto de R-Studio en el que se esté trabajando.*
+# Casos prácticos {#caos}
 
 
-## Temperaturas mínimas en España
+DIEGO, EN EL CSS SE PUEDE AÑADIR UN CUADRO QUE SEA UNA ADVERTENCIA, YO NO SÉ,
+lO PROBAMOS/PRUEBAS :) O NO??
+
+
+
+<!-- ::: {.infobox .caution data-latex="{caution}"} -->
+<!-- **NOTA** -->
+
+<!-- En las siguientes aplicaciones se asumen que los datos se localizan -->
+<!-- en la carpeta `data` del proyecto de R-Studio en el que se esté trabajando. -->
+<!-- ::: -->
+
+
+
+
+
+## Caso 1: Temperatura mínimas del aire en España. 
 
 **Objetivo de aprendizaje**
 
 Este caso práctico muestra como leer y graficar datos espaciales en R. Para
 ello, vamos a trabajar con los datos de temperatura mínima registradas en España
-por las estaciones metereológicas de la AEMET.
+por las estaciones metereológicas de la Agencia Estatal de Meteorología (AEMET).
 
-*Tarea 1: Abrimos RStudio*
+
+
+::: {.exercise #ex-crea name="Creación del proyecto" }
 
 El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
-abriendo el programa y creando un nuevo proyecto de R en *File>New Proyect*.
+abriendo el programa y creando un nuevo proyecto de R en *Proyecto>File>New File>R
+script*.
+:::
+
+
+::: {.exercise #ex-import name="Importación de los datos" }
+sdfdsaf
+:::
+
+::: {.solution #sol-impor name="Importación de los datos" }
+sfddsa
+
+:::
+
+
 
 *Tarea 2: Importamos y describimos los datos objeto de estudio*
 
@@ -272,6 +268,10 @@ ggplot() +
     )
   )
 ```
+
+
+
+
 
 *Tarea 7: Interpolación de la variable temperatura mínima `tmin` para el día 8
 de enero de 2021 con IDW*
