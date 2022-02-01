@@ -10,7 +10,7 @@ bookdown::render_book("index.Rmd",
 )
 
 # Esto cambia References por Referencias en el html
-html <- list.files("_book", pattern = ".html$", full.names = TRUE)
+html <- list.files("book_geodatos", pattern = ".html$", full.names = TRUE)
 
 for (file in html) {
   n <- readLines(file)
@@ -32,12 +32,13 @@ bookdown::render_book("index.Rmd",
 )
 
 
+if (!dir.exists("book_geodatos/aplicaciones/")) dir.create("book_geodatos/aplicaciones/", recursive = TRUE)
 # Esto crea las aplicaciones
 # Por algún motivo ¿? en mi ordenador es necesario correrlo
 # a partir de una session nueva (Session>Restart)
 rmarkdown::render("99-aplicaciones.Rmd",
   output_format = "bookdown::html_document2",
-  output_file = "Aplicaciones.html"
+  output_file = "book_geodatos/aplicaciones/index.html"
 )
 
 # rmd_files: ["index.Rmd", "01-rev_geodatos.Rmd", "02-geocomp.Rmd","03-formatos.Rmd", "04-est_esp.Rmd","05-anexo.Rmd"]

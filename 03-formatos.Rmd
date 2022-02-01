@@ -14,22 +14,102 @@ knitr::opts_chunk$set(
 
 # Formatos de datos espaciales {#formatos}
 
-## Tipos de ficheros (COMPLETAR)
+## Ficheros de datos espaciales
 
-Poner el esquema de los Shapes.
+Los **datos espaciales**, también conocidos como datos **geoespaciales**, son
+aquellos datos relacionados o que contienen información de una localización o
+área geográfica de la superficie de la Tierra. En los últimos años se han
+desarrollado diversos estándares de ficheros que permiten almacenar y compatir
+este tipo de datos. En esta sección presentamos de una manera breve algunos de
+los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
-<https://en.wikipedia.org/wiki/Shapefile>
+**Información de vectores**
 
-Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.
+Las características de los datos de vector se analizan en profundidad en la
+Sección \@ref(vec). Las extensiones más habituales de los archivos que contienen
+datos de vectores son:
 
-Y pensar si tiene que venir aquí o dónde... quizá al final de la sección
-FORMATOS DE DATOS ESPACIALES
+| Tipo                      | Extensión              |
+|---------------------------|------------------------|
+| Shapefile                 | `.shp`, `.shx`, `.dbf` |
+| GeoPackage vector         | `.gpkg`                |
+| GeoJson                   | `.geojson`             |
+| GPX                       | `.gpx`                 |
+| Geography Markup Language | `.gml`                 |
+| Keyhole Markup Language   | `.kml`                 |
 
-En el ámbito del análisis espacial en **R**, se pueden clasificar **el formato**
-de datos espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se
-pueden distinguir dos tipos de modelos de datos: vectores y raster.
+: Ficheros con datos vector
 
-## Datos de vectores
+Adicionalmente, es también común encontrarse con datos espaciales distribuidos
+en ficheros planos (`.csv`, `.txt` o incluso Excel). Generalmente este tipo de
+datos corresponde a localizaciones (puntos) y la información geográfica suele
+especificarse en dos columnas que contienen las coordenadas de la localización.
+
+```{r echo=FALSE, message=FALSE}
+
+library(giscoR)
+library(sf)
+library(dplyr)
+
+airp <- gisco_get_airports(country = "ES")
+coord <- st_coordinates(st_transform(airp, 4326))[, 1:2]
+df <- data.frame(longitud = coord[, 1], latitud = coord[, 2])
+
+airp %>%
+  st_drop_geometry() %>%
+  bind_cols(df) %>%
+  select(Ciudad = AIRP_CITY, longitud, latitud) %>%
+  head() %>%
+  knitr::kable(caption = "Ejemplo: Coordenadas de Aeropuertos en España")
+```
+
+**Una nota importante sobre el uso de Shapefile**
+
+Shapefile surgió como uno de los primeros formatos de intercambio de datos
+geográficos a principios de los años 90 del siglo XX, y en la actualidad es
+quizá el formato más empleado. Sin embargo tiene una serie de limitaciones que
+es necesario conocer:
+
+1.  **Es un formato multiarchivo:** El formato shapefile se compone de diversos
+    archivos que son necesarios para la correcta lectura de los datos. Es por
+    ello que cuando se intercambia información han de proporcionarse como mínimo
+    los archivos con extensiones `.shp`, `.shx`, `.dbf` (por ejemplo:
+    `datos.shp`, `datos.shx`, `datos.dbf` ). Lo mas habitual es distribuirlos en
+    un fichero `.zip` del que se deben extraer todos estos archivos.
+
+2.  **El Sistema Geográfico de Coordenadas es opcional**: Como explicaremos en
+    la Sección \@ref(CRS), esta información es crucial para trabajar con datos
+    geográficos, sin embargo el estándar Shapefile lo considera opcional, siendo
+    esta una limitación importante.
+
+Además de estas limitaciones, existen otras relacionadas con el nombre y la
+longitud de los campos, o la capacidad de almacenamiento de los Shapefiles, que
+se pueden consultar en varios recursos web que profundizan en este tema (ver
+[mappingGIS](https://mappinggis.com/2012/08/shapefiles-vs-bases-de-datos-espaciales/#Desventajas_de_los_shapefiles),
+<http://switchfromshapefile.org/>). Un buen **reemplazo** de este formato **es
+el formato GeoPackage** (`.gpkg` ), que no tiene este tipo de limitaciones.
+
+**Información de ráster**
+
+Las características de los datos ráster se analizan en profundidad en la Sección
+\@ref(raster). Las extensiones más habituales de los archivos que contienen
+datos ráster son:
+
+| Tipo                         | Extensión       |
+|------------------------------|-----------------|
+| ASCII Grid                   | `.asc`          |
+| GeoTIFF                      | `.tif`, `.tiff` |
+| Enhanced Compression Wavelet | `.ecw`          |
+
+: Ficheros con datos ráster
+
+## Modelo de datos
+
+En el ámbito del análisis espacial en R, se pueden clasificar el formato de
+datos espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se
+pueden distinguir dos tipos de modelos de datos: **vectores** y **ráster**.
+
+### Datos de vectores {#vec}
 
 Este modelo está basado en puntos georeferenciados. Los **puntos** pueden
 representar localizaciones específicas, como la localización de edificios:
@@ -101,7 +181,7 @@ ggplot(st_cast(st_geometry(toledo), "POINT")) +
   labs(title = "Descomposición de vectores")
 ```
 
-## Datos raster
+### Datos ráster {#raster}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
 (denomindada **matriz**) que se puede visualizar en diversos dispositivo de

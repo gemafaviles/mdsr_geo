@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Diego Hernangómez" />
+<meta name="author" content="Gema Fernández-Avilés" />
+
+
+<title>Aplicaciones: Visualización y geolocalización de datos</title>
+
+<script src="index_files/header-attrs-2.11/header-attrs.js"></script>
+<script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="index_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="index_files/navigation-1.1/tabsets.js"></script>
+<link href="index_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="index_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Aplicaciones: Visualización y geolocalización de datos</h1>
+<h3 class="subtitle">Máster en Data Science &amp; Business Analytics (con R Software)</h3>
+<h4 class="author">Diego Hernangómez</h4>
+<h4 class="author">Gema Fernández-Avilés</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#aplicaciones"><span class="toc-section-number">1</span> Aplicaciones</a>
+<ul>
+<li><a href="#temperaturas-mínimas-en-españa"><span class="toc-section-number">1.1</span> Temperaturas mínimas en España</a></li>
+<li><a href="#renta-media-por-municipios"><span class="toc-section-number">1.2</span> Renta media por municipios</a></li>
+<li><a href="#análisis-de-patrones-de-puntos"><span class="toc-section-number">1.3</span> Análisis de patrones de puntos</a></li>
+</ul></li>
+<li><a href="#referencias">Referencias</a></li>
+</ul>
+</div>
+
+<div id="aplicaciones" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Aplicaciones</h1>
+<p><em><strong>NOTA</strong>: En las siguientes aplicaciones se asumen que los datos se localizan
+en la carpeta <code>data</code> del proyecto de R-Studio en el que se esté trabajando.</em></p>
+<div id="temperaturas-mínimas-en-españa" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Temperaturas mínimas en España</h2>
+<p><strong>Objetivo de aprendizaje</strong></p>
+<p>Este caso práctico muestra como leer y graficar datos espaciales en R. Para
+ello, vamos a trabajar con los datos de temperatura mínima registradas en España
+por las estaciones metereológicas de la AEMET.</p>
+<p><em>Tarea 1: Abrimos RStudio</em></p>
+<p>El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
+abriendo el programa y creando un nuevo proyecto de R en <em>File&gt;New Proyect</em>.</p>
+<p><em>Tarea 2: Importamos y describimos los datos objeto de estudio</em></p>
+<p>El conjunto de datos proporcionado <code>(tempmin.csv</code>) contiene el nivel de
+temperatura del aire en España entre el 6 y el 10 de Enero de
+2021<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Estos datos han sido descargados usando la librería
+<code>climaemet</code> <span class="citation">(Pizarro, Hernangómez, &amp; Fernández-Avilés, 2021)</span> y han sido posteriormente tratados para su uso en
+esta práctica.</p>
+<p>El primer paso consiste en importar la base de datos de temperatura mínima. El
+archivo está en formato csv, por lo cual es un fichero de texto plano. Podemos
+usar varias funciones para realizar la importación, en este caso vamos a emplear
+paquetes del <code>tidyverse</code> para realizar todo el tratamiento de datos:</p>
+<pre class="r"><code>
+library(readr)
+
+# cada uno debe seleccionar el directorio donde tiene los datos, de ahí
+# que sea conveniente trabajar con proyectos
+tmin &lt;- read_csv(&quot;data/tempmin.csv&quot;)</code></pre>
+<p><strong>Q1: ¿Qué información tiene <code>tmin</code>?</strong></p>
+<table>
+<caption><span id="tab:tmin-head">Tabla 1.1: </span>Detalle del objeto tmin</caption>
+<thead>
+<tr class="header">
+<th align="left">fecha</th>
+<th align="left">indicativo</th>
+<th align="right">tmin</th>
+<th align="right">longitud</th>
+<th align="right">latitud</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2021-01-06</td>
+<td align="left">4358X</td>
+<td align="right">-4.7</td>
+<td align="right">-5.880556</td>
+<td align="right">38.95556</td>
+</tr>
+<tr class="even">
+<td align="left">2021-01-06</td>
+<td align="left">4220X</td>
+<td align="right">-7.0</td>
+<td align="right">-4.616389</td>
+<td align="right">39.08861</td>
+</tr>
+<tr class="odd">
+<td align="left">2021-01-06</td>
+<td align="left">6106X</td>
+<td align="right">4.7</td>
+<td align="right">-4.748333</td>
+<td align="right">37.02944</td>
+</tr>
+<tr class="even">
+<td align="left">2021-01-06</td>
+<td align="left">9698U</td>
+<td align="right">-6.8</td>
+<td align="right">0.865278</td>
+<td align="right">42.20528</td>
+</tr>
+<tr class="odd">
+<td align="left">2021-01-06</td>
+<td align="left">4410X</td>
+<td align="right">-3.4</td>
+<td align="right">-6.385556</td>
+<td align="right">38.91583</td>
+</tr>
+<tr class="even">
+<td align="left">2021-01-06</td>
+<td align="left">1331A</td>
+<td align="right">1.0</td>
+<td align="right">-7.031389</td>
+<td align="right">43.52472</td>
+</tr>
+</tbody>
+</table>
+<p>Podemos observar que la tabla generada contiene 5 columnas distintas:</p>
+<ul>
+<li><p><code>fecha</code>: Indicando la fecha de observación.</p></li>
+<li><p><code>indicativo</code>: Es el identificador de la estación de la AEMET que registró el
+dato.</p></li>
+<li><p><code>tmin</code>: Dato de temperatura mínima registrada en cada fecha por la estación
+correspondiente en grados centígrados.</p></li>
+<li><p><code>longitud,latitud</code>: Coordenadas geográficas de la estación</p></li>
+</ul>
+<p><em>Tarea 3. Convertir</em> <code>tmin</code> <em>a un objeto de la clase espacial</em> <code>geoR</code></p>
+<p>Para convertir un objeto a geodata (el formato requerido por <code>geoR</code>),
+proporcionaremos una tabla con las coordenadas y los valores a incluir en cada
+coordenada. En este ejemplo, vamos a emplear sólamente los datos
+correspondientes al <strong>8 de enero.</strong></p>
+<pre class="r"><code>library(dplyr)
+library(geoR)
+#&gt; &#39;RandomFields&#39; will use OMP
+
+tmin_geoR &lt;- tmin %&gt;%
+  filter(fecha == &quot;2021-01-08&quot;) %&gt;%
+  # Seleccionamos las columnas de interés
+  dplyr::select(longitud, latitud, tmin) %&gt;%
+  # Y creamos el objeto geodata
+  as.geodata(
+    coords.col = 1:2,
+    data.col = 3
+  )
+
+
+summary(tmin_geoR)
+#&gt; Number of data points: 211 
+#&gt; 
+#&gt; Coordinates summary
+#&gt;      longitud  latitud
+#&gt; min -9.291389 35.27639
+#&gt; max  4.215556 43.78611
+#&gt; 
+#&gt; Distance summary
+#&gt;         min         max 
+#&gt;  0.01024389 13.85144264 
+#&gt; 
+#&gt; Data summary
+#&gt;        Min.     1st Qu.      Median        Mean     3rd Qu.        Max. 
+#&gt; -14.9000000  -4.6000000  -0.5000000  -0.6293839   3.5000000  13.6000000
+plot(tmin_geoR)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="index_files/figure-html/unnamed-chunk-2-1.png" alt="Objetos en geoR" width="60%" />
+<p class="caption">
+Figura 1.1: Objetos en geoR
+</p>
+</div>
+<p><em>Tarea 4. Convertir</em> <code>tmin</code> <em>a un objeto de la clase espacial</em> <code>sf</code></p>
+<p>En esta tarea, convertiremos los datos de tmin en un objeto espacial <code>sf</code>, es
+decir, datos espaciales de tipo vector.</p>
+<p>Los datos de <code>tmin</code> contienen coordenadas geográficas longitud/latitud, asi que
+como vimos en la sección <strong>Sistema de Referencia de Coordenadas (CRS)</strong> el CRS a
+emplear ha de ser un CRS geográfico. Usaremos el código EPSG <strong>4326</strong>, que
+corresponde a coordenadas geográficas y suele ser el habitual en este tipo de
+situaciones.</p>
+<pre class="r"><code>library(sf)
+
+tmin_sf &lt;- st_as_sf(tmin,
+  coords = c(&quot;longitud&quot;, &quot;latitud&quot;),
+  crs = 4326
+)
+
+tmin_sf
+#&gt; Simple feature collection with 1066 features and 3 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -9.291389 ymin: 35.27639 xmax: 4.215556 ymax: 43.78611
+#&gt; Geodetic CRS:  WGS 84
+#&gt; # A tibble: 1,066 x 4
+#&gt;    fecha      indicativo  tmin             geometry
+#&gt;  * &lt;date&gt;     &lt;chr&gt;      &lt;dbl&gt;          &lt;POINT [°]&gt;
+#&gt;  1 2021-01-06 4358X       -4.7 (-5.880556 38.95556)
+#&gt;  2 2021-01-06 4220X       -7   (-4.616389 39.08861)
+#&gt;  3 2021-01-06 6106X        4.7 (-4.748333 37.02944)
+#&gt;  4 2021-01-06 9698U       -6.8  (0.865278 42.20528)
+#&gt;  5 2021-01-06 4410X       -3.4 (-6.385556 38.91583)
+#&gt;  6 2021-01-06 1331A        1   (-7.031389 43.52472)
+#&gt;  7 2021-01-06 1690A       -0.1 (-7.859722 42.32528)
+#&gt;  8 2021-01-06 8489X       -8   (-0.255833 40.43333)
+#&gt;  9 2021-01-06 8025         2    (-0.494167 38.3725)
+#&gt; 10 2021-01-06 9784P      -10       (0.224722 42.63)
+#&gt; # ... with 1,056 more rows</code></pre>
+<p><em>Tarea 5: Dibujemos las estaciones de monitoreo de la temperaria mínima en un
+mapa de España. Ámbito espacial.</em></p>
+<p>Vamos, además, a incluir una capa de las comunidades autónomas de España. Para
+ello usaremos un paquete API que nos proporciona esta información en formato
+<code>sf</code>:</p>
+<pre class="r"><code>library(mapSpain)
+# sf object
+esp &lt;- esp_get_ccaa() %&gt;%
+  # No vamos a usar Canarias en este análisis
+  filter(ine.ccaa.name != &quot;Canarias&quot;)
+
+
+plot(esp$geometry) # Dibujamo el mapa de España menos las Islas Canarias</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="index_files/figure-html/unnamed-chunk-4-1.png" alt="Mapa de España (Sin Canarias)" width="60%" />
+<p class="caption">
+Figura 1.2: Mapa de España (Sin Canarias)
+</p>
+</div>
+<p><strong>Q2: ¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
+monitoreo en la misma proyección que el contorno de España?</strong></p>
+<p>Como se comentó en la sección <strong>Sistema de Referencia de Coordenadas (CRS)</strong>,
+cuando se emplean datos geográficos provenientes de varias fuentes, es necesario
+asegurarse de que ambos objetos están usando el mismo CRS. Vamos a comprobarlo:</p>
+<pre class="r"><code>st_crs(tmin_sf) == st_crs(esp)
+#&gt; [1] FALSE</code></pre>
+<p>Vemos que no lo están, por lo que vamos a proyectar las coordenadas a un CRS
+común. En este caso usaremos el CRS de referencia de <code>tmin_sf</code>:</p>
+<pre class="r"><code>esp2 &lt;- st_transform(esp, st_crs(tmin_sf))
+
+st_crs(tmin_sf) == st_crs(esp2)
+#&gt; [1] TRUE</code></pre>
+<p>Dibujamos las estaciones de monitoreo con el contorno de España. Vamos a usar el
+paquete <code>ggplot2</code> como referencia, sin embargo existen varios paquetes
+especializados en mapas temáticos, como pueden ser <code>tmap</code> o <code>mapsf</code>.</p>
+<pre class="r"><code>library(ggplot2)
+
+ggplot(esp2) +
+  # Para graficar objetos sf debemos usar geom_sf()
+  geom_sf() +
+  geom_sf(data = tmin_sf) +
+  theme_light() +
+  labs(
+    title = &quot;Estaciones de monitoreo AEMET en  España&quot;,
+    subtitle = &quot;excluyendo las Islas Canarias&quot;
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 12,
+      face = &quot;bold&quot;
+    ),
+    plot.subtitle = element_text(
+      size = 8,
+      face = &quot;italic&quot;
+    )
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<img src="index_files/figure-html/unnamed-chunk-6-1.png" alt="Estaciones de AEMET en la Península Ibérica" width="60%" />
+<p class="caption">
+Figura 1.3: Estaciones de AEMET en la Península Ibérica
+</p>
+</div>
+<p><em>Tarea 6: Representamos la variable temperatura mínima <code>tmin</code> para el día 8 de
+enero de 2021.</em></p>
+<p>En la siguiente tarea, seleccionaremos los datos correspondientes al <strong>8 de
+enero de 2021</strong> y crearemos un mapa temático en el que representaremos los
+valores de temperatura mínima registrados en cada estación mediante un código de
+colores.</p>
+<pre class="r"><code>tmin_8enero &lt;- tmin_sf %&gt;%
+  # seleccionamos el día y la variable
+  filter(fecha == &quot;2021-01-08&quot;)
+
+
+plot(tmin_8enero[&quot;tmin&quot;],
+  main = &quot;Temperatura mínima (8-enero-2021)&quot;,
+  pch = 8
+)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-base-tmin"></span>
+<img src="index_files/figure-html/plot-base-tmin-1.png" alt="Mapa de puntos con temperatura mínima" width="60%" />
+<p class="caption">
+Figura 1.4: Mapa de puntos con temperatura mínima
+</p>
+</div>
+<p>Podemos utilizar el ámbito espacial, el contorno de España para graficar y
+contar la historia de la Filomena un poco mejor.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:spatial-plots"></span>
+<img src="index_files/figure-html/spatial-plots-1.png" alt="Mapa completo con temperatura mínima" width="60%" />
+<p class="caption">
+Figura 1.5: Mapa completo con temperatura mínima
+</p>
+</div>
+<p><em>Tarea 7: Interpolación de la variable temperatura mínima <code>tmin</code> para el día 8
+de enero de 2021 con IDW</em></p>
+<p><strong>Q3</strong>: El mapa (<a href="#fig:spatial-plots">1.5</a>) ha quedado muy claro. Vemos como los
+datos nos cuentan la historia de Filomena en aquellos sitios donde se tomaron
+mediciones, pero <strong>¿podríamos tener un mapa de interpolación para tener una
+estimación de la temperatura mínima en las partes donde la AEMET no tiene
+estación de monitoreo?</strong></p>
+<p>Tal y como se avanzó en teoría, parece lógico pensar que aquellos puntos que
+estén cerca tendrán valores similares así que tomemos ventaja de la dependencia
+espacial y utilicemos un método determinista, como la Distancia Inversa
+Ponderada, comúnmente conocido por su acrónimo inglés IDW (Inverse distance
+weighted), el cual es uno de los métodos más simples para llevar para llevar a
+cabo una interpolación espacial.</p>
+<p>En este tipo de análisis, es crucial que el CRS sea el apropiado. En este caso,
+ya definimos el CRS como un CRS geográfico (es decir, usando coordenadas de
+longitud y latitud). Sin embargo, para el ejercicio de interpolación es más
+adecuado usar un CRS local (que provoque pocas deformaciones en la proyección de
+España) y en alguna unidad de distancia, como metros (ya vimos que en los CRS
+geográficos las unidades son grados).</p>
+<p>Si usamos el paquete <code>crsuggest</code> podemos observar los CRS sugeridos:</p>
+<pre class="r"><code>library(crsuggest)
+
+sugiere &lt;- suggest_crs(tmin_8enero, units = &quot;m&quot;, limit = 5)
+
+# Usamos la sugerencia del paquete
+crs_sugerido &lt;- st_crs(sugiere[1, ]$crs_proj4)
+
+esp3 &lt;- st_transform(esp2, crs_sugerido)
+tmin_8enero3 &lt;- st_transform(tmin_8enero, crs_sugerido)</code></pre>
+<p><strong>Q4: ¿Dónde vamos a interpolar? ¿En que puntos?</strong></p>
+<p>Para realizar la interpolación, necesitamos generar una malla que representará
+las celdas de las que queremos obtener el valor interpolado.</p>
+<p>Dado que hemos proyectado nuestros datos a un CRS cuya unidad son los metros,
+podemos definir el tamaño de cada celda en metros cuadrados. En este caso vamos
+a usar celdas de 100 kms cuadrados (10 x 10 kms):</p>
+<pre class="r"><code>set.seed(9876) # Con esto aseguramos que el grid generado siempre es igual
+
+malla_sf &lt;- st_make_grid(
+  esp3,
+  cellsize = 8000
+)</code></pre>
+<p>Graficamos la superficie para ver exactamente qué hemos construido:</p>
+<pre class="r"><code>
+ggplot(esp3) +
+  geom_sf() +
+  geom_sf(
+    data = malla_sf,
+    size = 0.1,
+    col = &quot;red&quot;, alpha = 1,
+    fill = NA
+  ) +
+  geom_sf(
+    data = tmin_8enero3,
+    aes(fill = &quot;AEMET Stations&quot;), size = 4, shape = 21,
+    color = &quot;blue&quot;
+  ) +
+  scale_fill_manual(values = adjustcolor(&quot;blue&quot;, alpha.f = 0.2)) +
+  theme_void() +
+  theme(legend.position = &quot;bottom&quot;) +
+  labs(
+    title = &quot;Cuadrícula espacial para interpolar&quot;,
+    fill = &quot;&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:malla"></span>
+<img src="index_files/figure-html/malla-1.png" alt="Malla de puntos para interpolación" width="60%" />
+<p class="caption">
+Figura 1.6: Malla de puntos para interpolación
+</p>
+</div>
+<p>En la Fig. <a href="#fig:malla">1.6</a> se puede observar claramente cada una de las celdas
+que hemos creado. La interpolación asignará un valor a cada uno de ellas.</p>
+<p>A continuación podemos llevar a cabo la interpolación usando el paquete <code>gstat</code>.
+Además, en lugar de celdas (polígonos) es necesario usar puntos en la
+interpolación. Calcularemos, por tanto, un punto representativo de cada celda,
+el centroide, que es el punto resultante de realizar la media arimética de las
+coordenadas de loss puntos que componen los lados de cada celda</p>
+<pre class="r"><code># Calculamos centroide
+malla_sf_cent &lt;- st_centroid(malla_sf, of_largest_polygon = TRUE)
+
+library(gstat)
+tmin_idw &lt;- idw(
+  # Indicamos la variable que queremos interpolar
+  tmin ~ 1,
+  # Indicamos el conjunto de datos donde está la variable
+  tmin_8enero3,
+  # Indicamos la malla de destino, en sf
+  newdata = malla_sf_cent,
+  idp = 2.0 # Especifica la potencia de la IDW
+)
+#&gt; [inverse distance weighted interpolation]
+head(tmin_idw)
+#&gt; Simple feature collection with 6 features and 2 fields
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 146290.9 ymin: 69457.31 xmax: 186290.9 ymax: 69457.31
+#&gt; CRS:           +proj=lcc +lat_1=40 +lat_0=40 +lon_0=0 +k_0=0.9988085293 +x_0=600000 +y_0=600000 +a=6378298.3 +rf=294.73 +pm=madrid +units=m +no_defs
+#&gt;   var1.pred var1.var                  geometry
+#&gt; 1  2.518621       NA POINT (146290.9 69457.31)
+#&gt; 2  2.586930       NA POINT (154290.9 69457.31)
+#&gt; 3  2.656846       NA POINT (162290.9 69457.31)
+#&gt; 4  2.728395       NA POINT (170290.9 69457.31)
+#&gt; 5  2.801600       NA POINT (178290.9 69457.31)
+#&gt; 6  2.876486       NA POINT (186290.9 69457.31)</code></pre>
+<p><em>Tarea 8. Mapa de contorno</em></p>
+<p>Representamos la interpolación con un mapa y mapa de contorno muy utilizado para
+representar datos espaciales. Para ello, vamos a usar el paquete <code>raster</code>
+convirtiendo nuestro objeto interpolado.</p>
+<pre class="r"><code># Convertimos de sf a SpatiaPixels
+# Esto funciona porque nuestros puntos sf están espaciados regularmente
+
+tmin_pixels &lt;- tmin_idw %&gt;%
+  as(&quot;Spatial&quot;) %&gt;%
+  as(&quot;SpatialPixels&quot;)
+
+
+library(raster)
+# Creamos un raster de nuestros pixels
+rast_esp &lt;- raster(tmin_pixels)
+
+# Transferimos valores del objeto sf al raster
+rast_esp2 &lt;- rasterize(
+  tmin_idw,
+  rast_esp,
+  field = &quot;var1.pred&quot;, ## valores de predicción
+  fun = mean
+)
+
+# Además, podemos recortar el raster a la forma de España
+
+rast_esp_mask &lt;- mask(rast_esp2, esp3)
+
+plot(rast_esp_mask, col = colores)
+contour(rast_esp2, add = TRUE)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
+<img src="index_files/figure-html/unnamed-chunk-9-1.png" alt="Mapa raster con lineas de nivel" width="60%" />
+<p class="caption">
+Figura 1.7: Mapa raster con lineas de nivel
+</p>
+</div>
+<p>Podemos realizar el mismo mapa usando <code>ggplot2</code> y la función
+<code>geom_contour_filled</code>:</p>
+<pre class="r"><code>
+# Creo una tabla para geom contour
+coordenadas &lt;- st_coordinates(tmin_idw)
+valor &lt;- tmin_idw$var1.pred
+
+idw_df &lt;- data.frame(
+  # Necesitamos redondear las coordenadas
+  latitud = round(coordenadas[, 2], 6),
+  longitud = round(coordenadas[, 1], 6),
+  tmin = valor
+)
+
+ggplot() +
+  geom_contour_filled(
+    data = idw_df,
+    aes(x = longitud, y = latitud, z = tmin),
+    na.rm = TRUE,
+    breaks = cortes
+  ) +
+  # Reajustamos la escala de colores
+  scale_fill_manual(values = colores) +
+  # CCAA
+  geom_sf(data = esp3, fill = NA) +
+  theme_minimal() +
+  theme(axis.title = element_blank()) +
+  labs(
+    fill = &quot;Temp. (º)&quot;,
+    title = &quot;Temperatura mínima interpolada&quot;,
+    subtitle = &quot;8 de Enero 2021&quot;,
+    caption = &quot;Datos: AEMET&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-10"></span>
+<img src="index_files/figure-html/unnamed-chunk-10-1.png" alt="Mapa con ggplot2 y lineas de nivel" width="60%" />
+<p class="caption">
+Figura 1.8: Mapa con ggplot2 y lineas de nivel
+</p>
+</div>
+</div>
+<div id="renta-media-por-municipios" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Renta media por municipios</h2>
+<p>Esta sección presenta un caso de uso en el que aprenderemos a realizar las
+siguientes tareas básicas:</p>
+<ul>
+<li><p>Importar datos tabulares y datos espaciales.</p></li>
+<li><p>Realizar un tratamiento de limpieza de datos y cruzar tablas.</p></li>
+<li><p>Hacer mapas temáticos. Aprenderemos también algunas nociones básicas sobre
+cómo crear diferentes clases para un conjunto de datos continuo.</p></li>
+</ul>
+<p>Para ello, partiremos de dos ficheros:</p>
+<ol style="list-style-type: decimal">
+<li><p>Fichero <code>renta_municipio.csv</code>: Este fichero contiene información de la Renta
+Neta per cápita por municipios (en euros), distritos y secciones censales.
+Esta información se ha extraído del <a href="https://www.ine.es/experimental/atlas/experimental_atlas.htm">Atlas de distribución de renta de los
+hogares</a>
+proporcionado por el INE, y ha sido tratado previamente para adaptar la
+información al presente ejercicio.</p></li>
+<li><p>Fichero <code>municipios.gpkg</code>: Es un fichero que contiene datos espaciales
+(polígonos) de los municipios en España en el año 2019. Se ha extraído del
+Instituto Geográfico Nacional (IGN) usando el paquete <code>mapSpain</code>.</p></li>
+</ol>
+<p><em>Tarea 1. Importar los datos a R</em></p>
+<p>El primer paso en cualquier tipo de análisis de datos es importar los datos al
+software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
+de información que contiene:</p>
+<pre class="r"><code># Usaremos paquetes del tidyverse
+library(dplyr)
+library(readr)
+
+renta &lt;- read_csv(&quot;data/renta_municipio.csv&quot;, na = &quot;.&quot;)</code></pre>
+<pre class="r"><code>library(sf)
+munis &lt;- st_read(&quot;data/municipios.gpkg&quot;, quiet = TRUE)</code></pre>
+<p><strong>Q1: ¿Qué información tenemos sobre la variable?</strong></p>
+<pre class="r"><code>head(renta)
+#&gt; # A tibble: 6 x 6
+#&gt;   Unidad                          `2019` `2018` `2017` `2016` `2015`
+#&gt;   &lt;chr&gt;                            &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 44001 Ababuj                        NA     NA     NA     NA     NA
+#&gt; 2 4400101 Ababuj distrito 01          NA     NA     NA     NA     NA
+#&gt; 3 4400101001 Ababuj sección 01001     NA     NA     NA     NA     NA
+#&gt; 4 40001 Abades                     11429  10731  10314   9816   9904
+#&gt; 5 4000101 Abades distrito 01       11429  10731  10314   9816   9904
+#&gt; 6 4000101001 Abades sección 01001  11429  10731  10314   9816   9904</code></pre>
+<p>Podemos comprobar que tenemos información para los años 2015 a 2019. Además, la
+columna <code>Unidad</code> contiene un literal con el municipio o sección correspondiente.</p>
+<p><strong>Q2: ¿Qué información tenemos sobre el objeto espacial?</strong></p>
+<pre class="r"><code>head(munis)
+#&gt; Simple feature collection with 6 features and 7 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -3.140179 ymin: 36.73817 xmax: -2.057058 ymax: 37.54579
+#&gt; Geodetic CRS:  ETRS89
+#&gt;   codauto ine.ccaa.name cpro ine.prov.name cmun      name LAU_CODE                           geom
+#&gt; 1      01     Andalucía   04       Almería  001      Abla    04001 MULTIPOLYGON (((-2.775594 3...
+#&gt; 2      01     Andalucía   04       Almería  002  Abrucena    04002 MULTIPOLYGON (((-2.787566 3...
+#&gt; 3      01     Andalucía   04       Almería  003      Adra    04003 MULTIPOLYGON (((-3.051988 3...
+#&gt; 4      01     Andalucía   04       Almería  004 Albanchez    04004 MULTIPOLYGON (((-2.181086 3...
+#&gt; 5      01     Andalucía   04       Almería  005 Alboloduy    04005 MULTIPOLYGON (((-2.572442 3...
+#&gt; 6      01     Andalucía   04       Almería  006     Albox    04006 MULTIPOLYGON (((-2.128106 3...</code></pre>
+<p>Podemos comprobar que <code>munis</code> es un objeto que contiene Polígonos y varias
+columnas, entre ellas dos especialmente relevantes: <code>cpro</code> y <code>cmun</code>, que
+corresponden a los códigos de provincia y de municipio respectivamente. Podemos
+comprobar que este código también se encuentra en nuestro dataset <code>renta</code>.</p>
+<p><em>Tarea 2. Comprobamos campos en común para un municipio: Noblejas</em></p>
+<pre class="r"><code># Miro un municipio: Noblejas
+
+renta[grep(&quot;Noblejas&quot;, renta$Unidad), ]
+#&gt; # A tibble: 5 x 6
+#&gt;   Unidad                            `2019` `2018` `2017` `2016` `2015`
+#&gt;   &lt;chr&gt;                              &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 45115 Noblejas                     10591  10314   9751   9484   9124
+#&gt; 2 4511501 Noblejas distrito 01       11039  10717  10135   9711   9386
+#&gt; 3 4511501001 Noblejas sección 01001  11039  10717  10135   9711   9386
+#&gt; 4 4511502 Noblejas distrito 02       10276  10029   9475   9319   8938
+#&gt; 5 4511502001 Noblejas sección 02001  10276  10029   9475   9319   8938
+
+munis[grep(&quot;Noblejas&quot;, munis$name), c(&quot;name&quot;, &quot;cpro&quot;, &quot;cmun&quot;)]
+#&gt; Simple feature collection with 1 feature and 3 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -3.489824 ymin: 39.93003 xmax: -3.372611 ymax: 40.05017
+#&gt; Geodetic CRS:  ETRS89
+#&gt;          name cpro cmun                           geom
+#&gt; 4985 Noblejas   45  115 MULTIPOLYGON (((-3.44681 40...</code></pre>
+<p>En el caso de Noblejas, el código completo es <strong>45115</strong>. Sin embargo, en el caso
+de la tabla <code>renta</code>, debemos extraer ese valor del literal, ya que no tenemos
+este valor directamente, sino en combinación con otros valores (“<strong>45115
+Noblejas</strong>”). Para conseguir extraer un campo adecuado para el cruce en la tabla
+<code>renta</code> que contenga únicamente el código numérico vamos a hacer la siguiente
+manipulacion de datos:</p>
+<ul>
+<li><p>Para cada valor de la columna <code>Unidad</code>, dividiremos el texto usando los
+espacios como delimitadores (“<strong>45115 Noblejas”</strong> pasará a ser <strong>c(“45115,”
+“Noblejas”)</strong>) y extraremos el código como el primer valor del vector
+(<strong>c(“45115,” “Noblejas”)<span class="math display">\[1\]</span></strong> extrae <strong>“45115”</strong>).</p></li>
+<li><p>Usaremos ese resultado para crear una nueva columna <code>codigo_ine</code> que
+usaremos como campo para cruzar.</p></li>
+</ul>
+<pre class="r"><code>
+# Creo una función y la aplico a toda la columna
+extrae_codigo &lt;- function(x) {
+  unlist(strsplit(x, &quot; &quot;))[1]
+}
+
+renta$codigo_ine &lt;- sapply(as.character(renta$Unidad), extrae_codigo)
+
+head(renta[c(&quot;Unidad&quot;, &quot;codigo_ine&quot;)])
+#&gt; # A tibble: 6 x 2
+#&gt;   Unidad                          codigo_ine
+#&gt;   &lt;chr&gt;                           &lt;chr&gt;     
+#&gt; 1 44001 Ababuj                    44001     
+#&gt; 2 4400101 Ababuj distrito 01      4400101   
+#&gt; 3 4400101001 Ababuj sección 01001 4400101001
+#&gt; 4 40001 Abades                    40001     
+#&gt; 5 4000101 Abades distrito 01      4000101   
+#&gt; 6 4000101001 Abades sección 01001 4000101001</code></pre>
+<p>Ahora, es necesario crear la misma variable en <code>munis</code> para poder realizar el
+cruce:</p>
+<pre class="r"><code>
+munis$codigo_ine &lt;- paste0(munis$cpro, munis$cmun)
+
+head(munis[, c(&quot;name&quot;, &quot;codigo_ine&quot;)])
+#&gt; Simple feature collection with 6 features and 2 fields
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -3.140179 ymin: 36.73817 xmax: -2.057058 ymax: 37.54579
+#&gt; Geodetic CRS:  ETRS89
+#&gt;        name codigo_ine                           geom
+#&gt; 1      Abla      04001 MULTIPOLYGON (((-2.775594 3...
+#&gt; 2  Abrucena      04002 MULTIPOLYGON (((-2.787566 3...
+#&gt; 3      Adra      04003 MULTIPOLYGON (((-3.051988 3...
+#&gt; 4 Albanchez      04004 MULTIPOLYGON (((-2.181086 3...
+#&gt; 5 Alboloduy      04005 MULTIPOLYGON (((-2.572442 3...
+#&gt; 6     Albox      04006 MULTIPOLYGON (((-2.128106 3...</code></pre>
+<p><em>Tarea 3: Unimos los objetos renta y mapas con la función <code>left_join</code></em></p>
+<p>Ya estamos listos para realizar el cruce. Además, seleccionaremos sólo las
+columnas que vamos a usar, en este caso la del año 2019:</p>
+<pre class="r"><code>
+munis_renta &lt;- munis %&gt;%
+  left_join(renta) %&gt;%
+  dplyr::select(name, cpro, cmun, `2019`)</code></pre>
+<p><strong>Cuando crucemos datos espaciales con datos no espaciales en R, es importante
+que el primer dataset sea el que contiene los datos espaciales</strong>. Esto es así
+porque el objeto resultante “hereda” la clase del primer objeto.</p>
+<p><strong>Q3: ¿Qué ocurre si realizáramos el proceso poniendo los datos espaciales en el
+lado derecho del join?</strong></p>
+<p>A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en
+el lado derecho del join, los datos finales no serán espaciales:</p>
+<pre class="r"><code>
+# Miramos la clase de munis_renta
+
+class(munis_renta)
+#&gt; [1] &quot;sf&quot;         &quot;data.frame&quot;
+
+# Es un sf, por tanto espacial
+
+# ¿Que pasa si realizamos el cruce de la otra manera?
+renta %&gt;%
+  left_join(munis) %&gt;%
+  dplyr::select(name, cpro, cmun, `2019`) %&gt;%
+  class()
+#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>El resultado es un tibble o data.frame, <strong>¡pero no es espacial!</strong></p>
+<p><em>Tarea 4. Histograma de la distribución de la renta</em></p>
+<p>Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
+como la realización de un histograma</p>
+<pre class="r"><code>
+library(ggplot2)
+
+munis_renta %&gt;%
+  ggplot(aes(x = `2019`)) +
+  geom_histogram(color = &quot;darkblue&quot;, fill = &quot;lightblue&quot;) +
+  scale_x_continuous(labels = scales::label_number_auto()) +
+  scale_y_continuous(labels = scales::label_percent()) +
+  labs(
+    y = &quot;&quot;,
+    x = &quot;Renta neta media por persona (€)&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:basic"></span>
+<img src="index_files/figure-html/basic-1.png" alt="Histograma de la Renta per cápita en España (2019)" width="60%" />
+<p class="caption">
+Figura 1.9: Histograma de la Renta per cápita en España (2019)
+</p>
+</div>
+<p>En la Fig. <a href="#fig:basic">1.9</a> podemos observar que la renta presenta una
+distribución Gamma con un gran de municipios concentrados en zonas medias de
+renta y pocos municipios en tramos de rentas altas. Como veremos más adelante,
+esta distribución va a afectar a la información que transmite el mapa.</p>
+<p><em>Tarea 5. Mapa de coropletas de la distribución de la renta</em></p>
+<p>Vamos a realizar ahora un mapa de coropletas mostrando la distribución de la
+renta usando los valores brutos de renta sin modificar:</p>
+<pre class="r"><code>
+ggplot(munis_renta) +
+  # Usamos geom_sf, y como aes() lo que queremos mostrar, en este caso, el
+  # color del polígono representa la renta. Vamos a retirar los bordes con
+  # color = NA
+  geom_sf(aes(fill = `2019`), color = NA) +
+  theme_minimal() +
+  scale_fill_continuous(labels = scales::label_number(
+    big.mark = &quot;.&quot;,
+    decimal.mark = &quot;,&quot;,
+    suffix = &quot; €&quot;
+  )) +
+  labs(
+    title = &quot;Renta neta media por persona&quot;,
+    caption = &quot;Datos: INE&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:maparenta1"></span>
+<img src="index_files/figure-html/maparenta1-1.png" alt="Renta neta media por persona" width="60%" />
+<p class="caption">
+Figura 1.10: Renta neta media por persona
+</p>
+</div>
+<p>Este primer mapa no es demasiado informativo, por los siguientes motivos:</p>
+<ul>
+<li><p>Existe una serie de municipios para los que no tenemos datos.</p></li>
+<li><p>La escala de color no es la más adecuada.</p></li>
+<li><p>Dada la distribución de los datos, puede ser adecuado crear grupos de renta
+para que el mapa sea más interpretable.</p></li>
+</ul>
+<p><em>Tarea 6. Eliminamos los municipios sin datos y cambiamos la escala de color</em></p>
+<p>Vamos a probar a eliminar los municipios sin datos y a cambiar la escala de
+color para ver si mejora la visualización.</p>
+<pre class="r"><code>
+munis_renta_clean &lt;- munis_renta %&gt;% filter(!is.na(`2019`))
+
+ggplot(munis_renta_clean) +
+  geom_sf(aes(fill = `2019`), color = NA) +
+  # Cambiamos la paleta de colores, vamos a usar una paleta denominada Inferno,
+  # ya incluida en base R con hcl.colors
+
+  # Como son datos continuos, puedo usar Inferno
+  scale_fill_gradientn(
+    colours = hcl.colors(20, &quot;Inferno&quot;, rev = TRUE),
+    labels = scales::label_number(
+      big.mark = &quot;.&quot;,
+      decimal.mark = &quot;,&quot;,
+      suffix = &quot; €&quot;
+    )
+  ) +
+  theme_minimal() +
+  labs(
+    title = &quot;Renta neta media por persona&quot;,
+    caption = &quot;Datos: INE&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:maparenta2"></span>
+<img src="index_files/figure-html/maparenta2-1.png" alt="Renta neta media por persona con paleta de colores alternativa" width="60%" />
+<p class="caption">
+Figura 1.11: Renta neta media por persona con paleta de colores alternativa
+</p>
+</div>
+<p>Este mapa nos da algo más de información, y parece intuirse que las rentas más
+altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo, el
+hecho de que la distribución de los datos no sea normal está afectando a la
+visualización.</p>
+<p><em>Tarea 7. Agrupar los datos en clases para mejorar la visualización</em></p>
+<p>Para intentar atajar este problema, podemos dividir nuestros datos en clases,
+por ejemplo cuartiles o deciles. Existen varios métodos de clasificación de
+datos, que en R se encuentran implementados en el paquete <code>classInt</code>. A
+continuación vamos a plantear diversos métodos de clasificación y observar cómo
+la “historia” que cuenta el mapa varía en función de dichas clases. En este
+ejemplo planteamos los siguientes métodos de clasificación:</p>
+<ul>
+<li><p>El método de deciles: consiste en crear 10 categorías incluyendo el mismo
+número de registros en cada una de ellas.</p></li>
+<li><p>El método de intervalos equivalentes: divide el rango de valores en un
+número de grupos definido. La distancia de todos los intervalos es idéntica,
+por lo que este método no tiene en cuenta la distribución de los registros.</p></li>
+<li><p>El método de Fisher-Jenks: desarrollado específicamente para la
+clasificación de datos espaciales y su visualización en mapas. Produce
+agrupaciones de tal manera que los datos de cada grupo son “cercanas” entre
+sí y sustancialmente distintas de los valores de otros grupos.</p></li>
+</ul>
+<pre class="r"><code>
+library(classInt)
+# Vamos a probar 3 métodos de clasificación: Deciles, tramos de Renta
+# equidistantes y Fisher and Jenks
+
+deciles &lt;- classIntervals(munis_renta_clean$`2019`,
+  style = &quot;quantile&quot;, n = 10
+)
+deciles
+#&gt; style: quantile
+#&gt;     [5898,8935.6)   [8935.6,9662.2)  [9662.2,10352.8)   [10352.8,10918)     [10918,11462) 
+#&gt;               656               656               655               654               655 
+#&gt;   [11462,11998.6) [11998.6,12651.4) [12651.4,13475.8) [13475.8,14618.4)   [14618.4,26367] 
+#&gt;               658               656               655               656               656
+plot(deciles, pal = hcl.colors(20, &quot;Inferno&quot;), main = &quot;Deciles&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:deciles"></span>
+<img src="index_files/figure-html/deciles-1.png" alt="Deciles de renta" width="60%" />
+<p class="caption">
+Figura 1.12: Deciles de renta
+</p>
+</div>
+<pre class="r"><code>
+# Tramos equidistantes en términos de renta
+equal &lt;- classIntervals(munis_renta_clean$`2019`,
+  style = &quot;equal&quot;, n = 10
+)
+equal
+#&gt; style: equal
+#&gt;     [5898,7944.9)   [7944.9,9991.8)  [9991.8,12038.7) [12038.7,14085.6) [14085.6,16132.5) 
+#&gt;               103              1510              2374              1637               702 
+#&gt; [16132.5,18179.4) [18179.4,20226.3) [20226.3,22273.2) [22273.2,24320.1)   [24320.1,26367] 
+#&gt;               161                52                14                 3                 1
+plot(equal, pal = hcl.colors(20, &quot;Inferno&quot;), main = &quot;Equidistantes&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:equidist"></span>
+<img src="index_files/figure-html/equidist-1.png" alt="Tramos de renta equidistante" width="60%" />
+<p class="caption">
+Figura 1.13: Tramos de renta equidistante
+</p>
+</div>
+<pre class="r"><code>
+fisher &lt;- classIntervals(munis_renta_clean$`2019`,
+  style = &quot;fisher&quot;,
+  # Fuerzo para mejorar la comparación entre métodos
+  n = 10
+)
+fisher
+#&gt; style: fisher
+#&gt;       [5898,8743)     [8743,9770.5)    [9770.5,10754)     [10754,11689)     [11689,12668) 
+#&gt;               505               904              1005              1159              1032 
+#&gt;     [12668,13803)   [13803,15222.5) [15222.5,17196.5) [17196.5,20063.5)   [20063.5,26367] 
+#&gt;               874               651               305               103                19
+plot(fisher,
+  pal = hcl.colors(20, &quot;Inferno&quot;),
+  main = &quot;Fisher-Jenks&quot;
+)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fisher"></span>
+<img src="index_files/figure-html/fisher-1.png" alt="Tramos de renta usando Fisher-Jenks" width="60%" />
+<p class="caption">
+Figura 1.14: Tramos de renta usando Fisher-Jenks
+</p>
+</div>
+<p>Podemos observar lo siguiente:</p>
+<ul>
+<li><p>El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
+€ (Fig <a href="#fig:deciles">1.12</a>).</p></li>
+<li><p>El método por deciles (Fig <a href="#fig:deciles">1.12</a>) proporciona unos grupos con
+valores de renta muy parecidos entre sí en los valores medios. Esto es
+debido a la propia distribución de la variable.</p></li>
+<li><p>El método de rangos equidistantes (Fig <a href="#fig:equidist">1.13</a>) proporciona
+algunos grupos con un número muy reducido de municipios.</p></li>
+<li><p>El método de Fisher-Jenks (Fig <a href="#fig:fisher">1.14</a>) puede proporcionar unas
+clases con unos rangos más apropiados para los tramos altos de renta.</p></li>
+</ul>
+<p><em>Tarea 8. Representar los mapas según las clases obtenidas</em></p>
+<p>Vamos ahora a realizar 3 mapas distintos, creando clases de renta según cada uno
+de los métodos anteriormente mostrados.</p>
+<p><strong>Deciles</strong></p>
+<pre class="r"><code># Extraigo los valores de corte
+breaks_d &lt;- deciles$brks
+
+# Y creo unas etiquetas básicas para cada clase
+# Creo una función específica para crear etiquetas formateadas
+label_fun &lt;- function(x) {
+  l &lt;- length(x)
+  eur &lt;- paste0(prettyNum(round(x, 0),
+    decimal.mark = &quot;,&quot;,
+    big.mark = &quot;.&quot;
+  ), &quot; €&quot;)
+
+  labels &lt;- paste(eur[-l], &quot;-&quot;, eur[-1])
+  labels[1] &lt;- paste(&quot;&lt;&quot;, eur[1])
+  labels[l - 1] &lt;- paste(&quot;&gt;&quot;, eur[l - 1])
+  return(labels)
+}
+
+labels_d &lt;- label_fun(breaks_d)
+
+munis_renta_clean$Deciles &lt;- cut(munis_renta_clean$`2019`,
+  breaks = breaks_d,
+  labels = labels_d,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = Deciles), color = NA) +
+  # Necesito cambiar el scale, ya no es continua
+  scale_fill_manual(values = hcl.colors(length(labels_d),
+    &quot;Inferno&quot;,
+    rev = TRUE
+  )) +
+  theme_minimal() +
+  labs(
+    title = &quot;Renta neta media por persona&quot;,
+    caption = &quot;Datos: INE&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mapa-deciles"></span>
+<img src="index_files/figure-html/mapa-deciles-1.png" alt="Mapa por deciles de renta" width="60%" />
+<p class="caption">
+Figura 1.15: Mapa por deciles de renta
+</p>
+</div>
+<p>El mapa de la Fig. <a href="#fig:mapa-deciles">1.15</a> ya nos permite observar patrones
+geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
+Norte y las del Sur. Veamos una representación distina usando otras clases
+diferentes:</p>
+<pre class="r"><code>
+breaks_e &lt;- equal$brks
+labels_e &lt;- label_fun(breaks_e)
+
+munis_renta_clean$Equal &lt;- cut(munis_renta_clean$`2019`,
+  breaks = breaks_e,
+  labels = labels_e,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = Equal), color = NA) +
+  scale_fill_manual(values = hcl.colors(length(labels_e),
+    &quot;Inferno&quot;,
+    rev = TRUE
+  )) +
+  theme_minimal() +
+  labs(
+    title = &quot;Renta neta media por persona&quot;,
+    caption = &quot;Datos: INE&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mapa-equal"></span>
+<img src="index_files/figure-html/mapa-equal-1.png" alt="Mapa por tramos de renta equidistantes" width="60%" />
+<p class="caption">
+Figura 1.16: Mapa por tramos de renta equidistantes
+</p>
+</div>
+<p>El mapa de la Fig. <a href="#fig:mapa-equal">1.16</a>, sin embargo, se parece más al mapa que
+hicimos con los datos sin clasificar (Fig. <a href="#fig:maparenta2">1.11</a>), donde el peso
+visual se concentra más bien en los municipios con rentas mucho más altas que el
+resto (por encimoa de 18.000 €).</p>
+<p>Veamos el mismo mapa usando Fisher-Jenks:</p>
+<pre class="r"><code>
+breaks_f &lt;- fisher$brks
+labels_f &lt;- label_fun(breaks_f)
+
+munis_renta_clean$`Fisher-Jenks` &lt;- cut(munis_renta_clean$`2019`,
+  breaks = breaks_f,
+  labels = labels_f,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = `Fisher-Jenks`), color = NA) +
+  scale_fill_manual(values = hcl.colors(length(labels_f),
+    &quot;Inferno&quot;,
+    rev = TRUE
+  )) +
+  theme_minimal() +
+  labs(
+    title = &quot;Renta neta media por persona&quot;,
+    caption = &quot;Datos: INE&quot;
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mapa-fisher"></span>
+<img src="index_files/figure-html/mapa-fisher-1.png" alt="Mapa por tramos según Fisher-Jenks" width="60%" />
+<p class="caption">
+Figura 1.17: Mapa por tramos según Fisher-Jenks
+</p>
+</div>
+<p>En el mapa de la Fig. <a href="#fig:mapa-fisher">1.17</a> se puede observar de una manera más
+clara un cluster adicional de renta en la zona de Asturias y el norte de León.
+Además, gracias a la escala de colores puede intuirse que este clúster de renta
+no presenta valores tan altos como los observados en País Vasco o Madrid.</p>
+<p>En conclusión, en el momento de realizar una visualización de datos es
+importante conocer el dato a representar, así como entender algunas propiedades
+básicas de la distribución subyacente. También hemos podido observar que hay
+ciertas decisiones estéticas (datos continuos vs. agrupados, escala de colores)
+que tienen una influencia significativa en cómo se percibe la información
+representada. Es responsabilidad del creador de la visualización el conocer
+todos estos factores y aplicarlos de manera conveniente.</p>
+<p><strong>Q4: Tenemos un mapa de los mismos datos pero la información se presenta de
+manera sesgada, ¿puedes identificar los motivos?</strong></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:trucado"></span>
+<img src="index_files/figure-html/trucado-1.png" alt="Ejemplo de visualización sesgada" width="60%" />
+<p class="caption">
+Figura 1.18: Ejemplo de visualización sesgada
+</p>
+</div>
+<p>En el mapa de la Fig. <a href="#fig:trucado">1.18</a> parece que la renta per cápita de las
+comunidades del norte es desproporcionadamente superior a las del sur. Resumimos
+aquí los sesgos introducidos en el mapa:</p>
+<ul>
+<li><p>En primer lugar, se han creado un elevado número de grupos en las zonas de
+rentas bajas. De esta manera, la escala del mapa parece estar muy
+fragmentada, sin embargo muchos de esos grupos apenas contienen municipios.
+A modo de ejemplo, los primeros cuatro grupos únicamente contienen 32
+municipios.</p></li>
+<li><p>Los grupos no se adaptan a la distribución subyacente de los datos. La
+mediana de los datos (11.462 €) estaría situada en la antepenúltima clase,
+de manera que los dos grupos de mayor renta contienen el 50% de los
+municipios.</p></li>
+<li><p>Además, la escala de color se ha manipulado, de manera que los grupos de
+mayores renta destaquen más que el resto de manera notoria.</p></li>
+</ul>
+</div>
+<div id="análisis-de-patrones-de-puntos" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Análisis de patrones de puntos</h2>
+<p>Las técnicas de análisis de patrones de puntos analizan la distribución de
+eventos geolocalizados que surgen al azar. La diferencia fundamental con otros
+análisis que comprenden también el uso de localizaciones (como las temperaturas
+mínimas medidas por estaciones meteorológicas) es que en este caso los puntos
+representan eventos conocidos y aleatorios (por ejemplo, los crímenes ocurridos
+en una ciudad, accidentes de tráfico o incendios en una región). A diferencia de
+otros eventos, como el ejemplo de las temperaturas mínimas, la ausencia de datos
+no se debe a la ausencia de medición (e.g. no existe una estación meteorológica
+en ese lugar), si no a que no se ha producido el evento en dicha localización.</p>
+<p><strong>Objetivo de aprendizaje</strong>:</p>
+<p>El alumno debe ser capaz de conocer los datos de tipo patrones de punto,
+identificarlos y representarlos adecuadamente.</p>
+<p><em>Tarea 1: Abrimos RStudio</em></p>
+<p>El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
+abriendo el programa y creando un nuevo script de R en <em>Proyecto&gt;File&gt;New File&gt;R
+script</em>.</p>
+<p><em>Tarea 2: Importamos y describimos los datos objeto de estudio</em></p>
+<p>El primer paso consiste en importar la base de datos de crímenes en la ciudad de
+Valencia. El archivo está en formato csv, por lo que usaremos el paquete <code>readr</code>
+para importar los datos:</p>
+<pre class="r"><code>library(readr)
+library(dplyr)
+
+# En este caso el archivo está en la carpeta &quot;data&quot; de nuestro proyecto
+crimen &lt;- read_csv(&quot;data/crime-data-Valencia.csv&quot;)
+
+
+summary(crimen)
+#&gt;    crime_id          crime_date         crime_time        crime_type            muni          
+#&gt;  Length:90247       Length:90247       Length:90247      Length:90247       Length:90247      
+#&gt;  Class :character   Class :character   Class1:hms        Class :character   Class :character  
+#&gt;  Mode  :character   Mode  :character   Class2:difftime   Mode  :character   Mode  :character  
+#&gt;                                        Mode  :numeric                                         
+#&gt;                                                                                               
+#&gt;                                                                                               
+#&gt;       year          month             week            day           week_day    
+#&gt;  Min.   :2010   Min.   : 1.000   Min.   : 1.00   Min.   :  1.0   Min.   :1.000  
+#&gt;  1st Qu.:2013   1st Qu.: 4.000   1st Qu.:14.00   1st Qu.: 96.0   1st Qu.:3.000  
+#&gt;  Median :2016   Median : 7.000   Median :27.00   Median :187.0   Median :5.000  
+#&gt;  Mean   :2015   Mean   : 6.537   Mean   :26.65   Mean   :183.6   Mean   :4.323  
+#&gt;  3rd Qu.:2018   3rd Qu.: 9.000   3rd Qu.:38.00   3rd Qu.:266.0   3rd Qu.:6.000  
+#&gt;  Max.   :2020   Max.   :12.000   Max.   :53.00   Max.   :366.0   Max.   :7.000  
+#&gt;  week_day_name        crime_hour      crime_lon         crime_lat        atm_dist       
+#&gt;  Length:90247       Min.   : 0.00   Min.   :-0.4296   Min.   :39.42   Min.   :   1.549  
+#&gt;  Class :character   1st Qu.: 5.00   1st Qu.:-0.3883   1st Qu.:39.46   1st Qu.: 380.535  
+#&gt;  Mode  :character   Median :14.00   Median :-0.3749   Median :39.47   Median : 630.867  
+#&gt;                     Mean   :12.52   Mean   :-0.3724   Mean   :39.47   Mean   : 790.228  
+#&gt;                     3rd Qu.:19.00   3rd Qu.:-0.3593   3rd Qu.:39.48   3rd Qu.: 986.897  
+#&gt;                     Max.   :23.00   Max.   :-0.3208   Max.   :39.53   Max.   :4838.847  
+#&gt;    bank_dist           bar_dist          cafe_dist        industrial_dist   market_dist      
+#&gt;  Min.   :   1.713   Min.   :   0.489   Min.   :   1.342   Min.   :   0.1   Min.   :   1.821  
+#&gt;  1st Qu.: 133.908   1st Qu.: 149.879   1st Qu.: 133.274   1st Qu.: 268.4   1st Qu.: 487.874  
+#&gt;  Median : 228.003   Median : 292.246   Median : 264.504   Median : 509.6   Median : 869.516  
+#&gt;  Mean   : 305.315   Mean   : 392.072   Mean   : 360.275   Mean   : 675.2   Mean   :1008.414  
+#&gt;  3rd Qu.: 384.706   3rd Qu.: 507.701   3rd Qu.: 462.982   3rd Qu.: 909.9   3rd Qu.:1263.405  
+#&gt;  Max.   :3411.537   Max.   :4352.380   Max.   :4237.915   Max.   :4703.9   Max.   :4855.407  
+#&gt;  nightclub_dist      police_dist          pub_dist        restaurant_dist      taxi_dist       
+#&gt;  Min.   :   1.189   Min.   :   0.688   Min.   :   1.489   Min.   :   0.427   Min.   :   2.441  
+#&gt;  1st Qu.: 468.164   1st Qu.: 455.810   1st Qu.: 190.150   1st Qu.:  73.401   1st Qu.: 393.438  
+#&gt;  Median : 810.185   Median : 706.094   Median : 383.330   Median : 147.797   Median : 651.644  
+#&gt;  Mean   : 930.501   Mean   : 875.246   Mean   : 496.472   Mean   : 223.875   Mean   : 717.381  
+#&gt;  3rd Qu.:1256.269   3rd Qu.:1105.625   3rd Qu.: 665.599   3rd Qu.: 272.288   3rd Qu.: 931.083  
+#&gt;  Max.   :4700.567   Max.   :4765.745   Max.   :4168.869   Max.   :3746.536   Max.   :4284.239  
+#&gt;     grid_id         grid_lon          grid_lat    
+#&gt;  Min.   :  8.0   Min.   :-0.4288   Min.   :39.42  
+#&gt;  1st Qu.:173.0   1st Qu.:-0.3898   1st Qu.:39.46  
+#&gt;  Median :215.0   Median :-0.3731   Median :39.47  
+#&gt;  Mean   :210.8   Mean   :-0.3724   Mean   :39.47  
+#&gt;  3rd Qu.:248.0   3rd Qu.:-0.3620   3rd Qu.:39.48  
+#&gt;  Max.   :398.0   Max.   :-0.3230   Max.   :39.53</code></pre>
+<p><strong>Q1: ¿Qué información contiene nuestros datos?</strong></p>
+<p>Este archivo contiene en total
+90.247 registros, y
+proporciona 28 campos asociados a cada registro.</p>
+<p>Entre los campos disponibles, destacamos los campos <code>crime_lon</code> y <code>crime_lat</code>:
+Son las coordenadas en las que se produjo el crimen.</p>
+<p><strong>Q2: ¿En qué CRS se encuentran las coordenadas?</strong></p>
+<p>Si nos fijamos, las coordenadas parecen corresponder con longitudes y latitudes,
+ya que como se explicó el rango posible de valores es <span class="math inline">\([-180, 180]\)</span> (para
+longitudes) y <span class="math inline">\([-90, 90]\)</span> (para latitudes):</p>
+<table>
+<caption><span id="tab:coods-lonlat">Tabla 1.2: </span>Crímenes en Valencia; Coordenadas</caption>
+<thead>
+<tr class="header">
+<th align="right">crime_lon</th>
+<th align="right">crime_lat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.3826325</td>
+<td align="right">39.46332</td>
+</tr>
+<tr class="even">
+<td align="right">-0.3906850</td>
+<td align="right">39.43517</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.3747971</td>
+<td align="right">39.47927</td>
+</tr>
+<tr class="even">
+<td align="right">-0.3992082</td>
+<td align="right">39.47982</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.3596011</td>
+<td align="right">39.46740</td>
+</tr>
+<tr class="even">
+<td align="right">-0.3552423</td>
+<td align="right">39.47461</td>
+</tr>
+</tbody>
+</table>
+<p>Por lo tanto, podemos convertir la tabla en un objecto <code>sf</code> teniendo en cuenta
+esta información. A modo de recordatorio, el CRS correspondiente a coordenadas
+geográficas longitud/latitud es <strong>EPSG:4326</strong>.</p>
+<pre class="r"><code>
+library(sf)
+# Objeto sf sin CRS
+
+crimen_sf &lt;- st_as_sf(
+  crimen,
+  coords = c(
+    &quot;crime_lon&quot;,
+    &quot;crime_lat&quot;
+  ),
+  crs = st_crs(4326)
+)
+
+# Comprobamos con un mapa base
+
+library(mapSpain)
+library(ggplot2)
+
+# Usamos imagen como mapa de fondo
+tile &lt;- esp_getTiles(crimen_sf, &quot;IDErioja&quot;,
+  zoommin = 1,
+  crop = TRUE
+)
+
+ggplot() +
+  layer_spatraster(tile) +
+  geom_sf(
+    data = crimen_sf,
+    col = &quot;blue&quot;,
+    size = 0.3,
+    alpha = 0.3
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:crimen1"></span>
+<img src="index_files/figure-html/crimen1-1.png" alt="Crímenes en Valencia" width="60%" />
+<p class="caption">
+Figura 1.19: Crímenes en Valencia
+</p>
+</div>
+<p><strong>Q3: ¿Hay algún patrón en la ocurrencia de crímenes?</strong></p>
+<p>En la Fig. <a href="#fig:crimen1">1.19</a> podemos intuir ciertos patrones en la ocurrencia
+de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
+crímenes registrados en la zona del puerto.</p>
+<p>Para el siguiente análisis, vamos a analizar el patrón de crímenes del año 2010.</p>
+<pre class="r"><code>crimen_2010_sf &lt;- crimen_sf %&gt;%
+  filter(
+    year == &quot;2010&quot;
+  )
+
+ggplot() +
+  layer_spatraster(tile) +
+  geom_sf(
+    data = crimen_2010_sf,
+    col = &quot;blue&quot;,
+    size = 0.3,
+    alpha = 0.3
+  )</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:crimen2"></span>
+<img src="index_files/figure-html/crimen2-1.png" alt="Crímenes en Valencia (2010)" width="60%" />
+<p class="caption">
+Figura 1.20: Crímenes en Valencia (2010)
+</p>
+</div>
+<p><em>Tarea 3: Análisis de patrones con <code>spatstat</code></em></p>
+<p>El paquete <code>spatstat</code> (<span class="citation">Baddeley &amp; Turner (2005)</span>) es el paquete de referencia cuando se
+trabaja con patrones de puntos</p>
+<p>Siguiendo el anterior ejemplo, vamos a analizar el patrón de crímenes en el año
+2010. Además, en el análisis de patrones de puntos es necesario delimitar la
+ventana espacial de observación (owin). En este caso será el municipio de
+Valencia.</p>
+<pre class="r"><code>
+# Extraigo Valencia con mapSpain
+
+valencia &lt;- esp_get_munic(munic = &quot;^Valencia$&quot;) %&gt;%
+  # Necesito proyectar, en este caso usamos ETRS89-UTM huso 30 EPSG:25830
+  st_transform(25830)
+
+
+
+library(spatstat)
+# Necesitamos un recinto de observación: owin
+
+val_owin &lt;- as.owin(valencia)
+
+# Extraemos las coordenadas de los crímenes. Han de estar en el mismo CRS
+# que el owin
+
+coords &lt;- crimen_2010_sf %&gt;%
+  st_transform(25830) %&gt;%
+  st_coordinates()
+
+mydata_ppp &lt;- ppp(
+  x = as.numeric(coords[, 1]),
+  y = as.numeric(coords[, 2]),
+  window = val_owin
+)
+
+plot(mydata_ppp)</code></pre>
+<p><img src="index_files/figure-html/objeto_ppp-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><strong>Q4: ¿Qué información contiene nuestro objeto en formato ppp?</strong></p>
+<pre class="r"><code>summary(mydata_ppp)
+#&gt; Planar point pattern:  5332 points
+#&gt; Average intensity 3.917619e-05 points per square unit
+#&gt; 
+#&gt; *Pattern contains duplicated points*
+#&gt; 
+#&gt; Coordinates are given to 1 decimal place
+#&gt; i.e. rounded to the nearest multiple of 0.1 units
+#&gt; 
+#&gt; Window: polygonal boundary
+#&gt; 4 separate polygons (no holes)
+#&gt;            vertices      area relative.area
+#&gt; polygon 1         4   1977930       0.01450
+#&gt; polygon 2        82 131953000       0.97000
+#&gt; polygon 3         7    958085       0.00704
+#&gt; polygon 4         7   1214060       0.00892
+#&gt; enclosing rectangle: [720573.4, 735116.6] x [4351274, 4382995] units
+#&gt;                      (14540 x 31720 units)
+#&gt; Window area = 136103000 square units
+#&gt; Fraction of frame area: 0.295
+#&gt; 
+#&gt; *** 6 illegal points stored in attr(,&quot;rejects&quot;) ***</code></pre>
+<p><em>Tarea 4: Cálculo de la densidad mediante cuadrantes.</em></p>
+<p>Es importante determinar si los puntos se distribuyen al azar o tienen algún
+patrón. Por ello, lo primero que haremos será representar el objeto <code>feb_ppp</code> y
+superponer unos cuadrantes para su comportamiento (véase Fig.
+<a href="#fig:cuadrante">1.21</a>).</p>
+<pre class="r"><code>## Hallamos los cuadrantes
+cuadrante &lt;- quadratcount(mydata_ppp,
+  nx = 5,
+  ny = 5
+)
+
+## Dibujamos el número de crímenes que hay en cada cuadrante
+plot(mydata_ppp, pch = 1, main = &quot;&quot;)
+plot(cuadrante, add = TRUE, col = &quot;red&quot;, cex = 1.2)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cuadrante"></span>
+<img src="index_files/figure-html/cuadrante-1.png" alt="Crímenes en Valencia por cuadrantes (2010)" width="60%" />
+<p class="caption">
+Figura 1.21: Crímenes en Valencia por cuadrantes (2010)
+</p>
+</div>
+<p>Como se puede apreciar en la Fig. <a href="#fig:cuadrante">1.21</a> hay cuadrantes que
+registran cero crímenes y otros que registran hasta 2.860 crímenes.</p>
+<p><em>Tarea 5: Estimación de la densidad de patrones de puntos.</em></p>
+<p>En la Fig. <a href="#fig:intensidad-ripley">1.22</a> se muestra la gráfica de la estimación
+usando la K de Ripley. Los conocimientos teóricos necesarios para llevar a cabo
+este tipo de estimación se verán en el tema <strong>Patrones de Puntos</strong>. El objetivo
+de este ejemplo es meramente ilustrativo.</p>
+<pre class="r"><code>densidad &lt;- density(mydata_ppp)
+plot(densidad, main = &quot; &quot;)
+points(mydata_ppp, pch = &quot;+&quot;, cex = 0.5)</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:intensidad-ripley"></span>
+<img src="index_files/figure-html/intensidad-ripley-1.png" alt="Intensidad de crímenes estimada con la K-Ripley" width="60%" />
+<p class="caption">
+Figura 1.22: Intensidad de crímenes estimada con la K-Ripley
+</p>
+</div>
+</div>
+</div>
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referencias</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-spatstat_2005" class="csl-entry">
+Baddeley, A., &amp; Turner, R. (2005). <span class="nocase">spatstat</span>: An <span>R</span> package for analyzing spatial point patterns. <em>Journal of Statistical Software</em>, <em>12</em>(6), 1–42. <a href="https://doi.org/10.18637/jss.v012.i06">https://doi.org/10.18637/jss.v012.i06</a>
+</div>
+<div id="ref-R-climaemet" class="csl-entry">
+Pizarro, M., Hernangómez, D., &amp; Fernández-Avilés, G. (2021). <em><span class="nocase">climaemet</span>: Climate <span>AEMET</span> tools</em>. <a href="https://doi.org/10.5281/zenodo.5205573">https://doi.org/10.5281/zenodo.5205573</a>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Las fechas seleccionadas coinciden con el periodo en el que
+la tormenta Filomena tuvo su auge en la Península Ibérica.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

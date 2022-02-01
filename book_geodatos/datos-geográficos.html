@@ -25,7 +25,7 @@
 <meta name="author" content="Gema Fernández-Avilés" />
 
 
-<meta name="date" content="2022-01-28" />
+<meta name="date" content="2022-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -178,14 +178,17 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="3" data-path="formatos.html"><a href="formatos.html"><i class="fa fa-check"></i><b>3</b> Formatos de datos espaciales</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-ficheros-completar"><i class="fa fa-check"></i><b>3.1</b> Tipos de ficheros (COMPLETAR)</a></li>
-<li class="chapter" data-level="3.2" data-path="formatos.html"><a href="formatos.html#datos-de-vectores"><i class="fa fa-check"></i><b>3.2</b> Datos de vectores</a></li>
-<li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#datos-raster"><i class="fa fa-check"></i><b>3.3</b> Datos raster</a></li>
-<li class="chapter" data-level="3.4" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.4</b> Sistema de Referencia de Coordenadas (CRS)</a>
+<li class="chapter" data-level="3.1" data-path="formatos.html"><a href="formatos.html#ficheros-de-datos-espaciales"><i class="fa fa-check"></i><b>3.1</b> Ficheros de datos espaciales</a></li>
+<li class="chapter" data-level="3.2" data-path="formatos.html"><a href="formatos.html#modelo-de-datos"><i class="fa fa-check"></i><b>3.2</b> Modelo de datos</a>
 <ul>
-<li class="chapter" data-level="3.4.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.4.1</b> Tipos de CRS</a></li>
-<li class="chapter" data-level="3.4.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.4.2</b> Trabajando con proyecciones en R</a></li>
-<li class="chapter" data-level="3.4.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.4.3</b> ¿Qué proyección uso?</a></li>
+<li class="chapter" data-level="3.2.1" data-path="formatos.html"><a href="formatos.html#vec"><i class="fa fa-check"></i><b>3.2.1</b> Datos de vectores</a></li>
+<li class="chapter" data-level="3.2.2" data-path="formatos.html"><a href="formatos.html#raster"><i class="fa fa-check"></i><b>3.2.2</b> Datos ráster</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.3</b> Sistema de Referencia de Coordenadas (CRS)</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.3.1</b> Tipos de CRS</a></li>
+<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en R</a></li>
+<li class="chapter" data-level="3.3.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.3.3</b> ¿Qué proyección uso?</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="estadística-espacial.html"><a href="estadística-espacial.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
@@ -291,8 +294,8 @@ hacerlo reproducible, ver Fig. <a href="datos-geográficos.html#fig:leaflet">2.2
 <span id="cb1-3"><a href="datos-geográficos.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb1-4"><a href="datos-geográficos.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="sc">-</span><span class="fl">3.703548</span>, <span class="fl">40.417147</span>, <span class="at">zoom =</span> <span class="dv">60</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:leaflet"></span>
-<div id="htmlwidget-79624c2517fce6520296" style="width:100%;height:500px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-79624c2517fce6520296">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[40.417147,-3.703548],60,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-858ef45b3a11549c88ee" style="width:100%;height:500px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-858ef45b3a11549c88ee">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[40.417147,-3.703548],60,[]]},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 2.2: Localización interactiva de la Puerta del Sol en Madrid
 </p>
@@ -342,7 +345,7 @@ entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
 <strong>dependencia espacial</strong>. Y depende del tipo de datos espaciales tendremos tres
 grandes formas de abordar el tratamiento de los datos espaciales:
 <strong>geoestadística</strong>, <strong>procesos de punto</strong> y <strong>econometría espacial</strong> (véase
-sección <a href="formatos.html#CRS">3.4</a>).</p>
+sección <a href="formatos.html#CRS">3.3</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:gis"></span>
 <img src="img/Cumbrevieja.png" alt="Información espacial de la concentración de lava en Cumbre Vieja" width="60%" />
 <p class="caption">
@@ -352,7 +355,7 @@ Figura 2.3: Información espacial de la concentración de lava en Cumbre Vieja
 
 </div>
 </div>
-<h3>References</h3>
+<h3>Referencias</h3>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-Openshaw_Abrahart_2000" class="csl-entry">
 Abrahart, R. J., Openshaw, S., Abrahart, R. J., &amp; See, L. M. (Eds.). (2000). <em>Geocomputation</em>. CRC Press. <a href="https://doi.org/10.4324/9780203305805">https://doi.org/10.4324/9780203305805</a>

@@ -11,6 +11,7 @@ output:
     toc: yes
     toc_depth: 2
     number_sections: yes
+    self_contained: false
 ---
 
 ```{r include=FALSE}

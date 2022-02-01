@@ -1,12 +1,13 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
 ]{report}
 \title{Visualización y geolocalización de datos}
 \author{Diego Hernangómez \and Gema Fernández-Avilés}
-\date{2022-01-28}
+\date{2022-02-01}
 
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
@@ -42,7 +43,11 @@
 \hypersetup{
   pdftitle={Visualización y geolocalización de datos},
   pdfauthor={Diego Hernangómez; Gema Fernández-Avilés},
-  hidelinks,
+  colorlinks=true,
+  linkcolor={red},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
@@ -127,6 +132,7 @@
 \maketitle
 
 {
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
@@ -385,24 +391,130 @@ sección \ref{CRS}).
 \hypertarget{formatos}{%
 \chapter{Formatos de datos espaciales}\label{formatos}}
 
-\hypertarget{tipos-de-ficheros-completar}{%
-\section{Tipos de ficheros (COMPLETAR)}\label{tipos-de-ficheros-completar}}
+\hypertarget{ficheros-de-datos-espaciales}{%
+\section{Ficheros de datos espaciales}\label{ficheros-de-datos-espaciales}}
 
-Poner el esquema de los Shapes.
+Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
+aquellos datos relacionados o que contienen información de una localización o
+área geográfica de la superficie de la Tierra. En los últimos años se han
+desarrollado diversos estándares de ficheros que permiten almacenar y compatir
+este tipo de datos. En esta sección presentamos de una manera breve algunos de
+los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
-\url{https://en.wikipedia.org/wiki/Shapefile}
+\textbf{Información de vectores}
 
-Yo no sé, DIEGO, si en gisco R tienes la definición y lo ponemos de ahí.
+Las características de los datos de vector se analizan en profundidad en la
+Sección \ref{vec}. Las extensiones más habituales de los archivos que contienen
+datos de vectores son:
 
-Y pensar si tiene que venir aquí o dónde\ldots{} quizá al final de la sección
-FORMATOS DE DATOS ESPACIALES
+\begin{longtable}[]{@{}ll@{}}
+\caption{Ficheros con datos vector}\tabularnewline
+\toprule
+Tipo & Extensión \\
+\midrule
+\endfirsthead
+\toprule
+Tipo & Extensión \\
+\midrule
+\endhead
+Shapefile & \texttt{.shp}, \texttt{.shx}, \texttt{.dbf} \\
+GeoPackage vector & \texttt{.gpkg} \\
+GeoJson & \texttt{.geojson} \\
+GPX & \texttt{.gpx} \\
+Geography Markup Language & \texttt{.gml} \\
+Keyhole Markup Language & \texttt{.kml} \\
+\bottomrule
+\end{longtable}
 
-En el ámbito del análisis espacial en \textbf{R}, se pueden clasificar \textbf{el formato}
-de datos espaciales en función del modelo de datos \citep{Lovelance_et_al_2019}. Se
-pueden distinguir dos tipos de modelos de datos: vectores y raster.
+Adicionalmente, es también común encontrarse con datos espaciales distribuidos
+en ficheros planos (\texttt{.csv}, \texttt{.txt} o incluso Excel). Generalmente este tipo de
+datos corresponde a localizaciones (puntos) y la información geográfica suele
+especificarse en dos columnas que contienen las coordenadas de la localización.
 
-\hypertarget{datos-de-vectores}{%
-\section{Datos de vectores}\label{datos-de-vectores}}
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-6}Ejemplo: Coordenadas de Aeropuertos en España}
+\centering
+\begin{tabular}[t]{l|r|r}
+\hline
+Ciudad & longitud & latitud\\
+\hline
+Huesca & -0.323300 & 42.08080\\
+\hline
+Palma De Mallorca & 2.702896 & 39.59862\\
+\hline
+Lillo / Toledo & -3.320560 & 39.71694\\
+\hline
+Valladolid & -4.850000 & 41.70111\\
+\hline
+Sabadell & 2.105030 & 41.52090\\
+\hline
+Madrid & -3.785140 & 40.37067\\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Una nota importante sobre el uso de Shapefile}
+
+Shapefile surgió como uno de los primeros formatos de intercambio de datos
+geográficos a principios de los años 90 del siglo XX, y en la actualidad es
+quizá el formato más empleado. Sin embargo tiene una serie de limitaciones que
+es necesario conocer:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Es un formato multiarchivo:} El formato shapefile se compone de diversos
+  archivos que son necesarios para la correcta lectura de los datos. Es por
+  ello que cuando se intercambia información han de proporcionarse como mínimo
+  los archivos con extensiones \texttt{.shp}, \texttt{.shx}, \texttt{.dbf} (por ejemplo:
+  \texttt{datos.shp}, \texttt{datos.shx}, \texttt{datos.dbf} ). Lo mas habitual es distribuirlos en
+  un fichero \texttt{.zip} del que se deben extraer todos estos archivos.
+\item
+  \textbf{El Sistema Geográfico de Coordenadas es opcional}: Como explicaremos en
+  la Sección \ref{CRS}, esta información es crucial para trabajar con datos
+  geográficos, sin embargo el estándar Shapefile lo considera opcional, siendo
+  esta una limitación importante.
+\end{enumerate}
+
+Además de estas limitaciones, existen otras relacionadas con el nombre y la
+longitud de los campos, o la capacidad de almacenamiento de los Shapefiles, que
+se pueden consultar en varios recursos web que profundizan en este tema (ver
+\href{https://mappinggis.com/2012/08/shapefiles-vs-bases-de-datos-espaciales/\#Desventajas_de_los_shapefiles}{mappingGIS},
+\url{http://switchfromshapefile.org/}). Un buen \textbf{reemplazo} de este formato \textbf{es
+el formato GeoPackage} (\texttt{.gpkg} ), que no tiene este tipo de limitaciones.
+
+\textbf{Información de ráster}
+
+Las características de los datos ráster se analizan en profundidad en la Sección
+\ref{raster}. Las extensiones más habituales de los archivos que contienen
+datos ráster son:
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Ficheros con datos ráster}\tabularnewline
+\toprule
+Tipo & Extensión \\
+\midrule
+\endfirsthead
+\toprule
+Tipo & Extensión \\
+\midrule
+\endhead
+ASCII Grid & \texttt{.asc} \\
+GeoTIFF & \texttt{.tif}, \texttt{.tiff} \\
+Enhanced Compression Wavelet & \texttt{.ecw} \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{modelo-de-datos}{%
+\section{Modelo de datos}\label{modelo-de-datos}}
+
+En el ámbito del análisis espacial en R, se pueden clasificar el formato de
+datos espaciales en función del modelo de datos \citep{Lovelance_et_al_2019}. Se
+pueden distinguir dos tipos de modelos de datos: \textbf{vectores} y \textbf{ráster}.
+
+\hypertarget{vec}{%
+\subsection{Datos de vectores}\label{vec}}
 
 Este modelo está basado en puntos georeferenciados. Los \textbf{puntos} pueden
 representar localizaciones específicas, como la localización de edificios:
@@ -488,8 +600,8 @@ datos espaciales representados en la Fig. \ref{fig:lineas-pol}.
 \caption{Datos vector: Descomposición en puntos}\label{fig:lineas-pol-desc}
 \end{figure}
 
-\hypertarget{datos-raster}{%
-\section{Datos raster}\label{datos-raster}}
+\hypertarget{raster}{%
+\subsection{Datos ráster}\label{raster}}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
 (denomindada \textbf{matriz}) que se puede visualizar en diversos dispositivo de
@@ -1251,9 +1363,9 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 
 \NormalTok{china\_crs}
 \CommentTok{\#\textgreater{} \# A tibble: 1 x 6}
-\CommentTok{\#\textgreater{}   crs\_code crs\_name                           crs\_type  crs\_gcs crs\_units crs\_proj4                 }
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                              \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}                     }
-\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 105E projected    4555 m         +proj=tmerc +lat\_0=0 +lon\textasciitilde{}}
+\CommentTok{\#\textgreater{}   crs\_code crs\_name                           crs\_type  crs\_gcs crs\_units crs\_proj4                }
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                              \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}                    }
+\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 105E projected    4555 m         +proj=tmerc +lat\_0=0 +lo\textasciitilde{}}
 
 
 \NormalTok{china\_suggest }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(}
