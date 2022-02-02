@@ -21,34 +21,38 @@ lO PROBAMOS/PRUEBAS :) O NO??
 
 **Objetivo de aprendizaje**
 
-Este caso práctico muestra como leer y graficar datos espaciales en R. Para
-ello, vamos a trabajar con los datos de temperatura mínima registradas en España
-por las estaciones metereológicas de la Agencia Estatal de Meteorología (AEMET).
+Esta sección presenta un caso de uso en el que aprenderemos a realizar las
+siguientes tareas básicas:
 
+1. Peer datos espaciales en R.
+
+2. Proyectar datos espaciales.
+
+3. Graficar datos espaciales.
+
+
+Para ello, se va a trabajar con los datos de temperatura mínima registradas en España
+por las estaciones metereológicas de la Agencia Estatal de Meteorología (AEMET).
+Un conjuto de datos ya depurados y listos par trabajar se encuentra en el fichero `tempmin.csv`.
+Por otra parte, la inforación relativa al mapeo de España se obtendrá directamente
+de la librería `mapSpain`.
+Todo el análisis se va a realizar empleando RStudio, por lo que se empezará
+abriendo el programa y creando un nuevo proyecto.
 
 
 ::: {.exercise #ex-crea name="Creación del proyecto" }
 
-El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
-abriendo el programa y creando un nuevo proyecto de R en *Proyecto>File>New File>R
-script*.
+Cree un proyecto para trabajar todo lo referente al caso.
 :::
 
-
-::: {.exercise #ex-import name="Importación de los datos" }
-sdfdsaf
-:::
-
-::: {.solution #sol-impor name="Importación de los datos" }
-sfddsa
-
+::: {.solution #sol-crea}
+Para crear un proyecto siga la secuencia:
+*File> New Proyect> New File> RMD*
 :::
 
 
 
-*Tarea 2: Importamos y describimos los datos objeto de estudio*
-
-El conjunto de datos proporcionado `(tempmin.csv`) contiene el nivel de
+El conjunto de datos proporcionado `tempmin.csv` contiene el nivel de
 temperatura del aire en España entre el 6 y el 10 de Enero de
 2021[^ap1_aplic_tmin-1]. Estos datos han sido descargados usando la librería
 `climaemet` [@R-climaemet] y han sido posteriormente tratados para su uso en
@@ -58,26 +62,30 @@ esta práctica.
     la tormenta Filomena tuvo su auge en la Península Ibérica.
 
 El primer paso consiste en importar la base de datos de temperatura mínima. El
-archivo está en formato csv, por lo cual es un fichero de texto plano. Podemos
-usar varias funciones para realizar la importación, en este caso vamos a emplear
-paquetes del `tidyverse` para realizar todo el tratamiento de datos:
+archivo está en formato csv, por lo cual, es un fichero de texto plano. 
+Se pueden usar varias funciones para realizar la importación. 
+Se emplara´na los paquetes del `tidyverse` para realizar 
+todo el tratamiento de datos.
 
+
+
+::: {.exercise #ex2 name="Importación de los datos" }
+
+Importe los datos `tempmin.csv` y guárdelos en un objeto llamado `tmin`.
+:::
+
+::: {.solution #sol2}
 ```{r tmin_import}
-
+#Cada uno debe seleccionar el directorio donde tiene los datos, de ahí
+#que sea conveniente trabajar con proyectos.
 library(readr)
-
-# cada uno debe seleccionar el directorio donde tiene los datos, de ahí
-# que sea conveniente trabajar con proyectos
 tmin <- read_csv("data/tempmin.csv")
 ```
+:::
 
-**Q1: ¿Qué información tiene `tmin`?**
 
-```{r tmin-head, echo=FALSE}
-knitr::kable(head(tmin), caption = "Detalle del objeto tmin")
-```
-
-Podemos observar que la tabla generada contiene 5 columnas distintas:
+Los el conjunto de datos `tempmin` es un data frame que 
+contiene 5 variables:
 
 -   `fecha`: Indicando la fecha de observación.
 
@@ -87,16 +95,44 @@ Podemos observar que la tabla generada contiene 5 columnas distintas:
 -   `tmin`: Dato de temperatura mínima registrada en cada fecha por la estación
     correspondiente en grados centígrados.
 
--   `longitud,latitud`: Coordenadas geográficas de la estación
+-   `longitud, latitud`: Coordenadas geográficas de la estación
 
-*Tarea 3. Convertir* `tmin` *a un objeto de la clase espacial* `geoR`
 
-Para convertir un objeto a geodata (el formato requerido por `geoR`),
-proporcionaremos una tabla con las coordenadas y los valores a incluir en cada
-coordenada. En este ejemplo, vamos a emplear sólamente los datos
-correspondientes al **8 de enero.**
 
-```{r fig.cap="Objetos en geoR"}
+::: {.exercise #ex3 name="Descripción de los datos" }
+Con la función `head()` describa, en forma de tabla, la información 
+que contiene el objeto `tmin` y compruebe que se corresponde con la descrita.
+:::
+
+
+```{r tmin-head}
+knitr::kable(head(tmin), caption = "Detalle del objeto tmin")
+```
+
+
+
+Una de las clases de objetos espaciales más utilzada en R es `sf`. Sin embargo,
+dependiendo del análisis que se quiera realizar hay otras muy comunes como 
+`geodata`, `spatastat`, etc..
+
+A continuación se convertirá el objeto `tmin` (`data.frame`) 
+a un objeto de la clase `geodata`, una clase muy utilizada para trabajar con 
+datos espacilaes y requerida por la librería `geoR`. 
+Estos objetos contienen las coordenadas y la variable objeto de estudio.
+Para mayor detalle ver `??as.geodata`. Obsérvese como varía la variable
+a través de los ejes longitud y latitud. Observe tambien la forma campaniforme
+de la distribución de la variale.
+
+
+::: {.exercise #ex4 name="Descripción de los datos" }
+Del objeto `tmin` seleccione el día **8 de enero de 2022** 
+y las variables `longitud`, `latitud` y `tmin` para crear el objeto
+y llámelo `tmin_geoR`. A continuación describa analítica y
+gráficamente dicho objeto.
+:::
+
+
+```{r fig.cap="Convertir `data.frame` a `geodata`"}
 library(dplyr)
 library(geoR)
 
@@ -115,16 +151,25 @@ summary(tmin_geoR)
 plot(tmin_geoR)
 ```
 
-*Tarea 4. Convertir* `tmin` *a un objeto de la clase espacial* `sf`
 
-En esta tarea, convertiremos los datos de tmin en un objeto espacial `sf`, es
+
+
+En esta ocasión, convertiremos los datos de `tmin` en un objeto espacial `sf`, es
 decir, datos espaciales de tipo vector.
 
-Los datos de `tmin` contienen coordenadas geográficas longitud/latitud, asi que
-como vimos en la sección **Sistema de Referencia de Coordenadas (CRS)** el CRS a
+Los datos de `tmin` contienen coordenadas geográficas longitud/latitud, así que
+como se vió en la Sección **Sistema de Referencia de Coordenadas (CRS)** el CRS a
 emplear ha de ser un CRS geográfico. Usaremos el código EPSG **4326**, que
 corresponde a coordenadas geográficas y suele ser el habitual en este tipo de
 situaciones.
+
+
+::: {.exercise #ex5 name="Convertir `data.frame` a `sf`" }
+Del objeto `tmin` seleccione las variables `longitud`, `latitud` y `tmin` 
+para crear el objeto sf y llámelo `tmin_sf`. 
+A continuación describa el objeto creado.
+:::
+
 
 ```{r}
 library(sf)
@@ -137,12 +182,19 @@ tmin_sf <- st_as_sf(tmin,
 tmin_sf
 ```
 
-*Tarea 5: Dibujemos las estaciones de monitoreo de la temperaria mínima en un
-mapa de España. Ámbito espacial.*
 
-Vamos, además, a incluir una capa de las comunidades autónomas de España. Para
-ello usaremos un paquete API que nos proporciona esta información en formato
-`sf`:
+
+La siguiente tarea será representar las estaciones que monitorizan 
+la temperatura mínima en un mapa de España. 
+
+::: {.exercise #ex6 name="Reprsentación espacial de la clase sf" }
+Represente un mapa de ESpaña, con las Comunidades Autónomas de incluidas,
+excepto las Islas Canarias (por simplicidad)
+:::
+
+::: {.solution #sol6}
+Una opción es utilizar un paquete API que nos proporciona esta información 
+en formato `sf`, el paquete `mapSpain`.
 
 ```{r fig.cap="Mapa de España (Sin Canarias)"}
 library(mapSpain)
@@ -154,20 +206,34 @@ esp <- esp_get_ccaa() %>%
 
 plot(esp$geometry) # Dibujamo el mapa de España menos las Islas Canarias
 ```
+:::
 
-**Q2: ¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
-monitoreo en la misma proyección que el contorno de España?**
 
 Como se comentó en la sección **Sistema de Referencia de Coordenadas (CRS)**,
 cuando se emplean datos geográficos provenientes de varias fuentes, es necesario
-asegurarse de que ambos objetos están usando el mismo CRS. Vamos a comprobarlo:
+asegurarse de que ambos objetos están usando el mismo CRS.
+
+::: {.exercise #ex7 name="CRS" }
+¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
+monitoreo en la misma proyección que el contorno de España? Compruebelo. 
+:::
+
 
 ```{r chek_crs}
 st_crs(tmin_sf) == st_crs(esp)
 ```
 
-Vemos que no lo están, por lo que vamos a proyectar las coordenadas a un CRS
-común. En este caso usaremos el CRS de referencia de `tmin_sf`:
+
+
+
+Se ha comprobado que no lo están, por lo que hay que proyectar las coordenadas a un CRS
+común. 
+
+::: {.exercise #ex8 name="CRS" }
+Proyecte las coordenadas de los objetos `tmin_sf` y `esp`
+al CRS de referencia de `tmin_sf`. Compruébelo.
+:::
+
 
 ```{r}
 esp2 <- st_transform(esp, st_crs(tmin_sf))
@@ -175,9 +241,22 @@ esp2 <- st_transform(esp, st_crs(tmin_sf))
 st_crs(tmin_sf) == st_crs(esp2)
 ```
 
-Dibujamos las estaciones de monitoreo con el contorno de España. Vamos a usar el
+
+
+Para dibujar las estaciones de monitoreo con el contorno de España, existen 
+varias opciones de paquetes, `ggplot2` (paquete de referencia en representaciones
+gráficas),  `tmap` o `mapsf` (estos dos
+últimos especializados en mapas temáticos,)
+
+
 paquete `ggplot2` como referencia, sin embargo existen varios paquetes
-especializados en mapas temáticos, como pueden ser `tmap` o `mapsf`.
+
+
+::: {.exercise #ex9 name="CRS" }
+Represente, con el paquete `ggplot2`, las estaciones de monitorero de AEMET
+en la península Ibérica.
+:::
+
 
 ```{r fig.cap="Estaciones de AEMET en la Península Ibérica"}
 library(ggplot2)
@@ -187,10 +266,10 @@ ggplot(esp2) +
   geom_sf() +
   geom_sf(data = tmin_sf) +
   theme_light() +
-  labs(
-    title = "Estaciones de monitoreo AEMET en  España",
-    subtitle = "excluyendo las Islas Canarias"
-  ) +
+  #labs(
+  #  title = "Estaciones de monitoreo AEMET en  España",
+  #  subtitle = "excluyendo las Islas Canarias"
+  #) +
   theme(
     plot.title = element_text(
       size = 12,
@@ -203,30 +282,47 @@ ggplot(esp2) +
   )
 ```
 
-*Tarea 6: Representamos la variable temperatura mínima `tmin` para el día 8 de
-enero de 2021.*
 
-En la siguiente tarea, seleccionaremos los datos correspondientes al **8 de
-enero de 2021** y crearemos un mapa temático en el que representaremos los
-valores de temperatura mínima registrados en cada estación mediante un código de
-colores.
+Una vez represtadas las coordenadas, es decir, las estaciones de monitoreo dónde se ha medido la variable
+temperatura mínima `tmin`, el siguiente paso será representar el valor que toma 
+la variable en esas coodenadas. La base `tmin` contine informaicón temporal 
+para para varios días, por lo que, como este análisis es meramente espacial
+se elegirá un día que se fijará para todo el análisis.
 
-```{r plot-base-tmin, fig.cap="Mapa de puntos con temperatura mínima"}
+
+::: {.exercise #ex10 name="plot-sp1" }
+Representamos la variable temperatura mínima `tmin` para el día **8 de
+enero de 2021**. Gurarde la base de datos espacial para ese día en un objeto
+de nombre `tmin_8enero`.
+:::
+
+
+```{r plot-base-tmin, fig.cap="Mapa de puntos con temperatura mínima (8-enero-2021)"}
+
+# Seleccionaremos los datos correspondientes al 8 de enero de 2021 
 tmin_8enero <- tmin_sf %>%
-  # seleccionamos el día y la variable
   filter(fecha == "2021-01-08")
 
 
+# Mapa temático en el que se representan los valores de temperatura mínima 
+# registrados en cada estación mediante un código de colores
 plot(tmin_8enero["tmin"],
-  main = "Temperatura mínima (8-enero-2021)",
+ # main = "Temperatura mínima (8-enero-2021)",
   pch = 8
 )
 ```
 
-Podemos utilizar el ámbito espacial, el contorno de España para graficar y
-contar la historia de la Filomena un poco mejor.
 
-```{r spatial-plots, echo=FALSE, fig.cap="Mapa completo con temperatura mínima"}
+El mapa ha quedado muy bien, pero quizá los colores y el formato elegido no sean los más
+adecuados para este tipo de representaciones...
+
+::: {.exercise #ex10 name="plot-sp2" }
+Utilice los parámetros espaciales de los que dispone, las coordenadas y 
+el contorno de España para graficar y contar la historia de **Filomena**
+adecuadamente.
+:::
+
+```{r spatial-plots, echo=FALSE, fig.cap="Mapa completo con temperatura mínima (8-enero-2021)"}
 
 # Especificamos la paleta de color a utilizar
 cortes <- c(-Inf, seq(-20, 20, 2.5), Inf)
@@ -254,9 +350,9 @@ ggplot() +
     guide = "legend"
   ) +
   theme_light() +
-  labs(
-    title = "Temperatura mínima (8-enero-2021)"
-  ) +
+  #labs(
+  #  title = "Temperatura mínima (8-enero-2021)"
+  #) +
   theme(
     plot.title = element_text(
       size = 12,
@@ -270,33 +366,37 @@ ggplot() +
 ```
 
 
-
-
-
-*Tarea 7: Interpolación de la variable temperatura mínima `tmin` para el día 8
-de enero de 2021 con IDW*
-
-**Q3**: El mapa ha quedado muy claro. Vemos como los datos nos cuentan la
-historia de Filomena en aquellos sitios donde se tomaron mediciones, pero
-**¿podríamos tener un mapa de interpolación para tener una estimación de la
+La visión que ofrece el la Fig. \@ref{fig:spatial-plots} de Filomena es muy 
+informativa, vemos como los datos nos cuentan la historia de lo que ocurrió 
+ese día. La pena es que no existan estaciones de monitorero en todos los 
+puntos de España para conocer el valor de la temperatura mínima en cualquier 
+lugar del país. ¿Podríamos tener un mapa de interpolación para tener una estimación de la
 temperatura mínima en las partes donde la AEMET no tiene estación de
-monitoreo?**
+monitoreo?
 
-Tal y como se avanzó en teoría, parece lógico pensar que aquellos puntos que
-estén cerca tendrán valores similares así que tomemos ventaja de la dependencia
-espacial y utilicemos un método determinista, como la Distancia Inversa
+
+Tal y como se avanzó en el Capítulo \@ref(dep-esp), parece lógico pensar 
+que aquellos puntos que estén cerca tendrán valores similares. Por tanto,
+tomemos ventaja de las propiedades de la dependencia
+espacial y utilicemos un método de interpolación sencillo, en este caso 
+un método determinista, la Distancia Inversa
 Ponderada, comúnmente conocido por su acrónimo inglés IDW (Inverse distance
 weighted), el cual es uno de los métodos más simples para llevar para llevar a
 cabo una interpolación espacial.
 
-En este tipo de análisis, es crucial que el CRS sea el apropiado. En este caso,
-ya definimos el CRS como un CRS geográfico (es decir, usando coordenadas de
-longitud y latitud). Sin embargo, para el ejercicio de interpolación es más
-adecuado usar un CRS local (que provoque pocas deformaciones en la proyección de
-España) y en alguna unidad de distancia, como metros (ya vimos que en los CRS
-geográficos las unidades son grados).
 
-Si usamos el paquete `crsuggest` podemos observar los CRS sugeridos:
+En este tipo de análisis espacial, es crucial que el CRS sea el apropiado. En este caso,
+ya se definió el CRS como un CRS geográfico (es decir, usando coordenadas de
+longitud y latitud). Sin embargo, para el ejercicio de interpolación es más
+adecuado usar un CRS local (que provoca pocas deformaciones en la proyección de
+España) y en alguna unidad de distancia, como metros (ya se vio en la Sección
+XXXX que en los CRS geográficos las unidades son grados).
+
+
+::: {.exercise #ex11 name="Obtención de CRS sugerido para un conjuto de datos" }
+Utilice el paquete `crsuggest` para observar los CRS sugeridos y, si es necesario,
+transforme la proyección de los datos.
+:::
 
 ```{r}
 library(crsuggest)
@@ -304,34 +404,40 @@ library(crsuggest)
 sugiere <- suggest_crs(tmin_8enero, units = "m", limit = 5)
 
 # Usamos la sugerencia del paquete
-crs_sugerido <- st_crs(sugiere[1, ]$crs_proj4)
+crs_sugerido <- st_crs(sugiere[1, ]$crs_proj4) #Madrid
 
 esp3 <- st_transform(esp2, crs_sugerido)
 tmin_8enero3 <- st_transform(tmin_8enero, crs_sugerido)
 ```
 
-**Q4: ¿Dónde vamos a interpolar? ¿En que puntos?**
 
-Para realizar la interpolación, necesitamos generar una malla que representará
+
+Una vez solucionado el problema de las proyecciones, antes de llevar a cabo la
+interpolación, es necesario generar una malla que representará
 las celdas de las que queremos obtener el valor interpolado.
-
 Dado que hemos proyectado nuestros datos a un CRS cuya unidad son los metros,
 podemos definir el tamaño de cada celda en metros cuadrados. En este caso vamos
-a usar celdas de 100 kms cuadrados (10 x 10 kms):
+a usar celdas de 100 kms cuadrados (10 x 10 kms).
 
-```{r create_grid2}
-set.seed(9876) # Con esto aseguramos que el grid generado siempre es igual
+
+
+::: {.exercise #ex12 name="Creación y representación de una malla de interpolación" }
+Genere un grid y llámelo `malla_sf` (puede fijar una semilla si lo desea) y 
+grafíque la superficie construida.
+:::
+
+
+```{r create-grid2, fig.cap="Malla de puntos para interpolación"}
+
+# Generación de la superficie a interpolar
+set.seed(9876) # Aseguramos que el grid generado siempre es igual
 
 malla_sf <- st_make_grid(
   esp3,
   cellsize = 8000
 )
-```
 
-Graficamos la superficie para ver exactamente qué hemos construido:
-
-```{r, fig.cap="Malla de puntos para interpolación"}
-
+# Representación de la superficie construida añadiendo el contorno de España
 ggplot(esp3) +
   geom_sf() +
   geom_sf(
@@ -347,24 +453,35 @@ ggplot(esp3) +
   ) +
   scale_fill_manual(values = adjustcolor("blue", alpha.f = 0.2)) +
   theme_void() +
-  theme(legend.position = "bottom") +
-  labs(
-    title = "Cuadrícula espacial para interpolar",
-    fill = ""
-  )
+  theme(legend.position = "bottom") 
 ```
 
-Se puede observar claramente cada una de las celdas que hemos creado. La
+
+Se puede observar claramente cada una de las celdas que se han creado. La
 interpolación asignará un valor a cada uno de ellas.
 
 A continuación podemos llevar a cabo la interpolación usando el paquete `gstat`.
 Además, en lugar de celdas (polígonos) es necesario usar puntos en la
-interpolación. Calcularemos, por tanto, un punto representativo de cada celda,
-el centroide, que es el punto resultante de realizar la media arimética de las
-coordenadas de loss puntos que componen los lados de cada celda
+interpolación. Calcularemos, por tanto, un punto representativo de cada celda 
+creada en la superficie anterior `malla_sf`, el centroide, 
+que es el punto resultante de realizar la media arimética de las
+coordenadas de los puntos que componen los lados de cada celda.
+
+
+::: {.exercise #ex13 name="Interpolación a través de la Distancia Inversa Ponderada" }
+Calcule los centroides de los polígonos de la malla construida 
+en el Ejercicio \@ref(exr:ex12) con la función `st_centroide`
+y realice una interpolación de la variable temperatura mínima 
+`tmin` para el día 8 de enero de 2021 con el método IDW usando la librería
+`gstat` y la función `idw`. Guarde el resultado obtenido en un objeto llamado
+`tmin_idw`. Utilice la función `help(idw)` si requiere
+información sobre cómo introducir los parámetros en la función.
+
+Examine la información del objeto `tmin_idw`, a través de la función `head`, 
+:::
 
 ```{r}
-# Calculamos centroide
+# Calculamos una malla con centroides
 malla_sf_cent <- st_centroid(malla_sf, of_largest_polygon = TRUE)
 
 library(gstat)
@@ -380,11 +497,16 @@ tmin_idw <- idw(
 head(tmin_idw)
 ```
 
-*Tarea 8. Mapa de contorno*
 
-Representamos la interpolación con un mapa y mapa de contorno muy utilizado para
-representar datos espaciales. Para ello, vamos a usar el paquete `raster`
-convirtiendo nuestro objeto interpolado.
+Un tipo de mapas muy utilizado cuando se trabaja con datos espaciales son los 
+mapas de contorno. Es muy visual y ayuda a interpretar el mapa interpolado, 
+añadir unas lineas de contorno al mapa interpolado.
+
+
+::: {.exercise #ex14 name="Mapa de interpolación y contorno con `raster`" }
+Represente los valores interpolados, `tmin_idw`, y añada unas lineas de contorno.
+Utilice el paquete `raster` para convertir el objeto interpolado a pixeles.
+:::
 
 ```{r, fig.cap="Mapa raster con lineas de nivel"}
 # Convertimos de sf a SpatiaPixels
@@ -403,7 +525,7 @@ rast_esp <- raster(tmin_pixels)
 rast_esp2 <- rasterize(
   tmin_idw,
   rast_esp,
-  field = "var1.pred", ## valores de predicción
+  field = "var1.pred", ## valores de predicción idw
   fun = mean
 )
 
@@ -415,10 +537,15 @@ plot(rast_esp_mask, col = colores)
 contour(rast_esp2, add = TRUE)
 ```
 
-Podemos realizar el mismo mapa usando `ggplot2` y la función
-`geom_contour_filled`:
 
-```{r fig.cap="Mapa con ggplot2 y lineas de nivel"}
+
+::: {.exercise #ex15 name="Mapa de interpolación con `ggplot`" }
+Repita el mapa de \@ref(exr:ex14) usando `ggplot2` y la función
+`geom_contour_filled`.
+:::
+
+
+```{r fig.cap="Temperatura mínima interpolada. 8 de Enero 2021. "}
 
 # Creo una tabla para geom contour
 coordenadas <- st_coordinates(tmin_idw)
@@ -446,14 +573,23 @@ ggplot() +
   theme(axis.title = element_blank()) +
   labs(
     fill = "Temp. (º)",
-    title = "Temperatura mínima interpolada",
-    subtitle = "8 de Enero 2021",
-    caption = "Datos: AEMET"
+  #  title = "Temperatura mínima interpolada",
+  #  subtitle = "8 de Enero 2021",
+  #  caption = "Datos: AEMET"
   )
 ```
 
 
-## Renta media por municipios
+
+
+
+
+<!--  ------------------ Renta  -----------------  -->
+
+
+## Caso 2. Distribución espacial de la renta media por municipios
+
+** Objetivos de aprendizaje **
 
 Esta sección presenta un caso de uso en el que aprenderemos a realizar las
 siguientes tareas básicas:
@@ -478,11 +614,18 @@ Para ello, partiremos de dos ficheros:
     (polígonos) de los municipios en España en el año 2019. Se ha extraído del
     Instituto Geográfico Nacional (IGN) usando el paquete `mapSpain`.
 
-*Tarea 1. Importar los datos a R*
+
 
 El primer paso en cualquier tipo de análisis de datos es importar los datos al
 software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
-de información que contiene:
+de información que contiene.
+
+::: {.exercise #ex16 name="Importación y análisis del los datos objeto de estudio" }
+Importe el fichero de datos `renta_municipio.csv` y `municipios.gpkg` 
+y guárdelo en un objeto llamado `renta` y `munis`, respectivamente.
+Observe la información que contienen. Puede ayudarse de la función `head.`
+Use las librerías oportunas par iportar los datos en los distintos formatos.
+:::
 
 ```{r importa_renta}
 # Usaremos paquetes del tidyverse
@@ -497,27 +640,32 @@ library(sf)
 munis <- st_read("data/municipios.gpkg", quiet = TRUE)
 ```
 
-**Q1: ¿Qué información tenemos sobre la variable?**
+
 
 ```{r importa_renta_tabla}
 head(renta)
 ```
 
-Podemos comprobar que tenemos información para los años 2015 a 2019. Además, la
+Se puede comprobar que tenemos información para el periodo 2015-2019. Además, la
 columna `Unidad` contiene un literal con el municipio o sección correspondiente.
 
-**Q2: ¿Qué información tenemos sobre el objeto espacial?**
 
 ```{r importa_munis_tabla}
 head(munis)
 ```
 
-Podemos comprobar que `munis` es un objeto que contiene Polígonos y varias
+El objeto `munis` contiene Polígonos y varias
 columnas, entre ellas dos especialmente relevantes: `cpro` y `cmun`, que
 corresponden a los códigos de provincia y de municipio respectivamente. Podemos
-comprobar que este código también se encuentra en nuestro dataset `renta`.
+comprobar que este código también se encuentra en el dataset `renta`.
 
-*Tarea 2. Comprobamos campos en común para un municipio: Noblejas*
+
+::: {.exercise #ex17 name="Comprobación de campos en común para un municipio: Noblejas" }
+Para comrobar que efectivamente disponemos de dos campos en comun en los ficheros,
+que serán de vital importancia para posteriormente unirlos, se selecciona un
+municipio al azar, el municipio de Noblejas en la provincia de Toledo y 
+comprobamos.
+:::
 
 ```{r noblejas}
 # Miro un municipio: Noblejas
@@ -531,7 +679,7 @@ En el caso de Noblejas, el código completo es 45115. Sin embargo, en el caso de
 la tabla `renta`, debemos extraer ese valor del literal. Para ello debemos
 manipular la columna y extraer la primera palabra de la columna `Unidad`:
 
-```{r limpia_renta}
+```{r limpia-renta}
 
 # Creo una función y la aplico a toda la columna
 extrae_codigo <- function(x) {
@@ -546,17 +694,28 @@ head(renta[c("Unidad", "codigo_ine")])
 Ahora, es necesario crear la misma variable en `munis` para poder realizar el
 cruce:
 
-```{r codigo_ine}
+```{r codigo-ine}
 
 munis$codigo_ine <- paste0(munis$cpro, munis$cmun)
 
 head(munis[, c("name", "codigo_ine")])
 ```
 
-*Tarea 3: Unimos los objetos renta y mapas con la función `left_join`*
+
 
 Ya estamos listos para realizar el cruce. Además, seleccionaremos sólo las
-columnas que vamos a usar, en este caso la del año 2019:
+columnas que vamos a usar, en este caso la del año 2019.
+
+
+DIEGO, letfjoin está puesto sin guión porque da error en latex y no he sido capaz
+de solucionarlo. Es un mal menor
+
+
+::: {.exercise #ex18 name="Unión de objetos renta y mapas con la función `leftjoin`" }
+Realice la unión de los objetos con la función `left_join` y seleccione las variables
+`name`, `cpro`, `cmun`, `2019`. Guarde el resultado obtenido en un nuevo
+objeto llamado `munis_renta`.
+:::
 
 ```{r cruce_renta}
 
@@ -569,10 +728,9 @@ munis_renta <- munis %>%
 que el primer dataset sea el que contiene los datos espaciales**. Esto es así
 porque el objeto resultante "hereda" la clase del primer objeto.
 
-**Q3: ¿Qué ocurre si realizáramos el proceso poniendo los datos espaciales en el
-lado derecho del join?**
-
-A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en
+¿Qué ocurre si realizáramos el proceso poniendo los datos espaciales en el
+lado derecho del join? A modo de ejemplo, si realizáramos el proceso
+poniendo los datos espaciales en
 el lado derecho del join, los datos finales no serán espaciales:
 
 ```{r cruces_espaciales}
@@ -592,12 +750,16 @@ renta %>%
 
 El resultado es un tibble o data.frame, **¡pero no es espacial!**
 
-*Tarea 4. Histograma de la distribución de la renta*
-
 Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
-como la realización de un histograma
+como la realización de un histograma.
 
-```{r basic}
+
+::: {.exercise #ex19 name="Histograma de la variable Renta neta media por persona (€)" }
+A través de un histograma represente la distribución de la variable Renta neta
+media por persona del objeto `munis_renta` para el año 2019.
+:::
+
+```{r basic, fig.cap="Histograma de la variable Renta neta media por persona (€) en 2019"}
 
 library(ggplot2)
 
@@ -612,17 +774,19 @@ munis_renta %>%
   )
 ```
 
-Podemos observar que la renta presenta una distribución Gamma con un gran de
-municipios concentrados en zonas medias de renta y pocos municipios en tramos de
-rentas altas. Como veremos más adelante, esta distribución va a afectar a la
+
+Se puede observar que la renta presenta una distribución Gamma con un gran
+número de municipios concentrados en zonas medias de renta y pocos municipios en tramos de
+rentas altas. Como se verá en el Ejercicio XXX, esta distribución va a afectar a la
 información que transmite el mapa.
 
-*Tarea 5. Mapa de coropletas de la distribución de la renta*
 
-Vamos a realizar ahora un mapa de coropletas mostrando la distribución de la
-renta usando los valores brutos de renta sin modificar:
+::: {.exercise #ex20 name=" Mapa de coropletas de la distribución de la renta" }
+Realice un mapa de coropletas mostrando la distribución de la
+renta usando los valores brutos de renta sin modificar
+:::
 
-```{r maparenta1}
+```{r maparenta1, fig.cap="Renta neta media por persona en España (2019)" }
 
 ggplot(munis_renta) +
   # Usamos geom_sf, y como aes() lo que queremos mostrar, en este caso, el
@@ -634,11 +798,11 @@ ggplot(munis_renta) +
     big.mark = ".",
     decimal.mark = ",",
     suffix = " €"
-  )) +
-  labs(
-    title = "Renta neta media por persona",
-    caption = "Datos: INE"
-  )
+  ))# +
+  # labs(
+  #  title = "Renta neta media por persona",
+  #  caption = "Datos: INE"
+  # )
 ```
 
 Este primer mapa no es demasiado informativo, por los siguientes motivos:
@@ -650,12 +814,15 @@ Este primer mapa no es demasiado informativo, por los siguientes motivos:
 -   Dada la distribución de los datos, puede ser adecuado crear grupos de renta
     para que el mapa sea más interpretable.
 
-*Tarea 6. Eliminamos los municipios sin datos y cambiamos la escala de color*
 
-Vamos a probar a eliminar los municipios sin datos y a cambiar la escala de
-color para ver si mejora la visualización.
 
-```{r maparenta2}
+::: {.exercise #ex21 name="Adecuacion de los datos al la visualización" }
+Elimine los municipios sin datos y a cambie la escala de
+color para ver si mejora la visualización de la variable Renta neta media por persona.
+:::
+
+
+```{r maparenta2, fig.cap="Renta neta media por persona en España (2019)" }
 
 munis_renta_clean <- munis_renta %>% filter(!is.na(`2019`))
 
@@ -673,45 +840,51 @@ ggplot(munis_renta_clean) +
       suffix = " €"
     )
   ) +
-  theme_minimal() +
-  labs(
-    title = "Renta neta media por persona",
-    caption = "Datos: INE"
-  )
+  theme_minimal()
+ # + labs(
+ #    title = "Renta neta media por persona",
+ #    caption = "Datos: INE"
+ #  )
 ```
 
-Este mapa nos da algo más de información, y parece intuirse que las rentas más
+Este mapa proporciona algo más de información, y parece intuirse que las rentas más
 altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo, el
 hecho de que la distribución de los datos no sea normal está afectando a la
 visualización.
 
-*Tarea 7. Agrupar los datos en clases para mejorar la visualización*
-
-Para intentar atajar este problema, podemos dividir nuestros datos en clases,
-por ejemplo cuartiles o deciles. Existen varios métodos de clasificación de
+Para intentar atajar este problema, se puede dividir los datos en clases,
+por ejemplo, cuartiles o deciles. Existen varios métodos de clasificación de
 datos, que en R se encuentran implementados en el paquete `classInt`. A
-continuación vamos a plantear diversos métodos de clasificación y observar cómo
-la "historia" que cuenta el mapa varía en función de dichas clases. En este
-ejemplo planteamos los siguientes métodos de clasificación:
+continuación se van a plantear diversos métodos de clasificación y se
+observará cómo la "historia" que cuenta el mapa varía en función de dichas
+clases. Se proponen siguientes métodos de clasificación:
 
--   El método de deciles: consiste en crear 10 categorías incluyendo el mismo
+-   **El método de deciles**: consiste en crear 10 categorías incluyendo el mismo
     número de registros en cada una de ellas.
 
--   El método de intervalos equivalentes: divide el rango de valores en un
+-   **El método de intervalos equivalentes**: divide el rango de valores en un
     número de grupos definido. La distancia de todos los intervalos es idéntica,
     por lo que este método no tiene en cuenta la distribución de los registros.
 
--   El método de Fisher-Jenks: desarrollado específicamente para la
+-   **El método de Fisher-Jenks**: desarrollado específicamente para la
     clasificación de datos espaciales y su visualización en mapas. Produce
     agrupaciones de tal manera que los datos de cada grupo son "cercanas" entre
     sí y sustancialmente distintas de los valores de otros grupos.
 
+
+::: {.exercise #ex22 name="División de los datos en clases" }
+Utilice la función `classIntervals` del paquete `classInt`
+y cambie el parámetro `style` para obtener los métodos de
+clasificación: Deciles, tramos de Renta equidistantes y Fisher and Jenks.
+
+Realice un `plot` de las clases obtenidas y compárelas.
+:::
+
 ```{r classint, message=FALSE}
 
 library(classInt)
-# Vamos a probar 3 métodos de clasificación: Deciles, tramos de Renta
-# equidistantes y Fisher and Jenks
 
+# División en deciles
 deciles <- classIntervals(munis_renta_clean$`2019`,
   style = "quantile", n = 10
 )
@@ -738,7 +911,7 @@ plot(fisher,
 )
 ```
 
-Podemos observar lo siguiente:
+Se puede observar lo siguiente:
 
 -   El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
     €.
@@ -753,19 +926,22 @@ Podemos observar lo siguiente:
 -   El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
     apropiados para los tramos altos de renta.
 
-*Tarea 8. Representar los mapas según las clases obtenidas*
 
-Vamos ahora a realizar 3 mapas distintos, creando clases de renta según cada uno
-de los métodos anteriormente mostrados.
+
+
+::: {.exercise #ex23 name="Representación de los mapas según las clases obtenidas" }
+Realice tres mapas distintos, creando clases de renta según cada uno
+de los métodos anteriormente mostrados y coméntelos.
+:::
 
 **Deciles**
 
-```{r mapa-deciles, message=FALSE, fig.cap="Mapa por deciles de renta"}
-# Extraigo los valores de corte
+```{r mapa-deciles, message=FALSE, fig.cap="Mapa por deciles de renta media por persona (2019)"}
+# Extracción de los valores de corte
 breaks_d <- deciles$brks
 
-# Y creo unas etiquetas básicas para cada clase
-# Creo una función específica para crear etiquetas formateadas
+# Creación de etiquetas básicas para cada clase
+# Creación de una función específica para crear etiquetas formateadas
 label_fun <- function(x) {
   l <- length(x)
   eur <- paste0(prettyNum(round(x, 0),
@@ -788,26 +964,26 @@ munis_renta_clean$Deciles <- cut(munis_renta_clean$`2019`,
 )
 
 ggplot(munis_renta_clean) +
-  # Cambiamos la variable que usamos para crear el mapa
+  # Cambio la variable a representar para crear el mapa
   geom_sf(aes(fill = Deciles), color = NA) +
-  # Necesito cambiar el scale, ya no es continua
+  # Cambio el scale, ya no es continua
   scale_fill_manual(values = hcl.colors(length(labels_d),
     "Inferno",
     rev = TRUE
   )) +
-  theme_minimal() +
-  labs(
-    title = "Renta neta media por persona",
-    caption = "Datos: INE"
-  )
+  theme_minimal() # +
+  #labs(
+  #  title = "Renta neta media por persona",
+  #  caption = "Datos: INE"
+  # )
 ```
 
-El mapa de la Fig. \@ref(fig:mapa-deciles) ya nos permite observar patrones
+El mapa de la Fig. \@ref(fig:mapa-deciles) ya permite observar patrones
 geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
 Norte y las del Sur. Veamos una representación distina usando otras clases
-diferentes:
+diferentes
 
-```{r mapa-equal, message=FALSE, fig.cap="Mapa por tramos de renta equidistantes"}
+```{r mapa-equal, message=FALSE, fig.cap="Mapa por tramos de renta equidistantes de renta media por persona (2019)"}
 
 breaks_e <- equal$brks
 labels_e <- label_fun(breaks_e)
@@ -825,19 +1001,19 @@ ggplot(munis_renta_clean) +
     "Inferno",
     rev = TRUE
   )) +
-  theme_minimal() +
-  labs(
-    title = "Renta neta media por persona",
-    caption = "Datos: INE"
-  )
+  theme_minimal() # +
+  # labs(
+  #  title = "Renta neta media por persona",
+  #  caption = "Datos: INE"
+  #)
 ```
 
 El mapa de la Fig. \@ref(fig:mapa-deciles), sin embargo, se parece más al mapa
-que hicimos con los datos sin clasificar, donde el peso visual se concentra más
-bien en los municipios con rentas mucho más altas que el resto (por encimoa de
+de la Fig. \@ref(fig:maparenta2) con los datos sin clasificar, donde el peso visual se concentra más
+bien en los municipios con rentas mucho más altas que el resto (por encima de
 18.000 €).
 
-Veamos el mismo mapa usando Fisher-Jenks:
+Véase a continuación el mismo mapa usando la clasificación Fisher-Jenks:
 
 ```{r mapa-fisher, message=FALSE, fig.cap="Mapa por tramos según Fisher-Jenks"}
 
@@ -871,67 +1047,77 @@ renta no presenta valores tan altos como los observados en País Vasco o Madrid.
 
 En conclusión, en el momento de realizar una visualización de datos es
 importante conocer el dato a representar, así como entender algunas propiedades
-básicas de la distribución subyacente. También hemos podido observar que hay
+básicas de la distribución subyacente. También se ha podido observar que hay
 ciertas decisiones estéticas (datos continuos vs. agrupados, escala de colores)
 que tienen una influencia significativa en cómo se percibe la información
-representada. Es responsabilidad del creador de la visualización el conocer
+representada. Es responsabilidad del investigado encargado de
+crear de la visualización el conocer
 todos estos factores y aplicarlos de manera conveniente.
 
-**Q4: Tenemos un mapa de los mismos datos pero la información se presenta de
-manera sesgada, ¿puedes identificar los motivos?**
 
-```{r trucado, echo=FALSE, fig.cap="Ejemplo de visualización sesgada"}
 
-breaks_s <- c(seq(5500, 12000, 500), 90000)
-labels_s <- label_fun(breaks_s)
 
-munis_renta_clean$Sesgada <- cut(munis_renta_clean$`2019`,
-  breaks = breaks_s,
-  labels = labels_s,
-  include.lowest = TRUE
-)
+<!-- ::: {.exercise #ex24 name="Representación de la información sesgada" } -->
+<!-- Pra finalizar este caso práctico, se propone al lector la siguiente cuestión. -->
+<!-- El mapa de la Fig. \@ref{fig:trucado} se ha realizado con el mismo  -->
+<!-- conjunto de datos, sin embargo la información se presenta de -->
+<!-- manera sesgada, ¿puedes identificar los motivos? -->
+<!-- ::: -->
 
-ggplot(munis_renta_clean) +
-  geom_sf(aes(fill = Sesgada), color = NA) +
-  scale_fill_manual(values = c(hcl.colors(20,
-    "Blue-Red2",
-    rev = FALSE
-  )[1:12], hcl.colors(10, "Reds2", rev = TRUE)[8:10])) +
-  theme_minimal() +
-  labs(
-    title = "Renta neta media por persona",
-    caption = "Datos: INE"
-  )
-```
+<!-- ```{r trucado, echo=FALSE, fig.cap="Ejemplo de visualización sesgada"} -->
 
-En el mapa de la Fig. \@ref(fig:trucado) parece que la renta per cápita de las
-comunidades del norte es desproporcionadamente superior a las del sur. Resumimos
-aquí los sesgos introducidos en el mapa:
+<!-- breaks_s <- c(seq(5500, 12000, 500), 90000) -->
+<!-- labels_s <- label_fun(breaks_s) -->
 
--   En primer lugar, se han creado un elevado número de grupos en las zonas de
-    rentas bajas. De esta manera, la escala del mapa parece estar muy
-    fragmentada, sin embargo muchos de esos grupos apenas contienen municipios.
-    A modo de ejemplo, los primeros cuatro grupos únicamente contienen 32
-    municipios.
+<!-- munis_renta_clean$Sesgada <- cut(munis_renta_clean$`2019`, -->
+<!--   breaks = breaks_s, -->
+<!--   labels = labels_s, -->
+<!--   include.lowest = TRUE -->
+<!-- ) -->
 
--   Los grupos no se adaptan a la distribución subyacente de los datos. La
-    mediana de los datos (11.462 €) estaría situada en la antepenúltima clase,
-    de manera que los dos grupos de mayor renta contienen el 50% de los
-    municipios.
+<!-- ggplot(munis_renta_clean) + -->
+<!--   geom_sf(aes(fill = Sesgada), color = NA) + -->
+<!--   scale_fill_manual(values = c(hcl.colors(20, -->
+<!--     "Blue-Red2", -->
+<!--     rev = FALSE -->
+<!--   )[1:12], hcl.colors(10, "Reds2", rev = TRUE)[8:10])) + -->
+<!--   theme_minimal()  -->
+<!-- ``` -->
 
--   Además, la escala de color se ha manipulado, de manera que los grupos de
-    mayores renta destaquen más que el resto de manera notoria.
+<!-- En el mapa de la Fig. \@ref(fig:trucado) parece que la renta per cápita de las -->
+<!-- comunidades del norte es desproporcionadamente superior a las del sur. Un resumen -->
+<!-- de los sesgos introducidos en el mapa se concreta en: -->
 
-## Análisis de patrones de puntos
+<!-- -   En primer lugar, se han creado un elevado número de grupos en las zonas de -->
+<!--     rentas bajas. De esta manera, la escala del mapa parece estar muy -->
+<!--     fragmentada, sin embargo muchos de esos grupos apenas contienen municipios. -->
+<!--     A modo de ejemplo, los primeros cuatro grupos únicamente contienen 32 -->
+<!--     municipios. -->
+
+<!-- -   Los grupos no se adaptan a la distribución subyacente de los datos. La -->
+<!--     mediana de los datos (11.462 €) estaría situada en la antepenúltima clase, -->
+<!--     de manera que los dos grupos de mayor renta contienen el 50% de los -->
+<!--     municipios. -->
+
+<!-- -   Además, la escala de color se ha manipulado, de manera que los grupos de -->
+<!--     mayores renta destaquen más que el resto de manera notoria. -->
+
+
+
+
+<!-- ...............  patrones de puntos ............  -->
+
+
+## Caso 3. Distribución espacial de los delitos cometidos en la ciudad de Valencia en el año 2010.
 
 Las técnicas de análisis de patrones de puntos analizan la distribución de
 eventos geolocalizados que surgen al azar. La diferencia fundamental con otros
 análisis que comprenden también el uso de localizaciones (como las temperaturas
 mínimas medidas por estaciones meteorológicas) es que en este caso los puntos
-representan eventos conocidos y aleatorios (por ejemplo, los crímenes ocurridos
+representan eventos conocidos y aleatorios (por ejemplo, los delitos ocurridos
 en una ciudad, accidentes de tráfico o incendios en una región). A diferencia de
 otros eventos, como el ejemplo de las temperaturas mínimas, la ausencia de datos
-no se debe a la ausencia de medición (e.g. no existe una estación meteorológica
+no se debe a la ausencia de medición (es decir, no existe una estación meteorológica
 en ese lugar), si no a que no se ha producido el evento en dicha localización.
 
 **Objetivo de aprendizaje**:
@@ -939,11 +1125,19 @@ en ese lugar), si no a que no se ha producido el evento en dicha localización.
 El alumno debe ser capaz de conocer los datos de tipo patrones de punto,
 identificarlos y representarlos adecuadamente.
 
-*Tarea 1: Abrimos RStudio*
+-  describir los ficheros. Hay que generar uno que sólo tenga 2010 y los datos
+que utilizamos. lo llamamos igual y vale todo
 
+
+
+::: {.exercise #ex24 name="Representación de la información sesgada" }
 El presente análisis se va a realizar empleando RStudio, por lo que empezaremos
 abriendo el programa y creando un nuevo script de R en *Proyecto>File>New File>R
 script*.
+:::
+
+** habría que poner esto al inico de las 3 prácticas. comprobar.
+
 
 *Tarea 2: Importamos y describimos los datos objeto de estudio*
 
@@ -962,20 +1156,20 @@ crimen <- read_csv("data/crime-data-Valencia.csv")
 summary(crimen)
 ```
 
-**Q1: ¿Qué información contiene nuestros datos?**
-
-Este archivo contiene en total
+**¿Qué información contiene los datos que se van a analizar?** Este archivo contiene en total
 `r prettyNum(nrow(crimen), big.mark = ".", decimal.mark = ",")` registros, y
 proporciona `r ncol(crimen)` campos asociados a cada registro.
 
 Entre los campos disponibles, destacamos los campos `crime_lon` y `crime_lat`:
 Son las coordenadas en las que se produjo el crimen.
 
-**Q2: ¿En qué CRS se encuentran las coordenadas?**
 
-Si nos fijamos, las coordenadas parecen corresponder con longitudes y latitudes,
-ya que como se explicó el rango posible de valores es $[-180, 180]$ (para
-longitudes) y $[-90, 90]$ (para latitudes):
+
+
+::: {.exercise #ex26 name="CRS de las coordenadas" }
+Determine el CRS en el que se encuentras las coordenadas del conjuto de datos
+`crimen`, etiquetas con `crime_lon` y `crime_lat`
+:::
 
 ```{r coods-lonlat, echo=FALSE}
 crimen %>%
@@ -984,9 +1178,23 @@ crimen %>%
   knitr::kable(caption = "Crímenes en Valencia; Coordenadas")
 ```
 
-Por lo tanto, podemos convertir la tabla en un objecto `sf` teniendo en cuenta
-esta información. A modo de recordatorio, el CRS correspondiente a coordenadas
+
+Obsérvese que, las coordenadas parecen corresponder con longitudes y latitudes,
+ya que como se explicó el rango posible de valores es $[-180, 180]$ (para
+longitudes) y $[-90, 90]$ (para latitudes):
+
+
+::: {.exercise #ex27 name="Proyección y representación de localizaciones" }
+Convierta el objeto `crimen` a un objecto `sf` llamado `crimen_sf`, teniendo en
+cuenta el sistema CRS más adecuado. 
+A modo de recordatorio, el CRS correspondiente a coordenadas
 geográficas longitud/latitud es **EPSG:4326**.
+
+Una vez proyectdas las coordenadas represéntelas en un mapa. Si lo desea
+puede usar una imagen de fondo con la función `esp_getTiles` de la librería
+`mapSpain`.
+:::
+
 
 ```{r crimen1, fig.cap="Crímenes en Valencia"}
 
@@ -1023,13 +1231,19 @@ ggplot() +
   )
 ```
 
-**Q3: ¿Hay algún patrón en la ocurrencia de crímenes?**
+¿Hay algún patrón en la ocurrencia de crímenes?**
 
 En la Fig. \@ref(fig:crimen1) podemos intuir ciertos patrones en la ocurrencia
 de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
 crímenes registrados en la zona del puerto.
 
 Para el siguiente análisis, vamos a analizar el patrón de crímenes del año 2010.
+
+** diego, engancha esto con lo anterior, porque sólo vamos a usar un año, y así 
+evitamos problemas
+
+
+
 
 ```{r crimen2, fig.cap="Crímenes en Valencia (2010)"}
 crimen_2010_sf <- crimen_sf %>%
@@ -1047,7 +1261,9 @@ ggplot() +
   )
 ```
 
-*Tarea 3: Análisis de patrones con `spatstat`*
+
+ *
+
 
 El paquete `spatstat` (@spatstat_2005) es el paquete de referencia cuando se
 trabaja con patrones de puntos
@@ -1056,6 +1272,10 @@ Siguiendo el anterior ejemplo, vamos a analizar el patrón de crímenes en el a�
 2010. Además, en el análisis de patrones de puntos es necesario delimitar la
 ventana espacial de observación (owin). En este caso será el municipio de
 Valencia.
+
+::: {.exercise #ex37 name="Análisis de patrones con `spatstat`" }
+FALTA
+:::
 
 ```{r objeto_ppp}
 
@@ -1088,18 +1308,33 @@ mydata_ppp <- ppp(
 plot(mydata_ppp)
 ```
 
-**Q4: ¿Qué información contiene nuestro objeto en formato ppp?**
+
+ERROR EN EL NOMBRE mydata_ppp, es por el guión.
+
+::: {.exercise #ex38 name="Información del objeto `mydatappp`" }
+FALTA
+:::
+
+¿Qué información contiene nuestro objeto en formato ppp?
 
 ```{r}
 summary(mydata_ppp)
 ```
 
-*Tarea 4: Cálculo de la densidad mediante cuadrantes.*
+*Tarea 4: .*
 
 Es importante determinar si los puntos se distribuyen al azar o tienen algún
 patrón. Por ello, lo primero que haremos será representar el objeto `feb_ppp` y
 superponer unos cuadrantes para su comportamiento (véase Fig.
 \@ref(fig:cuadrante)).
+
+
+::: {.exercise #ex37 name="Cálculo de la densidad de los delitos en Valencia en 2010 mediante cuadrantes" }
+FALTA
+:::
+
+
+** ESte mapa se puede poner un poco más mono?? Yo ya lo he arregado un poco
 
 ```{r cuadrante, fig.cap="Crímenes en Valencia por cuadrantes (2010)"}
 ## Hallamos los cuadrantes
@@ -1109,25 +1344,34 @@ cuadrante <- quadratcount(mydata_ppp,
 )
 
 ## Dibujamos el número de crímenes que hay en cada cuadrante
-plot(mydata_ppp, pch = 1, main = "")
-plot(cuadrante, add = TRUE, col = "red", cex = 1.2)
+plot(mydata_ppp, pch = "+", main = "", cex = 0.3)
+plot(cuadrante, add = TRUE, col = "red", cex = 0.6, lwd=2)
 ```
 
 Como se puede apreciar en la Fig. \@ref(fig:cuadrante) hay cuadrantes que
 registran cero crímenes y otros que registran hasta 2.860 crímenes.
 
-*Tarea 5: Estimación de la densidad de patrones de puntos.*
 
-En la Fig. \@ref(fig:intensidad-ripley) se muestra la gráfica de la estimación
-usando la K de Ripley. Los conocimientos teóricos necesarios para llevar a cabo
-este tipo de estimación se verán en el tema **Patrones de Puntos**. El objetivo
-de este ejemplo es meramente ilustrativo.
+::: {.exercise #ex37 name="Estimación de la densidad de los delitos en Valencia en 2010 mediante de patrones de puntos" }
+FALTA
 
-```{r intensidad-ripley, fig.cap="Intensidad de crímenes estimada con la K-Ripley" }
-densidad <- density(mydata_ppp)
+density {stats}
+
+:::
+
+
+```{r intensidad-ppp, fig.cap="Estimación kernel de la intensidad de crímenes en la ciudad de Valencia " }
+
+#Permite ver la variación local de la intensidad, graficando la estimación kernel de la intensidad.
+densidad <- density(mydata_ppp) 
+
 plot(densidad, main = " ")
 points(mydata_ppp, pch = "+", cex = 0.5)
 ```
 
+En la Fig. \@ref(fig:intensidad-ppp) se muestra la estimación kernel
+de la densidad de patrones de puntos Los conocimientos teóricos necesarios para llevar a cabo
+este tipo de estimación superan el ámbito de este manual. El objetivo
+de este ejemplo es meramente ilustrativo.
 
-# Referencias
+

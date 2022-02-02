@@ -1,4 +1,4 @@
-# Estadística espacial
+# Estadística espacial {#dep-esp}
 
 
 La estadística espacial se basa en la suposición de que las unidades 
@@ -308,10 +308,14 @@ clasificación [@montero_et_al_2015]:
     profundo de los métodos geoestadísticos espaciales y espacio-temporales}.
 
 
-```{r ejem_geo, echo=FALSE, fig.align='center', fig.cap='Mapa de interpolación del nivel de CO en el aire en la ciudad de Madrid'}
+AQUÍ ERROR, SÓLO ES UN PLOT
 
-knitr::include_graphics("img/log_co_madrid.png")
-```
+<!-- # ```{r ejem_geo, echo=FALSE, fig.align='center', fig.cap='Mapa de interpolación del nivel de CO en el aire en la ciudad de Madrid'} -->
+<!-- #  -->
+<!-- # knitr::include_graphics("img/log_co_madrid.png") -->
+<!-- # ``` -->
+
+
 
 2.  **Datos reticulares**: Surgen cuando: (i) el dominio bajo estudio $D$ es
     **discreto**, es decir, $Z(s)$ puede observarse en una serie de ubicaciones

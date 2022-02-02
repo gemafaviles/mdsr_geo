@@ -34,9 +34,12 @@ Sys.setenv(MAPSPAIN_CACHE_DIR = "cache_dir")
 ```
 
 
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
 
 ```{r echo=FALSE}
-# knitr::include_graphics("img/logo_mdsr_uclm.png")
+ knitr::include_graphics("img/logo_mdsr_uclm.png")
 ```
 
 

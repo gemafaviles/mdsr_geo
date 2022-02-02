@@ -126,3 +126,11 @@ De este manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.
+
+
+
+
+# Referencias  
+
+LO PONEMOS EN OTRO .RMD??
+
