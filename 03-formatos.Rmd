@@ -17,14 +17,14 @@ knitr::opts_chunk$set(
 
 ## Ficheros de datos espaciales
 
-Los **datos espaciales**, también conocidos como datos **\index{geoespaciales}**, son
+Los **datos espaciales**, también conocidos como datos **geoespaciales**, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
 desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
-**Información de \index{vectores}**
+**Información de vectores**
 
 Las características de los datos de vector se analizan en profundidad en la
 Sección \@ref(vec). Las extensiones más habituales de los archivos que contienen
@@ -182,7 +182,7 @@ ggplot(st_cast(st_geometry(toledo), "POINT")) +
   labs(title = "Descomposición de vectores")
 ```
 
-### Datos \index{ráster} {#raster}
+### Datos ráster {#raster}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
 (denominada **matriz**) que se puede visualizar en diversos dispositivos de
@@ -273,7 +273,7 @@ plot(top15_2,
 )
 ```
 
-## \index{Sistema de Referencia de Coordenadas} (CRS) {#CRS}
+## Sistema de Referencia de Coordenadas (CRS) {#CRS}
 
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
 **Coordinate Reference System**) permite relacionar datos espaciales con su

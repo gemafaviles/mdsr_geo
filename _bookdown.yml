@@ -6,8 +6,8 @@ rmd_files: ["index.Rmd",
 "03-formatos.Rmd",
 "04-est_esp.Rmd",
 "05-aplicaciones_libro.Rmd",
-"06-anexo.Rmd",
-"07-printindex.Rmd"
+"06-anexo.Rmd" #,
+#"07-printindex.Rmd"
 ]
 delete_merged_file: true
 language:

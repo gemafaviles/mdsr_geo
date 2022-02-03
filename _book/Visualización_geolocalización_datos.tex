@@ -186,7 +186,7 @@ Este libro presenta los conceptos teóricos y prácticos necesarios para llevar 
 cabo correctamente la visualización de datos espaciales y su geolocalización
 con el software estadístico R.
 
-Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos
+Los datos geolocalizados están presentes en la mayoría de los fenómenos
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
 valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
 disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
@@ -201,7 +201,9 @@ analítico y la investigación.
 
 La principal contribución de los autores es mostrar el proceso de visualización de
 datos georreferenciados de principio a fin, de una manera sencilla y didactica
-a través de conceptos teóricos y su aplicación directa en R.
+a través de conceptos teóricos y su aplicación directa en R. Esta es la primera
+edición del manual y, por tanto, pedimos disculpas por cualquier errata que presente
+y agradecemos que sea comunicada a los autores.
 
 El material se proporciona bajo licencia CC-BY-ND-NC.
 Todos los logotipos y marcas comerciales que puedan aparecer en este texto
@@ -212,20 +214,17 @@ con fines didácticos.
 \textbf{Gema Fernández-Avilés} está licenciado bajo
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
-\textbf{VER EXACTAMENTE QUE SIGNIFICA ESTO\ldots{} }
-\textbf{VER SI PONEMOS DOI}
-
 Se autoriza expresamente el uso de este material a la Universidad
 de Castilla-La Mancha para la docencia del Máster en Data Science \&
 Business Analytics (con R Software).
 
-\hypertarget{la-revoluciuxf3n-de-los}{%
-\chapter{\texorpdfstring{La revolución de los \index{geodatos}}{La revolución de los }}\label{la-revoluciuxf3n-de-los}}
+\hypertarget{la-revoluciuxf3n-de-los-geodatos}{%
+\chapter{La revolución de los geodatos}\label{la-revoluciuxf3n-de-los-geodatos}}
 
 Que estamos en la la \emph{era del dato}, que los \emph{datos son el petróleo del siglo
 XXI} y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
-\index{Data Scientist} se ha convertido en la \textbf{profesión más sexy del siglo XXI}
+Data Scientist se ha convertido en la \textbf{profesión más sexy del siglo XXI}
 según vaticinó en 2012 \href{https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century}{Harvard Business
 Review}.
 Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se
@@ -236,7 +235,7 @@ desarrollo de la tecnología, la informática, los ordenadores, los teléfonos
 móviles, los satélites, internet, etc\ldots{} y asociado a estas nuevas herramientas,
 se ha producido una lluvia sin precedentes hasta el momento de \textbf{datos
 espaciales} o \textbf{datos georreferenciados}. Cada teléfono inteligente tiene un
-\textbf{Receptor de posicionamiento Global} (en inglés, \index{Global Positioning System},
+\textbf{Receptor de posicionamiento Global} (en inglés, Global Positioning System,
 \textbf{GPS}) y, además, convivimos con una multitud de sensores en dispositivos que
 van desde satélites y vehículos semi-autónomos hasta científicos ciudadanos que
 miden incesantemente cada parte del mundo. La tasa de datos producidos es
@@ -245,12 +244,12 @@ día (The Economist, 2016).
 
 Esta \textbf{revolución de los geodatos} y el \textbf{análisis de los datos espaciales}
 junto con los \textbf{Sistemas de Información Geográficos} (habitualmente expresados
-como \textbf{GIS} por las siglas de su nombre en inglés \index{Geographical Information
-System}) no sólo han impulsado la demanda de hardware informático de alto
+como \textbf{GIS} por las siglas de su nombre en inglés Geographical Information
+System) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como \textbf{Geocomputación}, sino que han dado lugar
 una nueva rama de conocimiento, \textbf{Ciencia de Datos Espaciales} comúnmente
-conocida como \index{Spatial Data Scicene} (SDS).
+conocida como Spatial Data Scicene (SDS).
 
 Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los
@@ -284,7 +283,7 @@ producido grandes bases de datos espaciales y, a su vez, ha propiciado el
 desarrollo de herramientas para su tratamiento como los ya mencionados Sistemas
 de información geográficos y la Geocomputación.
 
-\textbf{¿Qué hace un \index{Sistemas de información geográfico}?}
+\textbf{¿Qué hace un Sistemas de información geográfico?}
 
 Un Sistema de información geográfica (SIG) es una herramienta que crea,
 administra, analiza y mapea todo tipo de datos. GIS conecta datos a un mapa,
@@ -310,13 +309,13 @@ mapeo y presentación de los resultados.
 \caption{Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview}\label{fig:gisflujo}
 \end{figure}
 
-Pero es más, el desarrollo de la \index{**Inteligencia Artificial**} y la \textbf{Inteligencia
+Pero es más, el desarrollo de la \textbf{Inteligencia Artificial} y la \textbf{Inteligencia
 computacional} se han convertido en herramientas creativas y complementarias a
 los convencionales GIS, dando origen a la \emph{Geocomputación}, que trata de
 utilizar el \emph{poder de los ordenadores para hacer cosas con los datos
 geográficos}.
 
-\textbf{¿Y que es la \index{Geocomputación}?}
+\textbf{¿Y que es la Geocomputación?}
 
 En primer lugar, señalar que, aunque la geocomputación es un término
 relativamente nuevo se encuentra influenciado por otros términos clásicos. De
@@ -339,7 +338,7 @@ aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
 para trabajos científicos aplicados.
 
-\textbf{¿Por que \index{R} para datos geográficos?}
+\textbf{¿Por que R para datos geográficos?}
 
 \textbf{R} es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
@@ -445,14 +444,14 @@ Sección \ref{CRS}).
 \hypertarget{ficheros-de-datos-espaciales}{%
 \section{Ficheros de datos espaciales}\label{ficheros-de-datos-espaciales}}
 
-Los \textbf{datos espaciales}, también conocidos como datos \textbf{\index{geoespaciales}}, son
+Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
 desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
-\textbf{Información de \index{vectores}}
+\textbf{Información de vectores}
 
 Las características de los datos de vector se analizan en profundidad en la
 Sección \ref{vec}. Las extensiones más habituales de los archivos que contienen
@@ -652,7 +651,7 @@ datos espaciales representados en la Fig. \ref{fig:lineas-pol}.
 \end{figure}
 
 \hypertarget{raster}{%
-\subsection{\texorpdfstring{Datos \index{ráster}}{Datos }}\label{raster}}
+\subsection{Datos ráster}\label{raster}}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
 (denominada \textbf{matriz}) que se puede visualizar en diversos dispositivos de
@@ -829,7 +828,7 @@ x & y & lyr.1 & lyr.2 & lyr.3\\
 \end{figure}
 
 \hypertarget{CRS}{%
-\section{\texorpdfstring{\index{Sistema de Referencia de Coordenadas} (CRS)}{ (CRS)}}\label{CRS}}
+\section{Sistema de Referencia de Coordenadas (CRS)}\label{CRS}}
 
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
 \textbf{Coordinate Reference System}) permite relacionar datos espaciales con su
@@ -1444,7 +1443,7 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 \hypertarget{dep-esp}{%
 \chapter{Estadística espacial}\label{dep-esp}}
 
-La \index{estadística espacial} se basa en la suposición de que las unidades
+La estadística espacial se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son \textbf{dependientes}) de alguna
 manera \citep{getis_1999}, y por ello, trata de reconocer y aprovechar ésta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
@@ -1499,8 +1498,8 @@ ventajas (\citet{montero_et_al_2011}):
   superficie de tendencia.
 \end{enumerate}
 
-\hypertarget{antes-de-continuar}{%
-\section{\texorpdfstring{Antes de continuar\ldots{} \index{dependencia espacial}}{Antes de continuar\ldots{} }}\label{antes-de-continuar}}
+\hypertarget{antes-de-continuar-dependencia-espacial}{%
+\section{Antes de continuar\ldots{} dependencia espacial}\label{antes-de-continuar-dependencia-espacial}}
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
 ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
@@ -1508,7 +1507,7 @@ semejantes que aquellos que están más alejados; en cuyo caso \textbf{no} deben
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-De forma natural y de acuerdo a la \index{Ley Tobler} \citep{tobler1970} surge la idea de que
+De forma natural y de acuerdo a la Ley Tobler \citep{tobler1970} surge la idea de que
 los datos cercanos en el espacio o en el tiempo serán más similares y estarán
 más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
 la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
@@ -1540,12 +1539,12 @@ representan valores más bajos) que se distribuyen en otra zona y juntos.
 \end{figure}
 
 La Fig. \ref{fig:lattice-dep-iid}, al igual que la Fig.
-\ref{fig:points-depiid} presenta unos \index{datos simulados} donde que muestran una
+\ref{fig:points-depiid} presenta unos datos simulados donde que muestran una
 estructura de dependencia espacial (panel izquierdo) frente a unos datos
 totalmente aleatorios (panel derecho), pero en este caso estos datos se
 distribuyen de forma ordenada en el espacio a través de una rejilla regular. La
 interpretación es análoga a la de la Fig. \ref{fig:points-depiid}, solo que en
-este caso los \index{campos aleatorios} simulados se representan en una rejilla.
+este caso los campos aleatorios simulados se representan en una rejilla.
 
 \begin{figure}
 
@@ -1559,12 +1558,12 @@ este caso los \index{campos aleatorios} simulados se representan en una rejilla.
 \hypertarget{datos-espaciales}{%
 \section{Datos espaciales}\label{datos-espaciales}}
 
-Los \textbf{datos espaciales}, también conocidos como datos \textbf{\index{geoespaciales}}, son
+Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra.
 
 La forma más intuitiva de representar los datos espaciales es a través de un
-\index{mapa}.
+mapa.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1702,7 +1701,7 @@ clasificación \citep{montero_et_al_2015}:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{\index{Datos geoestadísticos}:} Surgen cuando el dominio de estudio es \textbf{continuo
+  \textbf{Datos geoestadísticos:} Surgen cuando el dominio de estudio es \textbf{continuo
   y fijo} \(D\). Es decir: (i) \(Z(s)\) se puede observar en cualquier punto del
   dominio (continuo); y (ii) los puntos en \(D\) no son estocásticos (son fijos,
   \(D\) es el mismo para todas las realizaciones de la función aleatoria
@@ -1746,7 +1745,7 @@ clasificación \citep{montero_et_al_2015}:
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{1}
 \item
-  \textbf{\index{Datos reticulares}}: Surgen cuando: (i) el dominio bajo estudio \(D\) es
+  \textbf{Datos reticulares}: Surgen cuando: (i) el dominio bajo estudio \(D\) es
   \textbf{discreto}, es decir, \(Z(s)\) puede observarse en una serie de ubicaciones
   fijas que pueden enumerarse. Estas ubicaciones pueden ser puntos o regiones,
   pero generalmente son códigos postales, pistas censales, vecindarios,
@@ -1779,7 +1778,7 @@ clasificación \citep{montero_et_al_2015}:
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{2}
 \item
-  \textbf{\index{Procesos de puntos}:} Mientras que en los datos geoestadísticos y
+  \textbf{Procesos de puntos:} Mientras que en los datos geoestadísticos y
   reticulares el dominio \(D\) es fijo, en los datos de patrones puntuales el
   dominio es discreto o continuo, pero \textbf{aleatorio}. Los patrones de puntos
   surgen cuando el atributo bajo estudio es la ubicación de los eventos
@@ -3808,9 +3807,6 @@ De esta manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.
-
-\backmatter
-\printindex
 
   \bibliography{book.bib}
 

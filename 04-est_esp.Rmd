@@ -1,6 +1,6 @@
 # Estadística espacial {#dep-esp}
 
-La \index{estadística espacial} se basa en la suposición de que las unidades
+La estadística espacial se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son **dependientes**) de alguna
 manera [@getis_1999], y por ello, trata de reconocer y aprovechar ésta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
@@ -51,7 +51,7 @@ ventajas (@montero_et_al_2011):
     ocasiones con muchos menos parámetros) que los clásicos modelos de
     superficie de tendencia.
 
-## Antes de continuar... \index{dependencia espacial}
+## Antes de continuar... dependencia espacial
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
 ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
@@ -59,7 +59,7 @@ semejantes que aquellos que están más alejados; en cuyo caso **no** deben ser
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-De forma natural y de acuerdo a la \index{Ley Tobler} [@tobler1970] surge la idea de que
+De forma natural y de acuerdo a la Ley Tobler [@tobler1970] surge la idea de que
 los datos cercanos en el espacio o en el tiempo serán más similares y estarán
 más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
 la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
@@ -104,12 +104,12 @@ points.geodata(sim3,
 ```
 
 La Fig. \@ref(fig:lattice-dep-iid), al igual que la Fig.
-\@ref(fig:points-depiid) presenta unos \index{datos simulados} donde que muestran una
+\@ref(fig:points-depiid) presenta unos datos simulados donde que muestran una
 estructura de dependencia espacial (panel izquierdo) frente a unos datos
 totalmente aleatorios (panel derecho), pero en este caso estos datos se
 distribuyen de forma ordenada en el espacio a través de una rejilla regular. La
 interpretación es análoga a la de la Fig. \@ref(fig:points-depiid), solo que en
-este caso los \index{campos aleatorios} simulados se representan en una rejilla.
+este caso los campos aleatorios simulados se representan en una rejilla.
 
 ```{r lattice-dep-iid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Rejilla: Simulación patrón de independencia espacial (derecha) frente a dependencia espacial (izquierda)"}
 par(mfrow = c(1, 2))
@@ -129,12 +129,12 @@ image(sim4, main = "Independencia", col = tim.colors())
 
 ## Datos espaciales
 
-Los **datos espaciales**, también conocidos como datos **\index{geoespaciales}**, son
+Los **datos espaciales**, también conocidos como datos **geoespaciales**, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra.
 
 La forma más intuitiva de representar los datos espaciales es a través de un
-\index{mapa}.
+mapa.
 
 ```{r mapa-clm, fig.cap="Porcentaje de Mujeres en Castilla-La Mancha"}
 # Mapa de porcentaje de mujeres en Castilla-La Mancha
@@ -253,7 +253,7 @@ $d-$dimensional y ${Z(s)∶ s ∈ ℝ^d}$ una función aleatoria espacial, donde
 representa el atributo en el cual estamos interesados, se tendría la siguiente
 clasificación [@montero_et_al_2015]:
 
-1.  **\index{Datos geoestadísticos}:** Surgen cuando el dominio de estudio es **continuo
+1.  **Datos geoestadísticos:** Surgen cuando el dominio de estudio es **continuo
     y fijo** $D$. Es decir: (i) $Z(s)$ se puede observar en cualquier punto del
     dominio (continuo); y (ii) los puntos en $D$ no son estocásticos (son fijos,
     $D$ es el mismo para todas las realizaciones de la función aleatoria
@@ -288,7 +288,7 @@ clasificación [@montero_et_al_2015]:
 knitr::include_graphics("img/log_co_madrid.png")
 ```
 
-2.  **\index{Datos reticulares}**: Surgen cuando: (i) el dominio bajo estudio $D$ es
+2.  **Datos reticulares**: Surgen cuando: (i) el dominio bajo estudio $D$ es
     **discreto**, es decir, $Z(s)$ puede observarse en una serie de ubicaciones
     fijas que pueden enumerarse. Estas ubicaciones pueden ser puntos o regiones,
     pero generalmente son códigos postales, pistas censales, vecindarios,
@@ -311,7 +311,7 @@ knitr::include_graphics("img/log_co_madrid.png")
 knitr::include_graphics("img/renta2017.png")
 ```
 
-3.  **\index{Procesos de puntos}:** Mientras que en los datos geoestadísticos y
+3.  **Procesos de puntos:** Mientras que en los datos geoestadísticos y
     reticulares el dominio $D$ es fijo, en los datos de patrones puntuales el
     dominio es discreto o continuo, pero **aleatorio**. Los patrones de puntos
     surgen cuando el atributo bajo estudio es la ubicación de los eventos

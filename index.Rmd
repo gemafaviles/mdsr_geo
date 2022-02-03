@@ -45,7 +45,7 @@ Este libro presenta los conceptos teóricos y prácticos necesarios para llevar 
 cabo correctamente la visualización de datos espaciales y su geolocalización
 con el software estadístico R.
 
-Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos
+Los datos geolocalizados están presentes en la mayoría de los fenómenos
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
 valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
 disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
@@ -60,7 +60,9 @@ analítico y la investigación.
 
 La principal contribución de los autores es mostrar el proceso de visualización de
 datos georreferenciados de principio a fin, de una manera sencilla y didactica
-a través de conceptos teóricos y su aplicación directa en R.
+a través de conceptos teóricos y su aplicación directa en R. Esta es la primera
+edición del manual y, por tanto, pedimos disculpas por cualquier errata que presente 
+y agradecemos que sea comunicada a los autores.
 
 El material se proporciona bajo licencia CC-BY-ND-NC. 
 Todos los logotipos y marcas comerciales que puedan aparecer en este texto 
@@ -71,9 +73,7 @@ con fines didácticos.
 **Gema Fernández-Avilés** está licenciado bajo 
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
-**VER EXACTAMENTE QUE SIGNIFICA ESTO... **
-**VER SI PONEMOS DOI**
- 
+
 Se autoriza expresamente el uso de este material a la Universidad 
 de Castilla-La Mancha para la docencia del Máster en Data Science \& 
 Business Analytics (con R Software).
