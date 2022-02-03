@@ -5,15 +5,13 @@ author:
 - Gema Fernández-Avilés
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-documentclass: report
+documentclass: book
 bibliography: [book.bib]
 biblio-style: "apalike"
-url: "https://mdsr-2122-visualizacion.netlify.app/"
-# cover-image: path to the social sharing image like images/cover.jpg
+url: 'https\://mdsr-2122-visualizacion.netlify.app/'
 description: |
   Máster en Data Science & Business Analytics (con R Software)
 link-citations: yes
-#github-repo: rstudio/bookdown-demo
 ---
 
 ```{r setup_book, include=FALSE, error=TRUE}
@@ -44,8 +42,7 @@ knitr::include_graphics("img/logo_mdsr_uclm.png")
 # Prólogo {.unnumbered}
 
 Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
-cabo correctamente la \index{visualización} de \index{datos espaciales} y su
-\index{geolocalización}
+cabo correctamente la visualización de datos espaciales y su geolocalización.
 
 Poner un poco de rollo
 
@@ -55,16 +52,16 @@ Los \index{datos geolocalizados} están presentes en la mayoría de los fenómen
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
 valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
 disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
-la Antropología, la Biología, etc...
+la Antropología, la Biología, etc.
 
 La representación gráfica de los mismos adquiere un papel crucial, ya que (i) se
 detectan relaciones y patrones entre las variables más fácilmente, (ii) hacen
-que la distribución del fenómeno se comprenda y recuerde rapidamente, (iii)
+que la distribución del fenómeno se comprenda y recuerde rápidamente, (iii)
 grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
-permiten sacar a la luz hechos y relaciones ocultos que estimulen el pensamiento
+permiten sacar a la luz hechos y relaciones ocultas que estimulen el pensamiento
 analítico y la investigación.
 
-La principal contribución del libro es mostrar el proceso de vsiualización de
+La principal contribución del libro es mostrar el proceso de visualización de
 datos georreferenciados de principio a fin. \*\*\*\*\*\*\*
 
 [**rematar...**]{style:col="red"}

@@ -1,7 +1,7 @@
 ```{r, eval = knitr::is_html_output(), child="child/refs.md"}
 ```
 
-# (APPENDIX) Anexo {-} 
+# (APPENDIX) Anexo {.unnumbered}
 
 # Tipos de CRS proyectados {#crsproy}
 
@@ -11,7 +11,7 @@ maneras: por tipo de superficie de proyección y por métrica a preservar.
 ## Por tipo de superficie de proyección
 
 El proceso de trasladar puntos de una esfera a un plano puede plantearse de
-manera práctica como el ejercicio de envolver una esfera con una superificie
+manera práctica como el ejercicio de envolver una esfera con una superficie
 plana (como una hoja de papel) y trasladar los puntos de la esfera de manera
 lineal al punto de la superficie plana más cercano a ella. La Fig.
 \@ref(fig:fi-proys) muestra estos tres tipos de proyección.
@@ -62,7 +62,7 @@ Es importante tener en cuenta que cualquier proyección de la superficie de la
 Tierra produce distorsiones en una o varias características geográficas. Como
 ejemplo clásico, la proyección de Mercator produce distorsiones del **tamaño**
 especialmente en aquellas regiones más cercanas a los polos (Groenlandia, que la
-proyección de Mercator presenta una área similar a la de África, tiene menor
+proyección de Mercator presenta un área similar a la de África, tiene menor
 superficie real que Argelia). Otras de las métricas que suele verse
 distorsionada son la **distancia** entre dos puntos geográficos, la
 **dirección** o la **forma** de regiones de la Tierra.
@@ -72,7 +72,7 @@ objetivo es preservar alguna o varias de las propiedades mencionadas
 anteriormente, sin embargo es importante destacar que **no existe una proyección
 que sea capaz de preservar todas las métricas a la vez**.
 
-Según la metrica a presevar, las proyecciones se pueden clasificar en:
+Según la métrica a preservar, las proyecciones se pueden clasificar en:
 
 -   **Proyecciones conformales:** Intentan preservar los **ángulos** que se
     forman en la superficie terrestre. Por ejemplo, la proyección de Mercator
@@ -118,7 +118,7 @@ knitr::include_graphics("img/comp.png")
 En los anteriores ejemplos se ha añadido a cada proyección la **indicatriz de
 Tissot**. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
-De este manera, al presentar la indicatriz de Tissot en una proyección
+De esta manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.

@@ -193,7 +193,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.3</b> Sistema de Referencia de Coordenadas (CRS)</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.3.1</b> Tipos de CRS</a></li>
-<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en <strong>R</strong></a></li>
 <li class="chapter" data-level="3.3.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.3.3</b> ¿Qué proyección uso?</a></li>
 </ul></li>
 </ul></li>
@@ -205,8 +205,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5" data-path="caos.html"><a href="caos.html"><i class="fa fa-check"></i><b>5</b> Casos prácticos</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#caso-1-temperatura-mínimas-del-aire-en-españa."><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínimas del aire en España.</a></li>
-<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-espacial-de-la-renta-media-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución espacial de la renta media por municipios</a></li>
+<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#tempmin"><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínima en España</a></li>
+<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-de-la-renta-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución de la renta por municipios</a></li>
+<li class="chapter" data-level="5.3" data-path="caos.html"><a href="caos.html#caso-3.-delitos-cometidos-en-valencia-en-el-año-2010"><i class="fa fa-check"></i><b>5.3</b> Caso 3. Delitos cometidos en Valencia en el año 2010</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="appendix"><span><b>Anexo</b></span></li>
@@ -242,7 +243,7 @@ div.csl-indent {
 <p>Los <strong>datos espaciales</strong>, también conocidos como datos <strong>geoespaciales</strong>, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
-desarrollado diversos estándares de ficheros que permiten almacenar y compatir
+desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.</p>
 <p><strong>Información de vectores</strong></p>
@@ -336,16 +337,17 @@ geográficos a principios de los años 90 del siglo XX, y en la actualidad es
 quizá el formato más empleado. Sin embargo tiene una serie de limitaciones que
 es necesario conocer:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Es un formato multiarchivo:</strong> El formato shapefile se compone de diversos
+<li><p><strong>Es un formato multiarchivo:</strong> El formato Shapefile se compone de diversos
 archivos que son necesarios para la correcta lectura de los datos. Es por
-ello que cuando se intercambia información han de proporcionarse como mínimo
-los archivos con extensiones <code>.shp</code>, <code>.shx</code>, <code>.dbf</code> (por ejemplo:
-<code>datos.shp</code>, <code>datos.shx</code>, <code>datos.dbf</code> ). Lo mas habitual es distribuirlos en
-un fichero <code>.zip</code> del que se deben extraer todos estos archivos.</p></li>
+ello que cuando se intercambia información en este formato han de
+proporcionarse como mínimo los archivos con extensiones <code>.shp</code>, <code>.shx</code>,
+<code>.dbf</code> (por ejemplo: <code>datos.shp</code>, <code>datos.shx</code>, <code>datos.dbf</code> ). Lo más
+habitual es distribuirlos en un fichero <code>.zip</code> del que se deben extraer
+todos estos archivos.</p></li>
 <li><p><strong>El Sistema Geográfico de Coordenadas es opcional</strong>: Como explicaremos en
 la Sección <a href="formatos.html#CRS">3.3</a>, esta información es crucial para trabajar con datos
-geográficos, sin embargo el estándar Shapefile lo considera opcional, siendo
-esta una limitación importante.</p></li>
+geográficos, sin embargo, el estándar Shapefile lo considera opcional,
+siendo esta una limitación importante.</p></li>
 </ol>
 <p>Además de estas limitaciones, existen otras relacionadas con el nombre y la
 longitud de los campos, o la capacidad de almacenamiento de los Shapefiles, que
@@ -382,12 +384,12 @@ datos ráster son:</p>
 </div>
 <div id="modelo-de-datos" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Modelo de datos</h2>
-<p>En el ámbito del análisis espacial en R, se pueden clasificar el formato de
+<p>En el ámbito del análisis espacial en <strong>R</strong>, se pueden clasificar el formato de
 datos espaciales en función del modelo de datos <span class="citation">(<a href="#ref-Lovelance_et_al_2019" role="doc-biblioref">Lovelace, Nowosad, and Münchow 2019</a>)</span>. Se
 pueden distinguir dos tipos de modelos de datos: <strong>vectores</strong> y <strong>ráster</strong>.</p>
 <div id="vec" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Datos de vectores</h3>
-<p>Este modelo está basado en puntos georeferenciados. Los <strong>puntos</strong> pueden
+<p>Este modelo está basado en puntos georreferenciados. Los <strong>puntos</strong> pueden
 representar localizaciones específicas, como la localización de edificios:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="formatos.html#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-2"><a href="formatos.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -453,7 +455,7 @@ Figura 3.3: Datos vector: Descomposición en puntos
 <div id="raster" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Datos ráster</h3>
 <p>Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denomindada <strong>matriz</strong>) que se puede visualizar en diversos dispositivo de
+(denominada <strong>matriz</strong>) que se puede visualizar en diversos dispositivos de
 representación. El caso más cotidiano de un ráster es una fotografía, donde la
 imagen se representa como una serie de celdas, determinadas por la resolución de
 la imagen (número total de píxeles, determinados como número de píxeles en cada
@@ -756,7 +758,7 @@ espaciales, es necesario conocer el CRS en el que están definidos para conocer
 de manera exacta su localización geográfica.</strong> Además, nótese que para cualquier
 <strong>análisis de datos espaciales</strong> es necesario que todos los geodatos <strong>se
 encuentren referenciados en el mismo CRS</strong>. Esto se consigue transformando (o
-proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
+proyectando) los datos a un CRS común, nunca sobrescribiendo el CRS de los
 mismos.</p>
 <div id="tipos-de-crs" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Tipos de CRS</h3>
@@ -820,11 +822,11 @@ proyectados.</p>
 </div>
 </div>
 <div id="trabajando-con-proyecciones-en-r" class="section level3" number="3.3.2">
-<h3><span class="header-section-number">3.3.2</span> Trabajando con proyecciones en R</h3>
+<h3><span class="header-section-number">3.3.2</span> Trabajando con proyecciones en <strong>R</strong></h3>
 <p>Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-<strong>códigos EPSG, ESRI, WKT</strong> o proj4 (en desuso en R, pero todavía admitidos).
-Existen varios recursos web donde se pueden consultar y seleccionar los códigos
-correspondientes:</p>
+<strong>códigos EPSG, ESRI, WKT</strong> o proj4 (en desuso en <strong>R</strong>, pero todavía
+admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
+los códigos correspondientes:</p>
 <ul>
 <li><p><a href="https://epsg.io/" class="uri">https://epsg.io/</a></p></li>
 <li><p><a href="https://spatialreference.org/" class="uri">https://spatialreference.org/</a></p></li>
@@ -1028,7 +1030,7 @@ se muestra lo que ocurre si esto no se cumple:</p>
 Figura 3.15: Ejemplo: Puertos del mundo
 </p>
 </div>
-<p>Vemos que ha habido algún tipo de error, ¿a que puede deberse?</p>
+<p>Vemos que ha habido algún tipo de error, ¿a qué puede deberse?</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="formatos.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comprueba CRS</span></span>
 <span id="cb12-2"><a href="formatos.html#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="formatos.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(puertos) <span class="sc">==</span> <span class="fu">st_crs</span>(paises_robin)</span>
@@ -1086,9 +1088,9 @@ Figura 3.17: Transformaciones en sp
 <span id="cb14-9"><a href="formatos.html#cb14-9" aria-hidden="true" tabindex="-1"></a>elev_robinson <span class="ot">&lt;-</span> <span class="fu">projectRaster</span>(elev, <span class="at">crs =</span> <span class="fu">crs</span>(<span class="st">&quot;+proj=robin&quot;</span>))</span>
 <span id="cb14-10"><a href="formatos.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev_robinson)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:raster-crs"></span>
-<img src="Visualización_geolocalización_datos_files/figure-html/raster-crs-1.png" alt="Transformaciones en raster" width="60%" />
+<img src="Visualización_geolocalización_datos_files/figure-html/raster-crs-1.png" alt="Transformaciones en ráster" width="60%" />
 <p class="caption">
-Figura 3.18: Transformaciones en raster
+Figura 3.18: Transformaciones en ráster
 </p>
 </div>
 <p>Por último, en el paquete <strong>terra</strong> <span class="citation">(<a href="#ref-R-terra" role="doc-biblioref">Hijmans 2022b</a>)</span> las funciones correspondientes
@@ -1244,9 +1246,9 @@ Figura 3.20: raster: Ejemplo de transformación usando crsuggest
 <span id="cb18-6"><a href="formatos.html#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-7"><a href="formatos.html#cb18-7" aria-hidden="true" tabindex="-1"></a>china_crs</span>
 <span id="cb18-8"><a href="formatos.html#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 6</span></span>
-<span id="cb18-9"><a href="formatos.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   crs_code crs_name                           crs_type  crs_gcs crs_units crs_proj4                </span></span>
-<span id="cb18-10"><a href="formatos.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                              &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;                    </span></span>
-<span id="cb18-11"><a href="formatos.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 4584     New Beijing / Gauss-Kruger CM 105E projected    4555 m         +proj=tmerc +lat_0=0 +lo~</span></span>
+<span id="cb18-9"><a href="formatos.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   crs_code crs_name                         crs_type crs_gcs crs_units crs_proj4</span></span>
+<span id="cb18-10"><a href="formatos.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                            &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span id="cb18-11"><a href="formatos.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 4584     New Beijing / Gauss-Kruger CM 1~ project~    4555 m         +proj=tm~</span></span>
 <span id="cb18-12"><a href="formatos.html#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-13"><a href="formatos.html#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-14"><a href="formatos.html#cb18-14" aria-hidden="true" tabindex="-1"></a>china_suggest <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(</span>
@@ -1266,7 +1268,7 @@ Figura 3.21: sf: Ejemplo de transformación usando crsuggest
 </div>
 </div>
 </div>
-<h3>Referencias</h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-opengeolabs2017" class="csl-entry">
 Cepicky, Jachym, and OpenGeoLabs. 2017. <span>“Shapefile Must Die!”</span> <a href="http://switchfromshapefile.org/">http://switchfromshapefile.org/</a>.

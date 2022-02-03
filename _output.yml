@@ -23,10 +23,3 @@ bookdown::pdf_book:
   toc_depth: 2
   number_sections: yes
 bookdown::epub_book: default
-bookdown::html_document2: default
-bookdown::pdf_document2:
-  latex_engine: "xelatex"
-  toc: yes
-  toc_depth: 2
-  number_sections: yes
-

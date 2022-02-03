@@ -32,8 +32,8 @@ bookdown::render_book("index.Rmd",
   envir = new.env()
 )
 
-# bookdown::serve_book()
 
+# bookdown::serve_book()
 
 # rmd_files: ["index.Rmd", "01-rev_geodatos.Rmd", "02-geocomp.Rmd","03-formatos.Rmd", "04-est_esp.Rmd","05-anexo.Rmd"]
 

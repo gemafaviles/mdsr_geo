@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-]{report}
+]{book}
 \title{Visualización y geolocalización de datos}
 \author{Diego Hernangómez \and Gema Fernández-Avilés}
 \date{2022-02-03}
@@ -179,8 +179,7 @@
 \addcontentsline{toc}{chapter}{Prólogo}
 
 Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
-cabo correctamente la \index{visualización} de \index{datos espaciales} y su
-\index{geolocalización}
+cabo correctamente la visualización de datos espaciales y su geolocalización.
 
 Poner un poco de rollo
 
@@ -192,16 +191,16 @@ Los \index{datos geolocalizados} están presentes en la mayoría de los fenómen
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
 valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
 disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
-la Antropología, la Biología, etc\ldots{}
+la Antropología, la Biología, etc.
 
 La representación gráfica de los mismos adquiere un papel crucial, ya que (i) se
 detectan relaciones y patrones entre las variables más fácilmente, (ii) hacen
-que la distribución del fenómeno se comprenda y recuerde rapidamente, (iii)
+que la distribución del fenómeno se comprenda y recuerde rápidamente, (iii)
 grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
-permiten sacar a la luz hechos y relaciones ocultos que estimulen el pensamiento
+permiten sacar a la luz hechos y relaciones ocultas que estimulen el pensamiento
 analítico y la investigación.
 
-La principal contribución del libro es mostrar el proceso de vsiualización de
+La principal contribución del libro es mostrar el proceso de visualización de
 datos georreferenciados de principio a fin. *******
 
 {\textbf{rematar\ldots{}}}
@@ -390,7 +389,7 @@ y las Ciencia de datos geográficos (GDS, Geographic Data Science).
 
 Cada término comparte un énfasis en un enfoque \textbf{científico} (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
-principales campos de aplicación difieren. La geocomputación es ámpliamente
+principales campos de aplicación difieren. La geocomputación es ampliamente
 utilizada en ámbitos como la sociología, el análisis político o el desarrollo de
 aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
@@ -398,16 +397,16 @@ para trabajos científicos aplicados.
 
 \textbf{¿Por que R para datos geográficos?}
 
-R es una herramienta con capacidades avanzadas de análisis, modelado y
+\textbf{R} es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
 inglés, Integrated Development Environment, \textbf{IDE}), como RStudio, han hecho
-que R sea más fácil de usar para muchos, facilitando la creación de mapas con un
-panel dedicado a la visualización interactiva \citep{Lovelance_et_al_2019}. Además,
-el uso del código R permite la enseñanza de la geocomputación con referencia a
-ejemplos reproducibles en lugar de conceptos abstractos. Por ejemplo, de una
-forma relativamente sencialla, se puede geoposicionar de manera interactiva la
-localización de la Puerta del Sol en Madrid y, además, dejar la el código R para
-hacerlo reproducible, ver Fig. \ref{fig:leaflet}.
+que \textbf{R} sea más fácil de usar para muchos, facilitando la creación de mapas
+con un panel dedicado a la visualización interactiva \citep{Lovelance_et_al_2019}.
+Además, el uso del código \textbf{R} permite la enseñanza de la geocomputación con
+referencia a ejemplos reproducibles en lugar de conceptos abstractos. Por
+ejemplo, de una forma relativamente sencialla, se puede geoposicionar de manera
+interactiva la localización de la Puerta del Sol en Madrid y, además, dejar el
+código \textbf{R} para hacerlo reproducible, ver Fig. \ref{fig:leaflet}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -427,7 +426,7 @@ hacerlo reproducible, ver Fig. \ref{fig:leaflet}.
 \caption{Localización interactiva de la Puerta del Sol en Madrid}\label{fig:leaflet}
 \end{figure}
 
-Por otra parte R dispone de cientos de librerías especializadas para datos
+Por otra parte, \textbf{R} dispone de cientos de librerías especializadas para datos
 espaciales. Una descripción detallada puede ver se en \href{https://cran.r-project.org/web/views/Spatial.html}{CRAN Task View: Analysis
 of Spatial Data}
 
@@ -438,17 +437,17 @@ no sólo en el tema que nos ocupa:
 
 \begin{itemize}
 \item
-  \textbf{sp} \citep{R-sp} y \textbf{sf} \citep{R-sp}: para el tratamiento de clases y métodos de
+  \textbf{sp} \citep{R-sp} y \textbf{sf} \citep{R-sp} para el tratamiento de clases y métodos de
   los datos vectoriales.
 \item
-  \textbf{raster} \citep{R-raster},\textbf{terra} \citep{R-terra}y \textbf{stars} \citep{R-stars}para datos
+  \textbf{raster} \citep{R-raster}, \textbf{terra} \citep{R-terra}y \textbf{stars} \citep{R-stars}para datos
   raster.
 \item
-  \textbf{gstat} \citep{R-gstat} y \textbf{geoR} \citep{R-geor}: para el análisis de datos
+  \textbf{gstat} \citep{R-gstat} y \textbf{geoR} \citep{R-geor} para el análisis de datos
   geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.
 \item
   \textbf{spdep} \citep{R-spdep} para el análisis de datos con modelos de econometría
-  espacial, creación de matrices de contiguidad/distancia \textbf{W}, estimación de
+  espacial, creación de matrices de contigüidad/distancia \textbf{W}, estimación de
   modelos econométricos espaciales, etc
 \item
   \textbf{spatstat} \citep{spatstat_2005}para el análisis de procesos de puntos
@@ -469,7 +468,7 @@ concretos. Asociado a estas coordenadas debemos conocer el \textbf{Sistema de
 referencia de espacial} o Coordinate reference system (CRS) en el que están
 proyectadas dichas coordenadas.
 
-Por otra parte, los formatos de estos datos pueden ser \textbf{vectores} o \textbf{raster}
+Por otra parte, los formatos de estos datos pueden ser \textbf{vectores} o \textbf{ráster}
 como se explicará en la Sección \ref{formatos}.
 
 Si damos un paso más e incorporamos el concepto de \textbf{distancia}, pues es lógico
@@ -505,7 +504,7 @@ Sección \ref{CRS}).
 Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
-desarrollado diversos estándares de ficheros que permiten almacenar y compatir
+desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
@@ -572,17 +571,18 @@ es necesario conocer:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Es un formato multiarchivo:} El formato shapefile se compone de diversos
+  \textbf{Es un formato multiarchivo:} El formato Shapefile se compone de diversos
   archivos que son necesarios para la correcta lectura de los datos. Es por
-  ello que cuando se intercambia información han de proporcionarse como mínimo
-  los archivos con extensiones \texttt{.shp}, \texttt{.shx}, \texttt{.dbf} (por ejemplo:
-  \texttt{datos.shp}, \texttt{datos.shx}, \texttt{datos.dbf} ). Lo mas habitual es distribuirlos en
-  un fichero \texttt{.zip} del que se deben extraer todos estos archivos.
+  ello que cuando se intercambia información en este formato han de
+  proporcionarse como mínimo los archivos con extensiones \texttt{.shp}, \texttt{.shx},
+  \texttt{.dbf} (por ejemplo: \texttt{datos.shp}, \texttt{datos.shx}, \texttt{datos.dbf} ). Lo más
+  habitual es distribuirlos en un fichero \texttt{.zip} del que se deben extraer
+  todos estos archivos.
 \item
   \textbf{El Sistema Geográfico de Coordenadas es opcional}: Como explicaremos en
   la Sección \ref{CRS}, esta información es crucial para trabajar con datos
-  geográficos, sin embargo el estándar Shapefile lo considera opcional, siendo
-  esta una limitación importante.
+  geográficos, sin embargo, el estándar Shapefile lo considera opcional,
+  siendo esta una limitación importante.
 \end{enumerate}
 
 Además de estas limitaciones, existen otras relacionadas con el nombre y la
@@ -616,14 +616,14 @@ Enhanced Compression Wavelet & \texttt{.ecw} \\
 \hypertarget{modelo-de-datos}{%
 \section{Modelo de datos}\label{modelo-de-datos}}
 
-En el ámbito del análisis espacial en R, se pueden clasificar el formato de
+En el ámbito del análisis espacial en \textbf{R}, se pueden clasificar el formato de
 datos espaciales en función del modelo de datos \citep{Lovelance_et_al_2019}. Se
 pueden distinguir dos tipos de modelos de datos: \textbf{vectores} y \textbf{ráster}.
 
 \hypertarget{vec}{%
 \subsection{Datos de vectores}\label{vec}}
 
-Este modelo está basado en puntos georeferenciados. Los \textbf{puntos} pueden
+Este modelo está basado en puntos georreferenciados. Los \textbf{puntos} pueden
 representar localizaciones específicas, como la localización de edificios:
 
 \begin{Shaded}
@@ -711,7 +711,7 @@ datos espaciales representados en la Fig. \ref{fig:lineas-pol}.
 \subsection{Datos ráster}\label{raster}}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denomindada \textbf{matriz}) que se puede visualizar en diversos dispositivo de
+(denominada \textbf{matriz}) que se puede visualizar en diversos dispositivos de
 representación. El caso más cotidiano de un ráster es una fotografía, donde la
 imagen se representa como una serie de celdas, determinadas por la resolución de
 la imagen (número total de píxeles, determinados como número de píxeles en cada
@@ -921,7 +921,7 @@ espaciales, es necesario conocer el CRS en el que están definidos para conocer
 de manera exacta su localización geográfica.} Además, nótese que para cualquier
 \textbf{análisis de datos espaciales} es necesario que todos los geodatos \textbf{se
 encuentren referenciados en el mismo CRS}. Esto se consigue transformando (o
-proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
+proyectando) los datos a un CRS común, nunca sobrescribiendo el CRS de los
 mismos.
 
 \hypertarget{tipos-de-crs}{%
@@ -1002,12 +1002,12 @@ El Anexo \ref{crsproy} proporciona más información sobre los tipos de CRS
 proyectados.
 
 \hypertarget{trabajando-con-proyecciones-en-r}{%
-\subsection{Trabajando con proyecciones en R}\label{trabajando-con-proyecciones-en-r}}
+\subsection{\texorpdfstring{Trabajando con proyecciones en \textbf{R}}{Trabajando con proyecciones en R}}\label{trabajando-con-proyecciones-en-r}}
 
 Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-\textbf{códigos EPSG, ESRI, WKT} o proj4 (en desuso en R, pero todavía admitidos).
-Existen varios recursos web donde se pueden consultar y seleccionar los códigos
-correspondientes:
+\textbf{códigos EPSG, ESRI, WKT} o proj4 (en desuso en \textbf{R}, pero todavía
+admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
+los códigos correspondientes:
 
 \begin{itemize}
 \item
@@ -1276,7 +1276,7 @@ se muestra lo que ocurre si esto no se cumple:
 \caption{Ejemplo: Puertos del mundo}\label{fig:puertos-error}
 \end{figure}
 
-Vemos que ha habido algún tipo de error, ¿a que puede deberse?
+Vemos que ha habido algún tipo de error, ¿a qué puede deberse?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1364,7 +1364,7 @@ En el caso de los objetos ráster del paquete \textbf{raster}, podemos usar \tex
 
 }
 
-\caption{Transformaciones en raster}\label{fig:raster-crs}
+\caption{Transformaciones en ráster}\label{fig:raster-crs}
 \end{figure}
 
 Por último, en el paquete \textbf{terra} \citep{R-terra} las funciones correspondientes
@@ -1473,9 +1473,9 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 
 \NormalTok{china\_crs}
 \CommentTok{\#\textgreater{} \# A tibble: 1 x 6}
-\CommentTok{\#\textgreater{}   crs\_code crs\_name                           crs\_type  crs\_gcs crs\_units crs\_proj4                }
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                              \textless{}chr\textgreater{}       \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}                    }
-\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 105E projected    4555 m         +proj=tmerc +lat\_0=0 +lo\textasciitilde{}}
+\CommentTok{\#\textgreater{}   crs\_code crs\_name                         crs\_type crs\_gcs crs\_units crs\_proj4}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                            \textless{}chr\textgreater{}      \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}    }
+\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 1\textasciitilde{} project\textasciitilde{}    4555 m         +proj=tm\textasciitilde{}}
 
 
 \NormalTok{china\_suggest }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(}
@@ -1564,10 +1564,10 @@ semejantes que aquellos que están más alejados; en cuyo caso \textbf{no} deben
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-De forma natural y de acuerdo a la Ley Tobler (1973) surge la idea de que los
-datos cercanos en el espacio o en el tiempo serán más similares y estarán más
-correlacionados entres sí que aquellos que están más lejanos. Por ejemplo, la
-influencia de un terremoto, su efecto disminuye con distancia del epicentro.
+De forma natural y de acuerdo a la Ley Tobler \citep{tobler1970} surge la idea de que
+los datos cercanos en el espacio o en el tiempo serán más similares y estarán
+más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
+la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
 Además, esta correlación disminuye al aumentar la separación entre ellos, por lo
 que se puede pensar en la presencia de una dependencia espacial o
 espacio-temporal.
@@ -1575,7 +1575,7 @@ espacio-temporal.
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
 dependencia espacial? La clave esta en que los procesos con dependencia espacial
-exiben un patrón en el espacio, mientras que los que son independientes son
+exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.
 
 La Fig. \ref{fig:points-depiid} muestra uno campo aleatorio simulado que
@@ -1584,7 +1584,7 @@ datos totalmente aleatorios (panel derecho), en ambos casos distribuidos de
 forma irregular en el espacio. En la imagen de dependencia espacial se observa
 como los puntos rojos (que representan valores más altos de la variable
 simuladas) se concentran en la misma zona, al igual que los puntos azules (que
-representan valores más bajos) que se distribujen en otra zona y juntos.
+representan valores más bajos) que se distribuyen en otra zona y juntos.
 
 \begin{figure}
 
@@ -1686,7 +1686,7 @@ característicos de los objetos espaciales:
 \item
   La variable, el porcentaje de mujeres en los municipios de Castilla-La
   Mancha en el año 2019, no parece distribuirse de manera independiente sino
-  todo lo contrario, muestra un patrón espacial. Los municipios del las
+  todo lo contrario, muestra un patrón espacial. Los municipios de las
   provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
   municipios del centro de la Comunidad.
 \end{itemize}
@@ -1713,7 +1713,7 @@ Antes de dibujar la Fig. \ref{fig:mapa-clm} tuvimos que leer los datos de la
 librería \textbf{mapSpain} \citep{rmapspain} que contenía tanto la variable que hemos
 analizado como el formato del mapa. Tras unir variable y mapa con la función
 \texttt{merge()}. Al llevar a cabo un resumen del objeto espacial nos encontramos con
-las siguiente información:
+la siguiente información:
 
 \begin{itemize}
 \tightlist
@@ -1809,7 +1809,7 @@ clasificación \citep{montero_et_al_2015}:
   provincias, países, etc., y los datos en la mayoría de los casos son datos
   agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
   tener una forma regular, normalmente la forma que tienen es irregular, y
-  esto, junto con el carácter espacialmente agregado de la datos, es por lo
+  esto, junto con el carácter espacialmente agregado de los datos, es por lo
   que los datos latice tambien se denominan datos regionales. Y (ii) las
   ubicaciones en \(D\) no son estocásticas. Por supuesto, un concepto clave en
   el análisis de los datos lattice es el \textbf{vecindario} y la matriz \textbf{W}.
@@ -1855,12 +1855,13 @@ clasificación \citep{montero_et_al_2015}:
   son aleatoriamente repartido.
 
   Más concretamente, nos interesa analizar si la ubicación de los eventos es
-  completamente aleatorio espacialmente (la ubicación donde ocurren los
+  completamente aleatoria espacialmente (la ubicación donde ocurren los
   eventos no se ve afectada por la ubicación de otros eventos), uniforme o
   regular (cada punto está tan lejos de todos sus vecinos como sea posible) o
   agrupados o agregados (la ubicación de los eventos se concentra en grupos).
   La Fig. \ref{fig:ejem-pp} muestra la localización de los accidentes de
-  tráfico registrados en la ciudad de Madrid durante el mes de febreo de 2020.
+  tráfico registrados en la ciudad de Madrid durante el mes de febrero
+  de 2020.
 \end{enumerate}
 
 \begin{figure}
@@ -1887,8 +1888,8 @@ Los datos pueden descargarse desde esta dirección:
 
 \end{infobox}
 
-\hypertarget{caso-1-temperatura-muxednimas-del-aire-en-espauxf1a.}{%
-\section{Caso 1: Temperatura mínimas del aire en España.}\label{caso-1-temperatura-muxednimas-del-aire-en-espauxf1a.}}
+\hypertarget{tempmin}{%
+\section{Caso 1: Temperatura mínima en España}\label{tempmin}}
 
 \textbf{Objetivo de aprendizaje}
 
@@ -1898,7 +1899,7 @@ siguientes tareas básicas:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Leer datos espaciales en R.
+  Leer datos espaciales en \textbf{R}.
 \item
   Proyectar datos espaciales.
 \item
@@ -1906,19 +1907,20 @@ siguientes tareas básicas:
 \end{enumerate}
 
 Para ello, se va a trabajar con los datos de temperatura mínima registradas en
-España por las estaciones metereológicas de la Agencia Estatal de Meteorología
-(AEMET). Un conjuto de datos ya depurados y listos par trabajar se encuentra en
-el fichero \texttt{tempmin.csv}. Por otra parte, la información relativa al mapeo de
-España se obtendrá directamente de la librería \texttt{mapSpain}. Todo el análisis se
+España por las estaciones meteorológicas de la Agencia Estatal de Meteorología
+(AEMET). Un conjunto de datos ya depurados y listos para trabajar se encuentra
+en el fichero \texttt{tempmin.csv}. Por otra parte, la información relativa al mapeo de
+España se obtendrá directamente de la librería \textbf{mapSpain}. Todo el análisis se
 va a realizar empleando RStudio, por lo que se empezará abriendo el programa y
 creando un nuevo proyecto.
 
-\begin{exercise}[Creación del proyecto]
+\begin{exercise}[Temperaturas mínimas: Creación del proyecto]
 \protect\hypertarget{exr:ex-crea}{}\label{exr:ex-crea}Cree un proyecto para trabajar todo lo referente al caso.
 \end{exercise}
 
 \begin{solution}
-Para crear un proyecto siga la secuencia: \emph{File\textgreater{} New Proyect\textgreater{} New File\textgreater{} RMD}
+Para crear un proyecto siga la secuencia: \emph{File\textgreater{} New Proyect} y a continuación
+\emph{New File\textgreater{} R Markdown}
 \end{solution}
 
 El conjunto de datos proporcionado \texttt{tempmin.csv} contiene el nivel de
@@ -2000,16 +2002,16 @@ fecha & indicativo & tmin & longitud & latitud\\
 \end{tabular}
 \end{table}
 
-Una de las clases de objetos espaciales más utilzada en R es \texttt{sf}. Sin embargo,
-dependiendo del análisis que se quiera realizar hay otras muy comunes como
-\texttt{geodata}, \texttt{spatastat}, etc..
+Una de las clases de objetos espaciales más utilizada en \textbf{R} es \texttt{sf}. Sin
+embargo, dependiendo del análisis que se quiera realizar hay otras muy comunes
+como \texttt{geodata}, \texttt{spatastat}, etc..
 
 A continuación se convertirá el objeto \texttt{tmin} (\texttt{data.frame}) a un objeto de la
 clase \texttt{geodata}, una clase muy utilizada para trabajar con datos espaciales y
 requerida por la librería \texttt{geoR} \citep{R-geor}. Estos objetos contienen las
 coordenadas y la variable objeto de estudio. Para mayor detalle ver
 \texttt{??as.geodata}. Obsérvese como varía la variable a través de los ejes longitud y
-latitud. Observe tambien la forma campaniforme de la distribución de la
+latitud. Observe también la forma campaniforme de la distribución de la
 variable.
 
 \begin{exercise}[Descripción de los datos]
@@ -2111,7 +2113,7 @@ creado.
 La siguiente tarea será representar las estaciones que monitorizan la
 temperatura mínima en un mapa de España.
 
-\begin{exercise}[Reprsentación espacial de la clase sf]
+\begin{exercise}[Representación espacial de la clase sf]
 \protect\hypertarget{exr:ex6}{}\label{exr:ex6}Represente un mapa de España, con las Comunidades Autónomas de incluidas,
 excepto las Islas Canarias (por simplicidad)
 \end{exercise}
@@ -2217,9 +2219,9 @@ la Península Ibérica.
 \caption{Estaciones de AEMET en la Península Ibérica}\label{fig:unnamed-chunk-14}
 \end{figure}
 
-Una vez represtadas las coordenadas, es decir, las estaciones de monitoreo dónde
-se ha medido la variable temperatura mínima \texttt{tmin}, el siguiente paso será
-representar el valor que toma la variable en esas coodenadas. La base \texttt{tmin}
+Una vez representadas las coordenadas, es decir, las estaciones de monitoreo
+dónde se ha medido la variable temperatura mínima \texttt{tmin}, el siguiente paso será
+representar el valor que toma la variable en esas coordenadas. La base \texttt{tmin}
 contiene información temporal para para varios días, por lo que, como este
 análisis es meramente espacial se elegirá un día que se fijará para todo el
 análisis.
@@ -2296,7 +2298,7 @@ en la proyección de España) y en alguna unidad de distancia, como metros (ya s
 vio en la Sección \ref{CRS} que en los CRS geográficos las unidades son
 grados).
 
-\begin{exercise}[Obtención de CRS sugerido para un conjuto de datos]
+\begin{exercise}[Obtención de CRS sugerido para un conjunto de datos]
 \protect\hypertarget{exr:ex11}{}\label{exr:ex11}Utilice el paquete \textbf{crsuggest} para observar los CRS sugeridos y, si es
 necesario, transforme la proyección de los datos.
 \end{exercise}
@@ -2319,8 +2321,8 @@ Una vez solucionado el problema de las proyecciones, antes de llevar a cabo la
 interpolación, es necesario generar una malla que representará las celdas de las
 que queremos obtener el valor interpolado. Dado que hemos proyectado nuestros
 datos a un CRS cuya unidad son los metros, podemos definir el tamaño de cada
-celda en metros cuadrados. En este caso vamos a usar celdas de 100 kms cuadrados
-(10 x 10 kms).
+celda en metros cuadrados. En este caso vamos a usar celdas de 100 km cuadrados
+(10 x 10 km).
 
 \begin{exercise}[Creación y representación de una malla de interpolación]
 \protect\hypertarget{exr:ex12}{}\label{exr:ex12}Genere un grid y llámelo \texttt{malla\_sf} (puede fijar una semilla si lo desea) y
@@ -2422,10 +2424,10 @@ Examine la información del objeto \texttt{tmin\_idw}, a través de la función 
 
 Un tipo de mapas muy utilizado cuando se trabaja con datos espaciales son los
 mapas de contorno. Es muy visual y ayuda a interpretar el mapa interpolado,
-añadir unas lineas de contorno al mapa interpolado.
+añadir unas líneas de contorno al mapa interpolado.
 
-\begin{exercise}[Mapa de interpolación y contorno con raster]
-\protect\hypertarget{exr:ex14}{}\label{exr:ex14}Represente los valores interpolados, \texttt{tmin\_idw}, y añada unas lineas de
+\begin{exercise}[Mapa de interpolación y contorno con ráster]
+\protect\hypertarget{exr:ex14}{}\label{exr:ex14}Represente los valores interpolados, \texttt{tmin\_idw}, y añada unas líneas de
 contorno. Utilice el paquete \textbf{raster} para convertir el objeto interpolado a
 pixeles.
 \end{exercise}
@@ -2441,10 +2443,10 @@ pixeles.
 
 
 \FunctionTok{library}\NormalTok{(raster)}
-\CommentTok{\# Creamos un raster de nuestros pixels}
+\CommentTok{\# Creamos un ráster de nuestros pixels}
 \NormalTok{rast\_esp }\OtherTok{\textless{}{-}} \FunctionTok{raster}\NormalTok{(tmin\_pixels)}
 
-\CommentTok{\# Transferimos valores del objeto sf al raster}
+\CommentTok{\# Transferimos valores del objeto sf al ráster}
 \NormalTok{rast\_esp2 }\OtherTok{\textless{}{-}} \FunctionTok{rasterize}\NormalTok{(}
 \NormalTok{  tmin\_idw,}
 \NormalTok{  rast\_esp,}
@@ -2452,7 +2454,7 @@ pixeles.
   \AttributeTok{fun =}\NormalTok{ mean}
 \NormalTok{)}
 
-\CommentTok{\# Además, podemos recortar el raster a la forma de España}
+\CommentTok{\# Además, podemos recortar el ráster a la forma de España}
 
 \NormalTok{rast\_esp\_mask }\OtherTok{\textless{}{-}} \FunctionTok{mask}\NormalTok{(rast\_esp2, esp3)}
 
@@ -2467,10 +2469,10 @@ pixeles.
 
 }
 
-\caption{Mapa raster con lineas de nivel}\label{fig:unnamed-chunk-17}
+\caption{Mapa ráster con líneas de nivel}\label{fig:unnamed-chunk-17}
 \end{figure}
 
-\begin{exercise}[Mapa de interpolación con `ggplot`]
+\begin{exercise}[Mapa de interpolación con ggplot2]
 \protect\hypertarget{exr:ex15}{}\label{exr:ex15}Repita el mapa de \ref{exr:ex14} usando \textbf{ggplot2} y la función
 \texttt{geom\_contour\_filled()}.
 \end{exercise}
@@ -2517,8 +2519,8 @@ pixeles.
 \caption{Temperatura mínima interpolada. 8 de Enero 2021. }\label{fig:unnamed-chunk-18}
 \end{figure}
 
-\hypertarget{caso-2.-distribuciuxf3n-espacial-de-la-renta-media-por-municipios}{%
-\section{Caso 2. Distribución espacial de la renta media por municipios}\label{caso-2.-distribuciuxf3n-espacial-de-la-renta-media-por-municipios}}
+\hypertarget{caso-2.-distribuciuxf3n-de-la-renta-por-municipios}{%
+\section{Caso 2. Distribución de la renta por municipios}\label{caso-2.-distribuciuxf3n-de-la-renta-por-municipios}}
 
 \textbf{Objetivos de aprendizaje}
 
@@ -2552,11 +2554,19 @@ Para ello, partiremos de dos ficheros:
   Instituto Geográfico Nacional (IGN) usando el paquete \textbf{mapSpain}.
 \end{enumerate}
 
-El primer paso en cualquier tipo de análisis de datos es importar los datos al
-software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
-de información que contiene.
+\begin{exercise}[Renta: Creación del proyecto]
+\protect\hypertarget{exr:ex-crearenta}{}\label{exr:ex-crearenta}Cree un proyecto para trabajar todo lo referente al caso.
+\end{exercise}
 
-\begin{exercise}[Importación y análisis del los datos objeto de estudio]
+\begin{solution}
+Véase la solución del Ejercicio \ref{exr:ex-crea}
+\end{solution}
+
+El primer paso en cualquier tipo de análisis de datos es importar los datos al
+software de tratamiento (en nuestro caso, \textbf{R}) y analizarlos para conocer el
+tipo de información que contiene.
+
+\begin{exercise}[Importación y análisis de los datos objeto de estudio]
 \protect\hypertarget{exr:ex16}{}\label{exr:ex16}Importe el fichero de datos \texttt{renta\_municipio.csv} y \texttt{municipios.gpkg} y guárdelo
 en un objeto llamado \texttt{renta} y \texttt{munis}, respectivamente. Observe la información
 que contienen. Puede ayudarse de la función \texttt{head.} Use las librerías oportunas
@@ -2606,13 +2616,20 @@ columna \texttt{Unidad} contiene un literal con el municipio o sección correspo
 \CommentTok{\#\textgreater{} Dimension:     XY}
 \CommentTok{\#\textgreater{} Bounding box:  xmin: {-}3.140179 ymin: 36.73817 xmax: {-}2.057058 ymax: 37.54579}
 \CommentTok{\#\textgreater{} Geodetic CRS:  ETRS89}
-\CommentTok{\#\textgreater{}   codauto ine.ccaa.name cpro ine.prov.name cmun      name LAU\_CODE                           geom}
-\CommentTok{\#\textgreater{} 1      01     Andalucía   04       Almería  001      Abla    04001 MULTIPOLYGON ((({-}2.775594 3...}
-\CommentTok{\#\textgreater{} 2      01     Andalucía   04       Almería  002  Abrucena    04002 MULTIPOLYGON ((({-}2.787566 3...}
-\CommentTok{\#\textgreater{} 3      01     Andalucía   04       Almería  003      Adra    04003 MULTIPOLYGON ((({-}3.051988 3...}
-\CommentTok{\#\textgreater{} 4      01     Andalucía   04       Almería  004 Albanchez    04004 MULTIPOLYGON ((({-}2.181086 3...}
-\CommentTok{\#\textgreater{} 5      01     Andalucía   04       Almería  005 Alboloduy    04005 MULTIPOLYGON ((({-}2.572442 3...}
-\CommentTok{\#\textgreater{} 6      01     Andalucía   04       Almería  006     Albox    04006 MULTIPOLYGON ((({-}2.128106 3...}
+\CommentTok{\#\textgreater{}   codauto ine.ccaa.name cpro ine.prov.name cmun      name LAU\_CODE}
+\CommentTok{\#\textgreater{} 1      01     Andalucía   04       Almería  001      Abla    04001}
+\CommentTok{\#\textgreater{} 2      01     Andalucía   04       Almería  002  Abrucena    04002}
+\CommentTok{\#\textgreater{} 3      01     Andalucía   04       Almería  003      Adra    04003}
+\CommentTok{\#\textgreater{} 4      01     Andalucía   04       Almería  004 Albanchez    04004}
+\CommentTok{\#\textgreater{} 5      01     Andalucía   04       Almería  005 Alboloduy    04005}
+\CommentTok{\#\textgreater{} 6      01     Andalucía   04       Almería  006     Albox    04006}
+\CommentTok{\#\textgreater{}                             geom}
+\CommentTok{\#\textgreater{} 1 MULTIPOLYGON ((({-}2.775594 3...}
+\CommentTok{\#\textgreater{} 2 MULTIPOLYGON ((({-}2.787566 3...}
+\CommentTok{\#\textgreater{} 3 MULTIPOLYGON ((({-}3.051988 3...}
+\CommentTok{\#\textgreater{} 4 MULTIPOLYGON ((({-}2.181086 3...}
+\CommentTok{\#\textgreater{} 5 MULTIPOLYGON ((({-}2.572442 3...}
+\CommentTok{\#\textgreater{} 6 MULTIPOLYGON ((({-}2.128106 3...}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2722,9 +2739,9 @@ nuevo objeto llamado \texttt{munis\_renta}.
 \end{Highlighting}
 \end{Shaded}
 
-\textbf{Cuando crucemos datos espaciales con datos no espaciales en R, es importante
-que el primer dataset sea el que contiene los datos espaciales}. Esto es así
-porque el objeto resultante ``hereda'' la clase del primer objeto.
+\textbf{Cuando crucemos datos espaciales con datos no espaciales en} R\textbf{, es
+importante que el primer dataset sea el que contiene los datos espaciales}.
+Esto es así porque el objeto resultante ``hereda'' la clase del primer objeto.
 
 A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en
 el lado derecho del join, los datos finales no serán espaciales:
@@ -2821,7 +2838,8 @@ valores brutos de renta sin modificar
 \caption{Renta neta media por persona en España (2019)}\label{fig:maparenta1}
 \end{figure}
 
-Este primer mapa no es demasiado informativo, por los siguientes motivos:
+Este primer mapa (Fig. \ref{fig:maparenta1}) no es demasiado informativo, por
+los siguientes motivos:
 
 \begin{itemize}
 \item
@@ -2833,7 +2851,7 @@ Este primer mapa no es demasiado informativo, por los siguientes motivos:
   para que el mapa sea más interpretable.
 \end{itemize}
 
-\begin{exercise}[Adecuacion de los datos al la visualización]
+\begin{exercise}[Adecuación de los datos a la visualización]
 \protect\hypertarget{exr:ex21}{}\label{exr:ex21}Elimine los municipios sin datos y a cambie la escala de color para ver si
 mejora la visualización de la variable Renta neta media por persona.
 \end{exercise}
@@ -2870,17 +2888,17 @@ mejora la visualización de la variable Renta neta media por persona.
 \caption{Renta neta media por persona en España (2019)}\label{fig:maparenta2}
 \end{figure}
 
-Este mapa proporciona algo más de información, y parece intuirse que las rentas
-más altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo,
-el hecho de que la distribución de los datos no sea normal está afectando a la
-visualización.
+Este mapa (Fig. \ref{fig:maparenta2}) proporciona algo más de información, y
+parece intuirse que las rentas más altas se encuentran en zonas de País Vasco,
+Madrid y Cataluña. Sin embargo, el hecho de que la distribución de los datos no
+sea normal está afectando a la visualización.
 
 Para intentar atajar este problema, se puede dividir los datos en clases, por
 ejemplo, cuartiles o deciles. Existen varios métodos de clasificación de datos,
-que en R se encuentran implementados en el paquete \textbf{classInt} \citep{R-classint}. A
-continuación se van a plantear diversos métodos de clasificación y se observará
-cómo la ``historia'' que cuenta el mapa varía en función de dichas clases. Se
-proponen siguientes métodos de clasificación:
+que en \textbf{R} se encuentran implementados en el paquete \textbf{classInt}
+\citep{R-classint}. A continuación se van a plantear diversos métodos de
+clasificación y se observará cómo la ``historia'' que cuenta el mapa varía en
+función de dichas clases. Se proponen siguientes métodos de clasificación:
 
 \begin{itemize}
 \item
@@ -2916,10 +2934,12 @@ Realice un \texttt{plot} de las clases obtenidas y compárelas.
 \NormalTok{)}
 \NormalTok{deciles}
 \CommentTok{\#\textgreater{} style: quantile}
-\CommentTok{\#\textgreater{}     [5898,8935.6)   [8935.6,9662.2)  [9662.2,10352.8)   [10352.8,10918)     [10918,11462) }
-\CommentTok{\#\textgreater{}               656               656               655               654               655 }
-\CommentTok{\#\textgreater{}   [11462,11998.6) [11998.6,12651.4) [12651.4,13475.8) [13475.8,14618.4)   [14618.4,26367] }
-\CommentTok{\#\textgreater{}               658               656               655               656               656}
+\CommentTok{\#\textgreater{}     [5898,8935.6)   [8935.6,9662.2)  [9662.2,10352.8)   [10352.8,10918) }
+\CommentTok{\#\textgreater{}               656               656               655               654 }
+\CommentTok{\#\textgreater{}     [10918,11462)   [11462,11998.6) [11998.6,12651.4) [12651.4,13475.8) }
+\CommentTok{\#\textgreater{}               655               658               656               655 }
+\CommentTok{\#\textgreater{} [13475.8,14618.4)   [14618.4,26367] }
+\CommentTok{\#\textgreater{}               656               656}
 \FunctionTok{plot}\NormalTok{(deciles, }\AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{), }\AttributeTok{main =} \StringTok{"Deciles"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2936,10 +2956,12 @@ Realice un \texttt{plot} de las clases obtenidas y compárelas.
 \NormalTok{)}
 \NormalTok{equal}
 \CommentTok{\#\textgreater{} style: equal}
-\CommentTok{\#\textgreater{}     [5898,7944.9)   [7944.9,9991.8)  [9991.8,12038.7) [12038.7,14085.6) [14085.6,16132.5) }
-\CommentTok{\#\textgreater{}               103              1510              2374              1637               702 }
-\CommentTok{\#\textgreater{} [16132.5,18179.4) [18179.4,20226.3) [20226.3,22273.2) [22273.2,24320.1)   [24320.1,26367] }
-\CommentTok{\#\textgreater{}               161                52                14                 3                 1}
+\CommentTok{\#\textgreater{}     [5898,7944.9)   [7944.9,9991.8)  [9991.8,12038.7) [12038.7,14085.6) }
+\CommentTok{\#\textgreater{}               103              1510              2374              1637 }
+\CommentTok{\#\textgreater{} [14085.6,16132.5) [16132.5,18179.4) [18179.4,20226.3) [20226.3,22273.2) }
+\CommentTok{\#\textgreater{}               702               161                52                14 }
+\CommentTok{\#\textgreater{} [22273.2,24320.1)   [24320.1,26367] }
+\CommentTok{\#\textgreater{}                 3                 1}
 \FunctionTok{plot}\NormalTok{(equal, }\AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{), }\AttributeTok{main =} \StringTok{"Equidistantes"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2956,10 +2978,12 @@ Realice un \texttt{plot} de las clases obtenidas y compárelas.
 \NormalTok{)}
 \NormalTok{fisher}
 \CommentTok{\#\textgreater{} style: fisher}
-\CommentTok{\#\textgreater{}       [5898,8743)     [8743,9770.5)    [9770.5,10754)     [10754,11689)     [11689,12668) }
-\CommentTok{\#\textgreater{}               505               904              1005              1159              1032 }
-\CommentTok{\#\textgreater{}     [12668,13803)   [13803,15222.5) [15222.5,17196.5) [17196.5,20063.5)   [20063.5,26367] }
-\CommentTok{\#\textgreater{}               874               651               305               103                19}
+\CommentTok{\#\textgreater{}       [5898,8743)     [8743,9770.5)    [9770.5,10754)     [10754,11689) }
+\CommentTok{\#\textgreater{}               505               904              1005              1159 }
+\CommentTok{\#\textgreater{}     [11689,12668)     [12668,13803)   [13803,15222.5) [15222.5,17196.5) }
+\CommentTok{\#\textgreater{}              1032               874               651               305 }
+\CommentTok{\#\textgreater{} [17196.5,20063.5)   [20063.5,26367] }
+\CommentTok{\#\textgreater{}               103                19}
 \FunctionTok{plot}\NormalTok{(fisher,}
   \AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{),}
   \AttributeTok{main =} \StringTok{"Fisher{-}Jenks"}
@@ -3046,7 +3070,9 @@ métodos anteriormente mostrados y coméntelos.
 El mapa de la Fig. \ref{fig:mapa-deciles} ya permite observar patrones
 geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
 Norte y las del Sur. Veamos una representación distina usando otras clases
-diferentes
+diferentes.
+
+\textbf{Tramos equidistantes}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3080,10 +3106,12 @@ diferentes
 \caption{Mapa por tramos de renta equidistantes de renta media por persona (2019)}\label{fig:mapa-equal}
 \end{figure}
 
-El mapa de la Fig. \ref{fig:mapa-deciles}, sin embargo, se parece más al mapa
-de la Fig. \ref{fig:maparenta2} con los datos sin clasificar, donde el peso
-visual se concentra más bien en los municipios con rentas mucho más altas que el
-resto (por encima de 18.000 €).
+El mapa de la Fig. \ref{fig:mapa-equal}, sin embargo, se parece más al mapa de
+la Fig. \ref{fig:maparenta2} con los datos sin clasificar, donde el peso visual
+se concentra más bien en los municipios con rentas mucho más altas que el resto
+(por encima de 18.000 €).
+
+\textbf{Fisher-Jenks}
 
 Véase a continuación el mismo mapa usando la clasificación Fisher-Jenks:
 
@@ -3120,7 +3148,7 @@ Véase a continuación el mismo mapa usando la clasificación Fisher-Jenks:
 \end{figure}
 
 En el mapa de la Fig. \ref{fig:mapa-fisher} se puede observar de una manera más
-clara un cluster adicional de renta en la zona de Asturias y el norte de León.
+clara un clúster adicional de renta en la zona de Asturias y el norte de León.
 Además, gracias a la escala de colores puede intuirse que este clúster de renta
 no presenta valores tan altos como los observados en País Vasco o Madrid.
 
@@ -3132,6 +3160,382 @@ que tienen una influencia significativa en cómo se percibe la información
 representada. Es responsabilidad del investigador encargado de crear de la
 visualización el conocer todos estos factores y aplicarlos de manera
 conveniente.
+
+\hypertarget{caso-3.-delitos-cometidos-en-valencia-en-el-auxf1o-2010}{%
+\section{Caso 3. Delitos cometidos en Valencia en el año 2010}\label{caso-3.-delitos-cometidos-en-valencia-en-el-auxf1o-2010}}
+
+Las técnicas de análisis de patrones de puntos analizan la distribución de
+eventos geolocalizados que surgen al azar. La diferencia fundamental con otros
+análisis que comprenden también el uso de localizaciones (como las temperaturas
+mínimas medidas por estaciones meteorológicas) es que en este caso los puntos
+representan eventos conocidos y aleatorios (por ejemplo, los delitos ocurridos
+en una ciudad, accidentes de tráfico o incendios en una región). A diferencia de
+otros eventos, como el ejemplo de las temperaturas mínimas (Sección
+\ref{tempmin}), la ausencia de datos no se debe a la ausencia de medición (es
+decir, no existe una estación de monitoreo en ese lugar), si no a que no se ha
+producido el evento en dicha localización.
+
+\textbf{Objetivo de aprendizaje}:
+
+El alumno debe ser capaz de conocer los datos de tipo patrones de puntos,
+identificarlos y representarlos adecuadamente.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GEMA, esto está a medio terminar?} describir los ficheros. Hay que
+  generar uno que sólo tenga 2010 y los datos que utilizamos. lo llamamos
+  igual y vale todo
+\end{itemize}
+
+\begin{exercise}[Patrones de puntos: Creación del proyecto]
+\protect\hypertarget{exr:ex24}{}\label{exr:ex24}Cree un proyecto para trabajar todo lo referente al caso.
+\end{exercise}
+
+\begin{solution}
+Véase la solución del Ejercicio \ref{exr:ex-crea}
+\end{solution}
+
+\begin{exercise}[Importación de los datos de crímenes]
+\protect\hypertarget{exr:ex25}{}\label{exr:ex25}Importe los datos \texttt{crime-data-Valencia.csv} y guárdelos en un objeto llamado
+\texttt{crimen}.
+\end{exercise}
+
+\begin{solution}
+Use la librería \textbf{readr}.
+\end{solution}
+
+El primer paso consiste en importar la base de datos de crímenes en la ciudad de
+Valencia. El archivo está en formato csv, por lo que usaremos el paquete
+\textbf{readr} \citep{R-readr} para importar los datos:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# En este caso el archivo está en la carpeta "data" de nuestro proyecto}
+\NormalTok{crimen }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/crime{-}data{-}Valencia.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{exercise}[Descripción de los datos]
+\protect\hypertarget{exr:ex26}{}\label{exr:ex26}¿Qué información contiene el archivo importado?
+\end{exercise}
+
+\begin{solution}
+Use la función \texttt{summary()} en el objeto \texttt{crimen} para obtener información de los
+datos.
+\end{solution}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(crimen)}
+\CommentTok{\#\textgreater{}    crime\_id          crime\_type         crime\_date             year     }
+\CommentTok{\#\textgreater{}  Length:90247       Length:90247       Length:90247       Min.   :2010  }
+\CommentTok{\#\textgreater{}  Class :character   Class :character   Class :character   1st Qu.:2013  }
+\CommentTok{\#\textgreater{}  Mode  :character   Mode  :character   Mode  :character   Median :2016  }
+\CommentTok{\#\textgreater{}                                                           Mean   :2015  }
+\CommentTok{\#\textgreater{}                                                           3rd Qu.:2018  }
+\CommentTok{\#\textgreater{}                                                           Max.   :2020  }
+\CommentTok{\#\textgreater{}    crime\_lat       crime\_lon      }
+\CommentTok{\#\textgreater{}  Min.   :39.42   Min.   :{-}0.4296  }
+\CommentTok{\#\textgreater{}  1st Qu.:39.46   1st Qu.:{-}0.3883  }
+\CommentTok{\#\textgreater{}  Median :39.47   Median :{-}0.3749  }
+\CommentTok{\#\textgreater{}  Mean   :39.47   Mean   :{-}0.3724  }
+\CommentTok{\#\textgreater{}  3rd Qu.:39.48   3rd Qu.:{-}0.3593  }
+\CommentTok{\#\textgreater{}  Max.   :39.53   Max.   :{-}0.3208}
+\end{Highlighting}
+\end{Shaded}
+
+Este archivo contiene en total
+90.247 registros, y
+proporciona 6 campos asociados a cada registro.
+
+Entre los campos disponibles, destacamos los campos \texttt{crime\_lon} y \texttt{crime\_lat}:
+Son las coordenadas en las que se produjo el crimen.
+
+\begin{exercise}[CRS de las coordenadas]
+\protect\hypertarget{exr:ex27}{}\label{exr:ex27}Determine el CRS en el que se encuentran las coordenadas del conjunto de datos
+\texttt{crimen}, a partir de los campos \texttt{crime\_lon} y \texttt{crime\_lat}
+\end{exercise}
+
+\begin{table}
+
+\caption{\label{tab:coods-lonlat}Crímenes en Valencia; Coordenadas}
+\centering
+\begin{tabular}[t]{r|r}
+\hline
+crime\_lon & crime\_lat\\
+\hline
+-0.3826325 & 39.46332\\
+\hline
+-0.3906850 & 39.43517\\
+\hline
+-0.3747971 & 39.47927\\
+\hline
+-0.3992082 & 39.47982\\
+\hline
+-0.3596011 & 39.46740\\
+\hline
+-0.3552423 & 39.47461\\
+\hline
+\end{tabular}
+\end{table}
+
+Obsérvese que, las coordenadas parecen corresponder con longitudes y latitudes,
+ya que como se explicó el rango posible de valores es \([-180, 180]\) (para
+longitudes) y \([-90, 90]\) (para latitudes):
+
+\begin{exercise}[Proyección y representación de localizaciones]
+\protect\hypertarget{exr:ex28}{}\label{exr:ex28}Convierta el objeto \texttt{crimen} a un objecto \texttt{sf} llamado \texttt{crimen\_sf}, teniendo en
+cuenta el sistema CRS más adecuado. A modo de recordatorio, el CRS
+correspondiente a coordenadas geográficas longitud/latitud es \textbf{EPSG:4326}.
+
+Una vez obtenido el objeto \texttt{sf}, si lo desea puede usar una imagen de fondo con
+la función \texttt{esp\_getTiles} de la librería \textbf{mapSpain}.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\FunctionTok{library}\NormalTok{(sf)}
+\CommentTok{\# Objeto sf sin CRS}
+
+\NormalTok{crimen\_sf }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(}
+\NormalTok{  crimen,}
+  \AttributeTok{coords =} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"crime\_lon"}\NormalTok{,}
+    \StringTok{"crime\_lat"}
+\NormalTok{  ),}
+  \AttributeTok{crs =} \FunctionTok{st\_crs}\NormalTok{(}\DecValTok{4326}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{\# Comprobamos con un mapa base}
+
+\FunctionTok{library}\NormalTok{(mapSpain)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# Usamos imagen como mapa de fondo}
+\NormalTok{tile }\OtherTok{\textless{}{-}} \FunctionTok{esp\_getTiles}\NormalTok{(crimen\_sf, }\StringTok{"IDErioja"}\NormalTok{,}
+  \AttributeTok{zoommin =} \DecValTok{1}\NormalTok{,}
+  \AttributeTok{crop =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{layer\_spatraster}\NormalTok{(tile) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ crimen\_sf,}
+    \AttributeTok{col =} \StringTok{"blue"}\NormalTok{,}
+    \AttributeTok{size =} \FloatTok{0.3}\NormalTok{,}
+    \AttributeTok{alpha =} \FloatTok{0.3}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/crimen1-1} 
+
+}
+
+\caption{Crímenes en Valencia}\label{fig:crimen1}
+\end{figure}
+
+\textbf{¿Hay algún patrón en la ocurrencia de crímenes?}
+
+En la Fig. \ref{fig:crimen1} podemos intuir ciertos patrones en la ocurrencia
+de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
+crímenes registrados en la zona del puerto.
+
+\begin{exercise}[Filtrado de datos]
+\protect\hypertarget{exr:ex29}{}\label{exr:ex29}Seleccione los crímenes ocurridos en el año 2010 y almacénelos en un objeto
+llamado \texttt{crimen\_2010\_sf} Opcionalmente, represente esos datos en un mapa. Puede
+tomar como referencia el código que se empleó en el Ejercicio \ref{exr:ex28}
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crimen\_2010\_sf }\OtherTok{\textless{}{-}}\NormalTok{ crimen\_sf }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}
+\NormalTok{    year }\SpecialCharTok{==} \StringTok{"2010"}
+\NormalTok{  )}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{layer\_spatraster}\NormalTok{(tile) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ crimen\_2010\_sf,}
+    \AttributeTok{col =} \StringTok{"blue"}\NormalTok{,}
+    \AttributeTok{size =} \FloatTok{0.3}\NormalTok{,}
+    \AttributeTok{alpha =} \FloatTok{0.3}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/crimen2-1} 
+
+}
+
+\caption{Crímenes en Valencia (2010)}\label{fig:crimen2}
+\end{figure}
+
+\begin{exercise}[Análisis de patrones con spatstat]
+\protect\hypertarget{exr:ex30}{}\label{exr:ex30}Analice la existencia de patrones en los crímenes registrados en el año 2010.
+\end{exercise}
+
+El paquete \textbf{spatstat} (\citet{spatstat_2005}) es el paquete de referencia cuando se
+trabaja con patrones de puntos
+
+Siguiendo el anterior ejemplo, vamos a analizar el patrón de crímenes en el año
+2010. Además, en el análisis de patrones de puntos es necesario delimitar la
+ventana espacial de observación (owin). En este caso será el municipio de
+Valencia, que podemos extraer del paquete \textbf{mapSpain}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Extraemos Valencia con mapSpain}
+
+\NormalTok{valencia }\OtherTok{\textless{}{-}} \FunctionTok{esp\_get\_munic}\NormalTok{(}\AttributeTok{munic =} \StringTok{"\^{}Valencia$"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Necesito proyectar, en este caso usamos ETRS89{-}UTM huso 30 EPSG:25830}
+  \FunctionTok{st\_transform}\NormalTok{(}\DecValTok{25830}\NormalTok{)}
+
+
+
+\FunctionTok{library}\NormalTok{(spatstat)}
+\CommentTok{\# Necesitamos un recinto de observación: owin}
+
+\NormalTok{val\_owin }\OtherTok{\textless{}{-}} \FunctionTok{as.owin}\NormalTok{(valencia)}
+
+\CommentTok{\# Extraemos las coordenadas de los crímenes. Han de estar en el mismo CRS}
+\CommentTok{\# que el owin}
+
+\NormalTok{coords }\OtherTok{\textless{}{-}}\NormalTok{ crimen\_2010\_sf }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Proyectamos}
+  \FunctionTok{st\_transform}\NormalTok{(}\DecValTok{25830}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{st\_coordinates}\NormalTok{()}
+
+\NormalTok{mydata\_ppp }\OtherTok{\textless{}{-}} \FunctionTok{ppp}\NormalTok{(}
+  \AttributeTok{x =} \FunctionTok{as.numeric}\NormalTok{(coords[, }\DecValTok{1}\NormalTok{]),}
+  \AttributeTok{y =} \FunctionTok{as.numeric}\NormalTok{(coords[, }\DecValTok{2}\NormalTok{]),}
+  \AttributeTok{window =}\NormalTok{ val\_owin}
+\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(mydata\_ppp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/objeto-ppp-1} 
+
+}
+
+\caption{Patrones de puntos en los crímenes de Valencia (2010)}\label{fig:objeto-ppp}
+\end{figure}
+
+\begin{exercise}[Información de objetos ppp]
+\protect\hypertarget{exr:ex31}{}\label{exr:ex31}¿Qué información contiene nuestro objeto \texttt{mydata\_ppp}?
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mydata\_ppp)}
+\CommentTok{\#\textgreater{} Planar point pattern:  5332 points}
+\CommentTok{\#\textgreater{} Average intensity 3.917619e{-}05 points per square unit}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} *Pattern contains duplicated points*}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Coordinates are given to 1 decimal place}
+\CommentTok{\#\textgreater{} i.e. rounded to the nearest multiple of 0.1 units}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} Window: polygonal boundary}
+\CommentTok{\#\textgreater{} 4 separate polygons (no holes)}
+\CommentTok{\#\textgreater{}            vertices      area relative.area}
+\CommentTok{\#\textgreater{} polygon 1         4   1977930       0.01450}
+\CommentTok{\#\textgreater{} polygon 2        82 131953000       0.97000}
+\CommentTok{\#\textgreater{} polygon 3         7    958085       0.00704}
+\CommentTok{\#\textgreater{} polygon 4         7   1214060       0.00892}
+\CommentTok{\#\textgreater{} enclosing rectangle: [720573.4, 735116.6] x [4351274, 4382995] units}
+\CommentTok{\#\textgreater{}                      (14540 x 31720 units)}
+\CommentTok{\#\textgreater{} Window area = 136103000 square units}
+\CommentTok{\#\textgreater{} Fraction of frame area: 0.295}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} *** 6 illegal points stored in attr(,"rejects") ***}
+\end{Highlighting}
+\end{Shaded}
+
+Es importante determinar si los puntos se distribuyen al azar o tienen algún
+patrón. Por ello, lo primero que haremos será representar el objeto \texttt{mydata\_ppp}
+y superponer unos cuadrantes para su comportamiento.
+
+\begin{exercise}[Cálculo de la densidad de los delitos en Valencia en 2010 mediante cuadrantes]
+\protect\hypertarget{exr:ex32}{}\label{exr:ex32}Cree unos cuadrantes sobre el objeto \texttt{mydata\_ppp} usando la función
+\texttt{quadratcount}.
+\end{exercise}
+
+\textbf{GEMA: ESte mapa se puede poner un poco más mono?? Yo ya lo he arregado un
+poco.} \textbf{DIEGO:Yo no se hacerlo. Es lo malo de estas librerias gstat, geoR,
+etc. Los gráficos son horribles}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Hallamos los cuadrantes}
+\NormalTok{cuadrante }\OtherTok{\textless{}{-}} \FunctionTok{quadratcount}\NormalTok{(mydata\_ppp,}
+  \AttributeTok{nx =} \DecValTok{5}\NormalTok{,}
+  \AttributeTok{ny =} \DecValTok{5}
+\NormalTok{)}
+
+\DocumentationTok{\#\# Dibujamos el número de crímenes que hay en cada cuadrante}
+\FunctionTok{plot}\NormalTok{(mydata\_ppp, }\AttributeTok{pch =} \StringTok{"+"}\NormalTok{, }\AttributeTok{main =} \StringTok{""}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.3}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(cuadrante, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/cuadrante-1} 
+
+}
+
+\caption{Crímenes en Valencia por cuadrantes (2010)}\label{fig:cuadrante}
+\end{figure}
+
+Como se puede apreciar en la Fig. \ref{fig:cuadrante} hay cuadrantes que
+registran cero crímenes y otros que registran hasta 2.860 crímenes.
+
+\begin{exercise}[Estimación de la densidad de los delitos en Valencia en 2010 mediante de patrones de puntos]
+\protect\hypertarget{exr:ex33}{}\label{exr:ex33}Analice la densidad de crímenes en Valencia usando la función \texttt{density()}.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Permite ver la variación local de la intensidad, graficando la estimación kernel de la intensidad.}
+\NormalTok{densidad }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(mydata\_ppp)}
+
+\FunctionTok{plot}\NormalTok{(densidad, }\AttributeTok{main =} \StringTok{" "}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(mydata\_ppp, }\AttributeTok{pch =} \StringTok{"+"}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/intensidad-ppp-1} 
+
+}
+
+\caption{Estimación kernel de la intensidad de crímenes en la ciudad de Valencia }\label{fig:intensidad-ppp}
+\end{figure}
+
+En la Fig. \ref{fig:intensidad-ppp} se muestra la estimación kernel de la
+densidad de patrones de puntos
+
+Nótese que los conocimientos teóricos necesarios para llevar a cabo este tipo de
+estimación están fuera del ámbito de este manual. El ejercicio anterior se
+presenta a modo meramente ilustrativo.
 
 \hypertarget{appendix-anexo}{%
 \appendix}
@@ -3147,7 +3551,7 @@ maneras: por tipo de superficie de proyección y por métrica a preservar.
 \section{Por tipo de superficie de proyección}\label{por-tipo-de-superficie-de-proyecciuxf3n}}
 
 El proceso de trasladar puntos de una esfera a un plano puede plantearse de
-manera práctica como el ejercicio de envolver una esfera con una superificie
+manera práctica como el ejercicio de envolver una esfera con una superficie
 plana (como una hoja de papel) y trasladar los puntos de la esfera de manera
 lineal al punto de la superficie plana más cercano a ella. La Fig.
 \ref{fig:fi-proys} muestra estos tres tipos de proyección.
@@ -3227,7 +3631,7 @@ Es importante tener en cuenta que cualquier proyección de la superficie de la
 Tierra produce distorsiones en una o varias características geográficas. Como
 ejemplo clásico, la proyección de Mercator produce distorsiones del \textbf{tamaño}
 especialmente en aquellas regiones más cercanas a los polos (Groenlandia, que la
-proyección de Mercator presenta una área similar a la de África, tiene menor
+proyección de Mercator presenta un área similar a la de África, tiene menor
 superficie real que Argelia). Otras de las métricas que suele verse
 distorsionada son la \textbf{distancia} entre dos puntos geográficos, la
 \textbf{dirección} o la \textbf{forma} de regiones de la Tierra.
@@ -3237,7 +3641,7 @@ objetivo es preservar alguna o varias de las propiedades mencionadas
 anteriormente, sin embargo es importante destacar que \textbf{no existe una proyección
 que sea capaz de preservar todas las métricas a la vez}.
 
-Según la metrica a presevar, las proyecciones se pueden clasificar en:
+Según la métrica a preservar, las proyecciones se pueden clasificar en:
 
 \begin{itemize}
 \tightlist
@@ -3315,7 +3719,7 @@ Según la metrica a presevar, las proyecciones se pueden clasificar en:
 En los anteriores ejemplos se ha añadido a cada proyección la \textbf{indicatriz de
 Tissot}. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
-De este manera, al presentar la indicatriz de Tissot en una proyección
+De esta manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.

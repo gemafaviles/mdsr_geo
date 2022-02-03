@@ -59,10 +59,10 @@ semejantes que aquellos que están más alejados; en cuyo caso **no** deben ser
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-De forma natural y de acuerdo a la Ley Tobler (1973) surge la idea de que los
-datos cercanos en el espacio o en el tiempo serán más similares y estarán más
-correlacionados entres sí que aquellos que están más lejanos. Por ejemplo, la
-influencia de un terremoto, su efecto disminuye con distancia del epicentro.
+De forma natural y de acuerdo a la Ley Tobler [@tobler1970] surge la idea de que
+los datos cercanos en el espacio o en el tiempo serán más similares y estarán
+más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
+la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
 Además, esta correlación disminuye al aumentar la separación entre ellos, por lo
 que se puede pensar en la presencia de una dependencia espacial o
 espacio-temporal.
@@ -70,7 +70,7 @@ espacio-temporal.
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
 dependencia espacial? La clave esta en que los procesos con dependencia espacial
-exiben un patrón en el espacio, mientras que los que son independientes son
+exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.
 
 La Fig. \@ref(fig:points-depiid) muestra uno campo aleatorio simulado que
@@ -79,7 +79,7 @@ datos totalmente aleatorios (panel derecho), en ambos casos distribuidos de
 forma irregular en el espacio. En la imagen de dependencia espacial se observa
 como los puntos rojos (que representan valores más altos de la variable
 simuladas) se concentran en la misma zona, al igual que los puntos azules (que
-representan valores más bajos) que se distribujen en otra zona y juntos.
+representan valores más bajos) que se distribuyen en otra zona y juntos.
 
 ```{r points-depiid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Puntos: Simulación patrón de independencia espacial (derecha) frente a dependencia espacial (izquierda)"}
 library(geoR)
@@ -187,7 +187,7 @@ característicos de los objetos espaciales:
 
 -   La variable, el porcentaje de mujeres en los municipios de Castilla-La
     Mancha en el año 2019, no parece distribuirse de manera independiente sino
-    todo lo contrario, muestra un patrón espacial. Los municipios del las
+    todo lo contrario, muestra un patrón espacial. Los municipios de las
     provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
     municipios del centro de la Comunidad.
 
@@ -199,7 +199,7 @@ Antes de dibujar la Fig. \@ref(fig:mapa-clm) tuvimos que leer los datos de la
 librería **mapSpain** [@rmapspain] que contenía tanto la variable que hemos
 analizado como el formato del mapa. Tras unir variable y mapa con la función
 `merge()`. Al llevar a cabo un resumen del objeto espacial nos encontramos con
-las siguiente información:
+la siguiente información:
 
 -   el conjunto de datos (seleccionado) tiene 919 registros (municipios)
 -   el tipo de geometría es POLYGON.
@@ -295,7 +295,7 @@ knitr::include_graphics("img/log_co_madrid.png")
     provincias, países, etc., y los datos en la mayoría de los casos son datos
     agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
     tener una forma regular, normalmente la forma que tienen es irregular, y
-    esto, junto con el carácter espacialmente agregado de la datos, es por lo
+    esto, junto con el carácter espacialmente agregado de los datos, es por lo
     que los datos latice tambien se denominan datos regionales. Y (ii) las
     ubicaciones en $D$ no son estocásticas. Por supuesto, un concepto clave en
     el análisis de los datos lattice es el **vecindario** y la matriz **W**.
@@ -331,12 +331,13 @@ knitr::include_graphics("img/renta2017.png")
     son aleatoriamente repartido.
 
     Más concretamente, nos interesa analizar si la ubicación de los eventos es
-    completamente aleatorio espacialmente (la ubicación donde ocurren los
+    completamente aleatoria espacialmente (la ubicación donde ocurren los
     eventos no se ve afectada por la ubicación de otros eventos), uniforme o
     regular (cada punto está tan lejos de todos sus vecinos como sea posible) o
     agrupados o agregados (la ubicación de los eventos se concentra en grupos).
     La Fig. \@ref(fig:ejem-pp) muestra la localización de los accidentes de
-    tráfico registrados en la ciudad de Madrid durante el mes de febreo de 2020.
+    tráfico registrados en la ciudad de Madrid durante el mes de febrero
+    de 2020.
 
 ```{r ejem-pp, echo=FALSE, fig.align='center', fig.cap='Accidentes de tráfico registrados en la ciudad de Madrid (Febrero de 2020)'}
 knitr::include_graphics("img/traf_madrid_feb_2020.png")

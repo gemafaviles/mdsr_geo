@@ -193,7 +193,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.3</b> Sistema de Referencia de Coordenadas (CRS)</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.3.1</b> Tipos de CRS</a></li>
-<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en <strong>R</strong></a></li>
 <li class="chapter" data-level="3.3.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.3.3</b> ¿Qué proyección uso?</a></li>
 </ul></li>
 </ul></li>
@@ -205,8 +205,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5" data-path="caos.html"><a href="caos.html"><i class="fa fa-check"></i><b>5</b> Casos prácticos</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#caso-1-temperatura-mínimas-del-aire-en-españa."><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínimas del aire en España.</a></li>
-<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-espacial-de-la-renta-media-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución espacial de la renta media por municipios</a></li>
+<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#tempmin"><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínima en España</a></li>
+<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-de-la-renta-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución de la renta por municipios</a></li>
+<li class="chapter" data-level="5.3" data-path="caos.html"><a href="caos.html#caso-3.-delitos-cometidos-en-valencia-en-el-año-2010"><i class="fa fa-check"></i><b>5.3</b> Caso 3. Delitos cometidos en Valencia en el año 2010</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="appendix"><span><b>Anexo</b></span></li>
@@ -242,7 +243,7 @@ maneras: por tipo de superficie de proyección y por métrica a preservar.</p>
 <div id="por-tipo-de-superficie-de-proyección" class="section level2" number="6.1">
 <h2><span class="header-section-number">A.1</span> Por tipo de superficie de proyección</h2>
 <p>El proceso de trasladar puntos de una esfera a un plano puede plantearse de
-manera práctica como el ejercicio de envolver una esfera con una superificie
+manera práctica como el ejercicio de envolver una esfera con una superficie
 plana (como una hoja de papel) y trasladar los puntos de la esfera de manera
 lineal al punto de la superficie plana más cercano a ella. La Fig.
 <a href="crsproy.html#fig:fi-proys">A.1</a> muestra estos tres tipos de proyección.</p>
@@ -299,7 +300,7 @@ Figura A.4: Proyección ortogonal
 Tierra produce distorsiones en una o varias características geográficas. Como
 ejemplo clásico, la proyección de Mercator produce distorsiones del <strong>tamaño</strong>
 especialmente en aquellas regiones más cercanas a los polos (Groenlandia, que la
-proyección de Mercator presenta una área similar a la de África, tiene menor
+proyección de Mercator presenta un área similar a la de África, tiene menor
 superficie real que Argelia). Otras de las métricas que suele verse
 distorsionada son la <strong>distancia</strong> entre dos puntos geográficos, la
 <strong>dirección</strong> o la <strong>forma</strong> de regiones de la Tierra.</p>
@@ -307,7 +308,7 @@ distorsionada son la <strong>distancia</strong> entre dos puntos geográficos, l
 objetivo es preservar alguna o varias de las propiedades mencionadas
 anteriormente, sin embargo es importante destacar que <strong>no existe una proyección
 que sea capaz de preservar todas las métricas a la vez</strong>.</p>
-<p>Según la metrica a presevar, las proyecciones se pueden clasificar en:</p>
+<p>Según la métrica a preservar, las proyecciones se pueden clasificar en:</p>
 <ul>
 <li><strong>Proyecciones conformales:</strong> Intentan preservar los <strong>ángulos</strong> que se
 forman en la superficie terrestre. Por ejemplo, la proyección de Mercator
@@ -360,7 +361,7 @@ Figura A.8: Ejemplo de proyección de compromiso: Winkel Tripel
 <p>En los anteriores ejemplos se ha añadido a cada proyección la <strong>indicatriz de
 Tissot</strong>. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
-De este manera, al presentar la indicatriz de Tissot en una proyección
+De esta manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.</p>

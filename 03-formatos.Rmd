@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 Los **datos espaciales**, también conocidos como datos **geoespaciales**, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
-desarrollado diversos estándares de ficheros que permiten almacenar y compatir
+desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
@@ -71,17 +71,18 @@ geográficos a principios de los años 90 del siglo XX, y en la actualidad es
 quizá el formato más empleado. Sin embargo tiene una serie de limitaciones que
 es necesario conocer:
 
-1.  **Es un formato multiarchivo:** El formato shapefile se compone de diversos
+1.  **Es un formato multiarchivo:** El formato Shapefile se compone de diversos
     archivos que son necesarios para la correcta lectura de los datos. Es por
-    ello que cuando se intercambia información han de proporcionarse como mínimo
-    los archivos con extensiones `.shp`, `.shx`, `.dbf` (por ejemplo:
-    `datos.shp`, `datos.shx`, `datos.dbf` ). Lo mas habitual es distribuirlos en
-    un fichero `.zip` del que se deben extraer todos estos archivos.
+    ello que cuando se intercambia información en este formato han de
+    proporcionarse como mínimo los archivos con extensiones `.shp`, `.shx`,
+    `.dbf` (por ejemplo: `datos.shp`, `datos.shx`, `datos.dbf` ). Lo más
+    habitual es distribuirlos en un fichero `.zip` del que se deben extraer
+    todos estos archivos.
 
 2.  **El Sistema Geográfico de Coordenadas es opcional**: Como explicaremos en
     la Sección \@ref(CRS), esta información es crucial para trabajar con datos
-    geográficos, sin embargo el estándar Shapefile lo considera opcional, siendo
-    esta una limitación importante.
+    geográficos, sin embargo, el estándar Shapefile lo considera opcional,
+    siendo esta una limitación importante.
 
 Además de estas limitaciones, existen otras relacionadas con el nombre y la
 longitud de los campos, o la capacidad de almacenamiento de los Shapefiles, que
@@ -105,13 +106,13 @@ datos ráster son:
 
 ## Modelo de datos
 
-En el ámbito del análisis espacial en R, se pueden clasificar el formato de
+En el ámbito del análisis espacial en **R**, se pueden clasificar el formato de
 datos espaciales en función del modelo de datos [@Lovelance_et_al_2019]. Se
 pueden distinguir dos tipos de modelos de datos: **vectores** y **ráster**.
 
 ### Datos de vectores {#vec}
 
-Este modelo está basado en puntos georeferenciados. Los **puntos** pueden
+Este modelo está basado en puntos georreferenciados. Los **puntos** pueden
 representar localizaciones específicas, como la localización de edificios:
 
 ```{r puntos, fig.cap="Datos vector: Puntos"}
@@ -184,7 +185,7 @@ ggplot(st_cast(st_geometry(toledo), "POINT")) +
 ### Datos ráster {#raster}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denomindada **matriz**) que se puede visualizar en diversos dispositivo de
+(denominada **matriz**) que se puede visualizar en diversos dispositivos de
 representación. El caso más cotidiano de un ráster es una fotografía, donde la
 imagen se representa como una serie de celdas, determinadas por la resolución de
 la imagen (número total de píxeles, determinados como número de píxeles en cada
@@ -333,7 +334,7 @@ espaciales, es necesario conocer el CRS en el que están definidos para conocer
 de manera exacta su localización geográfica.** Además, nótese que para cualquier
 **análisis de datos espaciales** es necesario que todos los geodatos **se
 encuentren referenciados en el mismo CRS**. Esto se consigue transformando (o
-proyectando) los datos a un CRS común, nunca sobreescribiendo el CRS de los
+proyectando) los datos a un CRS común, nunca sobrescribiendo el CRS de los
 mismos.
 
 ### Tipos de CRS
@@ -552,12 +553,12 @@ tema.
 El Anexo \@ref(crsproy) proporciona más información sobre los tipos de CRS
 proyectados.
 
-### Trabajando con proyecciones en R
+### Trabajando con proyecciones en **R**
 
 Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-**códigos EPSG, ESRI, WKT** o proj4 (en desuso en R, pero todavía admitidos).
-Existen varios recursos web donde se pueden consultar y seleccionar los códigos
-correspondientes:
+**códigos EPSG, ESRI, WKT** o proj4 (en desuso en **R**, pero todavía
+admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
+los códigos correspondientes:
 
 -   <https://epsg.io/>
 
@@ -655,7 +656,7 @@ plot(st_geometry(paises_robin), main = "Puertos en el mundo")
 plot(st_geometry(puertos), add = TRUE, col = "red", pch = 20)
 ```
 
-Vemos que ha habido algún tipo de error, ¿a que puede deberse?
+Vemos que ha habido algún tipo de error, ¿a qué puede deberse?
 
 ```{r puertos-ok, fig.cap="Ejemplo: Puertos del mundo, CRS alineados"}
 # Comprueba CRS
@@ -699,7 +700,7 @@ plot(paises_sp_robin)
 En el caso de los objetos ráster del paquete **raster**, podemos usar `crs()` y
 `projectRaster()`:
 
-```{r raster-crs, fig.cap="Transformaciones en raster"}
+```{r raster-crs, fig.cap="Transformaciones en ráster"}
 library(raster)
 
 

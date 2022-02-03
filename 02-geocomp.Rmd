@@ -54,7 +54,7 @@ y las Ciencia de datos geográficos (GDS, Geographic Data Science).
 
 Cada término comparte un énfasis en un enfoque **científico** (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
-principales campos de aplicación difieren. La geocomputación es ámpliamente
+principales campos de aplicación difieren. La geocomputación es ampliamente
 utilizada en ámbitos como la sociología, el análisis político o el desarrollo de
 aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
@@ -62,16 +62,16 @@ para trabajos científicos aplicados.
 
 **¿Por que R para datos geográficos?**
 
-R es una herramienta con capacidades avanzadas de análisis, modelado y
+**R** es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
 inglés, Integrated Development Environment, **IDE**), como RStudio, han hecho
-que R sea más fácil de usar para muchos, facilitando la creación de mapas con un
-panel dedicado a la visualización interactiva [@Lovelance_et_al_2019]. Además,
-el uso del código R permite la enseñanza de la geocomputación con referencia a
-ejemplos reproducibles en lugar de conceptos abstractos. Por ejemplo, de una
-forma relativamente sencialla, se puede geoposicionar de manera interactiva la
-localización de la Puerta del Sol en Madrid y, además, dejar la el código R para
-hacerlo reproducible, ver Fig. \@ref(fig:leaflet).
+que **R** sea más fácil de usar para muchos, facilitando la creación de mapas
+con un panel dedicado a la visualización interactiva [@Lovelance_et_al_2019].
+Además, el uso del código **R** permite la enseñanza de la geocomputación con
+referencia a ejemplos reproducibles en lugar de conceptos abstractos. Por
+ejemplo, de una forma relativamente sencialla, se puede geoposicionar de manera
+interactiva la localización de la Puerta del Sol en Madrid y, además, dejar el
+código **R** para hacerlo reproducible, ver Fig. \@ref(fig:leaflet).
 
 ```{r leaflet,  fig.align='center',  fig.cap='Localización interactiva de la Puerta del Sol en Madrid'}
 library(leaflet)
@@ -80,7 +80,7 @@ leaflet(width = "100%", height = "500px") %>%
   setView(-3.703548, 40.417147, zoom = 60)
 ```
 
-Por otra parte R dispone de cientos de librerías especializadas para datos
+Por otra parte, **R** dispone de cientos de librerías especializadas para datos
 espaciales. Una descripción detallada puede ver se en [CRAN Task View: Analysis
 of Spatial Data](https://cran.r-project.org/web/views/Spatial.html)
 
@@ -89,17 +89,17 @@ las librerías más usadas para el tratamiento de datos espaciales y que se
 emplearán a lo largo de la asignatura Estadística Espacial y Espacio-Temporal,
 no sólo en el tema que nos ocupa:
 
--   **sp** [@R-sp] y **sf** [@R-sp]: para el tratamiento de clases y métodos de
+-   **sp** [@R-sp] y **sf** [@R-sp] para el tratamiento de clases y métodos de
     los datos vectoriales.
 
--   **raster** [@R-raster],**terra** [@R-terra]y **stars** [@R-stars]para datos
+-   **raster** [@R-raster], **terra** [@R-terra]y **stars** [@R-stars]para datos
     raster.
 
--   **gstat** [@R-gstat] y **geoR** [@R-geor]: para el análisis de datos
+-   **gstat** [@R-gstat] y **geoR** [@R-geor] para el análisis de datos
     geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.
 
 -   **spdep** [@R-spdep] para el análisis de datos con modelos de econometría
-    espacial, creación de matrices de contiguidad/distancia **W**, estimación de
+    espacial, creación de matrices de contigüidad/distancia **W**, estimación de
     modelos econométricos espaciales, etc
 
 -   **spatstat** [@spatstat_2005]para el análisis de procesos de puntos
@@ -118,7 +118,7 @@ concretos. Asociado a estas coordenadas debemos conocer el **Sistema de
 referencia de espacial** o Coordinate reference system (CRS) en el que están
 proyectadas dichas coordenadas.
 
-Por otra parte, los formatos de estos datos pueden ser **vectores** o **raster**
+Por otra parte, los formatos de estos datos pueden ser **vectores** o **ráster**
 como se explicará en la Sección \@ref(formatos).
 
 Si damos un paso más e incorporamos el concepto de **distancia**, pues es lógico

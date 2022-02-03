@@ -193,7 +193,7 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="formatos.html"><a href="formatos.html#CRS"><i class="fa fa-check"></i><b>3.3</b> Sistema de Referencia de Coordenadas (CRS)</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="formatos.html"><a href="formatos.html#tipos-de-crs"><i class="fa fa-check"></i><b>3.3.1</b> Tipos de CRS</a></li>
-<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en R</a></li>
+<li class="chapter" data-level="3.3.2" data-path="formatos.html"><a href="formatos.html#trabajando-con-proyecciones-en-r"><i class="fa fa-check"></i><b>3.3.2</b> Trabajando con proyecciones en <strong>R</strong></a></li>
 <li class="chapter" data-level="3.3.3" data-path="formatos.html"><a href="formatos.html#quecrsuso"><i class="fa fa-check"></i><b>3.3.3</b> ¿Qué proyección uso?</a></li>
 </ul></li>
 </ul></li>
@@ -205,8 +205,9 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="5" data-path="caos.html"><a href="caos.html"><i class="fa fa-check"></i><b>5</b> Casos prácticos</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#caso-1-temperatura-mínimas-del-aire-en-españa."><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínimas del aire en España.</a></li>
-<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-espacial-de-la-renta-media-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución espacial de la renta media por municipios</a></li>
+<li class="chapter" data-level="5.1" data-path="caos.html"><a href="caos.html#tempmin"><i class="fa fa-check"></i><b>5.1</b> Caso 1: Temperatura mínima en España</a></li>
+<li class="chapter" data-level="5.2" data-path="caos.html"><a href="caos.html#caso-2.-distribución-de-la-renta-por-municipios"><i class="fa fa-check"></i><b>5.2</b> Caso 2. Distribución de la renta por municipios</a></li>
+<li class="chapter" data-level="5.3" data-path="caos.html"><a href="caos.html#caso-3.-delitos-cometidos-en-valencia-en-el-año-2010"><i class="fa fa-check"></i><b>5.3</b> Caso 3. Delitos cometidos en Valencia en el año 2010</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a></li>
 <li class="appendix"><span><b>Anexo</b></span></li>
@@ -290,17 +291,17 @@ ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
 semejantes que aquellos que están más alejados; en cuyo caso <strong>no</strong> deben ser
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.</p>
-<p>De forma natural y de acuerdo a la Ley Tobler (1973) surge la idea de que los
-datos cercanos en el espacio o en el tiempo serán más similares y estarán más
-correlacionados entres sí que aquellos que están más lejanos. Por ejemplo, la
-influencia de un terremoto, su efecto disminuye con distancia del epicentro.
+<p>De forma natural y de acuerdo a la Ley Tobler <span class="citation">(<a href="#ref-tobler1970" role="doc-biblioref">Tobler 1970</a>)</span> surge la idea de que
+los datos cercanos en el espacio o en el tiempo serán más similares y estarán
+más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
+la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
 Además, esta correlación disminuye al aumentar la separación entre ellos, por lo
 que se puede pensar en la presencia de una dependencia espacial o
 espacio-temporal.</p>
 <p>Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
 dependencia espacial? La clave esta en que los procesos con dependencia espacial
-exiben un patrón en el espacio, mientras que los que son independientes son
+exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.</p>
 <p>La Fig. <a href="dep-esp.html#fig:points-depiid">4.1</a> muestra uno campo aleatorio simulado que
 presentan una estructura de dependencia espacial (panel izquierdo) frente a unos
@@ -308,8 +309,7 @@ datos totalmente aleatorios (panel derecho), en ambos casos distribuidos de
 forma irregular en el espacio. En la imagen de dependencia espacial se observa
 como los puntos rojos (que representan valores más altos de la variable
 simuladas) se concentran en la misma zona, al igual que los puntos azules (que
-representan valores más bajos) que se distribujen en otra zona y juntos.</p>
-<pre><code>#&gt; &#39;RandomFields&#39; will use OMP</code></pre>
+representan valores más bajos) que se distribuyen en otra zona y juntos.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:points-depiid"></span>
 <img src="Visualización_geolocalización_datos_files/figure-html/points-depiid-1.png" alt="Puntos: Simulación patrón de independencia espacial (derecha) frente a dependencia espacial (izquierda)" width="60%" />
 <p class="caption">
@@ -337,42 +337,42 @@ aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra.</p>
 <p>La forma más intuitiva de representar los datos espaciales es a través de un
 mapa.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="dep-esp.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapa de porcentaje de mujeres en Castilla-La Mancha</span></span>
-<span id="cb20-2"><a href="dep-esp.html#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="dep-esp.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapSpain)</span>
-<span id="cb20-4"><a href="dep-esp.html#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="dep-esp.html#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos de población</span></span>
-<span id="cb20-6"><a href="dep-esp.html#cb20-6" aria-hidden="true" tabindex="-1"></a>pob <span class="ot">&lt;-</span> mapSpain<span class="sc">::</span>pobmun19</span>
-<span id="cb20-7"><a href="dep-esp.html#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="dep-esp.html#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="dep-esp.html#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos en forma de tabla, sin información en formato espacial</span></span>
-<span id="cb20-10"><a href="dep-esp.html#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># head(pob)</span></span>
-<span id="cb20-11"><a href="dep-esp.html#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="dep-esp.html#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Porcentaje</span></span>
-<span id="cb20-13"><a href="dep-esp.html#cb20-13" aria-hidden="true" tabindex="-1"></a>pob<span class="sc">$</span>porc_mujeres <span class="ot">&lt;-</span> pob<span class="sc">$</span>women <span class="sc">/</span> pob<span class="sc">$</span>pob19 <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb20-14"><a href="dep-esp.html#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="dep-esp.html#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos espaciales</span></span>
-<span id="cb20-16"><a href="dep-esp.html#cb20-16" aria-hidden="true" tabindex="-1"></a>geo <span class="ot">&lt;-</span> <span class="fu">esp_get_munic</span>(<span class="at">region =</span> <span class="st">&quot;Castilla-La Mancha&quot;</span>)</span>
-<span id="cb20-17"><a href="dep-esp.html#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="dep-esp.html#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Estos datos tienen una columna (geometry) con coordenadas.</span></span>
-<span id="cb20-19"><a href="dep-esp.html#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># head(geo)</span></span>
-<span id="cb20-20"><a href="dep-esp.html#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-21"><a href="dep-esp.html#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Une ambos datos</span></span>
-<span id="cb20-22"><a href="dep-esp.html#cb20-22" aria-hidden="true" tabindex="-1"></a>geo_pob <span class="ot">&lt;-</span> <span class="fu">merge</span>(geo,</span>
-<span id="cb20-23"><a href="dep-esp.html#cb20-23" aria-hidden="true" tabindex="-1"></a>  pob,</span>
-<span id="cb20-24"><a href="dep-esp.html#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;cpro&quot;</span>, <span class="st">&quot;cmun&quot;</span>),</span>
-<span id="cb20-25"><a href="dep-esp.html#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">all.x =</span> <span class="cn">TRUE</span></span>
-<span id="cb20-26"><a href="dep-esp.html#cb20-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-27"><a href="dep-esp.html#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-28"><a href="dep-esp.html#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapa básico</span></span>
-<span id="cb20-29"><a href="dep-esp.html#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(geo_pob[<span class="st">&quot;porc_mujeres&quot;</span>],</span>
-<span id="cb20-30"><a href="dep-esp.html#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cambiamos titulo</span></span>
-<span id="cb20-31"><a href="dep-esp.html#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Castilla-La Mancha: % mujeres (2019)&quot;</span>,</span>
-<span id="cb20-32"><a href="dep-esp.html#cb20-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-33"><a href="dep-esp.html#cb20-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cambiamos la paleta de colores para hacerlo mas atractivo</span></span>
-<span id="cb20-34"><a href="dep-esp.html#cb20-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># border = NA,</span></span>
-<span id="cb20-35"><a href="dep-esp.html#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">pal =</span> <span class="fu">hcl.colors</span>(<span class="dv">12</span>, <span class="st">&quot;RdYlBu&quot;</span>)</span>
-<span id="cb20-36"><a href="dep-esp.html#cb20-36" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="dep-esp.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapa de porcentaje de mujeres en Castilla-La Mancha</span></span>
+<span id="cb19-2"><a href="dep-esp.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="dep-esp.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapSpain)</span>
+<span id="cb19-4"><a href="dep-esp.html#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="dep-esp.html#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos de población</span></span>
+<span id="cb19-6"><a href="dep-esp.html#cb19-6" aria-hidden="true" tabindex="-1"></a>pob <span class="ot">&lt;-</span> mapSpain<span class="sc">::</span>pobmun19</span>
+<span id="cb19-7"><a href="dep-esp.html#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="dep-esp.html#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="dep-esp.html#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos en forma de tabla, sin información en formato espacial</span></span>
+<span id="cb19-10"><a href="dep-esp.html#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># head(pob)</span></span>
+<span id="cb19-11"><a href="dep-esp.html#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="dep-esp.html#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Porcentaje</span></span>
+<span id="cb19-13"><a href="dep-esp.html#cb19-13" aria-hidden="true" tabindex="-1"></a>pob<span class="sc">$</span>porc_mujeres <span class="ot">&lt;-</span> pob<span class="sc">$</span>women <span class="sc">/</span> pob<span class="sc">$</span>pob19 <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb19-14"><a href="dep-esp.html#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="dep-esp.html#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos espaciales</span></span>
+<span id="cb19-16"><a href="dep-esp.html#cb19-16" aria-hidden="true" tabindex="-1"></a>geo <span class="ot">&lt;-</span> <span class="fu">esp_get_munic</span>(<span class="at">region =</span> <span class="st">&quot;Castilla-La Mancha&quot;</span>)</span>
+<span id="cb19-17"><a href="dep-esp.html#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="dep-esp.html#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Estos datos tienen una columna (geometry) con coordenadas.</span></span>
+<span id="cb19-19"><a href="dep-esp.html#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co"># head(geo)</span></span>
+<span id="cb19-20"><a href="dep-esp.html#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="dep-esp.html#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Une ambos datos</span></span>
+<span id="cb19-22"><a href="dep-esp.html#cb19-22" aria-hidden="true" tabindex="-1"></a>geo_pob <span class="ot">&lt;-</span> <span class="fu">merge</span>(geo,</span>
+<span id="cb19-23"><a href="dep-esp.html#cb19-23" aria-hidden="true" tabindex="-1"></a>  pob,</span>
+<span id="cb19-24"><a href="dep-esp.html#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;cpro&quot;</span>, <span class="st">&quot;cmun&quot;</span>),</span>
+<span id="cb19-25"><a href="dep-esp.html#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">all.x =</span> <span class="cn">TRUE</span></span>
+<span id="cb19-26"><a href="dep-esp.html#cb19-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-27"><a href="dep-esp.html#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="dep-esp.html#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapa básico</span></span>
+<span id="cb19-29"><a href="dep-esp.html#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(geo_pob[<span class="st">&quot;porc_mujeres&quot;</span>],</span>
+<span id="cb19-30"><a href="dep-esp.html#cb19-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cambiamos titulo</span></span>
+<span id="cb19-31"><a href="dep-esp.html#cb19-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Castilla-La Mancha: % mujeres (2019)&quot;</span>,</span>
+<span id="cb19-32"><a href="dep-esp.html#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-33"><a href="dep-esp.html#cb19-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cambiamos la paleta de colores para hacerlo mas atractivo</span></span>
+<span id="cb19-34"><a href="dep-esp.html#cb19-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># border = NA,</span></span>
+<span id="cb19-35"><a href="dep-esp.html#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">pal =</span> <span class="fu">hcl.colors</span>(<span class="dv">12</span>, <span class="st">&quot;RdYlBu&quot;</span>)</span>
+<span id="cb19-36"><a href="dep-esp.html#cb19-36" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:mapa-clm"></span>
 <img src="Visualización_geolocalización_datos_files/figure-html/mapa-clm-1.png" alt="Porcentaje de Mujeres en Castilla-La Mancha" width="60%" />
 <p class="caption">
@@ -389,28 +389,28 @@ Castilla-La Mancha en el año 2019.</p></li>
 <li><p>Una leyenda explica el significado de los colores.</p></li>
 <li><p>La variable, el porcentaje de mujeres en los municipios de Castilla-La
 Mancha en el año 2019, no parece distribuirse de manera independiente sino
-todo lo contrario, muestra un patrón espacial. Los municipios del las
+todo lo contrario, muestra un patrón espacial. Los municipios de las
 provincias Guadalajara y Cuenca (noreste) presentan tasas más bajas que los
 municipios del centro de la Comunidad.</p></li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="dep-esp.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(geo_pob[<span class="st">&quot;porc_mujeres&quot;</span>])</span>
-<span id="cb21-2"><a href="dep-esp.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 1 field</span></span>
-<span id="cb21-3"><a href="dep-esp.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span id="cb21-4"><a href="dep-esp.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
-<span id="cb21-5"><a href="dep-esp.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -2.18037 ymin: 38.5441 xmax: -1.31112 ymax: 39.35597</span></span>
-<span id="cb21-6"><a href="dep-esp.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  ETRS89</span></span>
-<span id="cb21-7"><a href="dep-esp.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   porc_mujeres                       geometry</span></span>
-<span id="cb21-8"><a href="dep-esp.html#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     52.02532 POLYGON ((-1.58316 39.20446...</span></span>
-<span id="cb21-9"><a href="dep-esp.html#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2     43.93064 POLYGON ((-1.40607 39.12384...</span></span>
-<span id="cb21-10"><a href="dep-esp.html#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     51.14089 POLYGON ((-2.0562 38.88697,...</span></span>
-<span id="cb21-11"><a href="dep-esp.html#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     48.55491 POLYGON ((-1.54055 38.61066...</span></span>
-<span id="cb21-12"><a href="dep-esp.html#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5     48.78419 POLYGON ((-1.38514 39.35429...</span></span>
-<span id="cb21-13"><a href="dep-esp.html#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6     44.49541 POLYGON ((-2.15635 38.71074...</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="dep-esp.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(geo_pob[<span class="st">&quot;porc_mujeres&quot;</span>])</span>
+<span id="cb20-2"><a href="dep-esp.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 1 field</span></span>
+<span id="cb20-3"><a href="dep-esp.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: POLYGON</span></span>
+<span id="cb20-4"><a href="dep-esp.html#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb20-5"><a href="dep-esp.html#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -2.18037 ymin: 38.5441 xmax: -1.31112 ymax: 39.35597</span></span>
+<span id="cb20-6"><a href="dep-esp.html#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  ETRS89</span></span>
+<span id="cb20-7"><a href="dep-esp.html#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   porc_mujeres                       geometry</span></span>
+<span id="cb20-8"><a href="dep-esp.html#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     52.02532 POLYGON ((-1.58316 39.20446...</span></span>
+<span id="cb20-9"><a href="dep-esp.html#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2     43.93064 POLYGON ((-1.40607 39.12384...</span></span>
+<span id="cb20-10"><a href="dep-esp.html#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     51.14089 POLYGON ((-2.0562 38.88697,...</span></span>
+<span id="cb20-11"><a href="dep-esp.html#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     48.55491 POLYGON ((-1.54055 38.61066...</span></span>
+<span id="cb20-12"><a href="dep-esp.html#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5     48.78419 POLYGON ((-1.38514 39.35429...</span></span>
+<span id="cb20-13"><a href="dep-esp.html#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6     44.49541 POLYGON ((-2.15635 38.71074...</span></span></code></pre></div>
 <p>Antes de dibujar la Fig. <a href="dep-esp.html#fig:mapa-clm">4.3</a> tuvimos que leer los datos de la
 librería <strong>mapSpain</strong> <span class="citation">(<a href="#ref-rmapspain" role="doc-biblioref">Hernangómez 2022b</a>)</span> que contenía tanto la variable que hemos
 analizado como el formato del mapa. Tras unir variable y mapa con la función
 <code>merge()</code>. Al llevar a cabo un resumen del objeto espacial nos encontramos con
-las siguiente información:</p>
+la siguiente información:</p>
 <ul>
 <li>el conjunto de datos (seleccionado) tiene 919 registros (municipios)</li>
 <li>el tipo de geometría es POLYGON.</li>
@@ -482,7 +482,7 @@ pero generalmente son códigos postales, pistas censales, vecindarios,
 provincias, países, etc., y los datos en la mayoría de los casos son datos
 agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
 tener una forma regular, normalmente la forma que tienen es irregular, y
-esto, junto con el carácter espacialmente agregado de la datos, es por lo
+esto, junto con el carácter espacialmente agregado de los datos, es por lo
 que los datos latice tambien se denominan datos regionales. Y (ii) las
 ubicaciones en <span class="math inline">\(D\)</span> no son estocásticas. Por supuesto, un concepto clave en
 el análisis de los datos lattice es el <strong>vecindario</strong> y la matriz <strong>W</strong>.</p>
@@ -517,12 +517,13 @@ de patrones de puntos es determinar si la ubicación de los eventos tiende a
 exhibir un patrón sistemático sobre el área en estudio o, por el contrario,
 son aleatoriamente repartido.</p>
 <p>Más concretamente, nos interesa analizar si la ubicación de los eventos es
-completamente aleatorio espacialmente (la ubicación donde ocurren los
+completamente aleatoria espacialmente (la ubicación donde ocurren los
 eventos no se ve afectada por la ubicación de otros eventos), uniforme o
 regular (cada punto está tan lejos de todos sus vecinos como sea posible) o
 agrupados o agregados (la ubicación de los eventos se concentra en grupos).
 La Fig. <a href="dep-esp.html#fig:ejem-pp">4.7</a> muestra la localización de los accidentes de
-tráfico registrados en la ciudad de Madrid durante el mes de febreo de 2020.</p></li>
+tráfico registrados en la ciudad de Madrid durante el mes de febrero
+de 2020.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ejem-pp"></span>
 <img src="img/traf_madrid_feb_2020.png" alt="Accidentes de tráfico registrados en la ciudad de Madrid (Febrero de 2020)" width="60%" />
@@ -533,7 +534,7 @@ Figura 4.7: Accidentes de tráfico registrados en la ciudad de Madrid (Febrero d
 
 </div>
 </div>
-<h3>Referencias</h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-cressie1993" class="csl-entry">
 Cressie, Noel A. C. 1993. <em>Statistics for <span>Spatial</span> <span>Data</span></em>. Wiley <span>Series</span> in <span>Probability</span> and <span>Statistics</span>. Hoboken, NJ, USA: John Wiley &amp; Sons, Inc. <a href="https://doi.org/10.1002/9781119115151">https://doi.org/10.1002/9781119115151</a>.
@@ -552,6 +553,9 @@ Montero, José María, Gema Fernández-Avilés, Jorge Mateu, and Emilio Porcu. 2
 </div>
 <div id="ref-Schabenberger_Gotway_2005" class="csl-entry">
 Schabenberger, Oliver, and Carol A. Gotway. 2005. <em>Statistical Methods for Spatial Data Analysis</em>. Texts in Statistical Science. Boca Raton: Chapman &amp; Hall/CRC.
+</div>
+<div id="ref-tobler1970" class="csl-entry">
+Tobler, W. R. 1970. <span>“A Computer Movie Simulating Urban Growth in the Detroit Region.”</span> <em>Economic Geography</em> 46 (June): 234. <a href="https://doi.org/10.2307/143141">https://doi.org/10.2307/143141</a>.
 </div>
 </div>
             </section>
