@@ -10,7 +10,7 @@ producido grandes bases de datos espaciales y, a su vez, ha propiciado el
 desarrollo de herramientas para su tratamiento como los ya mencionados Sistemas
 de información geográficos y la Geocomputación.
 
-**¿Qué hace un Sistemas de información geográfico?**
+**¿Qué hace un \index{Sistemas de información geográfico}?**
 
 Un Sistema de información geográfica (SIG) es una herramienta que crea,
 administra, analiza y mapea todo tipo de datos. GIS conecta datos a un mapa,
@@ -31,13 +31,13 @@ mapeo y presentación de los resultados.
 knitr::include_graphics("img/GIS.png")
 ```
 
-Pero es más, el desarrollo de la **Inteligencia Artificial** y la **Inteligencia
+Pero es más, el desarrollo de la \index{**Inteligencia Artificial**} y la **Inteligencia
 computacional** se han convertido en herramientas creativas y complementarias a
 los convencionales GIS, dando origen a la *Geocomputación*, que trata de
 utilizar el *poder de los ordenadores para hacer cosas con los datos
 geográficos*.
 
-**¿Y que es la Geocomputación?**
+**¿Y que es la \index{Geocomputación}?**
 
 En primer lugar, señalar que, aunque la geocomputación es un término
 relativamente nuevo se encuentra influenciado por otros términos clásicos. De
@@ -60,7 +60,7 @@ aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
 para trabajos científicos aplicados.
 
-**¿Por que R para datos geográficos?**
+**¿Por que \index{R} para datos geográficos?**
 
 **R** es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en

@@ -1,5 +1,5 @@
 ---
-title: "Visualización y geolocalización de datos"
+title: "Visualización y geolocalización de datos con R"
 author:
 - Diego Hernangómez
 - Gema Fernández-Avilés
@@ -42,11 +42,8 @@ knitr::include_graphics("img/logo_mdsr_uclm.png")
 # Prólogo {.unnumbered}
 
 Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
-cabo correctamente la visualización de datos espaciales y su geolocalización.
-
-Poner un poco de rollo
-
-## ¿Por qué leer este libro? {.unnumbered}
+cabo correctamente la visualización de datos espaciales y su geolocalización
+con el software estadístico R.
 
 Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
@@ -61,51 +58,25 @@ grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
 permiten sacar a la luz hechos y relaciones ocultas que estimulen el pensamiento
 analítico y la investigación.
 
-La principal contribución del libro es mostrar el proceso de visualización de
-datos georreferenciados de principio a fin. \*\*\*\*\*\*\*
+La principal contribución de los autores es mostrar el proceso de visualización de
+datos georreferenciados de principio a fin, de una manera sencilla y didactica
+a través de conceptos teóricos y su aplicación directa en R.
 
-[**rematar...**]{style:col="red"}
+El material se proporciona bajo licencia CC-BY-ND-NC. 
+Todos los logotipos y marcas comerciales que puedan aparecer en este texto 
+son propiedad de sus respectivos dueños y se incluyen en este texto únicamente 
+con fines didácticos. 
+ 
+**Visualización y geolocalización de datos con R** de **Diego Hernangómez** y 
+**Gema Fernández-Avilés** está licenciado bajo 
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
-## Objetivos de aprendizaje {.unnumbered}
+**VER EXACTAMENTE QUE SIGNIFICA ESTO... **
+**VER SI PONEMOS DOI**
+ 
+Se autoriza expresamente el uso de este material a la Universidad 
+de Castilla-La Mancha para la docencia del Máster en Data Science \& 
+Business Analytics (con R Software).
 
-Poner algo
 
-## Estructura del libro {.unnumbered}
 
-El Capítulo \@ref(intro) introduces a new topic, and ...
-
-## Datos {.unnumbered}
-
-DIEGO, YO NO SE SI DEBEMOS DEJAR TODOS, SEGÚN VEAMOS,
-
-GEMA: NO SE QUE QUIERES HACER AQUI, LA VERDAD,
-
--   temperatura mínima en el aire en España
--   renta
--   delitos valencia
--   porcentaje de mujeres en clm
--   tráfico madrid
--   Hospitales en toledo
--   Rio tajo ??
--   Elevación en España
--   Puertos
-
-contar un poco al final PARA decir que tenemos una amplia variedad de
-aplicaciones para ilustrar los conceptos bla bla
-
-**ojo, ver cómo entra esto en el libro o no**
-
-Libros de referencia:
-
--   [Spatial Data Science with applications in
-    R](https://keen-swartz-3146c4.netlify.app/)
-
--   [Geocomputation with R](https://geocompr.robinlovelace.net/)
-
--   [Displaying time series, spatial and space-time data with
-    R](https://oscarperpinan.github.io/bookvis/)
-
-Recursos de estadística espacial en R:
-
--   [rspatial](https://rspatial.org/)
--   [R-spatial](https://r-spatial.org/projects/)

@@ -12,12 +12,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# La revolución de los geodatos
+# La revolución de los \index{geodatos}
 
 Que estamos en la la *era del dato*, que los *datos son el petróleo del siglo
 XXI* y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
-*Data Scientist* se ha convertido en la **profesión más sexy del siglo XXI**
+\index{Data Scientist} se ha convertido en la **profesión más sexy del siglo XXI**
 según vaticinó en 2012 [Harvard Business
 Review](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century).
 Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se
@@ -28,7 +28,7 @@ desarrollo de la tecnología, la informática, los ordenadores, los teléfonos
 móviles, los satélites, internet, etc... y asociado a estas nuevas herramientas,
 se ha producido una lluvia sin precedentes hasta el momento de **datos
 espaciales** o **datos georreferenciados**. Cada teléfono inteligente tiene un
-**Receptor de posicionamiento Global** (en inglés, *Global Positioning System*,
+**Receptor de posicionamiento Global** (en inglés, \index{Global Positioning System},
 **GPS**) y, además, convivimos con una multitud de sensores en dispositivos que
 van desde satélites y vehículos semi-autónomos hasta científicos ciudadanos que
 miden incesantemente cada parte del mundo. La tasa de datos producidos es
@@ -37,12 +37,12 @@ día (The Economist, 2016).
 
 Esta **revolución de los geodatos** y el **análisis de los datos espaciales**
 junto con los **Sistemas de Información Geográficos** (habitualmente expresados
-como **GIS** por las siglas de su nombre en inglés *Geographical Information
-System*) no sólo han impulsado la demanda de hardware informático de alto
+como **GIS** por las siglas de su nombre en inglés \index{Geographical Information
+System}) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como **Geocomputación**, sino que han dado lugar
 una nueva rama de conocimiento, **Ciencia de Datos Espaciales** comúnmente
-conocida como *Spatial Data Scicene* (SDS).
+conocida como \index{Spatial Data Scicene} (SDS).
 
 Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los

@@ -4,7 +4,7 @@
 %
 \documentclass[
 ]{book}
-\title{Visualización y geolocalización de datos}
+\title{Visualización y geolocalización de datos con R}
 \author{Diego Hernangómez \and Gema Fernández-Avilés}
 \date{2022-02-03}
 
@@ -40,7 +40,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Visualización y geolocalización de datos},
+  pdftitle={Visualización y geolocalización de datos con R},
   pdfauthor={Diego Hernangómez; Gema Fernández-Avilés},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
@@ -119,13 +119,17 @@
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 
 
-%% --------------------
+%% -------------------- tamaño -------------
 
 \usepackage[paperwidth = 170mm,
 			paperheight = 240mm, top=3.25cm, bottom=2.5cm, left=2.5cm, right=2cm]{geometry}
 
 \usepackage[a4, center, cam]{crop}
 
+
+
+\makeatother
+%% ---------------- índice de contenidos -----------
 
 \usepackage{makeidx}
 \makeindex
@@ -179,13 +183,8 @@
 \addcontentsline{toc}{chapter}{Prólogo}
 
 Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
-cabo correctamente la visualización de datos espaciales y su geolocalización.
-
-Poner un poco de rollo
-
-\hypertarget{por-quuxe9-leer-este-libro}{%
-\section*{¿Por qué leer este libro?}\label{por-quuxe9-leer-este-libro}}
-\addcontentsline{toc}{section}{¿Por qué leer este libro?}
+cabo correctamente la visualización de datos espaciales y su geolocalización
+con el software estadístico R.
 
 Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos
 que nos rodean, es un hecho que no podemos obviar y que aporta información muy
@@ -200,88 +199,33 @@ grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
 permiten sacar a la luz hechos y relaciones ocultas que estimulen el pensamiento
 analítico y la investigación.
 
-La principal contribución del libro es mostrar el proceso de visualización de
-datos georreferenciados de principio a fin. *******
+La principal contribución de los autores es mostrar el proceso de visualización de
+datos georreferenciados de principio a fin, de una manera sencilla y didactica
+a través de conceptos teóricos y su aplicación directa en R.
 
-{\textbf{rematar\ldots{}}}
+El material se proporciona bajo licencia CC-BY-ND-NC.
+Todos los logotipos y marcas comerciales que puedan aparecer en este texto
+son propiedad de sus respectivos dueños y se incluyen en este texto únicamente
+con fines didácticos.
 
-\hypertarget{objetivos-de-aprendizaje}{%
-\section*{Objetivos de aprendizaje}\label{objetivos-de-aprendizaje}}
-\addcontentsline{toc}{section}{Objetivos de aprendizaje}
+\textbf{Visualización y geolocalización de datos con R} de \textbf{Diego Hernangómez} y
+\textbf{Gema Fernández-Avilés} está licenciado bajo
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
-Poner algo
+\textbf{VER EXACTAMENTE QUE SIGNIFICA ESTO\ldots{} }
+\textbf{VER SI PONEMOS DOI}
 
-\hypertarget{estructura-del-libro}{%
-\section*{Estructura del libro}\label{estructura-del-libro}}
-\addcontentsline{toc}{section}{Estructura del libro}
+Se autoriza expresamente el uso de este material a la Universidad
+de Castilla-La Mancha para la docencia del Máster en Data Science \&
+Business Analytics (con R Software).
 
-El Capítulo \ref{intro} introduces a new topic, and \ldots{}
-
-\hypertarget{datos}{%
-\section*{Datos}\label{datos}}
-\addcontentsline{toc}{section}{Datos}
-
-DIEGO, YO NO SE SI DEBEMOS DEJAR TODOS, SEGÚN VEAMOS,
-
-GEMA: NO SE QUE QUIERES HACER AQUI, LA VERDAD,
-
-\begin{itemize}
-\tightlist
-\item
-  temperatura mínima en el aire en España
-\item
-  renta
-\item
-  delitos valencia
-\item
-  porcentaje de mujeres en clm
-\item
-  tráfico madrid
-\item
-  Hospitales en toledo
-\item
-  Rio tajo ??
-\item
-  Elevación en España
-\item
-  Puertos
-\end{itemize}
-
-contar un poco al final PARA decir que tenemos una amplia variedad de
-aplicaciones para ilustrar los conceptos bla bla
-
-\textbf{ojo, ver cómo entra esto en el libro o no}
-
-Libros de referencia:
-
-\begin{itemize}
-\item
-  \href{https://keen-swartz-3146c4.netlify.app/}{Spatial Data Science with applications in
-  R}
-\item
-  \href{https://geocompr.robinlovelace.net/}{Geocomputation with R}
-\item
-  \href{https://oscarperpinan.github.io/bookvis/}{Displaying time series, spatial and space-time data with
-  R}
-\end{itemize}
-
-Recursos de estadística espacial en R:
-
-\begin{itemize}
-\tightlist
-\item
-  \href{https://rspatial.org/}{rspatial}
-\item
-  \href{https://r-spatial.org/projects/}{R-spatial}
-\end{itemize}
-
-\hypertarget{la-revoluciuxf3n-de-los-geodatos}{%
-\chapter{La revolución de los geodatos}\label{la-revoluciuxf3n-de-los-geodatos}}
+\hypertarget{la-revoluciuxf3n-de-los}{%
+\chapter{\texorpdfstring{La revolución de los \index{geodatos}}{La revolución de los }}\label{la-revoluciuxf3n-de-los}}
 
 Que estamos en la la \emph{era del dato}, que los \emph{datos son el petróleo del siglo
 XXI} y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
-\emph{Data Scientist} se ha convertido en la \textbf{profesión más sexy del siglo XXI}
+\index{Data Scientist} se ha convertido en la \textbf{profesión más sexy del siglo XXI}
 según vaticinó en 2012 \href{https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century}{Harvard Business
 Review}.
 Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se
@@ -292,7 +236,7 @@ desarrollo de la tecnología, la informática, los ordenadores, los teléfonos
 móviles, los satélites, internet, etc\ldots{} y asociado a estas nuevas herramientas,
 se ha producido una lluvia sin precedentes hasta el momento de \textbf{datos
 espaciales} o \textbf{datos georreferenciados}. Cada teléfono inteligente tiene un
-\textbf{Receptor de posicionamiento Global} (en inglés, \emph{Global Positioning System},
+\textbf{Receptor de posicionamiento Global} (en inglés, \index{Global Positioning System},
 \textbf{GPS}) y, además, convivimos con una multitud de sensores en dispositivos que
 van desde satélites y vehículos semi-autónomos hasta científicos ciudadanos que
 miden incesantemente cada parte del mundo. La tasa de datos producidos es
@@ -301,12 +245,12 @@ día (The Economist, 2016).
 
 Esta \textbf{revolución de los geodatos} y el \textbf{análisis de los datos espaciales}
 junto con los \textbf{Sistemas de Información Geográficos} (habitualmente expresados
-como \textbf{GIS} por las siglas de su nombre en inglés \emph{Geographical Information
+como \textbf{GIS} por las siglas de su nombre en inglés \index{Geographical Information
 System}) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como \textbf{Geocomputación}, sino que han dado lugar
 una nueva rama de conocimiento, \textbf{Ciencia de Datos Espaciales} comúnmente
-conocida como \emph{Spatial Data Scicene} (SDS).
+conocida como \index{Spatial Data Scicene} (SDS).
 
 Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los
@@ -340,7 +284,7 @@ producido grandes bases de datos espaciales y, a su vez, ha propiciado el
 desarrollo de herramientas para su tratamiento como los ya mencionados Sistemas
 de información geográficos y la Geocomputación.
 
-\textbf{¿Qué hace un Sistemas de información geográfico?}
+\textbf{¿Qué hace un \index{Sistemas de información geográfico}?}
 
 Un Sistema de información geográfica (SIG) es una herramienta que crea,
 administra, analiza y mapea todo tipo de datos. GIS conecta datos a un mapa,
@@ -366,13 +310,13 @@ mapeo y presentación de los resultados.
 \caption{Flujo de trabajo de los GIS. Fuente: https://www.esri.com/en-us/what-is-gis/overview}\label{fig:gisflujo}
 \end{figure}
 
-Pero es más, el desarrollo de la \textbf{Inteligencia Artificial} y la \textbf{Inteligencia
+Pero es más, el desarrollo de la \index{**Inteligencia Artificial**} y la \textbf{Inteligencia
 computacional} se han convertido en herramientas creativas y complementarias a
 los convencionales GIS, dando origen a la \emph{Geocomputación}, que trata de
 utilizar el \emph{poder de los ordenadores para hacer cosas con los datos
 geográficos}.
 
-\textbf{¿Y que es la Geocomputación?}
+\textbf{¿Y que es la \index{Geocomputación}?}
 
 En primer lugar, señalar que, aunque la geocomputación es un término
 relativamente nuevo se encuentra influenciado por otros términos clásicos. De
@@ -395,7 +339,7 @@ aplicaciones para móviles. Por tanto, usamos geocomputación como un sinónimo
 aproximado que encapsula a todas las ciencias que buscan usar datos geográficos
 para trabajos científicos aplicados.
 
-\textbf{¿Por que R para datos geográficos?}
+\textbf{¿Por que \index{R} para datos geográficos?}
 
 \textbf{R} es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
@@ -501,14 +445,14 @@ Sección \ref{CRS}).
 \hypertarget{ficheros-de-datos-espaciales}{%
 \section{Ficheros de datos espaciales}\label{ficheros-de-datos-espaciales}}
 
-Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
+Los \textbf{datos espaciales}, también conocidos como datos \textbf{\index{geoespaciales}}, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra. En los últimos años se han
 desarrollado diversos estándares de ficheros que permiten almacenar y compartir
 este tipo de datos. En esta sección presentamos de una manera breve algunos de
 los tipos de archivos más habituales empleados en el almacenamiento de geodatos.
 
-\textbf{Información de vectores}
+\textbf{Información de \index{vectores}}
 
 Las características de los datos de vector se analizan en profundidad en la
 Sección \ref{vec}. Las extensiones más habituales de los archivos que contienen
@@ -708,7 +652,7 @@ datos espaciales representados en la Fig. \ref{fig:lineas-pol}.
 \end{figure}
 
 \hypertarget{raster}{%
-\subsection{Datos ráster}\label{raster}}
+\subsection{\texorpdfstring{Datos \index{ráster}}{Datos }}\label{raster}}
 
 Los datos ráster son datos representandos en una rejilla rectangular de píxeles
 (denominada \textbf{matriz}) que se puede visualizar en diversos dispositivos de
@@ -885,7 +829,7 @@ x & y & lyr.1 & lyr.2 & lyr.3\\
 \end{figure}
 
 \hypertarget{CRS}{%
-\section{Sistema de Referencia de Coordenadas (CRS)}\label{CRS}}
+\section{\texorpdfstring{\index{Sistema de Referencia de Coordenadas} (CRS)}{ (CRS)}}\label{CRS}}
 
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
 \textbf{Coordinate Reference System}) permite relacionar datos espaciales con su
@@ -1473,9 +1417,9 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 
 \NormalTok{china\_crs}
 \CommentTok{\#\textgreater{} \# A tibble: 1 x 6}
-\CommentTok{\#\textgreater{}   crs\_code crs\_name                         crs\_type crs\_gcs crs\_units crs\_proj4}
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                            \textless{}chr\textgreater{}      \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}    }
-\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 1\textasciitilde{} project\textasciitilde{}    4555 m         +proj=tm\textasciitilde{}}
+\CommentTok{\#\textgreater{}   crs\_code crs\_name        crs\_type crs\_gcs crs\_units crs\_proj4                 }
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}           \textless{}chr\textgreater{}      \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}                     }
+\CommentTok{\#\textgreater{} 1 4584     New Beijing / \textasciitilde{} project\textasciitilde{}    4555 m         +proj=tmerc +lat\_0=0 +lon\textasciitilde{}}
 
 
 \NormalTok{china\_suggest }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(}
@@ -1500,7 +1444,7 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 \hypertarget{dep-esp}{%
 \chapter{Estadística espacial}\label{dep-esp}}
 
-La estadística espacial se basa en la suposición de que las unidades
+La \index{estadística espacial} se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son \textbf{dependientes}) de alguna
 manera \citep{getis_1999}, y por ello, trata de reconocer y aprovechar ésta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
@@ -1555,8 +1499,8 @@ ventajas (\citet{montero_et_al_2011}):
   superficie de tendencia.
 \end{enumerate}
 
-\hypertarget{antes-de-continuar-dependencia-espacial.}{%
-\section{Antes de continuar\ldots{} dependencia espacial.}\label{antes-de-continuar-dependencia-espacial.}}
+\hypertarget{antes-de-continuar}{%
+\section{\texorpdfstring{Antes de continuar\ldots{} \index{dependencia espacial}}{Antes de continuar\ldots{} }}\label{antes-de-continuar}}
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
 ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
@@ -1564,7 +1508,7 @@ semejantes que aquellos que están más alejados; en cuyo caso \textbf{no} deben
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-De forma natural y de acuerdo a la Ley Tobler \citep{tobler1970} surge la idea de que
+De forma natural y de acuerdo a la \index{Ley Tobler} \citep{tobler1970} surge la idea de que
 los datos cercanos en el espacio o en el tiempo serán más similares y estarán
 más correlacionados entres sí que aquellos que están más lejanos. Por ejemplo,
 la influencia de un terremoto, su efecto disminuye con distancia del epicentro.
@@ -1596,12 +1540,12 @@ representan valores más bajos) que se distribuyen en otra zona y juntos.
 \end{figure}
 
 La Fig. \ref{fig:lattice-dep-iid}, al igual que la Fig.
-\ref{fig:points-depiid} presenta unos datos simulados donde que muestran una
+\ref{fig:points-depiid} presenta unos \index{datos simulados} donde que muestran una
 estructura de dependencia espacial (panel izquierdo) frente a unos datos
 totalmente aleatorios (panel derecho), pero en este caso estos datos se
 distribuyen de forma ordenada en el espacio a través de una rejilla regular. La
 interpretación es análoga a la de la Fig. \ref{fig:points-depiid}, solo que en
-este caso los campos aleatorios simulados se representan en una rejilla.
+este caso los \index{campos aleatorios} simulados se representan en una rejilla.
 
 \begin{figure}
 
@@ -1615,12 +1559,12 @@ este caso los campos aleatorios simulados se representan en una rejilla.
 \hypertarget{datos-espaciales}{%
 \section{Datos espaciales}\label{datos-espaciales}}
 
-Los \textbf{datos espaciales}, también conocidos como datos \textbf{geoespaciales}, son
+Los \textbf{datos espaciales}, también conocidos como datos \textbf{\index{geoespaciales}}, son
 aquellos datos relacionados o que contienen información de una localización o
 área geográfica de la superficie de la Tierra.
 
 La forma más intuitiva de representar los datos espaciales es a través de un
-mapa.
+\index{mapa}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1758,7 +1702,7 @@ clasificación \citep{montero_et_al_2015}:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \textbf{Datos geoestadísticos:} Surgen cuando el dominio de estudio es \textbf{continuo
+  \textbf{\index{Datos geoestadísticos}:} Surgen cuando el dominio de estudio es \textbf{continuo
   y fijo} \(D\). Es decir: (i) \(Z(s)\) se puede observar en cualquier punto del
   dominio (continuo); y (ii) los puntos en \(D\) no son estocásticos (son fijos,
   \(D\) es el mismo para todas las realizaciones de la función aleatoria
@@ -1802,7 +1746,7 @@ clasificación \citep{montero_et_al_2015}:
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{1}
 \item
-  \textbf{Datos reticulares}: Surgen cuando: (i) el dominio bajo estudio \(D\) es
+  \textbf{\index{Datos reticulares}}: Surgen cuando: (i) el dominio bajo estudio \(D\) es
   \textbf{discreto}, es decir, \(Z(s)\) puede observarse en una serie de ubicaciones
   fijas que pueden enumerarse. Estas ubicaciones pueden ser puntos o regiones,
   pero generalmente son códigos postales, pistas censales, vecindarios,
@@ -1835,7 +1779,7 @@ clasificación \citep{montero_et_al_2015}:
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{2}
 \item
-  \textbf{Procesos de puntos:} Mientras que en los datos geoestadísticos y
+  \textbf{\index{Procesos de puntos}:} Mientras que en los datos geoestadísticos y
   reticulares el dominio \(D\) es fijo, en los datos de patrones puntuales el
   dominio es discreto o continuo, pero \textbf{aleatorio}. Los patrones de puntos
   surgen cuando el atributo bajo estudio es la ubicación de los eventos
@@ -1880,7 +1824,7 @@ clasificación \citep{montero_et_al_2015}:
 \textbf{NOTA}
 
 En las siguientes aplicaciones se asumen que los datos se localizan en la
-carpeta \texttt{data} del proyecto de R-Studio en el que se esté trabajando.
+carpeta \texttt{data} del proyecto de \index{R-Studio} en el que se esté trabajando.
 
 Los datos pueden descargarse desde esta dirección:
 
@@ -2839,7 +2783,7 @@ media por persona del objeto \texttt{munis\_renta} para el año 2019.
 
 Se puede observar que la renta presenta una distribución Gamma con un gran
 número de municipios concentrados en zonas medias de renta y pocos municipios en
-tramos de rentas altas. Como se verá en el Ejercicio XXX (\textbf{GEMA?}), esta
+tramos de rentas altas. Como se verá en el Ejercicio \ref{exr:ex20}, esta
 distribución va a afectar a la información que transmite el mapa.
 
 \begin{exercise}[Mapa de coropletas de la distribución de la renta]
@@ -3216,14 +3160,6 @@ producido el evento en dicha localización.
 El alumno debe ser capaz de conocer los datos de tipo patrones de puntos,
 identificarlos y representarlos adecuadamente.
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{GEMA, esto está a medio terminar?} describir los ficheros. Hay que
-  generar uno que sólo tenga 2010 y los datos que utilizamos. lo llamamos
-  igual y vale todo
-\end{itemize}
-
 \begin{exercise}[Patrones de puntos: Creación del proyecto]
 \protect\hypertarget{exr:ex24}{}\label{exr:ex24}Cree un proyecto para trabajar todo lo referente al caso.
 \end{exercise}
@@ -3268,24 +3204,24 @@ datos.
 \begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(crimen)}
 \CommentTok{\#\textgreater{}    crime\_id          crime\_type         crime\_date             year     }
-\CommentTok{\#\textgreater{}  Length:90247       Length:90247       Length:90247       Min.   :2010  }
-\CommentTok{\#\textgreater{}  Class :character   Class :character   Class :character   1st Qu.:2013  }
-\CommentTok{\#\textgreater{}  Mode  :character   Mode  :character   Mode  :character   Median :2016  }
-\CommentTok{\#\textgreater{}                                                           Mean   :2015  }
-\CommentTok{\#\textgreater{}                                                           3rd Qu.:2018  }
-\CommentTok{\#\textgreater{}                                                           Max.   :2020  }
+\CommentTok{\#\textgreater{}  Length:5338        Length:5338        Length:5338        Min.   :2010  }
+\CommentTok{\#\textgreater{}  Class :character   Class :character   Class :character   1st Qu.:2010  }
+\CommentTok{\#\textgreater{}  Mode  :character   Mode  :character   Mode  :character   Median :2010  }
+\CommentTok{\#\textgreater{}                                                           Mean   :2010  }
+\CommentTok{\#\textgreater{}                                                           3rd Qu.:2010  }
+\CommentTok{\#\textgreater{}                                                           Max.   :2010  }
 \CommentTok{\#\textgreater{}    crime\_lat       crime\_lon      }
-\CommentTok{\#\textgreater{}  Min.   :39.42   Min.   :{-}0.4296  }
-\CommentTok{\#\textgreater{}  1st Qu.:39.46   1st Qu.:{-}0.3883  }
-\CommentTok{\#\textgreater{}  Median :39.47   Median :{-}0.3749  }
-\CommentTok{\#\textgreater{}  Mean   :39.47   Mean   :{-}0.3724  }
-\CommentTok{\#\textgreater{}  3rd Qu.:39.48   3rd Qu.:{-}0.3593  }
-\CommentTok{\#\textgreater{}  Max.   :39.53   Max.   :{-}0.3208}
+\CommentTok{\#\textgreater{}  Min.   :39.42   Min.   :{-}0.4261  }
+\CommentTok{\#\textgreater{}  1st Qu.:39.46   1st Qu.:{-}0.3876  }
+\CommentTok{\#\textgreater{}  Median :39.47   Median :{-}0.3747  }
+\CommentTok{\#\textgreater{}  Mean   :39.47   Mean   :{-}0.3722  }
+\CommentTok{\#\textgreater{}  3rd Qu.:39.48   3rd Qu.:{-}0.3600  }
+\CommentTok{\#\textgreater{}  Max.   :39.53   Max.   :{-}0.3231}
 \end{Highlighting}
 \end{Shaded}
 
 Este archivo contiene en total
-90.247 registros, y
+5.338 registros, y
 proporciona 6 campos asociados a cada registro.
 
 Entre los campos disponibles, destacamos los campos \texttt{crime\_lon} y \texttt{crime\_lat}:
@@ -3384,50 +3320,17 @@ En la Fig. \ref{fig:crimen1} podemos intuir ciertos patrones en la ocurrencia
 de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
 crímenes registrados en la zona del puerto.
 
-\begin{exercise}[Filtrado de datos]
-\protect\hypertarget{exr:ex29}{}\label{exr:ex29}Seleccione los crímenes ocurridos en el año 2010 y almacénelos en un objeto
-llamado \texttt{crimen\_2010\_sf} Opcionalmente, represente esos datos en un mapa. Puede
-tomar como referencia el código que se empleó en el Ejercicio \ref{exr:ex28}
-\end{exercise}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{crimen\_2010\_sf }\OtherTok{\textless{}{-}}\NormalTok{ crimen\_sf }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(}
-\NormalTok{    year }\SpecialCharTok{==} \StringTok{"2010"}
-\NormalTok{  )}
-
-\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{layer\_spatraster}\NormalTok{(tile) }\SpecialCharTok{+}
-  \FunctionTok{geom\_sf}\NormalTok{(}
-    \AttributeTok{data =}\NormalTok{ crimen\_2010\_sf,}
-    \AttributeTok{col =} \StringTok{"blue"}\NormalTok{,}
-    \AttributeTok{size =} \FloatTok{0.3}\NormalTok{,}
-    \AttributeTok{alpha =} \FloatTok{0.3}
-\NormalTok{  )}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/crimen2-1} 
-
-}
-
-\caption{Crímenes en Valencia (2010)}\label{fig:crimen2}
-\end{figure}
-
-\begin{exercise}[Análisis de patrones con spatstat]
-\protect\hypertarget{exr:ex30}{}\label{exr:ex30}Analice la existencia de patrones en los crímenes registrados en el año 2010.
-\end{exercise}
-
-El paquete \textbf{spatstat} (\citet{spatstat_2005}) es el paquete de referencia cuando se
-trabaja con patrones de puntos
-
-Siguiendo el anterior ejemplo, vamos a analizar el patrón de crímenes en el año
-2010. Además, en el análisis de patrones de puntos es necesario delimitar la
+Resulta interesante analizar el patrón espacial de deliltos en el año
+2010. Por otra parte, en el análisis de patrones de puntos es necesario delimitar la
 ventana espacial de observación (owin). En este caso será el municipio de
 Valencia, que podemos extraer del paquete \textbf{mapSpain}.
+
+El paquete \textbf{spatstat} (\citet{spatstat_2005}) es el paquete de referencia cuando se
+trabaja con patrones de puntos.
+
+\begin{exercise}[Análisis de patrones con spatstat]
+\protect\hypertarget{exr:ex30}{}\label{exr:ex30}Analice la existencia de patrones espaciales en los delitos registrados en el año 2010.
+\end{exercise}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3448,7 +3351,7 @@ Valencia, que podemos extraer del paquete \textbf{mapSpain}.
 \CommentTok{\# Extraemos las coordenadas de los crímenes. Han de estar en el mismo CRS}
 \CommentTok{\# que el owin}
 
-\NormalTok{coords }\OtherTok{\textless{}{-}}\NormalTok{ crimen\_2010\_sf }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{coords }\OtherTok{\textless{}{-}}\NormalTok{ crimen\_sf }\SpecialCharTok{\%\textgreater{}\%}
   \CommentTok{\# Proyectamos}
   \FunctionTok{st\_transform}\NormalTok{(}\DecValTok{25830}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{st\_coordinates}\NormalTok{()}
@@ -3511,10 +3414,6 @@ y superponer unos cuadrantes para su comportamiento.
 \protect\hypertarget{exr:ex32}{}\label{exr:ex32}Cree unos cuadrantes sobre el objeto \texttt{mydata\_ppp} usando la función
 \texttt{quadratcount}.
 \end{exercise}
-
-\textbf{GEMA: ESte mapa se puede poner un poco más mono?? Yo ya lo he arregado un
-poco.} \textbf{DIEGO:Yo no se hacerlo. Es lo malo de estas librerias gstat, geoR,
-etc. Los gráficos son horribles}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3693,7 +3592,7 @@ Una vez que se dispone del objeto espacial \texttt{pols} completo, es posible us
 \NormalTok{  ) }\SpecialCharTok{+}
   \CommentTok{\# Añadimos localización exacta}
   \FunctionTok{geom\_sf}\NormalTok{(}
-    \AttributeTok{data =}\NormalTok{ crimen\_2010\_sf, }\AttributeTok{col =} \StringTok{"grey90"}\NormalTok{,}
+    \AttributeTok{data =}\NormalTok{ crimen\_sf, }\AttributeTok{col =} \StringTok{"grey90"}\NormalTok{,}
     \AttributeTok{size =} \FloatTok{0.3}\NormalTok{,}
     \AttributeTok{alpha =} \FloatTok{0.1}
 \NormalTok{  ) }\SpecialCharTok{+}
@@ -3909,6 +3808,9 @@ De esta manera, al presentar la indicatriz de Tissot en una proyección
 específica, se puede entender de una manera intuitiva la distorsión provocada
 por dicha proyección, ya que los círculos se ven distorsionados o preservados
 según los parámetros y la naturaleza de la proyección en cuestión.
+
+\backmatter
+\printindex
 
   \bibliography{book.bib}
 

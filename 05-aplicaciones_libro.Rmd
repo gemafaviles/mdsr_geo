@@ -4,7 +4,7 @@
 **NOTA**
 
 En las siguientes aplicaciones se asumen que los datos se localizan en la
-carpeta `data` del proyecto de R-Studio en el que se esté trabajando.
+carpeta `data` del proyecto de \index{R-Studio} en el que se esté trabajando.
 
 Los datos pueden descargarse desde esta dirección:
 
@@ -686,7 +686,7 @@ munis_renta %>%
 
 Se puede observar que la renta presenta una distribución Gamma con un gran
 número de municipios concentrados en zonas medias de renta y pocos municipios en
-tramos de rentas altas. Como se verá en el Ejercicio XXX (**GEMA?**), esta
+tramos de rentas altas. Como se verá en el Ejercicio \@ref(exr:ex20), esta
 distribución va a afectar a la información que transmite el mapa.
 
 ::: {#ex20 .exercise name="Mapa de coropletas de la distribución de la renta"}
@@ -959,9 +959,6 @@ producido el evento en dicha localización.
 El alumno debe ser capaz de conocer los datos de tipo patrones de puntos,
 identificarlos y representarlos adecuadamente.
 
--   **GEMA, esto está a medio terminar?** describir los ficheros. Hay que
-    generar uno que sólo tenga 2010 y los datos que utilizamos. lo llamamos
-    igual y vale todo
 
 ::: {#ex24 .exercise name="Patrones de puntos: Creación del proyecto"}
 Cree un proyecto para trabajar todo lo referente al caso.
@@ -1078,39 +1075,18 @@ En la Fig. \@ref(fig:crimen1) podemos intuir ciertos patrones en la ocurrencia
 de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
 crímenes registrados en la zona del puerto.
 
-::: {#ex29 .exercise name="Filtrado de datos"}
-Seleccione los crímenes ocurridos en el año 2010 y almacénelos en un objeto
-llamado `crimen_2010_sf` Opcionalmente, represente esos datos en un mapa. Puede
-tomar como referencia el código que se empleó en el Ejercicio \@ref(exr:ex28)
-:::
 
-```{r crimen2, fig.cap="Crímenes en Valencia (2010)"}
-crimen_2010_sf <- crimen_sf %>%
-  filter(
-    year == "2010"
-  )
-
-ggplot() +
-  layer_spatraster(tile) +
-  geom_sf(
-    data = crimen_2010_sf,
-    col = "blue",
-    size = 0.3,
-    alpha = 0.3
-  )
-```
-
-::: {#ex30 .exercise name="Análisis de patrones con spatstat"}
-Analice la existencia de patrones en los crímenes registrados en el año 2010.
-:::
-
-El paquete **spatstat** (@spatstat_2005) es el paquete de referencia cuando se
-trabaja con patrones de puntos
-
-Siguiendo el anterior ejemplo, vamos a analizar el patrón de crímenes en el año
-2010. Además, en el análisis de patrones de puntos es necesario delimitar la
+Resulta interesante analizar el patrón espacial de deliltos en el año
+2010. Por otra parte, en el análisis de patrones de puntos es necesario delimitar la
 ventana espacial de observación (owin). En este caso será el municipio de
 Valencia, que podemos extraer del paquete **mapSpain**.
+
+El paquete **spatstat** (@spatstat_2005) es el paquete de referencia cuando se
+trabaja con patrones de puntos.
+
+::: {#ex30 .exercise name="Análisis de patrones con spatstat"}
+Analice la existencia de patrones espaciales en los delitos registrados en el año 2010.
+:::
 
 ```{r objeto-ppp, message=FALSE, warning=FALSE, fig.cap="Patrones de puntos en los crímenes de Valencia (2010)"}
 
@@ -1130,7 +1106,7 @@ val_owin <- as.owin(valencia)
 # Extraemos las coordenadas de los crímenes. Han de estar en el mismo CRS
 # que el owin
 
-coords <- crimen_2010_sf %>%
+coords <- crimen_sf %>%
   # Proyectamos
   st_transform(25830) %>%
   st_coordinates()
@@ -1161,9 +1137,6 @@ Cree unos cuadrantes sobre el objeto `mydata_ppp` usando la función
 `quadratcount`.
 :::
 
-**GEMA: ESte mapa se puede poner un poco más mono?? Yo ya lo he arregado un
-poco.** **DIEGO:Yo no se hacerlo. Es lo malo de estas librerias gstat, geoR,
-etc. Los gráficos son horribles**
 
 ```{r cuadrante, fig.cap="Crímenes en Valencia por cuadrantes (2010)"}
 ## Hallamos los cuadrantes
@@ -1254,7 +1227,7 @@ ggplot() +
   ) +
   # Añadimos localización exacta
   geom_sf(
-    data = crimen_2010_sf, col = "grey90",
+    data = crimen_sf, col = "grey90",
     size = 0.3,
     alpha = 0.1
   ) +
