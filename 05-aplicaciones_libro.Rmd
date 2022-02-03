@@ -222,10 +222,6 @@ ggplot(esp2) +
   geom_sf() +
   geom_sf(data = tmin_sf) +
   theme_light() +
-  # labs(
-  #  title = "Estaciones de monitoreo AEMET en  España",
-  #  subtitle = "excluyendo las Islas Canarias"
-  # ) +
   theme(
     plot.title = element_text(
       size = 12,
@@ -261,7 +257,6 @@ tmin_8enero <- tmin_sf %>%
 # Mapa temático en el que se representan los valores de temperatura mínima
 # registrados en cada estación mediante un código de colores
 plot(tmin_8enero["tmin"],
-  # main = "Temperatura mínima (8-enero-2021)",
   pch = 8
 )
 ```
@@ -303,9 +298,6 @@ ggplot() +
     guide = "legend"
   ) +
   theme_light() +
-  # labs(
-  #  title = "Temperatura mínima (8-enero-2021)"
-  # ) +
   theme(
     plot.title = element_text(
       size = 12,
@@ -511,3 +503,426 @@ ggplot() +
     fill = "Temp. (º)"
   )
 ```
+
+## Caso 2. Distribución espacial de la renta media por municipios
+
+**Objetivos de aprendizaje**
+
+Esta sección presenta un caso de uso en el que aprenderemos a realizar las
+siguientes tareas básicas:
+
+-   Importar datos tabulares y datos espaciales.
+
+-   Realizar un tratamiento de limpieza de datos y cruzar tablas.
+
+-   Hacer mapas temáticos. Aprenderemos también algunas nociones básicas sobre
+    cómo crear diferentes clases para un conjunto de datos continuo.
+
+Para ello, partiremos de dos ficheros:
+
+1.  Fichero `renta_municipio.csv`: Este fichero contiene información de la Renta
+    Neta per cápita por municipios (en euros), distritos y secciones censales.
+    Esta información se ha extraído del [Atlas de distribución de renta de los
+    hogares](https://www.ine.es/experimental/atlas/experimental_atlas.htm)
+    proporcionado por el INE, y ha sido tratado previamente para adaptar la
+    información al presente ejercicio.
+
+2.  Fichero `municipios.gpkg`: Es un fichero que contiene datos espaciales
+    (polígonos) de los municipios en España en el año 2019. Se ha extraído del
+    Instituto Geográfico Nacional (IGN) usando el paquete **mapSpain**.
+
+El primer paso en cualquier tipo de análisis de datos es importar los datos al
+software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
+de información que contiene.
+
+::: {#ex16 .exercise name="Importación y análisis del los datos objeto de estudio"}
+Importe el fichero de datos `renta_municipio.csv` y `municipios.gpkg` y guárdelo
+en un objeto llamado `renta` y `munis`, respectivamente. Observe la información
+que contienen. Puede ayudarse de la función `head.` Use las librerías oportunas
+para importar los datos en los distintos formatos.
+:::
+
+```{r importa_renta}
+# Usaremos paquetes del tidyverse
+library(dplyr)
+library(readr)
+
+renta <- read_csv("data/renta_municipio.csv", na = ".")
+```
+
+```{r importa_muni}
+library(sf)
+munis <- st_read("data/municipios.gpkg", quiet = TRUE)
+```
+
+```{r importa_renta_tabla}
+head(renta)
+```
+
+Se puede comprobar que tenemos información para el periodo 2015-2019. Además, la
+columna `Unidad` contiene un literal con el municipio o sección correspondiente.
+
+```{r importa_munis_tabla}
+head(munis)
+```
+
+El objeto `munis` contiene polígonos y varias columnas, entre ellas dos
+especialmente relevantes: `cpro` y `cmun`, que corresponden a los códigos de
+provincia y de municipio respectivamente. Podemos comprobar que este código
+también se encuentra en el dataset `renta`.
+
+::: {#ex17 .exercise name="Comprobación de campos en común para un municipio: Noblejas"}
+Para comprobar que efectivamente disponemos de dos campos en común en los
+ficheros, que serán de vital importancia para posteriormente unirlos, se
+selecciona un municipio al azar, el municipio de Noblejas en la provincia de
+Toledo y comprobamos.
+:::
+
+```{r noblejas}
+# Miro un municipio: Noblejas
+
+renta[grep("Noblejas", renta$Unidad), ]
+
+munis[grep("Noblejas", munis$name), c("name", "cpro", "cmun")]
+```
+
+En el caso de Noblejas, el código completo es 45115. Sin embargo, en el caso de
+la tabla `renta`, debemos extraer ese valor del literal. Para ello debemos
+manipular la columna y extraer la primera palabra de la columna `Unidad`:
+
+```{r limpia-renta}
+
+# Creo una función y la aplico a toda la columna
+extrae_codigo <- function(x) {
+  unlist(strsplit(x, " "))[1]
+}
+
+renta$codigo_ine <- sapply(as.character(renta$Unidad), extrae_codigo)
+
+head(renta[c("Unidad", "codigo_ine")])
+```
+
+Ahora, es necesario crear la misma variable en `munis` para poder realizar el
+cruce:
+
+```{r codigo-ine}
+
+munis$codigo_ine <- paste0(munis$cpro, munis$cmun)
+
+head(munis[, c("name", "codigo_ine")])
+```
+
+Ya estamos listos para realizar el cruce. Además, seleccionaremos sólo las
+columnas que vamos a usar, en este caso la del año 2019.
+
+::: {#ex18 .exercise name="Unión de objetos renta y mapas"}
+Realice la unión de los objetos con la función `left_join()` y seleccione las
+variables `name`, `cpro`, `cmun`, `2019`. Guarde el resultado obtenido en un
+nuevo objeto llamado `munis_renta`.
+:::
+
+```{r cruce_renta}
+
+munis_renta <- munis %>%
+  left_join(renta) %>%
+  dplyr::select(name, cpro, cmun, `2019`)
+```
+
+**Cuando crucemos datos espaciales con datos no espaciales en R, es importante
+que el primer dataset sea el que contiene los datos espaciales**. Esto es así
+porque el objeto resultante "hereda" la clase del primer objeto.
+
+A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en
+el lado derecho del join, los datos finales no serán espaciales:
+
+```{r cruces_espaciales}
+
+# Miramos la clase de munis_renta
+
+class(munis_renta)
+
+# Es un sf, por tanto espacial
+
+# ¿Que pasa si realizamos el cruce de la otra manera?
+renta %>%
+  left_join(munis) %>%
+  dplyr::select(name, cpro, cmun, `2019`) %>%
+  class()
+```
+
+El resultado es un tibble o data.frame, **¡pero no es espacial!**
+
+Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
+como la realización de un histograma.
+
+::: {#ex19 .exercise name="Histograma de la variable Renta neta media por persona (€)"}
+A través de un histograma represente la distribución de la variable Renta neta
+media por persona del objeto `munis_renta` para el año 2019.
+:::
+
+```{r basic, fig.cap="Histograma de la variable Renta neta media por persona (€) en 2019"}
+
+library(ggplot2)
+
+munis_renta %>%
+  ggplot(aes(x = `2019`)) +
+  geom_histogram(color = "darkblue", fill = "lightblue") +
+  scale_x_continuous(labels = scales::label_number_auto()) +
+  scale_y_continuous(labels = scales::label_percent()) +
+  labs(
+    y = "",
+    x = "Renta neta media por persona (€)"
+  )
+```
+
+Se puede observar que la renta presenta una distribución Gamma con un gran
+número de municipios concentrados en zonas medias de renta y pocos municipios en
+tramos de rentas altas. Como se verá en el Ejercicio XXX (**GEMA?**), esta
+distribución va a afectar a la información que transmite el mapa.
+
+::: {#ex20 .exercise name="Mapa de coropletas de la distribución de la renta"}
+Realice un mapa de coropletas mostrando la distribución de la renta usando los
+valores brutos de renta sin modificar
+:::
+
+```{r maparenta1, fig.cap="Renta neta media por persona en España (2019)" }
+
+ggplot(munis_renta) +
+  # Usamos geom_sf, y como aes() lo que queremos mostrar, en este caso, el
+  # color del polígono representa la renta. Vamos a retirar los bordes con
+  # color = NA
+  geom_sf(aes(fill = `2019`), color = NA) +
+  theme_minimal() +
+  scale_fill_continuous(labels = scales::label_number(
+    big.mark = ".",
+    decimal.mark = ",",
+    suffix = " €"
+  )) +
+  theme_minimal()
+```
+
+Este primer mapa no es demasiado informativo, por los siguientes motivos:
+
+-   Existe una serie de municipios para los que no tenemos datos.
+
+-   La escala de color no es la más adecuada.
+
+-   Dada la distribución de los datos, puede ser adecuado crear grupos de renta
+    para que el mapa sea más interpretable.
+
+::: {#ex21 .exercise name="Adecuacion de los datos al la visualización"}
+Elimine los municipios sin datos y a cambie la escala de color para ver si
+mejora la visualización de la variable Renta neta media por persona.
+:::
+
+```{r maparenta2, fig.cap="Renta neta media por persona en España (2019)" }
+
+munis_renta_clean <- munis_renta %>% filter(!is.na(`2019`))
+
+ggplot(munis_renta_clean) +
+  geom_sf(aes(fill = `2019`), color = NA) +
+  # Cambiamos la paleta de colores, vamos a usar una paleta denominada Inferno,
+  # ya incluida en base R con hcl.colors
+
+  # Como son datos continuos, puedo usar Inferno
+  scale_fill_gradientn(
+    colours = hcl.colors(20, "Inferno", rev = TRUE),
+    labels = scales::label_number(
+      big.mark = ".",
+      decimal.mark = ",",
+      suffix = " €"
+    )
+  ) +
+  theme_minimal()
+```
+
+Este mapa proporciona algo más de información, y parece intuirse que las rentas
+más altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo,
+el hecho de que la distribución de los datos no sea normal está afectando a la
+visualización.
+
+Para intentar atajar este problema, se puede dividir los datos en clases, por
+ejemplo, cuartiles o deciles. Existen varios métodos de clasificación de datos,
+que en R se encuentran implementados en el paquete **classInt** [@R-classint]. A
+continuación se van a plantear diversos métodos de clasificación y se observará
+cómo la "historia" que cuenta el mapa varía en función de dichas clases. Se
+proponen siguientes métodos de clasificación:
+
+-   **El método de deciles**: consiste en crear 10 categorías incluyendo el
+    mismo número de registros en cada una de ellas.
+
+-   **El método de intervalos equivalentes**: divide el rango de valores en un
+    número de grupos definido. La distancia de todos los intervalos es idéntica,
+    por lo que este método no tiene en cuenta la distribución de los registros.
+
+-   **El método de Fisher-Jenks**: desarrollado específicamente para la
+    clasificación de datos espaciales y su visualización en mapas. Produce
+    agrupaciones de tal manera que los datos de cada grupo son "cercanas" entre
+    sí y sustancialmente distintas de los valores de otros grupos.
+
+::: {#ex22 .exercise name="División de los datos en clases"}
+Utilice la función `classIntervals()` del paquete **classInt** y cambie el
+parámetro `style` para obtener los métodos de clasificación: Deciles, tramos de
+Renta equidistantes y Fisher and Jenks.
+
+Realice un `plot` de las clases obtenidas y compárelas.
+:::
+
+```{r classint, message=FALSE}
+
+library(classInt)
+
+# División en deciles
+deciles <- classIntervals(munis_renta_clean$`2019`,
+  style = "quantile", n = 10
+)
+deciles
+plot(deciles, pal = hcl.colors(20, "Inferno"), main = "Deciles")
+
+
+# Tramos equidistantes en términos de renta
+equal <- classIntervals(munis_renta_clean$`2019`,
+  style = "equal", n = 10
+)
+equal
+plot(equal, pal = hcl.colors(20, "Inferno"), main = "Equidistantes")
+
+fisher <- classIntervals(munis_renta_clean$`2019`,
+  style = "fisher",
+  # Fuerzo para mejorar la comparación entre métodos
+  n = 10
+)
+fisher
+plot(fisher,
+  pal = hcl.colors(20, "Inferno"),
+  main = "Fisher-Jenks"
+)
+```
+
+Se puede observar lo siguiente:
+
+-   El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
+    €.
+
+-   El método por deciles proporciona unos grupos con valores de renta muy
+    parecidos entre sí en los valores medios. Esto es debido a la propia
+    distribución de la variable.
+
+-   El método de rangos equidistantes proporciona algunos grupos con un número
+    muy reducido de municipios.
+
+-   El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
+    apropiados para los tramos altos de renta.
+
+::: {#ex23 .exercise name="Representación de los mapas según las clases obtenidas"}
+Realice tres mapas distintos, creando clases de renta según cada uno de los
+métodos anteriormente mostrados y coméntelos.
+:::
+
+**Deciles**
+
+```{r mapa-deciles, message=FALSE, fig.cap="Mapa por deciles de renta media por persona (2019)"}
+# Extracción de los valores de corte
+breaks_d <- deciles$brks
+
+# Creación de etiquetas básicas para cada clase
+# Creación de una función específica para crear etiquetas formateadas
+label_fun <- function(x) {
+  l <- length(x)
+  eur <- paste0(prettyNum(round(x, 0),
+    decimal.mark = ",",
+    big.mark = "."
+  ), " €")
+
+  labels <- paste(eur[-l], "-", eur[-1])
+  labels[1] <- paste("<", eur[1])
+  labels[l - 1] <- paste(">", eur[l - 1])
+  return(labels)
+}
+
+labels_d <- label_fun(breaks_d)
+
+munis_renta_clean$Deciles <- cut(munis_renta_clean$`2019`,
+  breaks = breaks_d,
+  labels = labels_d,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambio la variable a representar para crear el mapa
+  geom_sf(aes(fill = Deciles), color = NA) +
+  # Cambio el scale, ya no es continua
+  scale_fill_manual(values = hcl.colors(length(labels_d),
+    "Inferno",
+    rev = TRUE
+  )) +
+  theme_minimal()
+```
+
+El mapa de la Fig. \@ref(fig:mapa-deciles) ya permite observar patrones
+geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
+Norte y las del Sur. Veamos una representación distina usando otras clases
+diferentes
+
+```{r mapa-equal, message=FALSE, fig.cap="Mapa por tramos de renta equidistantes de renta media por persona (2019)"}
+
+breaks_e <- equal$brks
+labels_e <- label_fun(breaks_e)
+
+munis_renta_clean$Equal <- cut(munis_renta_clean$`2019`,
+  breaks = breaks_e,
+  labels = labels_e,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = Equal), color = NA) +
+  scale_fill_manual(values = hcl.colors(length(labels_e),
+    "Inferno",
+    rev = TRUE
+  )) +
+  theme_minimal()
+```
+
+El mapa de la Fig. \@ref(fig:mapa-deciles), sin embargo, se parece más al mapa
+de la Fig. \@ref(fig:maparenta2) con los datos sin clasificar, donde el peso
+visual se concentra más bien en los municipios con rentas mucho más altas que el
+resto (por encima de 18.000 €).
+
+Véase a continuación el mismo mapa usando la clasificación Fisher-Jenks:
+
+```{r mapa-fisher, message=FALSE, fig.cap="Mapa por tramos según Fisher-Jenks"}
+
+breaks_f <- fisher$brks
+labels_f <- label_fun(breaks_f)
+
+munis_renta_clean$`Fisher-Jenks` <- cut(munis_renta_clean$`2019`,
+  breaks = breaks_f,
+  labels = labels_f,
+  include.lowest = TRUE
+)
+
+ggplot(munis_renta_clean) +
+  # Cambiamos la variable que usamos para crear el mapa
+  geom_sf(aes(fill = `Fisher-Jenks`), color = NA) +
+  scale_fill_manual(values = hcl.colors(length(labels_f),
+    "Inferno",
+    rev = TRUE
+  )) +
+  theme_minimal()
+```
+
+En el mapa de la Fig. \@ref(fig:mapa-fisher) se puede observar de una manera más
+clara un cluster adicional de renta en la zona de Asturias y el norte de León.
+Además, gracias a la escala de colores puede intuirse que este clúster de renta
+no presenta valores tan altos como los observados en País Vasco o Madrid.
+
+En conclusión, en el momento de realizar una visualización de datos es
+importante conocer el dato a representar, así como entender algunas propiedades
+básicas de la distribución subyacente. También se ha podido observar que hay
+ciertas decisiones estéticas (datos continuos vs. agrupados, escala de colores)
+que tienen una influencia significativa en cómo se percibe la información
+representada. Es responsabilidad del investigador encargado de crear de la
+visualización el conocer todos estos factores y aplicarlos de manera
+conveniente.

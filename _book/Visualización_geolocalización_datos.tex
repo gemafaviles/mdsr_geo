@@ -2195,10 +2195,6 @@ la Península Ibérica.
   \FunctionTok{geom\_sf}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ tmin\_sf) }\SpecialCharTok{+}
   \FunctionTok{theme\_light}\NormalTok{() }\SpecialCharTok{+}
-  \CommentTok{\# labs(}
-  \CommentTok{\#  title = "Estaciones de monitoreo AEMET en  España",}
-  \CommentTok{\#  subtitle = "excluyendo las Islas Canarias"}
-  \CommentTok{\# ) +}
   \FunctionTok{theme}\NormalTok{(}
     \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}
       \AttributeTok{size =} \DecValTok{12}\NormalTok{,}
@@ -2245,7 +2241,6 @@ análisis.
 \CommentTok{\# Mapa temático en el que se representan los valores de temperatura mínima}
 \CommentTok{\# registrados en cada estación mediante un código de colores}
 \FunctionTok{plot}\NormalTok{(tmin\_8enero[}\StringTok{"tmin"}\NormalTok{],}
-  \CommentTok{\# main = "Temperatura mínima (8{-}enero{-}2021)",}
   \AttributeTok{pch =} \DecValTok{8}
 \NormalTok{)}
 \end{Highlighting}
@@ -2521,6 +2516,622 @@ pixeles.
 
 \caption{Temperatura mínima interpolada. 8 de Enero 2021. }\label{fig:unnamed-chunk-18}
 \end{figure}
+
+\hypertarget{caso-2.-distribuciuxf3n-espacial-de-la-renta-media-por-municipios}{%
+\section{Caso 2. Distribución espacial de la renta media por municipios}\label{caso-2.-distribuciuxf3n-espacial-de-la-renta-media-por-municipios}}
+
+\textbf{Objetivos de aprendizaje}
+
+Esta sección presenta un caso de uso en el que aprenderemos a realizar las
+siguientes tareas básicas:
+
+\begin{itemize}
+\item
+  Importar datos tabulares y datos espaciales.
+\item
+  Realizar un tratamiento de limpieza de datos y cruzar tablas.
+\item
+  Hacer mapas temáticos. Aprenderemos también algunas nociones básicas sobre
+  cómo crear diferentes clases para un conjunto de datos continuo.
+\end{itemize}
+
+Para ello, partiremos de dos ficheros:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Fichero \texttt{renta\_municipio.csv}: Este fichero contiene información de la Renta
+  Neta per cápita por municipios (en euros), distritos y secciones censales.
+  Esta información se ha extraído del \href{https://www.ine.es/experimental/atlas/experimental_atlas.htm}{Atlas de distribución de renta de los
+  hogares}
+  proporcionado por el INE, y ha sido tratado previamente para adaptar la
+  información al presente ejercicio.
+\item
+  Fichero \texttt{municipios.gpkg}: Es un fichero que contiene datos espaciales
+  (polígonos) de los municipios en España en el año 2019. Se ha extraído del
+  Instituto Geográfico Nacional (IGN) usando el paquete \textbf{mapSpain}.
+\end{enumerate}
+
+El primer paso en cualquier tipo de análisis de datos es importar los datos al
+software de tratamiento (en nuestro caso, R) y analizarlos para conocer el tipo
+de información que contiene.
+
+\begin{exercise}[Importación y análisis del los datos objeto de estudio]
+\protect\hypertarget{exr:ex16}{}\label{exr:ex16}Importe el fichero de datos \texttt{renta\_municipio.csv} y \texttt{municipios.gpkg} y guárdelo
+en un objeto llamado \texttt{renta} y \texttt{munis}, respectivamente. Observe la información
+que contienen. Puede ayudarse de la función \texttt{head.} Use las librerías oportunas
+para importar los datos en los distintos formatos.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Usaremos paquetes del tidyverse}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(readr)}
+
+\NormalTok{renta }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/renta\_municipio.csv"}\NormalTok{, }\AttributeTok{na =} \StringTok{"."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(sf)}
+\NormalTok{munis }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{"data/municipios.gpkg"}\NormalTok{, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(renta)}
+\CommentTok{\#\textgreater{} \# A tibble: 6 x 6}
+\CommentTok{\#\textgreater{}   Unidad                          \textasciigrave{}2019\textasciigrave{} \textasciigrave{}2018\textasciigrave{} \textasciigrave{}2017\textasciigrave{} \textasciigrave{}2016\textasciigrave{} \textasciigrave{}2015\textasciigrave{}}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}                            \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 44001 Ababuj                        NA     NA     NA     NA     NA}
+\CommentTok{\#\textgreater{} 2 4400101 Ababuj distrito 01          NA     NA     NA     NA     NA}
+\CommentTok{\#\textgreater{} 3 4400101001 Ababuj sección 01001     NA     NA     NA     NA     NA}
+\CommentTok{\#\textgreater{} 4 40001 Abades                     11429  10731  10314   9816   9904}
+\CommentTok{\#\textgreater{} 5 4000101 Abades distrito 01       11429  10731  10314   9816   9904}
+\CommentTok{\#\textgreater{} 6 4000101001 Abades sección 01001  11429  10731  10314   9816   9904}
+\end{Highlighting}
+\end{Shaded}
+
+Se puede comprobar que tenemos información para el periodo 2015-2019. Además, la
+columna \texttt{Unidad} contiene un literal con el municipio o sección correspondiente.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(munis)}
+\CommentTok{\#\textgreater{} Simple feature collection with 6 features and 7 fields}
+\CommentTok{\#\textgreater{} Geometry type: MULTIPOLYGON}
+\CommentTok{\#\textgreater{} Dimension:     XY}
+\CommentTok{\#\textgreater{} Bounding box:  xmin: {-}3.140179 ymin: 36.73817 xmax: {-}2.057058 ymax: 37.54579}
+\CommentTok{\#\textgreater{} Geodetic CRS:  ETRS89}
+\CommentTok{\#\textgreater{}   codauto ine.ccaa.name cpro ine.prov.name cmun      name LAU\_CODE                           geom}
+\CommentTok{\#\textgreater{} 1      01     Andalucía   04       Almería  001      Abla    04001 MULTIPOLYGON ((({-}2.775594 3...}
+\CommentTok{\#\textgreater{} 2      01     Andalucía   04       Almería  002  Abrucena    04002 MULTIPOLYGON ((({-}2.787566 3...}
+\CommentTok{\#\textgreater{} 3      01     Andalucía   04       Almería  003      Adra    04003 MULTIPOLYGON ((({-}3.051988 3...}
+\CommentTok{\#\textgreater{} 4      01     Andalucía   04       Almería  004 Albanchez    04004 MULTIPOLYGON ((({-}2.181086 3...}
+\CommentTok{\#\textgreater{} 5      01     Andalucía   04       Almería  005 Alboloduy    04005 MULTIPOLYGON ((({-}2.572442 3...}
+\CommentTok{\#\textgreater{} 6      01     Andalucía   04       Almería  006     Albox    04006 MULTIPOLYGON ((({-}2.128106 3...}
+\end{Highlighting}
+\end{Shaded}
+
+El objeto \texttt{munis} contiene polígonos y varias columnas, entre ellas dos
+especialmente relevantes: \texttt{cpro} y \texttt{cmun}, que corresponden a los códigos de
+provincia y de municipio respectivamente. Podemos comprobar que este código
+también se encuentra en el dataset \texttt{renta}.
+
+\begin{exercise}[Comprobación de campos en común para un municipio: Noblejas]
+\protect\hypertarget{exr:ex17}{}\label{exr:ex17}Para comprobar que efectivamente disponemos de dos campos en común en los
+ficheros, que serán de vital importancia para posteriormente unirlos, se
+selecciona un municipio al azar, el municipio de Noblejas en la provincia de
+Toledo y comprobamos.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Miro un municipio: Noblejas}
+
+\NormalTok{renta[}\FunctionTok{grep}\NormalTok{(}\StringTok{"Noblejas"}\NormalTok{, renta}\SpecialCharTok{$}\NormalTok{Unidad), ]}
+\CommentTok{\#\textgreater{} \# A tibble: 5 x 6}
+\CommentTok{\#\textgreater{}   Unidad                            \textasciigrave{}2019\textasciigrave{} \textasciigrave{}2018\textasciigrave{} \textasciigrave{}2017\textasciigrave{} \textasciigrave{}2016\textasciigrave{} \textasciigrave{}2015\textasciigrave{}}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}                              \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}  \textless{}dbl\textgreater{}}
+\CommentTok{\#\textgreater{} 1 45115 Noblejas                     10591  10314   9751   9484   9124}
+\CommentTok{\#\textgreater{} 2 4511501 Noblejas distrito 01       11039  10717  10135   9711   9386}
+\CommentTok{\#\textgreater{} 3 4511501001 Noblejas sección 01001  11039  10717  10135   9711   9386}
+\CommentTok{\#\textgreater{} 4 4511502 Noblejas distrito 02       10276  10029   9475   9319   8938}
+\CommentTok{\#\textgreater{} 5 4511502001 Noblejas sección 02001  10276  10029   9475   9319   8938}
+
+\NormalTok{munis[}\FunctionTok{grep}\NormalTok{(}\StringTok{"Noblejas"}\NormalTok{, munis}\SpecialCharTok{$}\NormalTok{name), }\FunctionTok{c}\NormalTok{(}\StringTok{"name"}\NormalTok{, }\StringTok{"cpro"}\NormalTok{, }\StringTok{"cmun"}\NormalTok{)]}
+\CommentTok{\#\textgreater{} Simple feature collection with 1 feature and 3 fields}
+\CommentTok{\#\textgreater{} Geometry type: MULTIPOLYGON}
+\CommentTok{\#\textgreater{} Dimension:     XY}
+\CommentTok{\#\textgreater{} Bounding box:  xmin: {-}3.489824 ymin: 39.93003 xmax: {-}3.372611 ymax: 40.05017}
+\CommentTok{\#\textgreater{} Geodetic CRS:  ETRS89}
+\CommentTok{\#\textgreater{}          name cpro cmun                           geom}
+\CommentTok{\#\textgreater{} 4985 Noblejas   45  115 MULTIPOLYGON ((({-}3.44681 40...}
+\end{Highlighting}
+\end{Shaded}
+
+En el caso de Noblejas, el código completo es 45115. Sin embargo, en el caso de
+la tabla \texttt{renta}, debemos extraer ese valor del literal. Para ello debemos
+manipular la columna y extraer la primera palabra de la columna \texttt{Unidad}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Creo una función y la aplico a toda la columna}
+\NormalTok{extrae\_codigo }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+  \FunctionTok{unlist}\NormalTok{(}\FunctionTok{strsplit}\NormalTok{(x, }\StringTok{" "}\NormalTok{))[}\DecValTok{1}\NormalTok{]}
+\NormalTok{\}}
+
+\NormalTok{renta}\SpecialCharTok{$}\NormalTok{codigo\_ine }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(renta}\SpecialCharTok{$}\NormalTok{Unidad), extrae\_codigo)}
+
+\FunctionTok{head}\NormalTok{(renta[}\FunctionTok{c}\NormalTok{(}\StringTok{"Unidad"}\NormalTok{, }\StringTok{"codigo\_ine"}\NormalTok{)])}
+\CommentTok{\#\textgreater{} \# A tibble: 6 x 2}
+\CommentTok{\#\textgreater{}   Unidad                          codigo\_ine}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}                           \textless{}chr\textgreater{}     }
+\CommentTok{\#\textgreater{} 1 44001 Ababuj                    44001     }
+\CommentTok{\#\textgreater{} 2 4400101 Ababuj distrito 01      4400101   }
+\CommentTok{\#\textgreater{} 3 4400101001 Ababuj sección 01001 4400101001}
+\CommentTok{\#\textgreater{} 4 40001 Abades                    40001     }
+\CommentTok{\#\textgreater{} 5 4000101 Abades distrito 01      4000101   }
+\CommentTok{\#\textgreater{} 6 4000101001 Abades sección 01001 4000101001}
+\end{Highlighting}
+\end{Shaded}
+
+Ahora, es necesario crear la misma variable en \texttt{munis} para poder realizar el
+cruce:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{munis}\SpecialCharTok{$}\NormalTok{codigo\_ine }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(munis}\SpecialCharTok{$}\NormalTok{cpro, munis}\SpecialCharTok{$}\NormalTok{cmun)}
+
+\FunctionTok{head}\NormalTok{(munis[, }\FunctionTok{c}\NormalTok{(}\StringTok{"name"}\NormalTok{, }\StringTok{"codigo\_ine"}\NormalTok{)])}
+\CommentTok{\#\textgreater{} Simple feature collection with 6 features and 2 fields}
+\CommentTok{\#\textgreater{} Geometry type: MULTIPOLYGON}
+\CommentTok{\#\textgreater{} Dimension:     XY}
+\CommentTok{\#\textgreater{} Bounding box:  xmin: {-}3.140179 ymin: 36.73817 xmax: {-}2.057058 ymax: 37.54579}
+\CommentTok{\#\textgreater{} Geodetic CRS:  ETRS89}
+\CommentTok{\#\textgreater{}        name codigo\_ine                           geom}
+\CommentTok{\#\textgreater{} 1      Abla      04001 MULTIPOLYGON ((({-}2.775594 3...}
+\CommentTok{\#\textgreater{} 2  Abrucena      04002 MULTIPOLYGON ((({-}2.787566 3...}
+\CommentTok{\#\textgreater{} 3      Adra      04003 MULTIPOLYGON ((({-}3.051988 3...}
+\CommentTok{\#\textgreater{} 4 Albanchez      04004 MULTIPOLYGON ((({-}2.181086 3...}
+\CommentTok{\#\textgreater{} 5 Alboloduy      04005 MULTIPOLYGON ((({-}2.572442 3...}
+\CommentTok{\#\textgreater{} 6     Albox      04006 MULTIPOLYGON ((({-}2.128106 3...}
+\end{Highlighting}
+\end{Shaded}
+
+Ya estamos listos para realizar el cruce. Además, seleccionaremos sólo las
+columnas que vamos a usar, en este caso la del año 2019.
+
+\begin{exercise}[Unión de objetos renta y mapas]
+\protect\hypertarget{exr:ex18}{}\label{exr:ex18}Realice la unión de los objetos con la función \texttt{left\_join()} y seleccione las
+variables \texttt{name}, \texttt{cpro}, \texttt{cmun}, \texttt{2019}. Guarde el resultado obtenido en un
+nuevo objeto llamado \texttt{munis\_renta}.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{munis\_renta }\OtherTok{\textless{}{-}}\NormalTok{ munis }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(renta) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(name, cpro, cmun, }\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Cuando crucemos datos espaciales con datos no espaciales en R, es importante
+que el primer dataset sea el que contiene los datos espaciales}. Esto es así
+porque el objeto resultante ``hereda'' la clase del primer objeto.
+
+A modo de ejemplo, si realizáramos el proceso poniendo los datos espaciales en
+el lado derecho del join, los datos finales no serán espaciales:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Miramos la clase de munis\_renta}
+
+\FunctionTok{class}\NormalTok{(munis\_renta)}
+\CommentTok{\#\textgreater{} [1] "sf"         "data.frame"}
+
+\CommentTok{\# Es un sf, por tanto espacial}
+
+\CommentTok{\# ¿Que pasa si realizamos el cruce de la otra manera?}
+\NormalTok{renta }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(munis) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(name, cpro, cmun, }\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{class}\NormalTok{()}
+\CommentTok{\#\textgreater{} [1] "tbl\_df"     "tbl"        "data.frame"}
+\end{Highlighting}
+\end{Shaded}
+
+El resultado es un tibble o data.frame, \textbf{¡pero no es espacial!}
+
+Una vez que tenemos los datos unidos podemos realizar algunos análisis básicos,
+como la realización de un histograma.
+
+\begin{exercise}[Histograma de la variable Renta neta media por persona (€)]
+\protect\hypertarget{exr:ex19}{}\label{exr:ex19}A través de un histograma represente la distribución de la variable Renta neta
+media por persona del objeto \texttt{munis\_renta} para el año 2019.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\NormalTok{munis\_renta }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{color =} \StringTok{"darkblue"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"lightblue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_number\_auto}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_percent}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{y =} \StringTok{""}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Renta neta media por persona (€)"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/basic-1} 
+
+}
+
+\caption{Histograma de la variable Renta neta media por persona (€) en 2019}\label{fig:basic}
+\end{figure}
+
+Se puede observar que la renta presenta una distribución Gamma con un gran
+número de municipios concentrados en zonas medias de renta y pocos municipios en
+tramos de rentas altas. Como se verá en el Ejercicio XXX (\textbf{GEMA?}), esta
+distribución va a afectar a la información que transmite el mapa.
+
+\begin{exercise}[Mapa de coropletas de la distribución de la renta]
+\protect\hypertarget{exr:ex20}{}\label{exr:ex20}Realice un mapa de coropletas mostrando la distribución de la renta usando los
+valores brutos de renta sin modificar
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\FunctionTok{ggplot}\NormalTok{(munis\_renta) }\SpecialCharTok{+}
+  \CommentTok{\# Usamos geom\_sf, y como aes() lo que queremos mostrar, en este caso, el}
+  \CommentTok{\# color del polígono representa la renta. Vamos a retirar los bordes con}
+  \CommentTok{\# color = NA}
+  \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{), }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_continuous}\NormalTok{(}\AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_number}\NormalTok{(}
+    \AttributeTok{big.mark =} \StringTok{"."}\NormalTok{,}
+    \AttributeTok{decimal.mark =} \StringTok{","}\NormalTok{,}
+    \AttributeTok{suffix =} \StringTok{" €"}
+\NormalTok{  )) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/maparenta1-1} 
+
+}
+
+\caption{Renta neta media por persona en España (2019)}\label{fig:maparenta1}
+\end{figure}
+
+Este primer mapa no es demasiado informativo, por los siguientes motivos:
+
+\begin{itemize}
+\item
+  Existe una serie de municipios para los que no tenemos datos.
+\item
+  La escala de color no es la más adecuada.
+\item
+  Dada la distribución de los datos, puede ser adecuado crear grupos de renta
+  para que el mapa sea más interpretable.
+\end{itemize}
+
+\begin{exercise}[Adecuacion de los datos al la visualización]
+\protect\hypertarget{exr:ex21}{}\label{exr:ex21}Elimine los municipios sin datos y a cambie la escala de color para ver si
+mejora la visualización de la variable Renta neta media por persona.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{munis\_renta\_clean }\OtherTok{\textless{}{-}}\NormalTok{ munis\_renta }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{))}
+
+\FunctionTok{ggplot}\NormalTok{(munis\_renta\_clean) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{), }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Cambiamos la paleta de colores, vamos a usar una paleta denominada Inferno,}
+  \CommentTok{\# ya incluida en base R con hcl.colors}
+
+  \CommentTok{\# Como son datos continuos, puedo usar Inferno}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}
+    \AttributeTok{colours =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{, }\AttributeTok{rev =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_number}\NormalTok{(}
+      \AttributeTok{big.mark =} \StringTok{"."}\NormalTok{,}
+      \AttributeTok{decimal.mark =} \StringTok{","}\NormalTok{,}
+      \AttributeTok{suffix =} \StringTok{" €"}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/maparenta2-1} 
+
+}
+
+\caption{Renta neta media por persona en España (2019)}\label{fig:maparenta2}
+\end{figure}
+
+Este mapa proporciona algo más de información, y parece intuirse que las rentas
+más altas se encuentran en zonas de País Vasco, Madrid y Cataluña. Sin embargo,
+el hecho de que la distribución de los datos no sea normal está afectando a la
+visualización.
+
+Para intentar atajar este problema, se puede dividir los datos en clases, por
+ejemplo, cuartiles o deciles. Existen varios métodos de clasificación de datos,
+que en R se encuentran implementados en el paquete \textbf{classInt} \citep{R-classint}. A
+continuación se van a plantear diversos métodos de clasificación y se observará
+cómo la ``historia'' que cuenta el mapa varía en función de dichas clases. Se
+proponen siguientes métodos de clasificación:
+
+\begin{itemize}
+\item
+  \textbf{El método de deciles}: consiste en crear 10 categorías incluyendo el
+  mismo número de registros en cada una de ellas.
+\item
+  \textbf{El método de intervalos equivalentes}: divide el rango de valores en un
+  número de grupos definido. La distancia de todos los intervalos es idéntica,
+  por lo que este método no tiene en cuenta la distribución de los registros.
+\item
+  \textbf{El método de Fisher-Jenks}: desarrollado específicamente para la
+  clasificación de datos espaciales y su visualización en mapas. Produce
+  agrupaciones de tal manera que los datos de cada grupo son ``cercanas'' entre
+  sí y sustancialmente distintas de los valores de otros grupos.
+\end{itemize}
+
+\begin{exercise}[División de los datos en clases]
+\protect\hypertarget{exr:ex22}{}\label{exr:ex22}Utilice la función \texttt{classIntervals()} del paquete \textbf{classInt} y cambie el
+parámetro \texttt{style} para obtener los métodos de clasificación: Deciles, tramos de
+Renta equidistantes y Fisher and Jenks.
+
+Realice un \texttt{plot} de las clases obtenidas y compárelas.
+\end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\FunctionTok{library}\NormalTok{(classInt)}
+
+\CommentTok{\# División en deciles}
+\NormalTok{deciles }\OtherTok{\textless{}{-}} \FunctionTok{classIntervals}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{style =} \StringTok{"quantile"}\NormalTok{, }\AttributeTok{n =} \DecValTok{10}
+\NormalTok{)}
+\NormalTok{deciles}
+\CommentTok{\#\textgreater{} style: quantile}
+\CommentTok{\#\textgreater{}     [5898,8935.6)   [8935.6,9662.2)  [9662.2,10352.8)   [10352.8,10918)     [10918,11462) }
+\CommentTok{\#\textgreater{}               656               656               655               654               655 }
+\CommentTok{\#\textgreater{}   [11462,11998.6) [11998.6,12651.4) [12651.4,13475.8) [13475.8,14618.4)   [14618.4,26367] }
+\CommentTok{\#\textgreater{}               658               656               655               656               656}
+\FunctionTok{plot}\NormalTok{(deciles, }\AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{), }\AttributeTok{main =} \StringTok{"Deciles"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/classint-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+
+\CommentTok{\# Tramos equidistantes en términos de renta}
+\NormalTok{equal }\OtherTok{\textless{}{-}} \FunctionTok{classIntervals}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{style =} \StringTok{"equal"}\NormalTok{, }\AttributeTok{n =} \DecValTok{10}
+\NormalTok{)}
+\NormalTok{equal}
+\CommentTok{\#\textgreater{} style: equal}
+\CommentTok{\#\textgreater{}     [5898,7944.9)   [7944.9,9991.8)  [9991.8,12038.7) [12038.7,14085.6) [14085.6,16132.5) }
+\CommentTok{\#\textgreater{}               103              1510              2374              1637               702 }
+\CommentTok{\#\textgreater{} [16132.5,18179.4) [18179.4,20226.3) [20226.3,22273.2) [22273.2,24320.1)   [24320.1,26367] }
+\CommentTok{\#\textgreater{}               161                52                14                 3                 1}
+\FunctionTok{plot}\NormalTok{(equal, }\AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{), }\AttributeTok{main =} \StringTok{"Equidistantes"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/classint-2} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{fisher }\OtherTok{\textless{}{-}} \FunctionTok{classIntervals}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{style =} \StringTok{"fisher"}\NormalTok{,}
+  \CommentTok{\# Fuerzo para mejorar la comparación entre métodos}
+  \AttributeTok{n =} \DecValTok{10}
+\NormalTok{)}
+\NormalTok{fisher}
+\CommentTok{\#\textgreater{} style: fisher}
+\CommentTok{\#\textgreater{}       [5898,8743)     [8743,9770.5)    [9770.5,10754)     [10754,11689)     [11689,12668) }
+\CommentTok{\#\textgreater{}               505               904              1005              1159              1032 }
+\CommentTok{\#\textgreater{}     [12668,13803)   [13803,15222.5) [15222.5,17196.5) [17196.5,20063.5)   [20063.5,26367] }
+\CommentTok{\#\textgreater{}               874               651               305               103                19}
+\FunctionTok{plot}\NormalTok{(fisher,}
+  \AttributeTok{pal =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{20}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{),}
+  \AttributeTok{main =} \StringTok{"Fisher{-}Jenks"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/classint-3} \end{center}
+
+Se puede observar lo siguiente:
+
+\begin{itemize}
+\item
+  El último decil de renta se corresponde a un rango de entre 15.000 y 25.000
+  €.
+\item
+  El método por deciles proporciona unos grupos con valores de renta muy
+  parecidos entre sí en los valores medios. Esto es debido a la propia
+  distribución de la variable.
+\item
+  El método de rangos equidistantes proporciona algunos grupos con un número
+  muy reducido de municipios.
+\item
+  El método de Fisher-Jenks puede proporcionar unas clases con unos rangos más
+  apropiados para los tramos altos de renta.
+\end{itemize}
+
+\begin{exercise}[Representación de los mapas según las clases obtenidas]
+\protect\hypertarget{exr:ex23}{}\label{exr:ex23}Realice tres mapas distintos, creando clases de renta según cada uno de los
+métodos anteriormente mostrados y coméntelos.
+\end{exercise}
+
+\textbf{Deciles}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extracción de los valores de corte}
+\NormalTok{breaks\_d }\OtherTok{\textless{}{-}}\NormalTok{ deciles}\SpecialCharTok{$}\NormalTok{brks}
+
+\CommentTok{\# Creación de etiquetas básicas para cada clase}
+\CommentTok{\# Creación de una función específica para crear etiquetas formateadas}
+\NormalTok{label\_fun }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  l }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(x)}
+\NormalTok{  eur }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{prettyNum}\NormalTok{(}\FunctionTok{round}\NormalTok{(x, }\DecValTok{0}\NormalTok{),}
+    \AttributeTok{decimal.mark =} \StringTok{","}\NormalTok{,}
+    \AttributeTok{big.mark =} \StringTok{"."}
+\NormalTok{  ), }\StringTok{" €"}\NormalTok{)}
+
+\NormalTok{  labels }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(eur[}\SpecialCharTok{{-}}\NormalTok{l], }\StringTok{"{-}"}\NormalTok{, eur[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{  labels[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textless{}"}\NormalTok{, eur[}\DecValTok{1}\NormalTok{])}
+\NormalTok{  labels[l }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"\textgreater{}"}\NormalTok{, eur[l }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{])}
+  \FunctionTok{return}\NormalTok{(labels)}
+\NormalTok{\}}
+
+\NormalTok{labels\_d }\OtherTok{\textless{}{-}} \FunctionTok{label\_fun}\NormalTok{(breaks\_d)}
+
+\NormalTok{munis\_renta\_clean}\SpecialCharTok{$}\NormalTok{Deciles }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{breaks =}\NormalTok{ breaks\_d,}
+  \AttributeTok{labels =}\NormalTok{ labels\_d,}
+  \AttributeTok{include.lowest =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(munis\_renta\_clean) }\SpecialCharTok{+}
+  \CommentTok{\# Cambio la variable a representar para crear el mapa}
+  \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ Deciles), }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Cambio el scale, ya no es continua}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{hcl.colors}\NormalTok{(}\FunctionTok{length}\NormalTok{(labels\_d),}
+    \StringTok{"Inferno"}\NormalTok{,}
+    \AttributeTok{rev =} \ConstantTok{TRUE}
+\NormalTok{  )) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/mapa-deciles-1} 
+
+}
+
+\caption{Mapa por deciles de renta media por persona (2019)}\label{fig:mapa-deciles}
+\end{figure}
+
+El mapa de la Fig. \ref{fig:mapa-deciles} ya permite observar patrones
+geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
+Norte y las del Sur. Veamos una representación distina usando otras clases
+diferentes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{breaks\_e }\OtherTok{\textless{}{-}}\NormalTok{ equal}\SpecialCharTok{$}\NormalTok{brks}
+\NormalTok{labels\_e }\OtherTok{\textless{}{-}} \FunctionTok{label\_fun}\NormalTok{(breaks\_e)}
+
+\NormalTok{munis\_renta\_clean}\SpecialCharTok{$}\NormalTok{Equal }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{breaks =}\NormalTok{ breaks\_e,}
+  \AttributeTok{labels =}\NormalTok{ labels\_e,}
+  \AttributeTok{include.lowest =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(munis\_renta\_clean) }\SpecialCharTok{+}
+  \CommentTok{\# Cambiamos la variable que usamos para crear el mapa}
+  \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ Equal), }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{hcl.colors}\NormalTok{(}\FunctionTok{length}\NormalTok{(labels\_e),}
+    \StringTok{"Inferno"}\NormalTok{,}
+    \AttributeTok{rev =} \ConstantTok{TRUE}
+\NormalTok{  )) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/mapa-equal-1} 
+
+}
+
+\caption{Mapa por tramos de renta equidistantes de renta media por persona (2019)}\label{fig:mapa-equal}
+\end{figure}
+
+El mapa de la Fig. \ref{fig:mapa-deciles}, sin embargo, se parece más al mapa
+de la Fig. \ref{fig:maparenta2} con los datos sin clasificar, donde el peso
+visual se concentra más bien en los municipios con rentas mucho más altas que el
+resto (por encima de 18.000 €).
+
+Véase a continuación el mismo mapa usando la clasificación Fisher-Jenks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{breaks\_f }\OtherTok{\textless{}{-}}\NormalTok{ fisher}\SpecialCharTok{$}\NormalTok{brks}
+\NormalTok{labels\_f }\OtherTok{\textless{}{-}} \FunctionTok{label\_fun}\NormalTok{(breaks\_f)}
+
+\NormalTok{munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{Fisher{-}Jenks}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(munis\_renta\_clean}\SpecialCharTok{$}\StringTok{\textasciigrave{}}\AttributeTok{2019}\StringTok{\textasciigrave{}}\NormalTok{,}
+  \AttributeTok{breaks =}\NormalTok{ breaks\_f,}
+  \AttributeTok{labels =}\NormalTok{ labels\_f,}
+  \AttributeTok{include.lowest =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{(munis\_renta\_clean) }\SpecialCharTok{+}
+  \CommentTok{\# Cambiamos la variable que usamos para crear el mapa}
+  \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =} \StringTok{\textasciigrave{}}\AttributeTok{Fisher{-}Jenks}\StringTok{\textasciigrave{}}\NormalTok{), }\AttributeTok{color =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{hcl.colors}\NormalTok{(}\FunctionTok{length}\NormalTok{(labels\_f),}
+    \StringTok{"Inferno"}\NormalTok{,}
+    \AttributeTok{rev =} \ConstantTok{TRUE}
+\NormalTok{  )) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/mapa-fisher-1} 
+
+}
+
+\caption{Mapa por tramos según Fisher-Jenks}\label{fig:mapa-fisher}
+\end{figure}
+
+En el mapa de la Fig. \ref{fig:mapa-fisher} se puede observar de una manera más
+clara un cluster adicional de renta en la zona de Asturias y el norte de León.
+Además, gracias a la escala de colores puede intuirse que este clúster de renta
+no presenta valores tan altos como los observados en País Vasco o Madrid.
+
+En conclusión, en el momento de realizar una visualización de datos es
+importante conocer el dato a representar, así como entender algunas propiedades
+básicas de la distribución subyacente. También se ha podido observar que hay
+ciertas decisiones estéticas (datos continuos vs.~agrupados, escala de colores)
+que tienen una influencia significativa en cómo se percibe la información
+representada. Es responsabilidad del investigador encargado de crear de la
+visualización el conocer todos estos factores y aplicarlos de manera
+conveniente.
 
 \hypertarget{appendix-anexo}{%
 \appendix}

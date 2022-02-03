@@ -25,6 +25,7 @@
 \contentsline {section}{\numberline {4.3}Clasificación de datos espaciales}{42}{section.4.3}%
 \contentsline {chapter}{\numberline {5}Casos prácticos}{46}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Caso 1: Temperatura mínimas del aire en España.}{46}{section.5.1}%
-\contentsline {chapter}{\numberline {A}Tipos de CRS proyectados}{61}{appendix.Alph1}%
-\contentsline {section}{\numberline {A.1}Por tipo de superficie de proyección}{61}{section.Alph1.1}%
-\contentsline {section}{\numberline {A.2}Por métrica a preservar}{63}{section.Alph1.2}%
+\contentsline {section}{\numberline {5.2}Caso 2. Distribución espacial de la renta media por municipios}{60}{section.5.2}%
+\contentsline {chapter}{\numberline {A}Tipos de CRS proyectados}{76}{appendix.Alph1}%
+\contentsline {section}{\numberline {A.1}Por tipo de superficie de proyección}{76}{section.Alph1.1}%
+\contentsline {section}{\numberline {A.2}Por métrica a preservar}{78}{section.Alph1.2}%

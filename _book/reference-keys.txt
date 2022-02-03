@@ -43,6 +43,12 @@ fig:spatial-plots
 fig:create-grid2
 fig:unnamed-chunk-17
 fig:unnamed-chunk-18
+fig:basic
+fig:maparenta1
+fig:maparenta2
+fig:mapa-deciles
+fig:mapa-equal
+fig:mapa-fisher
 fig:fi-proys
 fig:mercator
 fig:albers
@@ -72,6 +78,7 @@ datos-espaciales
 clasificación-de-datos-espaciales
 caos
 caso-1-temperatura-mínimas-del-aire-en-españa.
+caso-2.-distribución-espacial-de-la-renta-media-por-municipios
 crsproy
 por-tipo-de-superficie-de-proyección
 por-métrica-a-preservar
