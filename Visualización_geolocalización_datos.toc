@@ -1,0 +1,30 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{Prólogo}{3}{chapter*.2}%
+\contentsline {section}{¿Por qué leer este libro?}{3}{section*.3}%
+\contentsline {section}{Objetivos de aprendizaje}{3}{section*.4}%
+\contentsline {section}{Estructura del libro}{4}{section*.5}%
+\contentsline {section}{Datos}{4}{section*.6}%
+\contentsline {chapter}{\numberline {1}La revolución de los geodatos}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Datos geográficos}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Contexto general}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Conceptos clave}{10}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Formatos de datos espaciales}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Ficheros de datos espaciales}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Modelo de datos}{14}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Datos de vectores}{14}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Datos ráster}{17}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Sistema de Referencia de Coordenadas (CRS)}{21}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Tipos de CRS}{22}{subsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.1}CRS geográficos}{22}{subsubsection.3.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.2}CRS proyectados}{24}{subsubsection.3.3.1.2}%
+\contentsline {subsection}{\numberline {3.3.2}Trabajando con proyecciones en R}{24}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}¿Qué proyección uso?}{34}{subsection.3.3.3}%
+\contentsline {chapter}{\numberline {4}Estadística espacial}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Antes de continuar\ldots {} dependencia espacial.}{38}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Datos espaciales}{39}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Clasificación de datos espaciales}{42}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Casos prácticos}{46}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Caso 1: Temperatura mínimas del aire en España.}{46}{section.5.1}%
+\contentsline {chapter}{\numberline {A}Tipos de CRS proyectados}{61}{appendix.Alph1}%
+\contentsline {section}{\numberline {A.1}Por tipo de superficie de proyección}{61}{section.Alph1.1}%
+\contentsline {section}{\numberline {A.2}Por métrica a preservar}{63}{section.Alph1.2}%

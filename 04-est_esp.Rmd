@@ -1,21 +1,18 @@
 # Estadística espacial {#dep-esp}
 
+La estadística espacial se basa en la suposición de que las unidades
+georreferenciadas cercanas están relacionadas (son **dependientes**) de alguna
+manera [@getis_1999], y por ello, trata de reconocer y aprovechar ésta ubicación
+espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
+observaciones (@montero_et_al_2011).
 
-La estadística espacial se basa en la suposición de que las unidades 
-georreferenciadas cercanas están relacionadas (son **dependientes**) de 
-alguna manera [@getis_1999], y por ello, trata de reconocer y aprovechar ésta 
-ubicación espacial a la hora de diseñar, recopilar, gestionar, 
-analizar y mostrar las observaciones (@montero_et_al_2011). 
-
-
-Los métodos estadísticos espaciales que se utilizan actualmente, 
-y sobre los que continúan las investigaciones, incluyen el estudio de la
-asociación espacial, el análisis de patrones, la escala y la zonificación, 
-la geoestadística, la clasificación, el muestreo espacial 
-y la econometría espacial. Estos métodos se aplican a una gran variedad
-de disciplinas científicas. Por ejemplo, @montero_et_al_2011 
-destacan los siguientes. Los orígenes de la vida humana vinculan los estudios 
-de la evolución de las galaxias, la estructura de las
+Los métodos estadísticos espaciales que se utilizan actualmente, y sobre los que
+continúan las investigaciones, incluyen el estudio de la asociación espacial, el
+análisis de patrones, la escala y la zonificación, la geoestadística, la
+clasificación, el muestreo espacial y la econometría espacial. Estos métodos se
+aplican a una gran variedad de disciplinas científicas. Por ejemplo,
+@montero_et_al_2011 destacan los siguientes. Los orígenes de la vida humana
+vinculan los estudios de la evolución de las galaxias, la estructura de las
 células biológicas y los patrones de asentamiento arqueológicos. Los ecologistas
 estudian las interacciones entre plantas y animales. Silvicultores y
 agricultores necesitan investigar las variaciones que se producen en el terreno
@@ -23,7 +20,6 @@ para sus experimentos. La estimación de las precipitaciones y de las reservas d
 oro y petróleo es de vital importancia económica. Estos son, entre otros, buenos
 ejemplos de la importancia del espacio (espacio-tiempo en su caso) en el mundo
 de la Ciencia.
-
 
 Sin embargo, el estudio de la **variabilidad espacial**, y sobre todo
 espacio-temporal, es una disciplina relativamente nueva en el marco de la
@@ -55,8 +51,6 @@ ventajas (@montero_et_al_2011):
     ocasiones con muchos menos parámetros) que los clásicos modelos de
     superficie de tendencia.
 
-
-
 ## Antes de continuar... dependencia espacial.
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
@@ -65,33 +59,27 @@ semejantes que aquellos que están más alejados; en cuyo caso **no** deben ser
 modelados como estadísticamente independiente, sino que habrá que tomar en
 cuenta esa dependencia espacial o espacio-temporal.
 
-
-
 De forma natural y de acuerdo a la Ley Tobler (1973) surge la idea de que los
 datos cercanos en el espacio o en el tiempo serán más similares y estarán más
-correlacionados entres sí que aquellos que están más lejanos. 
-Por ejemplo, la influencia de un terremoto, su efecto disminuye 
-con distancia del epicentro. Además, esta correlación disminuye al aumentar 
-la separación entre ellos, por lo que se puede
-pensar en la presencia de una dependencia espacial o espacio-temporal.  
-
+correlacionados entres sí que aquellos que están más lejanos. Por ejemplo, la
+influencia de un terremoto, su efecto disminuye con distancia del epicentro.
+Además, esta correlación disminuye al aumentar la separación entre ellos, por lo
+que se puede pensar en la presencia de una dependencia espacial o
+espacio-temporal.
 
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
-herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso 
-con dependencia espacial? La clave esta en que los procesos con dependencia
-espacial exiben un patrón en el espacio, mientras que los que son independientes
-son totalmente aleatorios.
+herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
+dependencia espacial? La clave esta en que los procesos con dependencia espacial
+exiben un patrón en el espacio, mientras que los que son independientes son
+totalmente aleatorios.
 
-
-La Fig. \@ref(fig:points-depiid) muestra uno campo aleatorio simulado que presentan una
-estructura de dependencia espacial (panel izquierdo) frente a unos datos
-totalmente aleatorios (panel derecho), en ambos casos distribuidos de forma
-irregular en el espacio. En la imagen de dependencia espacial se observa como 
-los puntos rojos (que representan valores más altos de la variable simuladas)
-se concentran en la misma zona, al igual que los puntos azules (que representan valores más bajos)
-que se distribujen en otra zona y juntos.
-
-
+La Fig. \@ref(fig:points-depiid) muestra uno campo aleatorio simulado que
+presentan una estructura de dependencia espacial (panel izquierdo) frente a unos
+datos totalmente aleatorios (panel derecho), en ambos casos distribuidos de
+forma irregular en el espacio. En la imagen de dependencia espacial se observa
+como los puntos rojos (que representan valores más altos de la variable
+simuladas) se concentran en la misma zona, al igual que los puntos azules (que
+representan valores más bajos) que se distribujen en otra zona y juntos.
 
 ```{r points-depiid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Puntos: Simulación patrón de independencia espacial (derecha) frente a dependencia espacial (izquierda)"}
 library(geoR)
@@ -119,12 +107,9 @@ La Fig. \@ref(fig:lattice-dep-iid), al igual que la Fig.
 \@ref(fig:points-depiid) presenta unos datos simulados donde que muestran una
 estructura de dependencia espacial (panel izquierdo) frente a unos datos
 totalmente aleatorios (panel derecho), pero en este caso estos datos se
-distribuyen de forma ordenada en el espacio a través de una rejilla regular.
-La interpretación es análoga a la de la Fig. \@ref(fig:points-depiid), 
-solo que en este caso los campos aleatorios simulados se representan en una
-rejilla.
-
-
+distribuyen de forma ordenada en el espacio a través de una rejilla regular. La
+interpretación es análoga a la de la Fig. \@ref(fig:points-depiid), solo que en
+este caso los campos aleatorios simulados se representan en una rejilla.
 
 ```{r lattice-dep-iid, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Rejilla: Simulación patrón de independencia espacial (derecha) frente a dependencia espacial (izquierda)"}
 par(mfrow = c(1, 2))
@@ -141,8 +126,6 @@ set.seed(2022)
 sim4 <- grf(441, grid = "reg", cov.pars = c(0.01, 0), messages = FALSE)
 image(sim4, main = "Independencia", col = tim.colors())
 ```
-
-
 
 ## Datos espaciales
 
@@ -213,7 +196,7 @@ head(geo_pob["porc_mujeres"])
 ```
 
 Antes de dibujar la Fig. \@ref(fig:mapa-clm) tuvimos que leer los datos de la
-librería `mapSpain` [@rmapspain] que contenía tanto la variable que hemos
+librería **mapSpain** [@rmapspain] que contenía tanto la variable que hemos
 analizado como el formato del mapa. Tras unir variable y mapa con la función
 `merge()`. Al llevar a cabo un resumen del objeto espacial nos encontramos con
 las siguiente información:
@@ -221,7 +204,6 @@ las siguiente información:
 -   el conjunto de datos (seleccionado) tiene 919 registros (municipios)
 -   el tipo de geometría es POLYGON.
 -   el CRS es ETRS89
-
 
 ## Clasificación de datos espaciales
 
@@ -235,7 +217,8 @@ general, simple y útil de datos espaciales proporcionada por @cressie1993.
 La **clasificación** de Cressie de datos espaciales se basa en la naturaleza del
 dominio espacial en estudio. Dependiendo de esto, podemos tener: datos
 geoestadísticos, datos de patrones de puntos y datos lattice (véase Fig.
-\@ref(fig:hengl-cressie) en la que se han simulado los distintos procesos espaciales).
+\@ref(fig:hengl-cressie) en la que se han simulado los distintos procesos
+espaciales).
 
 ```{r hengl-cressie-simulada, echo=FALSE, fig.align='center', eval=FALSE, }
 
@@ -252,31 +235,25 @@ image(sim2, col = tim.colors())
 
 set.seed(111)
 sim2 <- grf(200, cov.pars = c(1, 0.5), messages = FALSE)
-points.geodata(sim2, col ="blue")
+points.geodata(sim2, col = "blue")
 
-### lattice 
+### lattice
 
 library(mapSpain)
-clm<- esp_get_munic(region = "Castilla-La Mancha")
+clm <- esp_get_munic(region = "Castilla-La Mancha")
 plot(clm["cmun"])
-
 ```
-
-
 
 ```{r hengl-cressie, echo=FALSE, fig.align='center', fig.cap='Clasificación de datos espaciales propuesta por Cressie (1993))'}
 knitr::include_graphics("img/cressie_simulados.png")
-
 ```
-
-
 
 Siguiendo a @cressie1993, sea $s ∈ ℝ^d$ una localización en un espacio Euclideo
 $d-$dimensional y ${Z(s)∶ s ∈ ℝ^d}$ una función aleatoria espacial, donde $Z$
-representa el atributo en el cual estamos interesados, se tendría la siguiente 
+representa el atributo en el cual estamos interesados, se tendría la siguiente
 clasificación [@montero_et_al_2015]:
 
-1.  **Datos geoestadísticos: **Surgen cuando el dominio de estudio es **continuo
+1.  **Datos geoestadísticos:** Surgen cuando el dominio de estudio es **continuo
     y fijo** $D$. Es decir: (i) $Z(s)$ se puede observar en cualquier punto del
     dominio (continuo); y (ii) los puntos en $D$ no son estocásticos (son fijos,
     $D$ es el mismo para todas las realizaciones de la función aleatoria
@@ -296,10 +273,9 @@ clasificación [@montero_et_al_2015]:
     (por ejemplo, el nivel de un contaminante específico en una ciudad se
     observa en los puntos donde están ubicadas las estaciones de monitoreo) y,
     basado en tales valores observados, el análisis geoestadístico reproduce el
-    comportamiento de el proceso espacial en todo el dominio de interés.
-    La Fig. \@ref(fig:ejem_geo) presenta un mapa de interpolación krigeado del
-    nivel de monoxido de carbono (CO) en logaritmos para la ciudad de Madrid.
-
+    comportamiento de el proceso espacial en todo el dominio de interés. La Fig.
+    \@ref(fig:ejem-geo) presenta un mapa de interpolación krigeado del nivel de
+    monoxido de carbono (CO) en logaritmos para la ciudad de Madrid.
 
     En el análisis geoestadístico lo más importante es cuantificar la
     correlación espacial entre observaciones (a través de la herramienta básica
@@ -307,15 +283,10 @@ clasificación [@montero_et_al_2015]:
     lograr los objetivos anteriores (véase @montero_et_al_2015 para un análisis
     profundo de los métodos geoestadísticos espaciales y espacio-temporales}.
 
+```{r ejem-geo, echo=FALSE, fig.align='center', fig.cap='Mapa de interpolación del nivel de CO en el aire en la ciudad de Madrid'}
 
-AQUÍ ERROR, SÓLO ES UN PLOT
-
-<!-- # ```{r ejem_geo, echo=FALSE, fig.align='center', fig.cap='Mapa de interpolación del nivel de CO en el aire en la ciudad de Madrid'} -->
-<!-- #  -->
-<!-- # knitr::include_graphics("img/log_co_madrid.png") -->
-<!-- # ``` -->
-
-
+knitr::include_graphics("img/log_co_madrid.png")
+```
 
 2.  **Datos reticulares**: Surgen cuando: (i) el dominio bajo estudio $D$ es
     **discreto**, es decir, $Z(s)$ puede observarse en una serie de ubicaciones
@@ -331,14 +302,13 @@ AQUÍ ERROR, SÓLO ES UN PLOT
 
     Algunos ejemplos de reticulares incluyen la tasa de desempleo por estados,
     los datos de delincuencia por comarcas, rendimientos agrícolas en parcelas,
-    precios medios de la vivienda por provincias, etc. En este sentido un ejemplo
-    ilustrativo se presenta en la la Fig. \@ref(fig:ejem-lattice),
-    que muestra la distribución municipal de la renta
-    neta media por hogar en 2017 en España.
+    precios medios de la vivienda por provincias, etc. En este sentido un
+    ejemplo ilustrativo se presenta en la la Fig. \@ref(fig:ejem-lattice), que
+    muestra la distribución municipal de la renta neta media por hogar en 2017
+    en España.
 
 ```{r ejem-lattice, echo=FALSE, fig.align='center', fig.cap='Renta neta media municipal española en 2017'}
 knitr::include_graphics("img/renta2017.png")
-
 ```
 
 3.  **Procesos de puntos:** Mientras que en los datos geoestadísticos y
@@ -350,9 +320,9 @@ knitr::include_graphics("img/renta2017.png")
 
     Algunos ejemplos de patrones de puntos son la ubicación de incendios en una
     región española, la ubicación de los árboles en un bosque o la ubicación de
-    nidos en una colonia de aves reproductoras, la localización de los 
-    accidentes de tráfico en una ciudad o área de referencia, 
-    la localización de los delitos en una ciudad, entre muchas otras.
+    nidos en una colonia de aves reproductoras, la localización de los
+    accidentes de tráfico en una ciudad o área de referencia, la localización de
+    los delitos en una ciudad, entre muchas otras.
 
     En estos En los casos, es obvio que $D$ es aleatorio y los puntos de
     observación no dependen del investigador. El principal objetivo del análisis
@@ -365,8 +335,8 @@ knitr::include_graphics("img/renta2017.png")
     eventos no se ve afectada por la ubicación de otros eventos), uniforme o
     regular (cada punto está tan lejos de todos sus vecinos como sea posible) o
     agrupados o agregados (la ubicación de los eventos se concentra en grupos).
-    La Fig. \@ref(fig:ejem-pp) muestra la localización de los accidentes de tráfico
-    registrados en la ciudad de Madrid durante el mes de febreo de 2020. 
+    La Fig. \@ref(fig:ejem-pp) muestra la localización de los accidentes de
+    tráfico registrados en la ciudad de Madrid durante el mes de febreo de 2020.
 
 ```{r ejem-pp, echo=FALSE, fig.align='center', fig.cap='Accidentes de tráfico registrados en la ciudad de Madrid (Febrero de 2020)'}
 knitr::include_graphics("img/traf_madrid_feb_2020.png")

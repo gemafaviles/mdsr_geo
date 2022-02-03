@@ -22,28 +22,9 @@
 
 \usepackage{tcolorbox}
 
-\newtcolorbox{blackbox}{
-  colback=black,
+\newtcolorbox{infobox}{
+  colback=lightgray,
   colframe=orange,
   coltext=white,
   boxsep=5pt,
   arc=4pt}
-
-
-\newenvironment{infobox}[1]
-  {
-  \begin{itemize}
-  \renewcommand{\labelitemi}{
-    \raisebox{-.7\height}[0pt][0pt]{
-      {\setkeys{Gin}{width=3em,keepaspectratio}
-        \includegraphics{images/#1}}
-    }
-  }
-  \setlength{\fboxsep}{1em}
-  \begin{blackbox}
-  \item
-  }
-  {
-  \end{blackbox}
-  \end{itemize}
-  }

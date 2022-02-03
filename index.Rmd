@@ -1,4 +1,4 @@
---- 
+---
 title: "Visualización y geolocalización de datos"
 author:
 - Diego Hernangómez
@@ -7,13 +7,13 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: report
 bibliography: [book.bib]
-csl: apa-6th-edition.csl
-# url: your book url like https://bookdown.org/yihui/bookdown
+biblio-style: "apalike"
+url: "https://mdsr-2122-visualizacion.netlify.app/"
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   Máster en Data Science & Business Analytics (con R Software)
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+#github-repo: rstudio/bookdown-demo
 ---
 
 ```{r setup_book, include=FALSE, error=TRUE}
@@ -33,76 +33,68 @@ Sys.setenv(GISCO_CACHE_DIR = "cache_dir")
 Sys.setenv(MAPSPAIN_CACHE_DIR = "cache_dir")
 ```
 
-
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 ```
 
 ```{r echo=FALSE}
- knitr::include_graphics("img/logo_mdsr_uclm.png")
+knitr::include_graphics("img/logo_mdsr_uclm.png")
 ```
 
+# Prólogo {.unnumbered}
 
-# Prólogo {-}
-
-Este libro presenta los conceptos teóricos y prácticos necesarios 
-para llevar a cabo correctamente la \index{visualización} de 
-\index{datos espaciales} y su \index{geolocalización}
+Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
+cabo correctamente la \index{visualización} de \index{datos espaciales} y su
+\index{geolocalización}
 
 Poner un poco de rollo
 
+## ¿Por qué leer este libro? {.unnumbered}
 
-
-## ¿Por qué leer este libro? {-}
-
-Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos que 
-nos rodean, es un hecho que no podemos obviar y que aporta información muy
+Los \index{datos geolocalizados} están presentes en la mayoría de los fenómenos
+que nos rodean, es un hecho que no podemos obviar y que aporta información muy
 valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
-disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía, 
+disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
 la Antropología, la Biología, etc...
 
+La representación gráfica de los mismos adquiere un papel crucial, ya que (i) se
+detectan relaciones y patrones entre las variables más fácilmente, (ii) hacen
+que la distribución del fenómeno se comprenda y recuerde rapidamente, (iii)
+grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
+permiten sacar a la luz hechos y relaciones ocultos que estimulen el pensamiento
+analítico y la investigación.
 
-La representación gráfica de los 
-mismos adquiere un papel crucial, ya que (i) se detectan relaciones y 
-patrones entre las variables más fácilmente, (ii) hacen que la distribución del fenómeno
-se comprenda y recuerde rapidamente, (iii)  grandes medidas de datos 
-estadísticos se puede visualizar de un vistazo, (iv) permiten sacar a la luz 
-hechos y relaciones ocultos que estimulen el pensamiento analítico y la investigación.
+La principal contribución del libro es mostrar el proceso de vsiualización de
+datos georreferenciados de principio a fin. \*\*\*\*\*\*\*
 
-La principal contribución del libro es mostrar el proceso de vsiualización
-de datos georreferenciados de principio a fin. *******
+[**rematar...**]{style:col="red"}
 
-
- [**rematar...**]{style:col="red"}
-
-## Objetivos de aprendizaje {-}
+## Objetivos de aprendizaje {.unnumbered}
 
 Poner algo
 
-## Estructura del libro {-}
+## Estructura del libro {.unnumbered}
 
 El Capítulo \@ref(intro) introduces a new topic, and ...
 
+## Datos {.unnumbered}
 
-## Datos {-}
+DIEGO, YO NO SE SI DEBEMOS DEJAR TODOS, SEGÚN VEAMOS,
 
-DIEGO, YO NO SE SI DEBEMOS DEJAR TODOS, SEGÚN VEAMOS, 
+GEMA: NO SE QUE QUIERES HACER AQUI, LA VERDAD,
 
-- temperatura mínima en el aire en España
-- renta
-- delitos valencia
-- porcentaje de mujeres en clm
-- tráfico madrid
-- Hospitales en toledo
-- Rio tajo ??
-- Elevación en España
-- Puertos 
+-   temperatura mínima en el aire en España
+-   renta
+-   delitos valencia
+-   porcentaje de mujeres en clm
+-   tráfico madrid
+-   Hospitales en toledo
+-   Rio tajo ??
+-   Elevación en España
+-   Puertos
 
-
-contar un poco al final PARA decir que tenemos una amplia variedad de aplicaciones
-para ilustrar los conceptos bla bla
-
-
+contar un poco al final PARA decir que tenemos una amplia variedad de
+aplicaciones para ilustrar los conceptos bla bla
 
 **ojo, ver cómo entra esto en el libro o no**
 
@@ -120,5 +112,3 @@ Recursos de estadística espacial en R:
 
 -   [rspatial](https://rspatial.org/)
 -   [R-spatial](https://r-spatial.org/projects/)
-
-

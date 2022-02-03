@@ -1,5 +1,3 @@
-book_filename: 'Visualización_geolocalizadión_datos'
-output_dir: book_geodatos
 bookdown::gitbook:
   css: style.css
   config:
@@ -11,7 +9,7 @@ bookdown::gitbook:
         <li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
       scroll_highlight: true
     edit: null
-    download: ["pdf"]
+    download: ["pdf", "epub"]
     search:
       engine: lunr
 bookdown::pdf_book:

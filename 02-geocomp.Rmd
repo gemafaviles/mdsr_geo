@@ -89,20 +89,21 @@ las librerías más usadas para el tratamiento de datos espaciales y que se
 emplearán a lo largo de la asignatura Estadística Espacial y Espacio-Temporal,
 no sólo en el tema que nos ocupa:
 
--   `sp` y `sf`: para el tratamiento de clases y métodos de los datos
-    vectoriales.
+-   **sp** [@R-sp] y **sf** [@R-sp]: para el tratamiento de clases y métodos de
+    los datos vectoriales.
 
--   `raster`,`terra` y `stars` para datos raster.
+-   **raster** [@R-raster],**terra** [@R-terra]y **stars** [@R-stars]para datos
+    raster.
 
--   `gstat` y `geoR`: para el análisis de datos geoestadísticos, ajuste y
-    estimación de semivariogramas, interpolación, etc.
+-   **gstat** [@R-gstat] y **geoR** [@R-geor]: para el análisis de datos
+    geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.
 
--   `spdep` para el análisis de datos con modelos de econometría espacial,
-    creación de matrices de contiguidad/distancia **W**, estimación de modelos
-    econométricos espaciales, etc
+-   **spdep** [@R-spdep] para el análisis de datos con modelos de econometría
+    espacial, creación de matrices de contiguidad/distancia **W**, estimación de
+    modelos econométricos espaciales, etc
 
--   `spatstat` para el análisis de procesos de puntos espaciales, intensidad,
-    etc.
+-   **spatstat** [@spatstat_2005]para el análisis de procesos de puntos
+    espaciales, intensidad, etc.
 
 ## Conceptos clave
 
@@ -133,7 +134,7 @@ entre sí serán más parecidas que las más lejanas, dando lugar al concepto de
 **dependencia espacial**. Y depende del tipo de datos espaciales tendremos tres
 grandes formas de abordar el tratamiento de los datos espaciales:
 **geoestadística**, **procesos de punto** y **econometría espacial** (véase
-sección \@ref(CRS)).
+Sección \@ref(CRS)).
 
 ```{r gis, echo=FALSE, fig.align='center', fig.cap='Información espacial de la concentración de lava en Cumbre Vieja'}
 knitr::include_graphics("img/Cumbrevieja.png")

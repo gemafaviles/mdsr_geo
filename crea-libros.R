@@ -10,16 +10,30 @@ bookdown::render_book("index.Rmd",
 )
 
 
-# bookdown::render_book("index.Rmd",
-#   output_format = "bookdown::pdf_book",
-#   envir = new.env()
-# )
+# Esto cambia References por Referencias en el html
+html <- list.files("_book", pattern = ".html$", full.names = TRUE)
 
-# Esto crea las aplicaciones
-rmarkdown::render("99-aplicaciones.Rmd",
-  output_format = "html_document",
-  output_file = "Aplicaciones.html"
+for (file in html) {
+  n <- readLines(file)
+  n <- gsub("References", "Referencias", n)
+  writeLines(n, file)
+  rm("n")
+}
+
+
+bookdown::render_book("index.Rmd",
+  output_format = "bookdown::pdf_book",
+  envir = new.env()
 )
+
+# Esto crea un epub
+bookdown::render_book("index.Rmd",
+  output_format = "bookdown::epub_book",
+  envir = new.env()
+)
+
+# bookdown::serve_book()
+
 
 # rmd_files: ["index.Rmd", "01-rev_geodatos.Rmd", "02-geocomp.Rmd","03-formatos.Rmd", "04-est_esp.Rmd","05-anexo.Rmd"]
 
