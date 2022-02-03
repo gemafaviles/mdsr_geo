@@ -55,6 +55,7 @@ fig:crimen2
 fig:objeto-ppp
 fig:cuadrante
 fig:intensidad-ppp
+fig:unnamed-chunk-25
 fig:fi-proys
 fig:mercator
 fig:albers
@@ -82,7 +83,7 @@ dep-esp
 antes-de-continuar-dependencia-espacial.
 datos-espaciales
 clasificación-de-datos-espaciales
-caos
+casos
 tempmin
 caso-2.-distribución-de-la-renta-por-municipios
 caso-3.-delitos-cometidos-en-valencia-en-el-año-2010

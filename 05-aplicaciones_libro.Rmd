@@ -1,4 +1,4 @@
-# Casos prácticos {#caos}
+# Casos prácticos {#casos}
 
 ::: {.infobox data-latex=""}
 **NOTA**
@@ -88,7 +88,7 @@ Con la función `head()` describa, en forma de tabla, la información que contie
 el objeto `tmin` y compruebe que se corresponde con la descrita.
 :::
 
-```{r tmin-head}
+```{r tmin-head, echo=FALSE}
 knitr::kable(head(tmin), caption = "Detalle del objeto tmin")
 ```
 
@@ -104,7 +104,7 @@ coordenadas y la variable objeto de estudio. Para mayor detalle ver
 latitud. Observe también la forma campaniforme de la distribución de la
 variable.
 
-::: {#ex4 .exercise name="Descripción de los datos"}
+::: {#ex4 .exercise name="Descripción de los datos (II)"}
 Del objeto `tmin` seleccione el día **8 de enero de 2022** y las variables
 `longitud`, `latitud` y `tmin` para crear el objeto y llámelo `tmin_geoR`. A
 continuación describa analítica y gráficamente dicho objeto.
@@ -182,7 +182,7 @@ Como se comentó en la Sección \@ref(CRS), cuando se emplean datos geográficos
 provenientes de varias fuentes, es necesario asegurarse de que ambos objetos
 están usando el mismo CRS.
 
-::: {#ex7 .exercise name="CRS"}
+::: {#ex7 .exercise name="Comprobar el CRS de los datos"}
 ¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
 monitoreo en la misma proyección que el contorno de España? Compruebelo.
 :::
@@ -194,7 +194,7 @@ st_crs(tmin_sf) == st_crs(esp)
 Se ha comprobado que no lo están, por lo que hay que proyectar las coordenadas a
 un CRS común.
 
-::: {#ex8 .exercise name="CRS"}
+::: {#ex8 .exercise name="Cambiar (proyectar) CRS"}
 Proyecte las coordenadas de los objetos `tmin_sf` y `esp` al CRS de referencia
 de `tmin_sf`. Compruébelo.
 :::
@@ -210,7 +210,7 @@ varias opciones de paquetes, **ggplot2** [@R-ggplot] (paquete de referencia en
 representaciones gráficas), **tmap** [@R-tmap] o **mapsf** [@R-mapsf] (estos dos
 últimos especializados en mapas temáticos).
 
-::: {#ex9 .exercise name="CRS"}
+::: {#ex9 .exercise name="Mapa con ggplot2"}
 Represente, con el paquete **ggplot2**, las estaciones de monitorero de AEMET en
 la Península Ibérica.
 :::
@@ -242,7 +242,7 @@ contiene información temporal para para varios días, por lo que, como este
 análisis es meramente espacial se elegirá un día que se fijará para todo el
 análisis.
 
-::: {#ex10 .exercise name="plot-sp1"}
+::: {#ex10 .exercise name="Representar la temperatura mínima en España"}
 Representamos la variable temperatura mínima `tmin` para el día **8 de enero de
 2021**. Guarde la base de datos espacial para ese día en un objeto de nombre
 `tmin_8enero`.
@@ -265,13 +265,13 @@ plot(tmin_8enero["tmin"],
 El mapa ha quedado muy bien, pero quizá los colores y el formato elegido no sean
 los más adecuados para este tipo de representaciones...
 
-::: {.exercise name="plot-sp2"}
+::: {.exercise name="Representar la temperatura mínima con ggplot2"}
 Utilice los parámetros espaciales de los que dispone, las coordenadas y el
 contorno de España para graficar y contar la historia de **Filomena**
 adecuadamente.
 :::
 
-```{r spatial-plots, echo=FALSE, fig.cap="Mapa completo con temperatura mínima (8-enero-2021)"}
+```{r spatial-plots, fig.cap="Mapa completo con temperatura mínima (8-enero-2021)"}
 
 # Especificamos la paleta de color a utilizar
 cortes <- c(-Inf, seq(-20, 20, 2.5), Inf)
@@ -476,7 +476,7 @@ Repita el mapa de \@ref(exr:ex14) usando **ggplot2** y la función
 
 ```{r fig.cap="Temperatura mínima interpolada. 8 de Enero 2021. "}
 
-# Creo una tabla para geom contour
+# Creamos una tabla para geom contour
 coordenadas <- st_coordinates(tmin_idw)
 valor <- tmin_idw$var1.pred
 
@@ -588,7 +588,7 @@ Toledo y comprobamos.
 :::
 
 ```{r noblejas}
-# Miro un municipio: Noblejas
+# Miramos un municipio: Noblejas
 
 renta[grep("Noblejas", renta$Unidad), ]
 
@@ -992,7 +992,7 @@ library(dplyr)
 crimen <- read_csv("data/crime-data-Valencia.csv")
 ```
 
-::: {#ex26 .exercise name="Descripción de los datos"}
+::: {#ex26 .exercise name="Descripción de los datos: Crímenes en Valencia"}
 ¿Qué información contiene el archivo importado?
 :::
 
@@ -1012,7 +1012,7 @@ proporciona `r ncol(crimen)` campos asociados a cada registro.
 Entre los campos disponibles, destacamos los campos `crime_lon` y `crime_lat`:
 Son las coordenadas en las que se produjo el crimen.
 
-::: {#ex27 .exercise name="CRS de las coordenadas"}
+::: {#ex27 .exercise name="Identificación del CRS de los datos proporcionados"}
 Determine el CRS en el que se encuentran las coordenadas del conjunto de datos
 `crimen`, a partir de los campos `crime_lon` y `crime_lat`
 :::
@@ -1184,7 +1184,7 @@ registran cero crímenes y otros que registran hasta 2.860 crímenes.
 Analice la densidad de crímenes en Valencia usando la función `density()`.
 :::
 
-```{r intensidad-ppp, fig.cap="Estimación kernel de la intensidad de crímenes en la ciudad de Valencia " }
+```{r intensidad-ppp, fig.cap="Estimación kernel de la intensidad de crímenes en la ciudad de Valencia" }
 
 # Permite ver la variación local de la intensidad, graficando la estimación kernel de la intensidad.
 densidad <- density(mydata_ppp)
@@ -1194,7 +1194,81 @@ points(mydata_ppp, pch = "+", cex = 0.5)
 ```
 
 En la Fig. \@ref(fig:intensidad-ppp) se muestra la estimación kernel de la
-densidad de patrones de puntos
+densidad de patrones de puntos.
+
+::: {.exercise name="Representación alternativa con ggplot2"}
+Recree el mapa de la Fig. \@ref(fig:intensidad-ppp) con **ggplot2**.
+:::
+
+Es posible recrear el mapa anterior con el paquete **ggplot2**, que nos permite
+un mayor control de los parámetros gráficos. Para ello, hemos de convertir el
+objeto `densidad` a un formato espacial, para lo cual usaremos el paquete
+**raster.** A continuación, transformamos el ráster en un formato vector `sf`
+mediante las funciones `rasterToPolygons()` y `st_as_sf()`:
+
+```{r}
+# Convertimas a raster
+library(raster)
+
+dens_raster <- raster(densidad)
+# Y del raster extraemos los polígonos
+pols <- st_as_sf(rasterToPolygons(dens_raster))
+
+pols
+```
+
+En este caso, al convertir del formato de `spatstat` a `sf`, se ha perdido la
+definición del CRS:
+
+```{r}
+st_crs(pols)
+```
+
+En este tipo de casos excepcionales, es posible forzar el CRS de la siguiente
+manera:
+
+```{r}
+# Sabemos que el CRS inicial que usamos cuando creamos el owin
+# era este
+st_crs(pols) <- st_crs(valencia)
+
+st_crs(pols)
+```
+
+Una vez que se dispone del objeto espacial `pols` completo, es posible usar
+**ggplot2** de la manera habitual
+
+```{r, fig.cap="Estimación kernel con ggplot2"}
+
+# Extramos nuevamente una imagen de Valencia
+
+tile2 <- esp_getTiles(valencia, "IDErioja", zoommin = 1)
+
+ggplot() +
+  # Añadimos imagen
+  layer_spatraster(tile2) +
+  # Añadimos polígonos con la intensidad
+  geom_sf(
+    data = pols, aes(fill = layer),
+    color = NA, size = 0.01
+  ) +
+  # Añadimos localización exacta
+  geom_sf(
+    data = crimen_2010_sf, col = "grey90",
+    size = 0.3,
+    alpha = 0.1
+  ) +
+  # Estética del mapa
+  scale_fill_gradientn(
+    colours = hcl.colors(50, "Inferno",
+      alpha = 0.9, rev = TRUE
+    ),
+    labels = scales::label_math(),
+    n.breaks = 10
+  ) +
+  theme_minimal() +
+  labs(fill = "Intensidad")
+```
 
 Nótese que los conocimientos teóricos necesarios para llevar a cabo este tipo de
 estimación están fuera del ámbito de este manual. El ejercicio anterior se

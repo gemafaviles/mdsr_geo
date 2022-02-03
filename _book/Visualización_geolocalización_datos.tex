@@ -1873,8 +1873,8 @@ clasificación \citep{montero_et_al_2015}:
 \caption{Accidentes de tráfico registrados en la ciudad de Madrid (Febrero de 2020)}\label{fig:ejem-pp}
 \end{figure}
 
-\hypertarget{caos}{%
-\chapter{Casos prácticos}\label{caos}}
+\hypertarget{casos}{%
+\chapter{Casos prácticos}\label{casos}}
 
 \begin{infobox}
 \textbf{NOTA}
@@ -1973,12 +1973,6 @@ El conjunto de datos \texttt{tempmin} es un data frame que contiene 5 variables:
 el objeto \texttt{tmin} y compruebe que se corresponde con la descrita.
 \end{exercise}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{head}\NormalTok{(tmin), }\AttributeTok{caption =} \StringTok{"Detalle del objeto tmin"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{table}
 
 \caption{\label{tab:tmin-head}Detalle del objeto tmin}
@@ -2014,7 +2008,7 @@ coordenadas y la variable objeto de estudio. Para mayor detalle ver
 latitud. Observe también la forma campaniforme de la distribución de la
 variable.
 
-\begin{exercise}[Descripción de los datos]
+\begin{exercise}[Descripción de los datos (II)]
 \protect\hypertarget{exr:ex4}{}\label{exr:ex4}Del objeto \texttt{tmin} seleccione el día \textbf{8 de enero de 2022} y las variables
 \texttt{longitud}, \texttt{latitud} y \texttt{tmin} para crear el objeto y llámelo \texttt{tmin\_geoR}. A
 continuación describa analítica y gráficamente dicho objeto.
@@ -2149,7 +2143,7 @@ Como se comentó en la Sección \ref{CRS}, cuando se emplean datos geográficos
 provenientes de varias fuentes, es necesario asegurarse de que ambos objetos
 están usando el mismo CRS.
 
-\begin{exercise}[CRS]
+\begin{exercise}[Comprobar el CRS de los datos]
 \protect\hypertarget{exr:ex7}{}\label{exr:ex7}¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
 monitoreo en la misma proyección que el contorno de España? Compruebelo.
 \end{exercise}
@@ -2164,7 +2158,7 @@ monitoreo en la misma proyección que el contorno de España? Compruebelo.
 Se ha comprobado que no lo están, por lo que hay que proyectar las coordenadas a
 un CRS común.
 
-\begin{exercise}[CRS]
+\begin{exercise}[Cambiar (proyectar) CRS]
 \protect\hypertarget{exr:ex8}{}\label{exr:ex8}Proyecte las coordenadas de los objetos \texttt{tmin\_sf} y \texttt{esp} al CRS de referencia
 de \texttt{tmin\_sf}. Compruébelo.
 \end{exercise}
@@ -2183,7 +2177,7 @@ varias opciones de paquetes, \textbf{ggplot2} \citep{R-ggplot} (paquete de refer
 representaciones gráficas), \textbf{tmap} \citep{R-tmap} o \textbf{mapsf} \citep{R-mapsf} (estos dos
 últimos especializados en mapas temáticos).
 
-\begin{exercise}[CRS]
+\begin{exercise}[Mapa con ggplot2]
 \protect\hypertarget{exr:ex9}{}\label{exr:ex9}Represente, con el paquete \textbf{ggplot2}, las estaciones de monitorero de AEMET en
 la Península Ibérica.
 \end{exercise}
@@ -2226,7 +2220,7 @@ contiene información temporal para para varios días, por lo que, como este
 análisis es meramente espacial se elegirá un día que se fijará para todo el
 análisis.
 
-\begin{exercise}[plot-sp1]
+\begin{exercise}[Representar la temperatura mínima en España]
 \protect\hypertarget{exr:ex10}{}\label{exr:ex10}Representamos la variable temperatura mínima \texttt{tmin} para el día \textbf{8 de enero de
 2021}. Guarde la base de datos espacial para ese día en un objeto de nombre
 \texttt{tmin\_8enero}.
@@ -2260,11 +2254,53 @@ análisis.
 El mapa ha quedado muy bien, pero quizá los colores y el formato elegido no sean
 los más adecuados para este tipo de representaciones\ldots{}
 
-\begin{exercise}[plot-sp2]
+\begin{exercise}[Representar la temperatura mínima con ggplot2]
 Utilice los parámetros espaciales de los que dispone, las coordenadas y el
 contorno de España para graficar y contar la historia de \textbf{Filomena}
 adecuadamente.
 \end{exercise}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Especificamos la paleta de color a utilizar}
+\NormalTok{cortes }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\FunctionTok{seq}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{20}\NormalTok{, }\DecValTok{20}\NormalTok{, }\FloatTok{2.5}\NormalTok{), }\ConstantTok{Inf}\NormalTok{)}
+\NormalTok{colores }\OtherTok{\textless{}{-}} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{15}\NormalTok{, }\StringTok{"PuOr"}\NormalTok{, }\AttributeTok{rev =} \ConstantTok{TRUE}\NormalTok{)}
+
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ esp2,}
+    \AttributeTok{fill =} \StringTok{"grey99"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ tmin\_8enero,}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ tmin),}
+    \AttributeTok{size =} \DecValTok{4}\NormalTok{,}
+    \AttributeTok{alpha =}\NormalTok{ .}\DecValTok{7}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Temp. mín"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_gradientn}\NormalTok{(}
+    \AttributeTok{colours =}\NormalTok{ colores,}
+    \AttributeTok{breaks =}\NormalTok{ cortes,}
+    \AttributeTok{labels =} \ControlFlowTok{function}\NormalTok{(x) \{}
+      \FunctionTok{paste0}\NormalTok{(x, }\StringTok{"º"}\NormalTok{)}
+\NormalTok{    \},}
+    \AttributeTok{guide =} \StringTok{"legend"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_light}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}
+      \AttributeTok{size =} \DecValTok{12}\NormalTok{,}
+      \AttributeTok{face =} \StringTok{"bold"}
+\NormalTok{    ),}
+    \AttributeTok{plot.subtitle =} \FunctionTok{element\_text}\NormalTok{(}
+      \AttributeTok{size =} \DecValTok{8}\NormalTok{,}
+      \AttributeTok{face =} \StringTok{"italic"}
+\NormalTok{    )}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{figure}
 
@@ -2480,7 +2516,7 @@ pixeles.
 \begin{Shaded}
 \begin{Highlighting}[]
 
-\CommentTok{\# Creo una tabla para geom contour}
+\CommentTok{\# Creamos una tabla para geom contour}
 \NormalTok{coordenadas }\OtherTok{\textless{}{-}} \FunctionTok{st\_coordinates}\NormalTok{(tmin\_idw)}
 \NormalTok{valor }\OtherTok{\textless{}{-}}\NormalTok{ tmin\_idw}\SpecialCharTok{$}\NormalTok{var1.pred}
 
@@ -2647,7 +2683,7 @@ Toledo y comprobamos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Miro un municipio: Noblejas}
+\CommentTok{\# Miramos un municipio: Noblejas}
 
 \NormalTok{renta[}\FunctionTok{grep}\NormalTok{(}\StringTok{"Noblejas"}\NormalTok{, renta}\SpecialCharTok{$}\NormalTok{Unidad), ]}
 \CommentTok{\#\textgreater{} \# A tibble: 5 x 6}
@@ -3219,7 +3255,7 @@ Valencia. El archivo está en formato csv, por lo que usaremos el paquete
 \end{Highlighting}
 \end{Shaded}
 
-\begin{exercise}[Descripción de los datos]
+\begin{exercise}[Descripción de los datos: Crímenes en Valencia]
 \protect\hypertarget{exr:ex26}{}\label{exr:ex26}¿Qué información contiene el archivo importado?
 \end{exercise}
 
@@ -3255,7 +3291,7 @@ proporciona 6 campos asociados a cada registro.
 Entre los campos disponibles, destacamos los campos \texttt{crime\_lon} y \texttt{crime\_lat}:
 Son las coordenadas en las que se produjo el crimen.
 
-\begin{exercise}[CRS de las coordenadas]
+\begin{exercise}[Identificación del CRS de los datos proporcionados]
 \protect\hypertarget{exr:ex27}{}\label{exr:ex27}Determine el CRS en el que se encuentran las coordenadas del conjunto de datos
 \texttt{crimen}, a partir de los campos \texttt{crime\_lon} y \texttt{crime\_lat}
 \end{exercise}
@@ -3527,11 +3563,161 @@ registran cero crímenes y otros que registran hasta 2.860 crímenes.
 
 }
 
-\caption{Estimación kernel de la intensidad de crímenes en la ciudad de Valencia }\label{fig:intensidad-ppp}
+\caption{Estimación kernel de la intensidad de crímenes en la ciudad de Valencia}\label{fig:intensidad-ppp}
 \end{figure}
 
 En la Fig. \ref{fig:intensidad-ppp} se muestra la estimación kernel de la
-densidad de patrones de puntos
+densidad de patrones de puntos.
+
+\begin{exercise}[Representación alternativa con ggplot2]
+Recree el mapa de la Fig. \ref{fig:intensidad-ppp} con \textbf{ggplot2}.
+\end{exercise}
+
+Es posible recrear el mapa anterior con el paquete \textbf{ggplot2}, que nos permite
+un mayor control de los parámetros gráficos. Para ello, hemos de convertir el
+objeto \texttt{densidad} a un formato espacial, para lo cual usaremos el paquete
+\textbf{raster.} A continuación, transformamos el ráster en un formato vector \texttt{sf}
+mediante las funciones \texttt{rasterToPolygons()} y \texttt{st\_as\_sf()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convertimas a raster}
+\FunctionTok{library}\NormalTok{(raster)}
+
+\NormalTok{dens\_raster }\OtherTok{\textless{}{-}} \FunctionTok{raster}\NormalTok{(densidad)}
+\CommentTok{\# Y del raster extraemos los polígonos}
+\NormalTok{pols }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(}\FunctionTok{rasterToPolygons}\NormalTok{(dens\_raster))}
+
+\NormalTok{pols}
+\CommentTok{\#\textgreater{} Simple feature collection with 4827 features and 1 field}
+\CommentTok{\#\textgreater{} Geometry type: POLYGON}
+\CommentTok{\#\textgreater{} Dimension:     XY}
+\CommentTok{\#\textgreater{} Bounding box:  xmin: 720573.4 ymin: 4351274 xmax: 735003 ymax: 4382995}
+\CommentTok{\#\textgreater{} CRS:           NA}
+\CommentTok{\#\textgreater{} First 10 features:}
+\CommentTok{\#\textgreater{}           layer                       geometry}
+\CommentTok{\#\textgreater{} 1  2.136709e{-}09 POLYGON ((730685.5 4382995,...}
+\CommentTok{\#\textgreater{} 2  1.783295e{-}09 POLYGON ((730799.1 4382995,...}
+\CommentTok{\#\textgreater{} 3  1.488809e{-}09 POLYGON ((730912.7 4382995,...}
+\CommentTok{\#\textgreater{} 4  5.523748e{-}09 POLYGON ((730344.6 4382747,...}
+\CommentTok{\#\textgreater{} 5  4.636122e{-}09 POLYGON ((730458.2 4382747,...}
+\CommentTok{\#\textgreater{} 6  3.890395e{-}09 POLYGON ((730571.8 4382747,...}
+\CommentTok{\#\textgreater{} 7  3.264586e{-}09 POLYGON ((730685.5 4382747,...}
+\CommentTok{\#\textgreater{} 8  2.739928e{-}09 POLYGON ((730799.1 4382747,...}
+\CommentTok{\#\textgreater{} 9  2.300445e{-}09 POLYGON ((730912.7 4382747,...}
+\CommentTok{\#\textgreater{} 10 1.932566e{-}09 POLYGON ((731026.3 4382747,...}
+\end{Highlighting}
+\end{Shaded}
+
+En este caso, al convertir del formato de \texttt{spatstat} a \texttt{sf}, se ha perdido la
+definición del CRS:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{st\_crs}\NormalTok{(pols)}
+\CommentTok{\#\textgreater{} Coordinate Reference System: NA}
+\end{Highlighting}
+\end{Shaded}
+
+En este tipo de casos excepcionales, es posible forzar el CRS de la siguiente
+manera:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sabemos que el CRS inicial que usamos cuando creamos el owin}
+\CommentTok{\# era este}
+\FunctionTok{st\_crs}\NormalTok{(pols) }\OtherTok{\textless{}{-}} \FunctionTok{st\_crs}\NormalTok{(valencia)}
+
+\FunctionTok{st\_crs}\NormalTok{(pols)}
+\CommentTok{\#\textgreater{} Coordinate Reference System:}
+\CommentTok{\#\textgreater{}   User input: EPSG:25830 }
+\CommentTok{\#\textgreater{}   wkt:}
+\CommentTok{\#\textgreater{} PROJCRS["ETRS89 / UTM zone 30N",}
+\CommentTok{\#\textgreater{}     BASEGEOGCRS["ETRS89",}
+\CommentTok{\#\textgreater{}         DATUM["European Terrestrial Reference System 1989",}
+\CommentTok{\#\textgreater{}             ELLIPSOID["GRS 1980",6378137,298.257222101,}
+\CommentTok{\#\textgreater{}                 LENGTHUNIT["metre",1]]],}
+\CommentTok{\#\textgreater{}         PRIMEM["Greenwich",0,}
+\CommentTok{\#\textgreater{}             ANGLEUNIT["degree",0.0174532925199433]],}
+\CommentTok{\#\textgreater{}         ID["EPSG",4258]],}
+\CommentTok{\#\textgreater{}     CONVERSION["UTM zone 30N",}
+\CommentTok{\#\textgreater{}         METHOD["Transverse Mercator",}
+\CommentTok{\#\textgreater{}             ID["EPSG",9807]],}
+\CommentTok{\#\textgreater{}         PARAMETER["Latitude of natural origin",0,}
+\CommentTok{\#\textgreater{}             ANGLEUNIT["degree",0.0174532925199433],}
+\CommentTok{\#\textgreater{}             ID["EPSG",8801]],}
+\CommentTok{\#\textgreater{}         PARAMETER["Longitude of natural origin",{-}3,}
+\CommentTok{\#\textgreater{}             ANGLEUNIT["degree",0.0174532925199433],}
+\CommentTok{\#\textgreater{}             ID["EPSG",8802]],}
+\CommentTok{\#\textgreater{}         PARAMETER["Scale factor at natural origin",0.9996,}
+\CommentTok{\#\textgreater{}             SCALEUNIT["unity",1],}
+\CommentTok{\#\textgreater{}             ID["EPSG",8805]],}
+\CommentTok{\#\textgreater{}         PARAMETER["False easting",500000,}
+\CommentTok{\#\textgreater{}             LENGTHUNIT["metre",1],}
+\CommentTok{\#\textgreater{}             ID["EPSG",8806]],}
+\CommentTok{\#\textgreater{}         PARAMETER["False northing",0,}
+\CommentTok{\#\textgreater{}             LENGTHUNIT["metre",1],}
+\CommentTok{\#\textgreater{}             ID["EPSG",8807]]],}
+\CommentTok{\#\textgreater{}     CS[Cartesian,2],}
+\CommentTok{\#\textgreater{}         AXIS["(E)",east,}
+\CommentTok{\#\textgreater{}             ORDER[1],}
+\CommentTok{\#\textgreater{}             LENGTHUNIT["metre",1]],}
+\CommentTok{\#\textgreater{}         AXIS["(N)",north,}
+\CommentTok{\#\textgreater{}             ORDER[2],}
+\CommentTok{\#\textgreater{}             LENGTHUNIT["metre",1]],}
+\CommentTok{\#\textgreater{}     USAGE[}
+\CommentTok{\#\textgreater{}         SCOPE["Engineering survey, topographic mapping."],}
+\CommentTok{\#\textgreater{}         AREA["Europe between 6Â°W and 0Â°W: Faroe Islands offshore; Ireland {-} offshore; Jan Mayen {-} offshore; Norway including Svalbard {-} offshore; Spain {-} onshore and offshore."],}
+\CommentTok{\#\textgreater{}         BBOX[35.26,{-}6,80.53,0]],}
+\CommentTok{\#\textgreater{}     ID["EPSG",25830]]}
+\end{Highlighting}
+\end{Shaded}
+
+Una vez que se dispone del objeto espacial \texttt{pols} completo, es posible usar
+\textbf{ggplot2} de la manera habitual
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# Extramos nuevamente una imagen de Valencia}
+
+\NormalTok{tile2 }\OtherTok{\textless{}{-}} \FunctionTok{esp\_getTiles}\NormalTok{(valencia, }\StringTok{"IDErioja"}\NormalTok{, }\AttributeTok{zoommin =} \DecValTok{1}\NormalTok{)}
+
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# Añadimos imagen}
+  \FunctionTok{layer\_spatraster}\NormalTok{(tile2) }\SpecialCharTok{+}
+  \CommentTok{\# Añadimos polígonos con la intensidad}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ pols, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ layer),}
+    \AttributeTok{color =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.01}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \CommentTok{\# Añadimos localización exacta}
+  \FunctionTok{geom\_sf}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ crimen\_2010\_sf, }\AttributeTok{col =} \StringTok{"grey90"}\NormalTok{,}
+    \AttributeTok{size =} \FloatTok{0.3}\NormalTok{,}
+    \AttributeTok{alpha =} \FloatTok{0.1}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \CommentTok{\# Estética del mapa}
+  \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}
+    \AttributeTok{colours =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{50}\NormalTok{, }\StringTok{"Inferno"}\NormalTok{,}
+      \AttributeTok{alpha =} \FloatTok{0.9}\NormalTok{, }\AttributeTok{rev =} \ConstantTok{TRUE}
+\NormalTok{    ),}
+    \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{label\_math}\NormalTok{(),}
+    \AttributeTok{n.breaks =} \DecValTok{10}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{"Intensidad"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-25-1} 
+
+}
+
+\caption{Estimación kernel con ggplot2}\label{fig:unnamed-chunk-25}
+\end{figure}
 
 Nótese que los conocimientos teóricos necesarios para llevar a cabo este tipo de
 estimación están fuera del ámbito de este manual. El ejercicio anterior se
