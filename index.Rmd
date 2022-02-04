@@ -72,7 +72,6 @@ errata que presente y agradecemos que sea comunicada a los autores.
 ```{r echo=FALSE, fig.align='center', out.width="25%"}
 
 knitr::include_graphics("img/by-nc-sa.eu.png")
-
 ```
 
 ```{r, eval = knitr::is_html_output(), child="child/lic_html.md"}
