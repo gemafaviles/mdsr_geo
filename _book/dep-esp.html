@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 4 Estadística espacial | Visualización y geolocalización de datos</title>
+  <title>Capítulo 4 Estadística espacial | Visualización y geolocalización de datos con R</title>
   <meta name="description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 4 Estadística espacial | Visualización y geolocalización de datos" />
+  <meta property="og:title" content="Capítulo 4 Estadística espacial | Visualización y geolocalización de datos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://mdsr-2122-visualizacion.netlify.app/" />
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 4 Estadística espacial | Visualización y geolocalización de datos" />
+  <meta name="twitter:title" content="Capítulo 4 Estadística espacial | Visualización y geolocalización de datos con R" />
   
   <meta name="twitter:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Gema Fernández-Avilés" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -166,15 +166,15 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Visualización y geolocalización de datos</a></li>
+<li><a href="./">Visualización y geolocalización de datos con <strong>R</strong></a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-qué-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos-de-aprendizaje"><i class="fa fa-check"></i>Objetivos de aprendizaje</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-este-libro"><i class="fa fa-check"></i>Sobre este libro</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="la-revolución-de-los-geodatos.html"><a href="la-revolución-de-los-geodatos.html"><i class="fa fa-check"></i><b>1</b> La revolución de los geodatos</a></li>
 <li class="chapter" data-level="2" data-path="datos-geográficos.html"><a href="datos-geográficos.html"><i class="fa fa-check"></i><b>2</b> Datos geográficos</a>
@@ -199,7 +199,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="dep-esp.html"><a href="dep-esp.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial."><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial.</a></li>
+<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial"><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial</a></li>
 <li class="chapter" data-level="4.2" data-path="dep-esp.html"><a href="dep-esp.html#datos-espaciales"><i class="fa fa-check"></i><b>4.2</b> Datos espaciales</a></li>
 <li class="chapter" data-level="4.3" data-path="dep-esp.html"><a href="dep-esp.html#clasificación-de-datos-espaciales"><i class="fa fa-check"></i><b>4.3</b> Clasificación de datos espaciales</a></li>
 </ul></li>
@@ -217,7 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.2" data-path="crsproy.html"><a href="crsproy.html#por-métrica-a-preservar"><i class="fa fa-check"></i><b>A.2</b> Por métrica a preservar</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+<li><a href="https://blog.uclm.es/tp-mbsba/">Máster en Data Science & Business Analytics (con R Software)</a></li>
 
 </ul>
 
@@ -228,7 +228,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos con R</a>
           </h1>
         </div>
 
@@ -240,7 +240,7 @@ div.csl-indent {
 <h1><span class="header-section-number">Capítulo 4</span> Estadística espacial</h1>
 <p>La estadística espacial se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son <strong>dependientes</strong>) de alguna
-manera <span class="citation">(<a href="#ref-getis_1999" role="doc-biblioref">Getis 1999</a>)</span>, y por ello, trata de reconocer y aprovechar ésta ubicación
+manera <span class="citation">(<a href="#ref-getis_1999" role="doc-biblioref">Getis 1999</a>)</span>, y por ello, trata de reconocer y aprovechar esta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
 observaciones (<span class="citation"><a href="#ref-montero_et_al_2011" role="doc-biblioref">Montero et al.</a> (<a href="#ref-montero_et_al_2011" role="doc-biblioref">2011</a>)</span>).</p>
 <p>Los métodos estadísticos espaciales que se utilizan actualmente, y sobre los que
@@ -284,8 +284,8 @@ con dependencia espacial suelen tener una descripción más parsimoniosa (en
 ocasiones con muchos menos parámetros) que los clásicos modelos de
 superficie de tendencia.</p></li>
 </ol>
-<div id="antes-de-continuar-dependencia-espacial." class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Antes de continuar… dependencia espacial.</h2>
+<div id="antes-de-continuar-dependencia-espacial" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Antes de continuar… dependencia espacial</h2>
 <p>Frecuentemente los datos tienen una componente espacial y/o temporal asociada a
 ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más
 semejantes que aquellos que están más alejados; en cuyo caso <strong>no</strong> deben ser
@@ -300,7 +300,7 @@ que se puede pensar en la presencia de una dependencia espacial o
 espacio-temporal.</p>
 <p>Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
-dependencia espacial? La clave esta en que los procesos con dependencia espacial
+dependencia espacial? La clave está en que los procesos con dependencia espacial
 exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.</p>
 <p>La Fig. <a href="dep-esp.html#fig:points-depiid">4.1</a> muestra uno campo aleatorio simulado que
@@ -461,7 +461,7 @@ observa en los puntos donde están ubicadas las estaciones de monitoreo) y,
 basado en tales valores observados, el análisis geoestadístico reproduce el
 comportamiento de el proceso espacial en todo el dominio de interés. La Fig.
 <a href="dep-esp.html#fig:ejem-geo">4.5</a> presenta un mapa de interpolación krigeado del nivel de
-monoxido de carbono (CO) en logaritmos para la ciudad de Madrid.</p>
+monóxido de carbono (CO) en logaritmos para la ciudad de Madrid.</p>
 <p>En el análisis geoestadístico lo más importante es cuantificar la
 correlación espacial entre observaciones (a través de la herramienta básica
 en geoestadística, el semivariograma) y utilizar esta información para
@@ -483,7 +483,7 @@ provincias, países, etc., y los datos en la mayoría de los casos son datos
 agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
 tener una forma regular, normalmente la forma que tienen es irregular, y
 esto, junto con el carácter espacialmente agregado de los datos, es por lo
-que los datos latice tambien se denominan datos regionales. Y (ii) las
+que los datos lattice también se denominan datos regionales. Y (ii) las
 ubicaciones en <span class="math inline">\(D\)</span> no son estocásticas. Por supuesto, un concepto clave en
 el análisis de los datos lattice es el <strong>vecindario</strong> y la matriz <strong>W</strong>.</p>
 <p>Algunos ejemplos de reticulares incluyen la tasa de desempleo por estados,

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos</title>
+  <title>Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos con R</title>
   <meta name="description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos" />
+  <meta property="og:title" content="Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://mdsr-2122-visualizacion.netlify.app/" />
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos" />
+  <meta name="twitter:title" content="Capítulo 1 La revolución de los geodatos | Visualización y geolocalización de datos con R" />
   
   <meta name="twitter:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Gema Fernández-Avilés" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -166,15 +166,15 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Visualización y geolocalización de datos</a></li>
+<li><a href="./">Visualización y geolocalización de datos con <strong>R</strong></a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-qué-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos-de-aprendizaje"><i class="fa fa-check"></i>Objetivos de aprendizaje</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-este-libro"><i class="fa fa-check"></i>Sobre este libro</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="la-revolución-de-los-geodatos.html"><a href="la-revolución-de-los-geodatos.html"><i class="fa fa-check"></i><b>1</b> La revolución de los geodatos</a></li>
 <li class="chapter" data-level="2" data-path="datos-geográficos.html"><a href="datos-geográficos.html"><i class="fa fa-check"></i><b>2</b> Datos geográficos</a>
@@ -199,7 +199,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="dep-esp.html"><a href="dep-esp.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial."><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial.</a></li>
+<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial"><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial</a></li>
 <li class="chapter" data-level="4.2" data-path="dep-esp.html"><a href="dep-esp.html#datos-espaciales"><i class="fa fa-check"></i><b>4.2</b> Datos espaciales</a></li>
 <li class="chapter" data-level="4.3" data-path="dep-esp.html"><a href="dep-esp.html#clasificación-de-datos-espaciales"><i class="fa fa-check"></i><b>4.3</b> Clasificación de datos espaciales</a></li>
 </ul></li>
@@ -217,7 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.2" data-path="crsproy.html"><a href="crsproy.html#por-métrica-a-preservar"><i class="fa fa-check"></i><b>A.2</b> Por métrica a preservar</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+<li><a href="https://blog.uclm.es/tp-mbsba/">Máster en Data Science & Business Analytics (con R Software)</a></li>
 
 </ul>
 
@@ -228,7 +228,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos con R</a>
           </h1>
         </div>
 
@@ -241,7 +241,7 @@ div.csl-indent {
 <p>Que estamos en la la <em>era del dato</em>, que los <em>datos son el petróleo del siglo
 XXI</em> y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
-<em>Data Scientist</em> se ha convertido en la <strong>profesión más sexy del siglo XXI</strong>
+<em>Data Scientist</em> se ha convertido en “<em>la <strong>profesión más sexy del siglo XXI”</strong></em>
 según vaticinó en 2012 <a href="https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century">Harvard Business
 Review</a>.
 Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se
@@ -253,7 +253,7 @@ se ha producido una lluvia sin precedentes hasta el momento de <strong>datos
 espaciales</strong> o <strong>datos georreferenciados</strong>. Cada teléfono inteligente tiene un
 <strong>Receptor de posicionamiento Global</strong> (en inglés, <em>Global Positioning System</em>,
 <strong>GPS</strong>) y, además, convivimos con una multitud de sensores en dispositivos que
-van desde satélites y vehículos semi-autónomos hasta científicos ciudadanos que
+van desde satélites y vehículos semiautónomos hasta científicos ciudadanos que
 miden incesantemente cada parte del mundo. La tasa de datos producidos es
 abrumadora. Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos por
 día (The Economist, 2016).</p>
@@ -264,7 +264,7 @@ System</em>) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como <strong>Geocomputación</strong>, sino que han dado lugar
 una nueva rama de conocimiento, <strong>Ciencia de Datos Espaciales</strong> comúnmente
-conocida como <em>Spatial Data Scicene</em> (SDS).</p>
+conocida como <em>Spatial Data Science</em> (SDS).</p>
 <p>Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los
 años 2020 y 2021 el denominado <a href="https://www.mitma.gob.es/ministerio/covid-19/evolucion-movilidad-big-data">Estudio de movilidad con Big

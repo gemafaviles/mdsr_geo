@@ -1,12 +1,13 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
 ]{book}
 \title{Visualización y geolocalización de datos con R}
 \author{Diego Hernangómez \and Gema Fernández-Avilés}
-\date{2022-02-03}
+\date{2022-02-04}
 
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
@@ -42,7 +43,11 @@
 \hypersetup{
   pdftitle={Visualización y geolocalización de datos con R},
   pdfauthor={Diego Hernangómez; Gema Fernández-Avilés},
-  hidelinks,
+  colorlinks=true,
+  linkcolor={red},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
@@ -151,6 +156,7 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
+\nocite{*}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -173,6 +179,7 @@
 \maketitle
 
 {
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
@@ -183,40 +190,60 @@
 \addcontentsline{toc}{chapter}{Prólogo}
 
 Este libro presenta los conceptos teóricos y prácticos necesarios para llevar a
-cabo correctamente la visualización de datos espaciales y su geolocalización
-con el software estadístico R.
+cabo correctamente la visualización de datos espaciales y su geolocalización con
+el software estadístico \textbf{R}.
 
-Los datos geolocalizados están presentes en la mayoría de los fenómenos
-que nos rodean, es un hecho que no podemos obviar y que aporta información muy
-valiosa en la mayoría de los análisis estadísticos llevados a cabo en distintas
+Los datos geolocalizados están presentes en la mayoría de los fenómenos que nos
+rodean, es un hecho que no podemos obviar y que aporta información muy valiosa
+en la mayoría de los análisis estadísticos llevados a cabo en distintas
 disciplinas tales como la Sociología, la Inteligencia Artificial, la Economía,
 la Antropología, la Biología, etc.
 
 La representación gráfica de los mismos adquiere un papel crucial, ya que (i) se
 detectan relaciones y patrones entre las variables más fácilmente, (ii) hacen
 que la distribución del fenómeno se comprenda y recuerde rápidamente, (iii)
-grandes medidas de datos estadísticos se puede visualizar de un vistazo, (iv)
+grandes medidas de datos estadísticos se pueden visualizar de un vistazo, (iv)
 permiten sacar a la luz hechos y relaciones ocultas que estimulen el pensamiento
 analítico y la investigación.
 
-La principal contribución de los autores es mostrar el proceso de visualización de
-datos georreferenciados de principio a fin, de una manera sencilla y didactica
-a través de conceptos teóricos y su aplicación directa en R. Esta es la primera
-edición del manual y, por tanto, pedimos disculpas por cualquier errata que presente
-y agradecemos que sea comunicada a los autores.
+La principal contribución de los autores es mostrar el proceso de visualización
+de datos georreferenciados de principio a fin, de una manera sencilla y
+didáctica a través de conceptos teóricos y su aplicación directa en \textbf{R}. Esta
+es la primera edición del manual y, por tanto, pedimos disculpas por cualquier
+errata que presente y agradecemos que sea comunicada a los autores.
 
-El material se proporciona bajo licencia CC-BY-ND-NC.
-Todos los logotipos y marcas comerciales que puedan aparecer en este texto
-son propiedad de sus respectivos dueños y se incluyen en este texto únicamente
-con fines didácticos.
+\hypertarget{sobre-este-libro}{%
+\section*{Sobre este libro}\label{sobre-este-libro}}
+\addcontentsline{toc}{section}{Sobre este libro}
 
-\textbf{Visualización y geolocalización de datos con R} de \textbf{Diego Hernangómez} y
-\textbf{Gema Fernández-Avilés} está licenciado bajo
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+\begin{center}\includegraphics[width=0.25\linewidth]{img/by-nc-sa.eu} \end{center}
 
-Se autoriza expresamente el uso de este material a la Universidad
-de Castilla-La Mancha para la docencia del Máster en Data Science \&
-Business Analytics (con R Software).
+\textbf{Visualización y geolocalización de datos con R} © 2022 de Diego Hernangómez (\url{https://orcid.org/0000-0001-8457-4658}) y Gema
+Fernández-Avilés (\url{https://orcid.org/0000-0001-5934-1916})
+está licenciado bajo una \href{http://creativecommons.org/licenses/by-nc-sa/4.0/}{licencia de Creative Commons
+Reconocimiento-NoComercial-CompartirIgual 4.0
+Internacional}.
+
+Todos los logotipos y marcas comerciales que puedan aparecer en este texto son
+propiedad de sus respectivos dueños y se incluyen en este texto únicamente con
+fines didácticos.
+
+Se autoriza expresamente el uso de este material a la \href{https://www.uclm.es/}{Universidad de
+Castilla-La Mancha} para la docencia del \href{https://blog.uclm.es/tp-mbsba/}{Máster en Data
+Science \& Business Analytics (con \textbf{R}
+Software)}.
+
+\hypertarget{datos}{%
+\subsection*{Datos}\label{datos}}
+\addcontentsline{toc}{subsection}{Datos}
+
+Los archivos de imagen y conjuntos de datos empleados en este libro se pueden
+descargar en la siguiente dirección web:
+
+\url{https://github.com/mdsr-espacial/datos/raw/main/01_visualizacion/archivos.zip}
+
+\emph{Creado con \href{https://bookdown.org/}{bookdown}. Versión del libro generada en
+2022-02-04 11:58:06 (CET)}
 
 \hypertarget{la-revoluciuxf3n-de-los-geodatos}{%
 \chapter{La revolución de los geodatos}\label{la-revoluciuxf3n-de-los-geodatos}}
@@ -224,7 +251,7 @@ Business Analytics (con R Software).
 Que estamos en la la \emph{era del dato}, que los \emph{datos son el petróleo del siglo
 XXI} y que estamos rodeados de datos es una cuestión que ya hemos hecho
 inherente a nosotros. Vivimos en el momento del dato, donde la profesión de
-Data Scientist se ha convertido en la \textbf{profesión más sexy del siglo XXI}
+\emph{Data Scientist} se ha convertido en ``\emph{la \textbf{profesión más sexy del siglo XXI''}}
 según vaticinó en 2012 \href{https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century}{Harvard Business
 Review}.
 Cada segundo se producen 1,7 MB de datos/persona y cada año esta cifra se
@@ -235,21 +262,21 @@ desarrollo de la tecnología, la informática, los ordenadores, los teléfonos
 móviles, los satélites, internet, etc\ldots{} y asociado a estas nuevas herramientas,
 se ha producido una lluvia sin precedentes hasta el momento de \textbf{datos
 espaciales} o \textbf{datos georreferenciados}. Cada teléfono inteligente tiene un
-\textbf{Receptor de posicionamiento Global} (en inglés, Global Positioning System,
+\textbf{Receptor de posicionamiento Global} (en inglés, \emph{Global Positioning System},
 \textbf{GPS}) y, además, convivimos con una multitud de sensores en dispositivos que
-van desde satélites y vehículos semi-autónomos hasta científicos ciudadanos que
+van desde satélites y vehículos semiautónomos hasta científicos ciudadanos que
 miden incesantemente cada parte del mundo. La tasa de datos producidos es
 abrumadora. Un vehículo autónomo, por ejemplo, puede generar 100 GB de datos por
 día (The Economist, 2016).
 
 Esta \textbf{revolución de los geodatos} y el \textbf{análisis de los datos espaciales}
 junto con los \textbf{Sistemas de Información Geográficos} (habitualmente expresados
-como \textbf{GIS} por las siglas de su nombre en inglés Geographical Information
-System) no sólo han impulsado la demanda de hardware informático de alto
+como \textbf{GIS} por las siglas de su nombre en inglés \emph{Geographical Information
+System}) no sólo han impulsado la demanda de hardware informático de alto
 rendimiento y software escalable y eficiente para manejar y extraer la
 información, lo que se conoce como \textbf{Geocomputación}, sino que han dado lugar
 una nueva rama de conocimiento, \textbf{Ciencia de Datos Espaciales} comúnmente
-conocida como Spatial Data Scicene (SDS).
+conocida como \emph{Spatial Data Science} (SDS).
 
 Como ejemplo de este abrumador desarrollo de datos georreferenciados, el
 Ministerio de Transportes, Movilidad y Agenda Urbana llevó a cabo durante los
@@ -328,7 +355,7 @@ desarrollo de geo-herramientas relevantes en un contexto científico''}.
 La geocomputación está muy relacionada con otros términos como los SIG, ya
 definidos, y con diversos tipos de campos científicos, como las Geociencias, las
 Ciencias atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología
-y las Ciencia de datos geográficos (GDS, Geographic Data Science).
+y las Ciencia de datos geográficos (GDS, \emph{Geographic Data Science}).
 
 Cada término comparte un énfasis en un enfoque \textbf{científico} (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
@@ -342,7 +369,7 @@ para trabajos científicos aplicados.
 
 \textbf{R} es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
-inglés, Integrated Development Environment, \textbf{IDE}), como RStudio, han hecho
+inglés, \emph{Integrated Development Environment}, \textbf{IDE}), como RStudio, han hecho
 que \textbf{R} sea más fácil de usar para muchos, facilitando la creación de mapas
 con un panel dedicado a la visualización interactiva \citep{Lovelance_et_al_2019}.
 Además, el uso del código \textbf{R} permite la enseñanza de la geocomputación con
@@ -383,8 +410,8 @@ no sólo en el tema que nos ocupa:
   \textbf{sp} \citep{R-sp} y \textbf{sf} \citep{R-sp} para el tratamiento de clases y métodos de
   los datos vectoriales.
 \item
-  \textbf{raster} \citep{R-raster}, \textbf{terra} \citep{R-terra}y \textbf{stars} \citep{R-stars}para datos
-  raster.
+  \textbf{raster} \citep{R-raster}, \textbf{terra} \citep{R-terra}y \textbf{stars} \citep{R-stars} para
+  datos ráster.
 \item
   \textbf{gstat} \citep{R-gstat} y \textbf{geoR} \citep{R-geor} para el análisis de datos
   geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.
@@ -393,7 +420,7 @@ no sólo en el tema que nos ocupa:
   espacial, creación de matrices de contigüidad/distancia \textbf{W}, estimación de
   modelos econométricos espaciales, etc
 \item
-  \textbf{spatstat} \citep{spatstat_2005}para el análisis de procesos de puntos
+  \textbf{spatstat} \citep{spatstat_2005} para el análisis de procesos de puntos
   espaciales, intensidad, etc.
 \end{itemize}
 
@@ -408,7 +435,7 @@ Hemos dicho que Geográfico = Geo (tierra) + gráfico (mapa). Por tanto, si
 tenemos varios datos geográficos, localizados en distintos puntos de la tierra,
 es porque tenemos las \textbf{coordenadas} que los posicionan en esos puntos
 concretos. Asociado a estas coordenadas debemos conocer el \textbf{Sistema de
-referencia de espacial} o Coordinate reference system (CRS) en el que están
+referencia de espacial} o \emph{Coordinate reference system} (CRS) en el que están
 proyectadas dichas coordenadas.
 
 Por otra parte, los formatos de estos datos pueden ser \textbf{vectores} o \textbf{ráster}
@@ -483,7 +510,7 @@ especificarse en dos columnas que contienen las coordenadas de la localización.
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-7}Ejemplo: Coordenadas de Aeropuertos en España}
+\caption{\label{tab:unnamed-chunk-10}Ejemplo: Coordenadas de Aeropuertos en España}
 \centering
 \begin{tabular}[t]{l|r|r}
 \hline
@@ -653,13 +680,12 @@ datos espaciales representados en la Fig. \ref{fig:lineas-pol}.
 \hypertarget{raster}{%
 \subsection{Datos ráster}\label{raster}}
 
-Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denominada \textbf{matriz}) que se puede visualizar en diversos dispositivos de
-representación. El caso más cotidiano de un ráster es una fotografía, donde la
-imagen se representa como una serie de celdas, determinadas por la resolución de
-la imagen (número total de píxeles, determinados como número de píxeles en cada
-fila por número de píxeles en cada columna) y el color que presenta cada uno de
-estos píxeles.
+Los datos ráster son datos proporcionados en una rejilla rectangular de píxeles
+regulares (denominada \textbf{matriz}). El caso más cotidiano de un ráster es una
+fotografía, donde la imagen se representa como una serie de celdas, determinadas
+por la resolución de la imagen (número total de píxeles, determinados como
+número de píxeles en cada fila por número de píxeles en cada columna) y el color
+que presenta cada uno de estos píxeles.
 
 En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
 ráster está formado por una malla regular de píxeles georreferenciada, tal y
@@ -670,7 +696,7 @@ como muestra la Fig. \ref{fig:raster}:
 
 \FunctionTok{library}\NormalTok{(raster)}
 
-\NormalTok{elev }\OtherTok{\textless{}{-}} \FunctionTok{raster}\NormalTok{(}\StringTok{"data/Toledo\_DEM.tiff"}\NormalTok{)}
+\NormalTok{elev }\OtherTok{\textless{}{-}} \FunctionTok{raster}\NormalTok{(}\StringTok{"data/Toledo\_DEM.asc"}\NormalTok{)}
 \FunctionTok{plot}\NormalTok{(elev, }\AttributeTok{main =} \StringTok{"Elevación de la provincia de Toledo"}\NormalTok{)}
 
 \CommentTok{\# Mostramos el grid}
@@ -748,11 +774,11 @@ x & y & Toledo\_DEM\\
 \caption{Datos ráster: Detalle}\label{fig:detalle-pixel}
 \end{figure}
 
-Los rásters pueden contener varias capas (o layers), de manera que cada píxel
-puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
-un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
-azul), de manera que al combinar las tres capas se puede definir un color
-distinto en cada píxel.
+Un fichiero ráster puede contener varias capas (o \emph{layers}), de manera que cada
+píxel puede tener asociados varios valores. Volviendo al ejemplo de la
+fotografía, en un modelo simple de color RGB cada píxel lleva asociado 3 valores
+(rojo, verde o azul), de manera que al combinar las tres capas se puede definir
+un color distinto en cada píxel.
 
 En la Fig. \ref{fig:raster-multilayer} vamos a usar una imagen de mapa
 georreferenciada, como las proporcionadas por servicios de mapas online, para
@@ -831,7 +857,7 @@ x & y & lyr.1 & lyr.2 & lyr.3\\
 \section{Sistema de Referencia de Coordenadas (CRS)}\label{CRS}}
 
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
-\textbf{Coordinate Reference System}) permite relacionar datos espaciales con su
+\emph{Coordinate Reference System}) permite relacionar datos espaciales con su
 localización en la superficie terrestre.
 
 \textbf{Los CRS constituyen por tanto un aspecto fundamental en el análisis y
@@ -905,9 +931,9 @@ localizar una posición espacial son la latitud y la longitud:
 \caption{Paralelos y Meridianos terrestres}\label{fig:meridianos}
 \end{figure}
 
-Es muy importante destacar que en un sistema de coordenadas geográfico, es
-decir, basado en latitudes y longitudes, las \textbf{distancias} entre dos puntos
-representan \textbf{distancias angulares}. Por ejemplo, la distancia entre el
+Es \textbf{muy importante} destacar que, en un sistema de coordenadas geográfico, es
+decir, basado \textbf{en latitudes y longitudes, las distancias} entre dos puntos
+\textbf{representan distancias angulares}. Por ejemplo, la distancia entre el
 meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
 es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
 metros entre ambos meridianos no es constante.
@@ -948,7 +974,7 @@ proyectados.
 \subsection{\texorpdfstring{Trabajando con proyecciones en \textbf{R}}{Trabajando con proyecciones en R}}\label{trabajando-con-proyecciones-en-r}}
 
 Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-\textbf{códigos EPSG, ESRI, WKT} o proj4 (en desuso en \textbf{R}, pero todavía
+\textbf{códigos EPSG, ESRI, WKT} o \textbf{proj4} (en desuso en \textbf{R}, pero todavía
 admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
 los códigos correspondientes:
 
@@ -1416,9 +1442,9 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 
 \NormalTok{china\_crs}
 \CommentTok{\#\textgreater{} \# A tibble: 1 x 6}
-\CommentTok{\#\textgreater{}   crs\_code crs\_name        crs\_type crs\_gcs crs\_units crs\_proj4                 }
-\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}           \textless{}chr\textgreater{}      \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}                     }
-\CommentTok{\#\textgreater{} 1 4584     New Beijing / \textasciitilde{} project\textasciitilde{}    4555 m         +proj=tmerc +lat\_0=0 +lon\textasciitilde{}}
+\CommentTok{\#\textgreater{}   crs\_code crs\_name                         crs\_type crs\_gcs crs\_units crs\_proj4}
+\CommentTok{\#\textgreater{}   \textless{}chr\textgreater{}    \textless{}chr\textgreater{}                            \textless{}chr\textgreater{}      \textless{}dbl\textgreater{} \textless{}chr\textgreater{}     \textless{}chr\textgreater{}    }
+\CommentTok{\#\textgreater{} 1 4584     New Beijing / Gauss{-}Kruger CM 1\textasciitilde{} project\textasciitilde{}    4555 m         +proj=tm\textasciitilde{}}
 
 
 \NormalTok{china\_suggest }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(}
@@ -1445,7 +1471,7 @@ crs\_code & crs\_name & crs\_type & crs\_gcs & crs\_units & crs\_proj4\\
 
 La estadística espacial se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son \textbf{dependientes}) de alguna
-manera \citep{getis_1999}, y por ello, trata de reconocer y aprovechar ésta ubicación
+manera \citep{getis_1999}, y por ello, trata de reconocer y aprovechar esta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
 observaciones (\citet{montero_et_al_2011}).
 
@@ -1517,7 +1543,7 @@ espacio-temporal.
 
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
-dependencia espacial? La clave esta en que los procesos con dependencia espacial
+dependencia espacial? La clave está en que los procesos con dependencia espacial
 exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.
 
@@ -1723,7 +1749,7 @@ clasificación \citep{montero_et_al_2015}:
   basado en tales valores observados, el análisis geoestadístico reproduce el
   comportamiento de el proceso espacial en todo el dominio de interés. La Fig.
   \ref{fig:ejem-geo} presenta un mapa de interpolación krigeado del nivel de
-  monoxido de carbono (CO) en logaritmos para la ciudad de Madrid.
+  monóxido de carbono (CO) en logaritmos para la ciudad de Madrid.
 
   En el análisis geoestadístico lo más importante es cuantificar la
   correlación espacial entre observaciones (a través de la herramienta básica
@@ -1753,7 +1779,7 @@ clasificación \citep{montero_et_al_2015}:
   agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
   tener una forma regular, normalmente la forma que tienen es irregular, y
   esto, junto con el carácter espacialmente agregado de los datos, es por lo
-  que los datos latice tambien se denominan datos regionales. Y (ii) las
+  que los datos lattice también se denominan datos regionales. Y (ii) las
   ubicaciones en \(D\) no son estocásticas. Por supuesto, un concepto clave en
   el análisis de los datos lattice es el \textbf{vecindario} y la matriz \textbf{W}.
 
@@ -1822,12 +1848,12 @@ clasificación \citep{montero_et_al_2015}:
 \begin{infobox}
 \textbf{NOTA}
 
-En las siguientes aplicaciones se asumen que los datos se localizan en la
-carpeta \texttt{data} del proyecto de \index{R-Studio} en el que se esté trabajando.
+En las siguientes aplicaciones se asume que los datos se localizan en la carpeta
+\texttt{data} del proyecto de R-Studio en el que se esté trabajando.
 
 Los datos pueden descargarse desde esta dirección:
 
-\url{https://github.com/mdsr-espacial/datos/raw/main/01_visualizacion/datos.zip}
+\url{https://github.com/mdsr-espacial/datos/raw/main/01_visualizacion/datos-ejercicios.zip}
 
 \end{infobox}
 
@@ -1868,8 +1894,8 @@ Para crear un proyecto siga la secuencia: \emph{File\textgreater{} New Proyect} 
 
 El conjunto de datos proporcionado \texttt{tempmin.csv} contiene el nivel de
 temperatura del aire en España entre el 6 y el 10 de Enero de
-2021\footnote{Las fechas seleccionadas coinciden con el periodo en el
-  que la tormenta Filomena tuvo su auge en la Península Ibérica.}. Estos datos han sido descargados usando la librería
+2021\footnote{Las fechas seleccionadas coinciden con el periodo en el que
+  la tormenta Filomena tuvo su auge en la Península Ibérica.}. Estos datos han sido descargados usando la librería
 \textbf{climaemet} \citep{R-climaemet} y han sido posteriormente tratados para su uso en
 esta práctica.
 
@@ -1941,7 +1967,7 @@ fecha & indicativo & tmin & longitud & latitud\\
 
 Una de las clases de objetos espaciales más utilizada en \textbf{R} es \texttt{sf}. Sin
 embargo, dependiendo del análisis que se quiera realizar hay otras muy comunes
-como \texttt{geodata}, \texttt{spatastat}, etc..
+como \texttt{geodata}, \texttt{spatstat}, etc..
 
 A continuación se convertirá el objeto \texttt{tmin} (\texttt{data.frame}) a un objeto de la
 clase \texttt{geodata}, una clase muy utilizada para trabajar con datos espaciales y
@@ -1994,11 +2020,11 @@ continuación describa analítica y gráficamente dicho objeto.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-10-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-13-1} 
 
 }
 
-\caption{Convertir `data.frame` a `geodata`}\label{fig:unnamed-chunk-10}
+\caption{Convertir `data.frame` a `geodata`}\label{fig:unnamed-chunk-13}
 \end{figure}
 
 En esta ocasión, convertiremos los datos de \texttt{tmin} en un objeto espacial \texttt{sf},
@@ -2075,11 +2101,11 @@ formato \texttt{sf}, el paquete \textbf{mapSpain}.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-12-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-15-1} 
 
 }
 
-\caption{Mapa de España (Sin Canarias)}\label{fig:unnamed-chunk-12}
+\caption{Mapa de España (Sin Canarias)}\label{fig:unnamed-chunk-15}
 \end{figure}
 
 Como se comentó en la Sección \ref{CRS}, cuando se emplean datos geográficos
@@ -2088,7 +2114,7 @@ están usando el mismo CRS.
 
 \begin{exercise}[Comprobar el CRS de los datos]
 \protect\hypertarget{exr:ex7}{}\label{exr:ex7}¿Tengo el Sistema de referencia de coordenadas (CRS) de las estaciones de
-monitoreo en la misma proyección que el contorno de España? Compruebelo.
+monitoreo en la misma proyección que el contorno de España? Compruébelo.
 \end{exercise}
 
 \begin{Shaded}
@@ -2149,11 +2175,11 @@ la Península Ibérica.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-14-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-17-1} 
 
 }
 
-\caption{Estaciones de AEMET en la Península Ibérica}\label{fig:unnamed-chunk-14}
+\caption{Estaciones de AEMET en la Península Ibérica}\label{fig:unnamed-chunk-17}
 \end{figure}
 
 Una vez representadas las coordenadas, es decir, las estaciones de monitoreo
@@ -2265,8 +2291,8 @@ Tal y como se avanzó en el Capítulo \ref{dep-esp}, parece lógico pensar que
 aquellos puntos que estén cerca tendrán valores similares. Por tanto, tomemos
 ventaja de las propiedades de la dependencia espacial y utilicemos un método de
 interpolación sencillo, en este caso un método determinista, la Distancia
-Inversa Ponderada, comúnmente conocido por su acrónimo inglés IDW (Inverse
-distance weighted), el cual es uno de los métodos más simples para llevar para
+Inversa Ponderada, comúnmente conocido por su acrónimo inglés IDW (\emph{Inverse
+Distance Weighted}), el cual es uno de los métodos más simples para llevar para
 llevar a cabo una interpolación espacial.
 
 En este tipo de análisis espacial, es crucial que el CRS sea el apropiado. En
@@ -2305,7 +2331,7 @@ celda en metros cuadrados. En este caso vamos a usar celdas de 100 km cuadrados
 
 \begin{exercise}[Creación y representación de una malla de interpolación]
 \protect\hypertarget{exr:ex12}{}\label{exr:ex12}Genere un grid y llámelo \texttt{malla\_sf} (puede fijar una semilla si lo desea) y
-grafíque la superficie construida.
+grafique la superficie construida.
 \end{exercise}
 
 \begin{Shaded}
@@ -2355,8 +2381,8 @@ A continuación podemos llevar a cabo la interpolación usando el paquete
 \textbf{gstat} \citep{R-gstat}. Además, en lugar de celdas (polígonos) es necesario usar
 puntos en la interpolación. Calcularemos, por tanto, un punto representativo de
 cada celda creada en la superficie anterior \texttt{malla\_sf}, el centroide, que es el
-punto resultante de realizar la media arimética de las coordenadas de los puntos
-que componen los lados de cada celda.
+punto resultante de realizar la media aritmética de las coordenadas de los
+puntos que componen los lados de cada celda.
 
 \begin{exercise}[Interpolación a través de la Distancia Inversa Ponderada]
 \protect\hypertarget{exr:ex13}{}\label{exr:ex13}Calcule los centroides de los polígonos de la malla construida en el Ejercicio
@@ -2444,11 +2470,11 @@ pixeles.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-17-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-20-1} 
 
 }
 
-\caption{Mapa ráster con líneas de nivel}\label{fig:unnamed-chunk-17}
+\caption{Mapa ráster con líneas de nivel}\label{fig:unnamed-chunk-20}
 \end{figure}
 
 \begin{exercise}[Mapa de interpolación con ggplot2]
@@ -2491,11 +2517,11 @@ pixeles.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-18-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-21-1} 
 
 }
 
-\caption{Temperatura mínima interpolada. 8 de Enero 2021. }\label{fig:unnamed-chunk-18}
+\caption{Temperatura mínima interpolada. 8 de Enero 2021. }\label{fig:unnamed-chunk-21}
 \end{figure}
 
 \hypertarget{caso-2.-distribuciuxf3n-de-la-renta-por-municipios}{%
@@ -2649,9 +2675,24 @@ Toledo y comprobamos.
 \end{Highlighting}
 \end{Shaded}
 
-En el caso de Noblejas, el código completo es 45115. Sin embargo, en el caso de
-la tabla \texttt{renta}, debemos extraer ese valor del literal. Para ello debemos
-manipular la columna y extraer la primera palabra de la columna \texttt{Unidad}:
+En el caso de Noblejas, el código completo es \textbf{45115}. Sin embargo, en el caso
+de la tabla \texttt{renta}, debemos extraer ese valor del literal, ya que no tenemos
+este valor directamente, sino en combinación con otros valores (``\textbf{45115
+Noblejas}''). Para conseguir extraer un campo adecuado para el cruce en la tabla
+\texttt{renta} que contenga únicamente el código numérico vamos a hacer la siguiente
+manipulación de datos:
+
+\begin{itemize}
+\item
+  Para cada valor de la columna \texttt{Unidad}, dividiremos el texto usando los
+  espacios como delimitadores (\texttt{"45115\ Noblejas"} pasará a ser
+  \texttt{c("45115",\ "Noblejas")}) y extraeremos el código como el primer valor del
+  vector (\texttt{c("45115",\ "Noblejas"){[}1{]}} extrae el primer valor del vector, es
+  decir, \texttt{"45115"}).
+\item
+  Usaremos ese resultado para crear una nueva columna \texttt{codigo\_ine} que
+  usaremos como campo para realizar el cruce.
+\end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3048,7 +3089,7 @@ métodos anteriormente mostrados y coméntelos.
 
 El mapa de la Fig. \ref{fig:mapa-deciles} ya permite observar patrones
 geográficos, donde se ve una clara diferencia entre la Comunidades Autónomas del
-Norte y las del Sur. Veamos una representación distina usando otras clases
+Norte y las del Sur. Veamos una representación distinta usando otras clases
 diferentes.
 
 \textbf{Tramos equidistantes}
@@ -3177,8 +3218,8 @@ Use la librería \textbf{readr}.
 \end{solution}
 
 El primer paso consiste en importar la base de datos de crímenes en la ciudad de
-Valencia. El archivo está en formato csv, por lo que usaremos el paquete
-\textbf{readr} \citep{R-readr} para importar los datos:
+Valencia en el año 2010. El archivo está en formato csv, por lo que usaremos el
+paquete \textbf{readr} \citep{R-readr} para importar los datos:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3319,16 +3360,17 @@ En la Fig. \ref{fig:crimen1} podemos intuir ciertos patrones en la ocurrencia
 de crímenes. Por ejemplo, parecen concentrarse en zonas céntricas y no hay
 crímenes registrados en la zona del puerto.
 
-Resulta interesante analizar el patrón espacial de deliltos en el año
-2010. Por otra parte, en el análisis de patrones de puntos es necesario delimitar la
-ventana espacial de observación (owin). En este caso será el municipio de
-Valencia, que podemos extraer del paquete \textbf{mapSpain}.
+Resulta interesante analizar el patrón espacial de estos delitos. Por otra
+parte, en el análisis de patrones de puntos es necesario delimitar la ventana
+espacial de observación (owin). En este caso será el municipio de Valencia, que
+podemos extraer del paquete \textbf{mapSpain}.
 
 El paquete \textbf{spatstat} (\citet{spatstat_2005}) es el paquete de referencia cuando se
 trabaja con patrones de puntos.
 
 \begin{exercise}[Análisis de patrones con spatstat]
-\protect\hypertarget{exr:ex30}{}\label{exr:ex30}Analice la existencia de patrones espaciales en los delitos registrados en el año 2010.
+\protect\hypertarget{exr:ex30}{}\label{exr:ex30}Analice la existencia de patrones espaciales en los delitos registrados en el
+año 2010.
 \end{exercise}
 
 \begin{Shaded}
@@ -3337,7 +3379,7 @@ trabaja con patrones de puntos.
 \CommentTok{\# Extraemos Valencia con mapSpain}
 
 \NormalTok{valencia }\OtherTok{\textless{}{-}} \FunctionTok{esp\_get\_munic}\NormalTok{(}\AttributeTok{munic =} \StringTok{"\^{}Valencia$"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \CommentTok{\# Necesito proyectar, en este caso usamos ETRS89{-}UTM huso 30 EPSG:25830}
+  \CommentTok{\# Necesitamos proyectar, en este caso usamos ETRS89{-}UTM huso 30 EPSG:25830}
   \FunctionTok{st\_transform}\NormalTok{(}\DecValTok{25830}\NormalTok{)}
 
 
@@ -3610,11 +3652,11 @@ Una vez que se dispone del objeto espacial \texttt{pols} completo, es posible us
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-25-1} 
+{\centering \includegraphics[width=0.6\linewidth]{Visualización_geolocalización_datos_files/figure-latex/unnamed-chunk-28-1} 
 
 }
 
-\caption{Estimación kernel con ggplot2}\label{fig:unnamed-chunk-25}
+\caption{Estimación kernel con ggplot2}\label{fig:unnamed-chunk-28}
 \end{figure}
 
 Nótese que los conocimientos teóricos necesarios para llevar a cabo este tipo de
@@ -3722,8 +3764,8 @@ distorsionada son la \textbf{distancia} entre dos puntos geográficos, la
 
 A lo largo de la Historia se han desarrollado diversas proyecciones cuyo
 objetivo es preservar alguna o varias de las propiedades mencionadas
-anteriormente, sin embargo es importante destacar que \textbf{no existe una proyección
-que sea capaz de preservar todas las métricas a la vez}.
+anteriormente, sin embargo, es importante destacar que \textbf{no existe una
+proyección que sea capaz de preservar todas las métricas a la vez}.
 
 Según la métrica a preservar, las proyecciones se pueden clasificar en:
 
@@ -3800,7 +3842,7 @@ Según la métrica a preservar, las proyecciones se pueden clasificar en:
 \caption{Ejemplo de proyección de compromiso: Winkel Tripel}\label{fig:comp}
 \end{figure}
 
-En los anteriores ejemplos se ha añadido a cada proyección la \textbf{indicatriz de
+En los ejemplos anteriores se ha añadido a cada proyección la \textbf{indicatriz de
 Tissot}. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
 De esta manera, al presentar la indicatriz de Tissot en una proyección

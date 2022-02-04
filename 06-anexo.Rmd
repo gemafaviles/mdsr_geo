@@ -69,8 +69,8 @@ distorsionada son la **distancia** entre dos puntos geográficos, la
 
 A lo largo de la Historia se han desarrollado diversas proyecciones cuyo
 objetivo es preservar alguna o varias de las propiedades mencionadas
-anteriormente, sin embargo es importante destacar que **no existe una proyección
-que sea capaz de preservar todas las métricas a la vez**.
+anteriormente, sin embargo, es importante destacar que **no existe una
+proyección que sea capaz de preservar todas las métricas a la vez**.
 
 Según la métrica a preservar, las proyecciones se pueden clasificar en:
 
@@ -115,7 +115,7 @@ knitr::include_graphics("img/equidist.png")
 knitr::include_graphics("img/comp.png")
 ```
 
-En los anteriores ejemplos se ha añadido a cada proyección la **indicatriz de
+En los ejemplos anteriores se ha añadido a cada proyección la **indicatriz de
 Tissot**. Ésta consiste en una serie de círculos imaginarios de igual área
 distribuidos sobre la superficie esférica de la Tierra en determinados puntos.
 De esta manera, al presentar la indicatriz de Tissot en una proyección

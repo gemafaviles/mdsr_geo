@@ -1,18 +1,3 @@
-```{r knitr_configv, message=FALSE, warning=FALSE, include=FALSE}
-
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  warning = FALSE,
-  message = FALSE,
-  tidy = "styler",
-  fig.align = "center",
-  dev = "ragg_png",
-  dpi = 300
-)
-
-```
-
 # Formatos de datos espaciales {#formatos}
 
 ## Ficheros de datos espaciales
@@ -184,13 +169,12 @@ ggplot(st_cast(st_geometry(toledo), "POINT")) +
 
 ### Datos ráster {#raster}
 
-Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denominada **matriz**) que se puede visualizar en diversos dispositivos de
-representación. El caso más cotidiano de un ráster es una fotografía, donde la
-imagen se representa como una serie de celdas, determinadas por la resolución de
-la imagen (número total de píxeles, determinados como número de píxeles en cada
-fila por número de píxeles en cada columna) y el color que presenta cada uno de
-estos píxeles.
+Los datos ráster son datos proporcionados en una rejilla rectangular de píxeles
+regulares (denominada **matriz**). El caso más cotidiano de un ráster es una
+fotografía, donde la imagen se representa como una serie de celdas, determinadas
+por la resolución de la imagen (número total de píxeles, determinados como
+número de píxeles en cada fila por número de píxeles en cada columna) y el color
+que presenta cada uno de estos píxeles.
 
 En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
 ráster está formado por una malla regular de píxeles georreferenciada, tal y
@@ -200,7 +184,7 @@ como muestra la Fig. \@ref(fig:raster):
 
 library(raster)
 
-elev <- raster("data/Toledo_DEM.tiff")
+elev <- raster("data/Toledo_DEM.asc")
 plot(elev, main = "Elevación de la provincia de Toledo")
 
 # Mostramos el grid
@@ -235,11 +219,11 @@ top15 <- elev[1, 1:15, drop = FALSE]
 plot(top15, main = "Detalle de los primeros 15 pixels")
 ```
 
-Los rásters pueden contener varias capas (o layers), de manera que cada píxel
-puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
-un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
-azul), de manera que al combinar las tres capas se puede definir un color
-distinto en cada píxel.
+Un fichiero ráster puede contener varias capas (o *layers*), de manera que cada
+píxel puede tener asociados varios valores. Volviendo al ejemplo de la
+fotografía, en un modelo simple de color RGB cada píxel lleva asociado 3 valores
+(rojo, verde o azul), de manera que al combinar las tres capas se puede definir
+un color distinto en cada píxel.
 
 En la Fig. \@ref(fig:raster-multilayer) vamos a usar una imagen de mapa
 georreferenciada, como las proporcionadas por servicios de mapas online, para
@@ -276,7 +260,7 @@ plot(top15_2,
 ## Sistema de Referencia de Coordenadas (CRS) {#CRS}
 
 Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
-**Coordinate Reference System**) permite relacionar datos espaciales con su
+*Coordinate Reference System*) permite relacionar datos espaciales con su
 localización en la superficie terrestre.
 
 **Los CRS constituyen por tanto un aspecto fundamental en el análisis y
@@ -482,9 +466,9 @@ paralelos
 merid
 ```
 
-Es muy importante destacar que en un sistema de coordenadas geográfico, es
-decir, basado en latitudes y longitudes, las **distancias** entre dos puntos
-representan **distancias angulares**. Por ejemplo, la distancia entre el
+Es **muy importante** destacar que, en un sistema de coordenadas geográfico, es
+decir, basado **en latitudes y longitudes, las distancias** entre dos puntos
+**representan distancias angulares**. Por ejemplo, la distancia entre el
 meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
 es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
 metros entre ambos meridianos no es constante.
@@ -556,7 +540,7 @@ proyectados.
 ### Trabajando con proyecciones en **R**
 
 Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-**códigos EPSG, ESRI, WKT** o proj4 (en desuso en **R**, pero todavía
+**códigos EPSG, ESRI, WKT** o **proj4** (en desuso en **R**, pero todavía
 admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
 los códigos correspondientes:
 

@@ -50,7 +50,7 @@ desarrollo de geo-herramientas relevantes en un contexto científico"*.
 La geocomputación está muy relacionada con otros términos como los SIG, ya
 definidos, y con diversos tipos de campos científicos, como las Geociencias, las
 Ciencias atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología
-y las Ciencia de datos geográficos (GDS, Geographic Data Science).
+y las Ciencia de datos geográficos (GDS, *Geographic Data Science*).
 
 Cada término comparte un énfasis en un enfoque **científico** (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
@@ -64,7 +64,7 @@ para trabajos científicos aplicados.
 
 **R** es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
-inglés, Integrated Development Environment, **IDE**), como RStudio, han hecho
+inglés, *Integrated Development Environment*, **IDE**), como RStudio, han hecho
 que **R** sea más fácil de usar para muchos, facilitando la creación de mapas
 con un panel dedicado a la visualización interactiva [@Lovelance_et_al_2019].
 Además, el uso del código **R** permite la enseñanza de la geocomputación con
@@ -92,8 +92,8 @@ no sólo en el tema que nos ocupa:
 -   **sp** [@R-sp] y **sf** [@R-sp] para el tratamiento de clases y métodos de
     los datos vectoriales.
 
--   **raster** [@R-raster], **terra** [@R-terra]y **stars** [@R-stars]para datos
-    raster.
+-   **raster** [@R-raster], **terra** [@R-terra]y **stars** [@R-stars] para
+    datos ráster.
 
 -   **gstat** [@R-gstat] y **geoR** [@R-geor] para el análisis de datos
     geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.
@@ -102,7 +102,7 @@ no sólo en el tema que nos ocupa:
     espacial, creación de matrices de contigüidad/distancia **W**, estimación de
     modelos econométricos espaciales, etc
 
--   **spatstat** [@spatstat_2005]para el análisis de procesos de puntos
+-   **spatstat** [@spatstat_2005] para el análisis de procesos de puntos
     espaciales, intensidad, etc.
 
 ## Conceptos clave
@@ -115,7 +115,7 @@ Hemos dicho que Geográfico = Geo (tierra) + gráfico (mapa). Por tanto, si
 tenemos varios datos geográficos, localizados en distintos puntos de la tierra,
 es porque tenemos las **coordenadas** que los posicionan en esos puntos
 concretos. Asociado a estas coordenadas debemos conocer el **Sistema de
-referencia de espacial** o Coordinate reference system (CRS) en el que están
+referencia de espacial** o *Coordinate reference system* (CRS) en el que están
 proyectadas dichas coordenadas.
 
 Por otra parte, los formatos de estos datos pueden ser **vectores** o **ráster**

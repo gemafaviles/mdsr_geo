@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos</title>
+  <title>Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos con R</title>
   <meta name="description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos" />
+  <meta property="og:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://mdsr-2122-visualizacion.netlify.app/" />
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos" />
+  <meta name="twitter:title" content="Capítulo 3 Formatos de datos espaciales | Visualización y geolocalización de datos con R" />
   
   <meta name="twitter:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Gema Fernández-Avilés" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -166,15 +166,15 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Visualización y geolocalización de datos</a></li>
+<li><a href="./">Visualización y geolocalización de datos con <strong>R</strong></a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-qué-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos-de-aprendizaje"><i class="fa fa-check"></i>Objetivos de aprendizaje</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-este-libro"><i class="fa fa-check"></i>Sobre este libro</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="la-revolución-de-los-geodatos.html"><a href="la-revolución-de-los-geodatos.html"><i class="fa fa-check"></i><b>1</b> La revolución de los geodatos</a></li>
 <li class="chapter" data-level="2" data-path="datos-geográficos.html"><a href="datos-geográficos.html"><i class="fa fa-check"></i><b>2</b> Datos geográficos</a>
@@ -199,7 +199,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="dep-esp.html"><a href="dep-esp.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial."><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial.</a></li>
+<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial"><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial</a></li>
 <li class="chapter" data-level="4.2" data-path="dep-esp.html"><a href="dep-esp.html#datos-espaciales"><i class="fa fa-check"></i><b>4.2</b> Datos espaciales</a></li>
 <li class="chapter" data-level="4.3" data-path="dep-esp.html"><a href="dep-esp.html#clasificación-de-datos-espaciales"><i class="fa fa-check"></i><b>4.3</b> Clasificación de datos espaciales</a></li>
 </ul></li>
@@ -217,7 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.2" data-path="crsproy.html"><a href="crsproy.html#por-métrica-a-preservar"><i class="fa fa-check"></i><b>A.2</b> Por métrica a preservar</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+<li><a href="https://blog.uclm.es/tp-mbsba/">Máster en Data Science & Business Analytics (con R Software)</a></li>
 
 </ul>
 
@@ -228,7 +228,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos con R</a>
           </h1>
         </div>
 
@@ -290,7 +290,7 @@ en ficheros planos (<code>.csv</code>, <code>.txt</code> o incluso Excel). Gener
 datos corresponde a localizaciones (puntos) y la información geográfica suele
 especificarse en dos columnas que contienen las coordenadas de la localización.</p>
 <table>
-<caption><span id="tab:unnamed-chunk-7">Tabla 3.1: </span>Ejemplo: Coordenadas de Aeropuertos en España</caption>
+<caption><span id="tab:unnamed-chunk-10">Tabla 3.1: </span>Ejemplo: Coordenadas de Aeropuertos en España</caption>
 <thead>
 <tr class="header">
 <th align="left">Ciudad</th>
@@ -454,20 +454,19 @@ Figura 3.3: Datos vector: Descomposición en puntos
 </div>
 <div id="raster" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Datos ráster</h3>
-<p>Los datos ráster son datos representandos en una rejilla rectangular de píxeles
-(denominada <strong>matriz</strong>) que se puede visualizar en diversos dispositivos de
-representación. El caso más cotidiano de un ráster es una fotografía, donde la
-imagen se representa como una serie de celdas, determinadas por la resolución de
-la imagen (número total de píxeles, determinados como número de píxeles en cada
-fila por número de píxeles en cada columna) y el color que presenta cada uno de
-estos píxeles.</p>
+<p>Los datos ráster son datos proporcionados en una rejilla rectangular de píxeles
+regulares (denominada <strong>matriz</strong>). El caso más cotidiano de un ráster es una
+fotografía, donde la imagen se representa como una serie de celdas, determinadas
+por la resolución de la imagen (número total de píxeles, determinados como
+número de píxeles en cada fila por número de píxeles en cada columna) y el color
+que presenta cada uno de estos píxeles.</p>
 <p>En el ámbito de los datos espaciales, la definición es muy similar. Un archivo
 ráster está formado por una malla regular de píxeles georreferenciada, tal y
 como muestra la Fig. <a href="formatos.html#fig:raster">3.4</a>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="formatos.html#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-2"><a href="formatos.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
 <span id="cb4-3"><a href="formatos.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="formatos.html#cb4-4" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">&quot;data/Toledo_DEM.tiff&quot;</span>)</span>
+<span id="cb4-4"><a href="formatos.html#cb4-4" aria-hidden="true" tabindex="-1"></a>elev <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">&quot;data/Toledo_DEM.asc&quot;</span>)</span>
 <span id="cb4-5"><a href="formatos.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elev, <span class="at">main =</span> <span class="st">&quot;Elevación de la provincia de Toledo&quot;</span>)</span>
 <span id="cb4-6"><a href="formatos.html#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="formatos.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostramos el grid</span></span>
@@ -581,11 +580,11 @@ valor, en este caso, en este caso la altitud media del terreno observada:</p>
 Figura 3.5: Datos ráster: Detalle
 </p>
 </div>
-<p>Los rásters pueden contener varias capas (o layers), de manera que cada píxel
-puede tener asociados varios valores. Volviendo al ejemplo de la fotografía, en
-un modelo simple de color RGB cada píxel lleva asociado 3 valores (rojo, verde o
-azul), de manera que al combinar las tres capas se puede definir un color
-distinto en cada píxel.</p>
+<p>Un fichiero ráster puede contener varias capas (o <em>layers</em>), de manera que cada
+píxel puede tener asociados varios valores. Volviendo al ejemplo de la
+fotografía, en un modelo simple de color RGB cada píxel lleva asociado 3 valores
+(rojo, verde o azul), de manera que al combinar las tres capas se puede definir
+un color distinto en cada píxel.</p>
 <p>En la Fig. <a href="formatos.html#fig:raster-multilayer">3.6</a> vamos a usar una imagen de mapa
 georreferenciada, como las proporcionadas por servicios de mapas online, para
 analizar su composición.</p>
@@ -732,7 +731,7 @@ Figura 3.8: Datos ráster multicapa: Descomposición
 <div id="CRS" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Sistema de Referencia de Coordenadas (CRS)</h2>
 <p>Un sistema de referencia de coordenadas (o CRS por sus siglas en inglés,
-<strong>Coordinate Reference System</strong>) permite relacionar datos espaciales con su
+<em>Coordinate Reference System</em>) permite relacionar datos espaciales con su
 localización en la superficie terrestre.</p>
 <p><strong>Los CRS constituyen por tanto un aspecto fundamental en el análisis y
 representación de datos espaciales</strong>, ya que nos permiten identificar con
@@ -788,9 +787,9 @@ puntos con la misma longitud a lo largo del eje Este-Oeste se denominan
 Figura 3.10: Paralelos y Meridianos terrestres
 </p>
 </div>
-<p>Es muy importante destacar que en un sistema de coordenadas geográfico, es
-decir, basado en latitudes y longitudes, las <strong>distancias</strong> entre dos puntos
-representan <strong>distancias angulares</strong>. Por ejemplo, la distancia entre el
+<p>Es <strong>muy importante</strong> destacar que, en un sistema de coordenadas geográfico, es
+decir, basado <strong>en latitudes y longitudes, las distancias</strong> entre dos puntos
+<strong>representan distancias angulares</strong>. Por ejemplo, la distancia entre el
 meridiano de Greenwich y el meridiano correspondiente a la longitud 20º siempre
 es de +20º. Sin embargo, debido a la forma esférica de la Tierra, la longitud en
 metros entre ambos meridianos no es constante.</p>
@@ -824,7 +823,7 @@ proyectados.</p>
 <div id="trabajando-con-proyecciones-en-r" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Trabajando con proyecciones en <strong>R</strong></h3>
 <p>Existe toda una serie de proyecciones predefinidas, identificadas mediante los
-<strong>códigos EPSG, ESRI, WKT</strong> o proj4 (en desuso en <strong>R</strong>, pero todavía
+<strong>códigos EPSG, ESRI, WKT</strong> o <strong>proj4</strong> (en desuso en <strong>R</strong>, pero todavía
 admitidos). Existen varios recursos web donde se pueden consultar y seleccionar
 los códigos correspondientes:</p>
 <ul>

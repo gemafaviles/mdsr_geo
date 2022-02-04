@@ -4,9 +4,9 @@ bookdown::gitbook:
     toc:
       collapse: section
       before: |
-        <li><a href="./">Visualización y geolocalización de datos</a></li>
+        <li><a href="./">Visualización y geolocalización de datos con <strong>R</strong></a></li>
       after: |
-        <li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+        <li><a href="https://blog.uclm.es/tp-mbsba/">Máster en Data Science & Business Analytics (con R Software)</a></li>
       scroll_highlight: true
     edit: null
     download: ["pdf", "epub"]

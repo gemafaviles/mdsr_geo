@@ -2,7 +2,7 @@
 
 La estadística espacial se basa en la suposición de que las unidades
 georreferenciadas cercanas están relacionadas (son **dependientes**) de alguna
-manera [@getis_1999], y por ello, trata de reconocer y aprovechar ésta ubicación
+manera [@getis_1999], y por ello, trata de reconocer y aprovechar esta ubicación
 espacial a la hora de diseñar, recopilar, gestionar, analizar y mostrar las
 observaciones (@montero_et_al_2011).
 
@@ -69,7 +69,7 @@ espacio-temporal.
 
 Si los datos no exhiben dependencia espacial no tiene sentido aplicar las
 herramientas de estadística espacial. ¿Y cómo se pueden reconocer un proceso con
-dependencia espacial? La clave esta en que los procesos con dependencia espacial
+dependencia espacial? La clave está en que los procesos con dependencia espacial
 exhiben un patrón en el espacio, mientras que los que son independientes son
 totalmente aleatorios.
 
@@ -275,7 +275,7 @@ clasificación [@montero_et_al_2015]:
     basado en tales valores observados, el análisis geoestadístico reproduce el
     comportamiento de el proceso espacial en todo el dominio de interés. La Fig.
     \@ref(fig:ejem-geo) presenta un mapa de interpolación krigeado del nivel de
-    monoxido de carbono (CO) en logaritmos para la ciudad de Madrid.
+    monóxido de carbono (CO) en logaritmos para la ciudad de Madrid.
 
     En el análisis geoestadístico lo más importante es cuantificar la
     correlación espacial entre observaciones (a través de la herramienta básica
@@ -296,7 +296,7 @@ knitr::include_graphics("img/log_co_madrid.png")
     agregados espacialmente sobre estas áreas. Aunque estas regiones pueden
     tener una forma regular, normalmente la forma que tienen es irregular, y
     esto, junto con el carácter espacialmente agregado de los datos, es por lo
-    que los datos latice tambien se denominan datos regionales. Y (ii) las
+    que los datos lattice también se denominan datos regionales. Y (ii) las
     ubicaciones en $D$ no son estocásticas. Por supuesto, un concepto clave en
     el análisis de los datos lattice es el **vecindario** y la matriz **W**.
 

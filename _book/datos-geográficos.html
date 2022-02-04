@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 2 Datos geográficos | Visualización y geolocalización de datos</title>
+  <title>Capítulo 2 Datos geográficos | Visualización y geolocalización de datos con R</title>
   <meta name="description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 2 Datos geográficos | Visualización y geolocalización de datos" />
+  <meta property="og:title" content="Capítulo 2 Datos geográficos | Visualización y geolocalización de datos con R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://mdsr-2122-visualizacion.netlify.app/" />
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 2 Datos geográficos | Visualización y geolocalización de datos" />
+  <meta name="twitter:title" content="Capítulo 2 Datos geográficos | Visualización y geolocalización de datos con R" />
   
   <meta name="twitter:description" content="Máster en Data Science &amp; Business Analytics (con R Software)" />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Gema Fernández-Avilés" />
 
 
-<meta name="date" content="2022-02-03" />
+<meta name="date" content="2022-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -166,15 +166,15 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Visualización y geolocalización de datos</a></li>
+<li><a href="./">Visualización y geolocalización de datos con <strong>R</strong></a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a>
 <ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#por-qué-leer-este-libro"><i class="fa fa-check"></i>¿Por qué leer este libro?</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#objetivos-de-aprendizaje"><i class="fa fa-check"></i>Objetivos de aprendizaje</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#estructura-del-libro"><i class="fa fa-check"></i>Estructura del libro</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#sobre-este-libro"><i class="fa fa-check"></i>Sobre este libro</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#datos"><i class="fa fa-check"></i>Datos</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="la-revolución-de-los-geodatos.html"><a href="la-revolución-de-los-geodatos.html"><i class="fa fa-check"></i><b>1</b> La revolución de los geodatos</a></li>
 <li class="chapter" data-level="2" data-path="datos-geográficos.html"><a href="datos-geográficos.html"><i class="fa fa-check"></i><b>2</b> Datos geográficos</a>
@@ -199,7 +199,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="4" data-path="dep-esp.html"><a href="dep-esp.html"><i class="fa fa-check"></i><b>4</b> Estadística espacial</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial."><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial.</a></li>
+<li class="chapter" data-level="4.1" data-path="dep-esp.html"><a href="dep-esp.html#antes-de-continuar-dependencia-espacial"><i class="fa fa-check"></i><b>4.1</b> Antes de continuar… dependencia espacial</a></li>
 <li class="chapter" data-level="4.2" data-path="dep-esp.html"><a href="dep-esp.html#datos-espaciales"><i class="fa fa-check"></i><b>4.2</b> Datos espaciales</a></li>
 <li class="chapter" data-level="4.3" data-path="dep-esp.html"><a href="dep-esp.html#clasificación-de-datos-espaciales"><i class="fa fa-check"></i><b>4.3</b> Clasificación de datos espaciales</a></li>
 </ul></li>
@@ -217,7 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="A.2" data-path="crsproy.html"><a href="crsproy.html#por-métrica-a-preservar"><i class="fa fa-check"></i><b>A.2</b> Por métrica a preservar</a></li>
 </ul></li>
 <li class="divider"></li>
-<li><a href="./">Máster en Data Science & Business Analytics (con R Software)</a></li>
+<li><a href="https://blog.uclm.es/tp-mbsba/">Máster en Data Science & Business Analytics (con R Software)</a></li>
 
 </ul>
 
@@ -228,7 +228,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Visualización y geolocalización de datos con R</a>
           </h1>
         </div>
 
@@ -282,7 +282,7 @@ desarrollo de geo-herramientas relevantes en un contexto científico”</em>.</p
 <p>La geocomputación está muy relacionada con otros términos como los SIG, ya
 definidos, y con diversos tipos de campos científicos, como las Geociencias, las
 Ciencias atmosféricas y climáticas, la Geoinformática, la Topología, la Ecología
-y las Ciencia de datos geográficos (GDS, Geographic Data Science).</p>
+y las Ciencia de datos geográficos (GDS, <em>Geographic Data Science</em>).</p>
 <p>Cada término comparte un énfasis en un enfoque <strong>científico</strong> (que implica
 reproducible y falsable) influenciado por los GIS, aunque sus orígenes y
 principales campos de aplicación difieren. La geocomputación es ampliamente
@@ -293,7 +293,7 @@ para trabajos científicos aplicados.</p>
 <p><strong>¿Por que R para datos geográficos?</strong></p>
 <p><strong>R</strong> es una herramienta con capacidades avanzadas de análisis, modelado y
 visualización. Por ejemplo, los nuevos entornos de desarrollo integrado (en
-inglés, Integrated Development Environment, <strong>IDE</strong>), como RStudio, han hecho
+inglés, <em>Integrated Development Environment</em>, <strong>IDE</strong>), como RStudio, han hecho
 que <strong>R</strong> sea más fácil de usar para muchos, facilitando la creación de mapas
 con un panel dedicado a la visualización interactiva <span class="citation">(<a href="#ref-Lovelance_et_al_2019" role="doc-biblioref">Lovelace, Nowosad, and Münchow 2019</a>)</span>.
 Además, el uso del código <strong>R</strong> permite la enseñanza de la geocomputación con
@@ -306,8 +306,8 @@ código <strong>R</strong> para hacerlo reproducible, ver Fig. <a href="datos-ge
 <span id="cb1-3"><a href="datos-geográficos.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb1-4"><a href="datos-geográficos.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="sc">-</span><span class="fl">3.703548</span>, <span class="fl">40.417147</span>, <span class="at">zoom =</span> <span class="dv">60</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:leaflet"></span>
-<div id="htmlwidget-928debd3dc00ef9d6556" style="width:100%;height:500px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-928debd3dc00ef9d6556">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[40.417147,-3.703548],60,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ebc9f68a2696ef65d5ec" style="width:100%;height:500px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ebc9f68a2696ef65d5ec">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[40.417147,-3.703548],60,[]]},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 2.2: Localización interactiva de la Puerta del Sol en Madrid
 </p>
@@ -322,14 +322,14 @@ no sólo en el tema que nos ocupa:</p>
 <ul>
 <li><p><strong>sp</strong> <span class="citation">(<a href="#ref-R-sp" role="doc-biblioref">Pebesma and Bivand 2021</a>)</span> y <strong>sf</strong> <span class="citation">(<a href="#ref-R-sp" role="doc-biblioref">Pebesma and Bivand 2021</a>)</span> para el tratamiento de clases y métodos de
 los datos vectoriales.</p></li>
-<li><p><strong>raster</strong> <span class="citation">(<a href="#ref-R-raster" role="doc-biblioref">Hijmans 2022a</a>)</span>, <strong>terra</strong> <span class="citation">(<a href="#ref-R-terra" role="doc-biblioref">Hijmans 2022b</a>)</span>y <strong>stars</strong> <span class="citation">(<a href="#ref-R-stars" role="doc-biblioref">Pebesma 2021b</a>)</span>para datos
-raster.</p></li>
+<li><p><strong>raster</strong> <span class="citation">(<a href="#ref-R-raster" role="doc-biblioref">Hijmans 2022a</a>)</span>, <strong>terra</strong> <span class="citation">(<a href="#ref-R-terra" role="doc-biblioref">Hijmans 2022b</a>)</span>y <strong>stars</strong> <span class="citation">(<a href="#ref-R-stars" role="doc-biblioref">Pebesma 2021b</a>)</span> para
+datos ráster.</p></li>
 <li><p><strong>gstat</strong> <span class="citation">(<a href="#ref-R-gstat" role="doc-biblioref">Pebesma 2004</a>)</span> y <strong>geoR</strong> <span class="citation">(<a href="#ref-R-geor" role="doc-biblioref">Ribeiro Jr et al. 2020</a>)</span> para el análisis de datos
 geoestadísticos, ajuste y estimación de semivariogramas, interpolación, etc.</p></li>
-<li><p><strong>spdep</strong> <span class="citation">(<a href="#ref-R-spdep" role="doc-biblioref">Bivand and Wong 2018</a>)</span> para el análisis de datos con modelos de econometría
+<li><p><strong>spdep</strong> <span class="citation">(<a href="#ref-R-spdep" role="doc-biblioref">R. Bivand and Wong 2018</a>)</span> para el análisis de datos con modelos de econometría
 espacial, creación de matrices de contigüidad/distancia <strong>W</strong>, estimación de
 modelos econométricos espaciales, etc</p></li>
-<li><p><strong>spatstat</strong> <span class="citation">(<a href="#ref-spatstat_2005" role="doc-biblioref">Baddeley and Turner 2005</a>)</span>para el análisis de procesos de puntos
+<li><p><strong>spatstat</strong> <span class="citation">(<a href="#ref-spatstat_2005" role="doc-biblioref">Baddeley and Turner 2005</a>)</span> para el análisis de procesos de puntos
 espaciales, intensidad, etc.</p></li>
 </ul>
 </div>
@@ -342,7 +342,7 @@ clave que se irán desarrollando a lo largo del tema.</p>
 tenemos varios datos geográficos, localizados en distintos puntos de la tierra,
 es porque tenemos las <strong>coordenadas</strong> que los posicionan en esos puntos
 concretos. Asociado a estas coordenadas debemos conocer el <strong>Sistema de
-referencia de espacial</strong> o Coordinate reference system (CRS) en el que están
+referencia de espacial</strong> o <em>Coordinate reference system</em> (CRS) en el que están
 proyectadas dichas coordenadas.</p>
 <p>Por otra parte, los formatos de estos datos pueden ser <strong>vectores</strong> o <strong>ráster</strong>
 como se explicará en la Sección <a href="formatos.html#formatos">3</a>.</p>

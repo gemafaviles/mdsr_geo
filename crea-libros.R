@@ -20,6 +20,9 @@ for (file in html) {
   rm("n")
 }
 
+# Copia robots.txt
+file.copy("robots.txt", "_book/robots.txt", overwrite = TRUE)
+
 
 bookdown::render_book("index.Rmd",
   output_format = "bookdown::pdf_book",
